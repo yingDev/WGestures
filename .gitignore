@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+makeRealCert.bat
 
 # Build results
 [Dd]ebug/
@@ -157,6 +158,7 @@ ClientBin/
 *.dbmdl
 *.dbproj.schemaview
 *.pfx
+*.cer
 *.publishsettings
 node_modules/
 
