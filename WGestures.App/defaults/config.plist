@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>$$FileVersion</key>
+    <string>1</string>
+    <key>AutoStart</key>
+    <true />
+    <key>IsFirstRun</key>
+    <true />
+    <key>PathTrackerInitialValidMove</key>
+    <integer>6</integer>
+    <key>PathTrackerStayTimeout</key>
+    <false />
+    <key>PathTrackerStayTimeoutMillis</key>
+    <integer>500</integer>
+    <key>GestureViewShowPath</key>
+    <true />
+    <key>GestureViewShowCommandName</key>
+    <true />
+    <key>GestureViewFadeOut</key>
+    <true />
+    <key>GestureViewMainPathColor</key>
+    <integer>-12337922</integer>
+    <key>GestureViewAlternativePathColor</key>
+    <integer>-65408</integer>
+    <key>AutoCheckForUpdate</key>
+    <true />
+    <key>PathTrackerInitialStayTimeout</key>
+    <true />
+    <key>PathTrackerInitialStayTimoutMillis</key>
+    <integer>150</integer>
+    <key>GestureParserDisableInFullScreenMode</key>
+    <true />
+    <key>GestureViewMiddleBtnMainColor</key>
+    <integer>-16729278</integer>
+  </dict>
+</plist>

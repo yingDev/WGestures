@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>InputSimulator</id>
+    <version>0.2.0.0</version>
+    <title>Windows Input Simulator</title>
+    <authors>Michael Noonan</authors>
+    <owners>Michael Noonan</owners>
+    <licenseUrl>http://inputsimulator.codeplex.com/license</licenseUrl>
+    <projectUrl>http://inputsimulator.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The Windows Input Simulator provides a simple .NET (C#) interface to simulate Keyboard or Mouse input using the Win32 SendInput method. All of the Interop is done for you and there's a simple programming model for sending multiple keystrokes.</description>
+    <releaseNotes>This version introduces more comprehensive Unicode tests and support for Mouse Simulation.</releaseNotes>
+    <copyright>Copyright 2009-2013</copyright>
+    <tags></tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\WindowsInput.*" target="lib\net20" />
+  </files>
+</package>
