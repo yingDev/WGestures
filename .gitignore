@@ -6,7 +6,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-makeRealCert.bat
 
 # Build results
 [Dd]ebug/
