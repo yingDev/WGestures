@@ -4,15 +4,12 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using IWshRuntimeLibrary;
 using WGestures.App.Gui.Windows;
 using WGestures.App.Migrate;
 using WGestures.App.Properties;
 using WGestures.Common;
-using WGestures.Common.Config;
 using WGestures.Common.Config.Impl;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common.Product;
@@ -21,7 +18,6 @@ using WGestures.Core.Impl.Windows;
 using WGestures.Core.Persistence.Impl;
 using WGestures.Core.Persistence.Impl.Windows;
 using WGestures.View.Impl.Windows;
-using Win32;
 using Timer = System.Windows.Forms.Timer;
 
 namespace WGestures.App
@@ -57,7 +53,7 @@ namespace WGestures.App
             }
 
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.SetCompatibleTextRenderingDefault(false);
             Native.SetProcessDPIAware();
 
             Thread.CurrentThread.IsBackground = true;
