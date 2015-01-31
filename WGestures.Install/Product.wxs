@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" 
-     xmlns:utils="http://wixtoolset.org/schemas/v4/wxs/util">
+     xmlns:utils="http://wixtoolset.org/schemas/v4/wxs/util" 
+     xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
 
   <!-- UPgrade Code 不能改变 -->
-  <Product Id="*" Name="WGestures 1.4" Language="2052" 
-           Version="1.4.1.1" Manufacturer="YingDev.com"
+  <Product Id="*" Name="WGestures 1.5" Language="2052" 
+           Version="1.5.0.0" Manufacturer="YingDev.com"
            UpgradeCode="00b924a0-e9c8-4c83-ac45-0e4c22b1eabc" Codepage="936">
 
     <!-- 要求Windows Installer 2.0以上版本 -->
@@ -115,12 +116,10 @@
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id="RootComponent"  Guid="A7C42303-1D77-4C70-8D5C-0FD0F9158CB4">
-        <File Source="$(var.WGestures.App.TargetPath)"/>
         <File Source="$(var.WGestures.App.TargetPath).config"/>
         <File Source="$(var.WGestures.App.TargetDir)\Interop.IWshRuntimeLibrary.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\Interop.Shell32.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\Interop.SHDocVw.dll"/>
-        <!--File Source="$(var.WGestures.App.TargetDir)\Microsoft.Win32.TaskScheduler.dll"/-->
         <File Source="$(var.WGestures.App.TargetDir)\NativeMultiFileArchiveLib.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\Newtonsoft.Json.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\WGestures.Common.dll"/>
@@ -128,6 +127,13 @@
         <File Source="$(var.WGestures.App.TargetDir)\WGestures.View.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\WindowsInput.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\UpdateLog.txt"/>
+      
+        <File Source="$(var.WGestures.App.TargetPath)">
+          <netfx:NativeImage Id="ngen_WGestures.exe" 
+                             Platform="all" 
+                             Priority="0"
+                             AppBaseDirectory="INSTALLFOLDER"/>
+        </File>
       </Component>
 
       <Component Id="DefaultsComponent" Directory="DefaultsDir"  
@@ -140,7 +146,7 @@
            Guid="A7C22554-1C22-4C70-8D5C-0FD0F9151034">
         <File Source="$(var.WGestures.App.TargetDir)\cert\YingDevCA.cer"/>
       </Component>
-      
+
     </ComponentGroup>
 
     <ComponentGroup Id="QuickStartGuideComponent" Directory="QuickStartGuideDir">
@@ -191,6 +197,9 @@
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\Microsoft\$(var.WGestures.App.TargetName)"
                        Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      
+        <RegistryValue Root="HKCU" Key="Control Panel\Desktop"
+                       Name="LowLevelHooksTimeout" Type="integer" Value="10000" KeyPath="no"/>
       </Component>
     </ComponentGroup>
   </Fragment>
