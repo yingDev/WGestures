@@ -340,7 +340,6 @@
     </None>
     <None Include="externalResource\Icon\convertToIco.bat" />
     <None Include="externalResource\slides.ai" />
-    <None Include="packages.config" />
     <EmbeddedResource Include="Resources\unknown.png" />
   </ItemGroup>
   <ItemGroup>
