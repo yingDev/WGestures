@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Win32;
 
 namespace WGestures.Core
 {
@@ -12,7 +9,7 @@ namespace WGestures.Core
     /// </summary>
     public class Gesture
     {
-        private static char[] dirs = { '上', '↗', '右', '↘', '下', '↙', '左', '↖' };
+        private static readonly char[] dirs = { '上', '↗', '右', '↘', '下', '↙', '左', '↖' };
 
         public GestureButtons GestureButton { get; set; }
         

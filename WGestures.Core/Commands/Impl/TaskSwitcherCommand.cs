@@ -47,6 +47,8 @@ namespace WGestures.Core.Commands.Impl
                 throw;
 #endif
             }
+
+            GC.Collect(3, GCCollectionMode.Forced);
           
         }
 

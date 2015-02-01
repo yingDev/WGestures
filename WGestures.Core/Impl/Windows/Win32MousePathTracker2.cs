@@ -704,13 +704,14 @@ namespace WGestures.Core.Impl.Windows
             IsSuspended = false;
             _moveCount = 0;
 
+            GC.Collect(3, GCCollectionMode.Forced);
             GCSettings.LatencyMode = GCLatencyMode.Interactive;
-            GC.Collect();
+
             //Low Memory Usage Illusion...
-            using (var proc = Process.GetCurrentProcess())
+            /*using (var proc = Process.GetCurrentProcess())
             {
                 Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
-            }
+            }*/
         }
 
         private void OnTimeout()

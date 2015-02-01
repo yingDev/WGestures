@@ -44,87 +44,107 @@ namespace WGestures.App
         {
             Debug.Listeners.Add(new DetailedConsoleListener());
 
-            bool createdNew;
-            mutext = new Mutex(true, Constants.Identifier, out createdNew);
-            if (!createdNew)
-            {
-                mutext.Close();
-                return;
-            }
-
-            Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            Native.SetProcessDPIAware();
-
-            Thread.CurrentThread.IsBackground = true;
-            Thread.CurrentThread.Name = "入口线程";
-
-            //高优先级
-            using (var proc = Process.GetCurrentProcess())
-            {
-                proc.PriorityClass = ProcessPriorityClass.High;
-            }
-
+            if (IsDuplicateInstance()) return;
+            AppWideInit();
 
             try
             {
                 //加载配置文件，如果文件不存在或损坏，则加载默认配置文件
                 LoadFailSafeConfigFile();
+                CheckAndDoFirstRunStuff();
 
-                //是否是第一次运行
-                isFirstRun = config.Get(ConfigKeys.IsFirstRun, false);
-
-                if (isFirstRun)
-                {
-                    ImportPrevousVersion();
-
-                    config.Set(ConfigKeys.IsFirstRun, false);
-                    config.Save();
-                }
-
-                ConfigureComponents();
-                SyncAutoStartState();
-
-                if (isFirstRun)
-                {
-                    //ShowQuickStartGuide();
-                    Warning360Safe();
-                }
-
-                using (var p = Process.GetCurrentProcess())
-                {
-                    p.MinWorkingSet = new IntPtr(300000);
-                    p.MaxWorkingSet = new IntPtr(6000000);
-                }
-
-                new Thread(() =>
-                {
-                    try
-                    {
-                        gestureParser.Start();
-                    }
-                    catch (Exception e)
-                    {
-                        var frm = new ErrorForm() { Text = Application.ProductName };
-                        frm.ErrorText = e.ToString();
-                        frm.ShowDialog();
-                        Environment.Exit(1);
-                    }
-                }) { Name = "Parser线程", IsBackground = false }.Start();
-
+                StartParserThread();
 
                 //显示托盘图标
                 ShowTrayIcon();
-
             }
             catch (Exception e)
             {
-                var frm = new ErrorForm() { Text = Application.ProductName };
-                frm.ErrorText = e.ToString();
-                frm.ShowDialog();
-                Environment.Exit(1);
+                ShowFatalError(e);
             }
             finally { Dispose(); }
+        }
+
+        private static void StartParserThread()
+        {
+            new Thread(() =>
+            {
+                try
+                {
+                    gestureParser.Start();
+                }
+                catch (Exception e)
+                {
+                    ShowFatalError(e);
+                }
+            }) {Name = "Parser线程", IsBackground = false}.Start();
+        }
+
+        private static bool IsDuplicateInstance()
+        {
+            bool createdNew;
+            mutext = new Mutex(true, Constants.Identifier, out createdNew);
+            if (!createdNew)
+            {
+                mutext.Close();
+                return true;
+            }
+            return false;
+        }
+
+        private static void ShowFatalError(Exception e)
+        {
+            var frm = new ErrorForm() {Text = Application.ProductName};
+            frm.ErrorText = e.ToString();
+            frm.ShowDialog();
+            Environment.Exit(1);
+        }
+
+        private static void CheckAndDoFirstRunStuff()
+        {
+            //是否是第一次运行
+            isFirstRun = config.Get(ConfigKeys.IsFirstRun, false);
+
+            if (isFirstRun)
+            {
+                ImportPrevousVersion();
+
+                config.Set(ConfigKeys.IsFirstRun, false);
+                config.Save();
+            }
+
+            ConfigureComponents();
+            SyncAutoStartState();
+
+            if (isFirstRun)
+            {
+                //ShowQuickStartGuide();
+                Warning360Safe();
+            }
+        }
+
+        private static void AppWideInit()
+        {
+            Application.EnableVisualStyles();
+            Native.SetProcessDPIAware();
+
+            Thread.CurrentThread.IsBackground = true;
+            Thread.CurrentThread.Name = "入口线程";
+
+            using (var proc = Process.GetCurrentProcess())
+            {            
+                //高优先级
+                proc.PriorityClass = ProcessPriorityClass.RealTime;
+
+                //工作集
+                var screenBounds = Screen.GetBounds(Point.Empty);
+                var screenArea = screenBounds.Width*screenBounds.Height;
+                var min = screenArea*32 + 1024*1024*10;
+                var max = min*1.5f;
+
+                Native.SetProcessWorkingSetSize(new IntPtr(proc.Id), min, (int)max);//按屏幕大小来预留工作集
+
+            }
         }
 
         private static void LoadFailSafeConfigFile()

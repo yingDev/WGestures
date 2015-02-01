@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using WGestures.Common.Annotation;
 
@@ -30,6 +31,8 @@ namespace WGestures.Core.Commands.Impl
 
             var p = Process.Start(info);
             if(p != null) p.Close();
+
+            GC.Collect(3, GCCollectionMode.Forced);
         }
 
         public override string Description()

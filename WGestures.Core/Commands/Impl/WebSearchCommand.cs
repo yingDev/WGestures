@@ -95,6 +95,9 @@ namespace WGestures.Core.Commands.Impl
                     clipboardMonitor.StopMonitor();
                     clipboardMonitor.DestroyHandle();
 
+                    GC.Collect(3, GCCollectionMode.Forced);
+
+
                     Application.ExitThread();
                 };
 

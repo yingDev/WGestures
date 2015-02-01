@@ -139,6 +139,9 @@ namespace WGestures.Core.Commands.Impl
 #endif
             }
 
+            GC.Collect(3, GCCollectionMode.Forced);
+
+
 
         }
 

@@ -82,7 +82,7 @@ namespace WGestures.Core.Commands.Impl
                         {
                             User32.ShowWindowAsync(winToControl, (int) ShowWindowCommands.MAXIMIZED);
                         }
-                        return;
+                        goto end;
 
                     case WindowOperation.MINIMIZE:
                         if ((long) User32.WS.WS_MINIMIZEBOX == (rootWinStyle & (long) User32.WS.WS_MINIMIZEBOX))
@@ -93,17 +93,17 @@ namespace WGestures.Core.Commands.Impl
                         {
                             User32.PostMessage(topLevelWin, User32.WM.WM_SYSCOMMAND, (int) User32.SysCommands.SC_MINIMIZE, 0);
                         }
-                        return;
+                        goto end;
 
                     case WindowOperation.CLOSE:
                         User32.PostMessage(rootWin, User32.WM.WM_SYSCOMMAND, (int) User32.SysCommands.SC_CLOSE, 0);
-                        return;
-
-                    default:
-                        return;
+                        goto end;
                 }
                 break;
             }
+
+            end:GC.Collect(3, GCCollectionMode.Forced);
+
         }
 
         public GestureContext Context { set; private get; }

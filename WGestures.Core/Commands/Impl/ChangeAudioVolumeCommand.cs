@@ -75,6 +75,8 @@ namespace WGestures.Core.Commands.Impl
         public void GestureEnded()
         {
             //do nothing
+
+            GC.Collect(3, GCCollectionMode.Forced);
         }
     }
 
