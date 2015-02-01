@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using WGestures.App.Gui.Windows;
 using WGestures.App.Migrate;
 using WGestures.App.Properties;
@@ -52,7 +53,9 @@ namespace WGestures.App
                 //加载配置文件，如果文件不存在或损坏，则加载默认配置文件
                 LoadFailSafeConfigFile();
                 CheckAndDoFirstRunStuff();
+                SyncAutoStartState();
 
+                ConfigureComponents();
                 StartParserThread();
 
                 //显示托盘图标
@@ -113,9 +116,6 @@ namespace WGestures.App
                 config.Save();
             }
 
-            ConfigureComponents();
-            SyncAutoStartState();
-
             if (isFirstRun)
             {
                 //ShowQuickStartGuide();
@@ -131,31 +131,39 @@ namespace WGestures.App
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "入口线程";
 
+
+            SetWorkingSet(null, null);
+            SystemEvents.DisplaySettingsChanged += SetWorkingSet;
+        }
+
+        private static void SetWorkingSet(object sender, EventArgs e)
+        {
             using (var proc = Process.GetCurrentProcess())
-            {            
+            {
                 //高优先级
                 proc.PriorityClass = ProcessPriorityClass.RealTime;
 
                 //工作集
                 var screenBounds = Screen.GetBounds(Point.Empty);
-                var screenArea = screenBounds.Width*screenBounds.Height;
-                var min = screenArea*32 + 1024*1024*10;
-                var max = min*1.5f;
+                var screenArea = screenBounds.Width * screenBounds.Height;
+                var min = screenArea * 4 + 1024 * 1024 * 10;
+                var max = min * 1.5f;
+                Debug.WriteLine("SetWorkingSet: min=" + min + "; max=" + (int)max);
 
                 Native.SetProcessWorkingSetSize(new IntPtr(proc.Id), min, (int)max);//按屏幕大小来预留工作集
-
             }
         }
 
+
         private static void LoadFailSafeConfigFile()
         {
-            if (!System.IO.File.Exists(AppSettings.ConfigFilePath))
+            if (!File.Exists(AppSettings.ConfigFilePath))
             {
-                System.IO.File.Copy(string.Format("{0}/defaults/config.plist", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.ConfigFilePath);
+                File.Copy(string.Format("{0}/defaults/config.plist", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.ConfigFilePath);
             }
-            if (!System.IO.File.Exists(AppSettings.GesturesFilePath))
+            if (!File.Exists(AppSettings.GesturesFilePath))
             {
-                System.IO.File.Copy(string.Format("{0}/defaults/gestures.json", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
+                File.Copy(string.Format("{0}/defaults/gestures.json", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
             }
 
             //如果文件损坏，则替换。
@@ -166,8 +174,8 @@ namespace WGestures.App
             catch (Exception)
             {
                 Debug.WriteLine("Program.Main: config文件损坏！");
-                System.IO.File.Delete(AppSettings.ConfigFilePath);
-                System.IO.File.Copy(string.Format("{0}/defaults/config.plist", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.ConfigFilePath);
+                File.Delete(AppSettings.ConfigFilePath);
+                File.Copy(string.Format("{0}/defaults/config.plist", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.ConfigFilePath);
 
                 config = new PlistConfig(AppSettings.ConfigFilePath);
             }
@@ -187,8 +195,8 @@ namespace WGestures.App
             {
                 Debug.WriteLine("加载配置文件出错："+e);
 
-                System.IO.File.Delete(AppSettings.GesturesFilePath);
-                System.IO.File.Copy(string.Format("{0}/defaults/gestures.json", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
+                File.Delete(AppSettings.GesturesFilePath);
+                File.Copy(string.Format("{0}/defaults/gestures.json", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
 
                 intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath);
             }
@@ -514,6 +522,8 @@ namespace WGestures.App
         {
             try
             {
+                SystemEvents.DisplaySettingsChanged -= SetWorkingSet;
+
                 foreach (var disposable in componentsToDispose)
                 {
                     if (disposable != null) disposable.Dispose();
