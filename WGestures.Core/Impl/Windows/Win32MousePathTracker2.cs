@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Timers;
@@ -307,7 +308,7 @@ namespace WGestures.Core.Impl.Windows
                 case MouseMsg.WM_RBUTTONDOWN:
                 case MouseMsg.WM_MBUTTONDOWN:
                     if (!_captured)
-                    {
+                    {                        
                         try
                         {
                             //notice: 这个方法在钩子线程中运行，因此必须足够快，而且不能失败
@@ -406,11 +407,6 @@ namespace WGestures.Core.Impl.Windows
             }
 
 
-        }
-
-        private bool HookGotMessage(Native.MSG msg)
-        {
-            return true;
         }
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
@@ -572,7 +568,10 @@ namespace WGestures.Core.Impl.Windows
         private DateTime _mouseDownTime = DateTime.UtcNow;
         private void OnMouseDown()
         {
+            GCSettings.LatencyMode = GCLatencyMode.LowLatency;
+
             Debug.WriteLine("OnMouseDown");
+
             _lastPoint = _curPos;
             _lastEffectivePos = _curPos;
             _startPoint = _lastEffectivePos;
@@ -704,6 +703,14 @@ namespace WGestures.Core.Impl.Windows
             _filteredModifiers = GestureModifier.None;
             IsSuspended = false;
             _moveCount = 0;
+
+            GCSettings.LatencyMode = GCLatencyMode.Interactive;
+            GC.Collect();
+            //Low Memory Usage Illusion...
+            using (var proc = Process.GetCurrentProcess())
+            {
+                Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
+            }
         }
 
         private void OnTimeout()
