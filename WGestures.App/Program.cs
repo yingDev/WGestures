@@ -114,11 +114,8 @@ namespace WGestures.App
 
                 config.Set(ConfigKeys.IsFirstRun, false);
                 config.Save();
-            }
-
-            if (isFirstRun)
-            {
-                //ShowQuickStartGuide();
+            
+                ShowQuickStartGuide();
                 Warning360Safe();
             }
         }
@@ -131,6 +128,12 @@ namespace WGestures.App
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "入口线程";
 
+            using (var proc = Process.GetCurrentProcess())
+            {
+                //高优先级
+                proc.PriorityClass = ProcessPriorityClass.High;
+            }
+
 
             SetWorkingSet(null, null);
             SystemEvents.DisplaySettingsChanged += SetWorkingSet;
@@ -140,9 +143,6 @@ namespace WGestures.App
         {
             using (var proc = Process.GetCurrentProcess())
             {
-                //高优先级
-                proc.PriorityClass = ProcessPriorityClass.RealTime;
-
                 //工作集
                 var screenBounds = Screen.GetBounds(Point.Empty);
                 var screenArea = screenBounds.Width * screenBounds.Height;
@@ -390,9 +390,9 @@ namespace WGestures.App
                 (Win32MousePathTracker2)gestureParser.PathTracker, intentStore, gestureView))
             {
                 //进程如果优先为Hight，设置窗口上执行手势会响应非常迟钝（原因不明）
-                using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.Normal;
+               //using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.Normal;
                 settingsFormController.ShowDialog();
-                using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.High;
+                //using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.High;
             }
 
             //settingsFormController.Dispose();
@@ -435,21 +435,24 @@ namespace WGestures.App
 
             var t = new Thread(() =>
             {
-                using (var proc = Process.GetCurrentProcess())
-                {
-                    proc.PriorityClass = ProcessPriorityClass.Normal;
-                }
+                bool createdNew;
+                var mut = new Mutex(true, Constants.Identifier + "QuickStartGuideWindow", out createdNew);
+                if (!createdNew) return;
 
-                Form frm;
-                using (frm = new QuickStartGuideForm())
+                /*using (var proc = Process.GetCurrentProcess())
+                {
+                    //proc.PriorityClass = ProcessPriorityClass.Normal;
+                }*/
+
+                using (var frm = new QuickStartGuideForm())
                 {
                     Application.Run(frm);
+                    mut.Close();
                 }
 
-                frm = null;
                 GC.Collect();
 
-                using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.High;
+                //using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.High;
 
             }) { IsBackground = true };
 
