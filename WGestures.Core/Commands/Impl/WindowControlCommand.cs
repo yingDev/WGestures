@@ -102,7 +102,7 @@ namespace WGestures.Core.Commands.Impl
                 break;
             }
 
-            end:GC.Collect(3, GCCollectionMode.Forced);
+        end: GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
         }
 

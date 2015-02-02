@@ -60,7 +60,7 @@ namespace WGestures.Core.Commands.Impl
                 process.StartInfo.WindowStyle = ShowWindow ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
                 process.Start();
 
-                GC.Collect(3, GCCollectionMode.Forced);
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             }
 
         }

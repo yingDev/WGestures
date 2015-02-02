@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using WindowsInput;
 using WindowsInput.Native;
 using WGestures.Common.Annotation;
@@ -76,7 +72,7 @@ namespace WGestures.Core.Commands.Impl
         {
             //do nothing
 
-            GC.Collect(3, GCCollectionMode.Forced);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
     }
 

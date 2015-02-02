@@ -37,7 +37,7 @@ namespace WGestures.Core.Commands.Impl
             }
             using(Process.Start(Url));
 
-            GC.Collect(3, GCCollectionMode.Forced);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
     }
 }

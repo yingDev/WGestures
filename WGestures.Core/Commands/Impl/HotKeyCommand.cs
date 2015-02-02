@@ -139,7 +139,7 @@ namespace WGestures.Core.Commands.Impl
 #endif
             }
 
-            GC.Collect(3, GCCollectionMode.Forced);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
 
 

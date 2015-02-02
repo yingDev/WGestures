@@ -704,7 +704,7 @@ namespace WGestures.Core.Impl.Windows
             IsSuspended = false;
             _moveCount = 0;
 
-            GC.Collect(3, GCCollectionMode.Forced);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             GCSettings.LatencyMode = GCLatencyMode.Interactive;
 
             //Low Memory Usage Illusion...

@@ -428,7 +428,7 @@ namespace WGestures.App.Gui.Windows
             {
                 Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
             }*/
-            GC.Collect(3, GCCollectionMode.Forced);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
         }
 
