@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Collections.Generic;
 using System.Timers;
 using System.Windows.Forms;
 using WindowsInput;
@@ -92,11 +93,6 @@ namespace WGestures.Core.Impl.Windows
 
 
         #region fields
-
-#if DEBUG
-        private readonly MouseHook _monitoringHook = new MouseHook();
-#endif
-
         private readonly MouseHook _mouseHook;
         //表明是否是“performNormal”的情况下自己模拟的鼠标事件。
         private GestureModifier _filteredModifiers;
@@ -105,6 +101,7 @@ namespace WGestures.Core.Impl.Windows
         private Point _lastPoint;
         private Point _lastEffectivePos;
         private Point _curPos;
+        private Queue<MSG> _msgQueue = new Queue<MSG>(8);
         private int _moveCount;
         private readonly GestureContext _currentContext = new Win32GestureContext();
         private readonly PathEventArgs _currentEventArgs = new PathEventArgs();
@@ -120,8 +117,6 @@ namespace WGestures.Core.Impl.Windows
 
         private bool _initialMoveValid;
 
-        private uint _mainThreadNativeId;
-
         private bool _isPaused;
         private bool _isStopped;
 
@@ -130,8 +125,6 @@ namespace WGestures.Core.Impl.Windows
         private DateTime _modifierEventHappendPrevTime;
 
         #endregion
-
-
         public Win32MousePathTracker2()
         {
             
@@ -150,18 +143,17 @@ namespace WGestures.Core.Impl.Windows
             //_mouseHook.GotMessage += HookGotMessage;
 
 #if DEBUG
-            _monitoringHook.MouseHookEvent += args =>
-            {
+            //_monitoringHook.MouseHookEvent += args =>
+           // {
                 //Debug.Write("M");
-            };
-            _monitoringHook.Install();
+            //};
+           // _monitoringHook.Install();
 #endif
         }
 
         public event Action<bool> RequestPauseResume;
 
         #region IPathTracker Members
-
         public event BeforePathStartEventHandler BeforePathStart;
         public event PathTrackEventHandler PathStart;
         public event PathTrackEventHandler PathGrow;
@@ -173,18 +165,19 @@ namespace WGestures.Core.Impl.Windows
 
         public void Start()
         {
-            _mainThreadNativeId = Native.GetCurrentThreadId();
-
-            //Paused = false;
             _mouseHook.Install();
 
-            Native.MSG msg;
-            while (Native.GetMessage(out msg, IntPtr.Zero, (uint)WM.WM_USER, (uint)WM.PAUSE_RESUME) > 0)
-            {
-                var m = (WM)msg.message;
-                UpdateContextAndEventArgs();
+            while (true)
+            {            
+                MSG msg;
+                lock(_msgQueue)
+                {
+                    if(_msgQueue.Count == 0) Monitor.Wait(_msgQueue);
+                    msg = _msgQueue.Dequeue();
+                    UpdateContextAndEventArgs();
+                }
 
-                switch (m)
+                switch (msg.message)
                 {
                     case WM.GESTBTN_DOWN:
                         OnMouseDown();
@@ -195,7 +188,7 @@ namespace WGestures.Core.Impl.Windows
                         break;
 
                     case WM.GESTBTN_MODIFIER:
-                        OnModifier((GestureModifier)msg.wParam.ToInt32());
+                        OnModifier((GestureModifier)msg.param);
                         break;
 
                     case WM.GESTBTN_UP:
@@ -207,7 +200,7 @@ namespace WGestures.Core.Impl.Windows
                         break;
 
                     case WM.PAUSE_RESUME:
-                        var pause = (msg.wParam.ToInt32() == 1);
+                        var pause = (msg.param == 1);
                         OnPauseResume(pause);
                         break;
 
@@ -215,6 +208,7 @@ namespace WGestures.Core.Impl.Windows
                         OnStop();
                         return;
                 }
+
             }
 
         }
@@ -239,7 +233,7 @@ namespace WGestures.Core.Impl.Windows
             {
                 if (_isStopped) throw new InvalidOperationException("已处于停止状态");
                 _isPaused = value;
-                Post(WM.PAUSE_RESUME, value ? new UIntPtr(1) : new UIntPtr(0), IntPtr.Zero);
+                Post(WM.PAUSE_RESUME, value ? 1 : 0);
             }
         }
 
@@ -268,26 +262,21 @@ namespace WGestures.Core.Impl.Windows
         private GestureButtons _gestureBtn;
         private void HookProc(MouseHook.MouseHookEventArgs e)
         {
-            //Debug.Write(".");
             //处理 左键 + 中键 用于 暂停继续的情形
             if (e.Msg == MouseMsg.WM_MBUTTONDOWN)
             {
                 var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
-
                 if (Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0)
                 {
                     e.Handled = true;
-
                     if (RequestPauseResume != null) RequestPauseResume(_isPaused);
                     return;
                 }
-
             }
 
             if (_isPaused) return;
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));
-
             if (_simulatingMouse || mouseData.dwExtraInfo.ToInt32() == MOUSE_EVENT_EXTRA_SIMULATED)
             {
                 Debug.WriteLine("Got Simulated Event!");
@@ -337,7 +326,6 @@ namespace WGestures.Core.Impl.Windows
                     else //另一个键作为手势键的时候，作为修饰键
                     {
                         var gestMod = m == MouseMsg.WM_RBUTTONDOWN ? GestureModifier.RightButtonDown : GestureModifier.MiddleButtonDown;
-
                         e.Handled = HandleModifier(gestMod);
                     }
                     break;
@@ -359,12 +347,9 @@ namespace WGestures.Core.Impl.Windows
 
                         e.Handled = HandleModifier(gestMod);
                     }
-                    else //延迟一下，因为 中键手势 + 滚动，可能导致快捷键还没结束，而滚轮事件发送到了目标窗口，可鞥解释成其他功能（比如ctrl + 滚轮 = 缩放）
+                    else if (DateTime.UtcNow - _modifierEventHappendPrevTime < TimeSpan.FromMilliseconds(300))//延迟一下，因为 中键手势 + 滚动，可能导致快捷键还没结束，而滚轮事件发送到了目标窗口，可鞥解释成其他功能（比如ctrl + 滚轮 = 缩放）
                     {
-                        if (DateTime.UtcNow - _modifierEventHappendPrevTime < TimeSpan.FromMilliseconds(300))
-                        {
-                            e.Handled = true;
-                        }
+                        e.Handled = true;
                     }
                     break;
 
@@ -387,7 +372,6 @@ namespace WGestures.Core.Impl.Windows
                             //起始没有移动足够距离
                             if (!_initialMoveValid)
                             {
-                                //e.Handled = false;
                                 SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _curPos.X, _curPos.Y);
                             }
                             else
@@ -482,14 +466,13 @@ namespace WGestures.Core.Impl.Windows
             _simulatingMouse = false;
         }
 
-        private void Post(WM msg, UIntPtr wParam, IntPtr lParam)
+        private void Post(WM msg, int param = 0)
         {
-            Native.PostThreadMessage(_mainThreadNativeId, (uint)msg, wParam, lParam);
-        }
-
-        private void Post(WM msg)
-        {
-            Native.PostThreadMessage(_mainThreadNativeId, (uint)msg, UIntPtr.Zero, IntPtr.Zero);
+            lock (_msgQueue)
+            {
+                _msgQueue.Enqueue(new MSG(){message = msg, param = param});
+                Monitor.Pulse(_msgQueue);
+            }
         }
 
         private bool HandleModifier(GestureModifier modifier)
@@ -505,13 +488,13 @@ namespace WGestures.Core.Impl.Windows
                 var now = DateTime.UtcNow;
                 if (now - _modifierEventHappendPrevTime > TimeSpan.FromMilliseconds(100))
                 {
-                    Post(WM.GESTBTN_MODIFIER, new UIntPtr((uint)modifier), IntPtr.Zero);
+                    Post(WM.GESTBTN_MODIFIER, (int)modifier);
                     _modifierEventHappendPrevTime = now;
                 }
             }
             else
             {
-                Post(WM.GESTBTN_MODIFIER, new UIntPtr((uint)modifier), IntPtr.Zero);
+                Post(WM.GESTBTN_MODIFIER, (int)modifier);
             }
 
 
@@ -558,7 +541,6 @@ namespace WGestures.Core.Impl.Windows
         private bool OnBeforePathStart()
         {
             UpdateContextAndEventArgs();
-
 
             var args = new BeforePathStartEventArgs(_currentEventArgs);
             if (BeforePathStart != null) BeforePathStart(args);
@@ -776,9 +758,6 @@ namespace WGestures.Core.Impl.Windows
                 if (!_isStopped) Stop();
                 if (_stayTimer != null) _stayTimer.Dispose();
 
-#if DEBUG
-                _monitoringHook.Dispose();
-#endif
             }
             else
             {
@@ -804,6 +783,13 @@ namespace WGestures.Core.Impl.Windows
 
 
         #region types
+
+        struct MSG
+        {
+            public WM message;
+            public int param;
+        }
+
         public enum GestureBtnEventType
         {
             UP, DOWN, CLICK
@@ -811,6 +797,7 @@ namespace WGestures.Core.Impl.Windows
 
         private enum WM : uint
         {
+            WM_NOTHING = 0,
             WM_USER = 0x0400,
             STOP = WM_USER + 1,
             MOUSE = WM_USER + 2,
