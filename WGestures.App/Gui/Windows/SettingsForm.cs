@@ -913,7 +913,7 @@ namespace WGestures.App.Gui.Windows
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lb_info.Text = Equals(tabControl.SelectedTab.Tag, "about") ? "Copyright (c) 2014 应元东" : "*改动将自动保存并立即生效";
+            lb_info.Text = Equals(tabControl.SelectedTab.Tag, "about") ? "Copyright (c) " + DateTime.Now.Year+" 应元东" : "*改动将自动保存并立即生效";
 
             //初次选中“手势”tab的时候，选中app
             var isGesturesTab = object.Equals(tabControl.SelectedTab.Tag, "gestures");
