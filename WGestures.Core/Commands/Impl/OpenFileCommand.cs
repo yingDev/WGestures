@@ -31,8 +31,6 @@ namespace WGestures.Core.Commands.Impl
 
             var p = Process.Start(info);
             if(p != null) p.Close();
-
-            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
 
         public override string Description()

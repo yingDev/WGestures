@@ -46,7 +46,7 @@ namespace WGestures.Core
             //在独立线程中运行
             //new Thread似乎反应快一点，ThreadPool似乎有延迟
             //ThreadPool.QueueUserWorkItem((s) =>
-            new Thread(() =>
+            //new Thread(() =>
             {
                 try
                 {
@@ -59,7 +59,7 @@ namespace WGestures.Core
                     throw;
 #endif
                 }
-            }) { IsBackground = false}.Start();
+            }//) { IsBackground = false}.Start();
 
             return new ExecutionResult(null, true);
 
