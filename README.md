@@ -1,6 +1,6 @@
 #WGestures
 WGestures鼠标手势 for Windows.
-简单易用的全局鼠标手势, 支持Windows 7/8/8.1。官方网站 [www.yingDev.com/projects/WGestures](http://www.yingdev.com/projects/wgestures) <br/>
+简单易用的全局鼠标手势, 支持Windows 7/8/10。官方网站 [www.yingDev.com/projects/WGestures](http://www.yingdev.com/projects/wgestures) <br/>
 <br/>
 ![Alt text](http://ww1.sinaimg.cn/mw690/8cc88963gw1ekaujcoaf5g20a006yq7f.gif) <br/>
 <br/>
