@@ -1009,7 +1009,7 @@ namespace WGestures.App.Gui.Windows
             selectSaveToPath.Filter = "WGestures备份文件 (*.wgb)|*.wgb";
 
 
-            selectSaveToPath.FileName = "WGestures " + Application.ProductVersion;
+            selectSaveToPath.FileName = "WGestures " + Application.ProductVersion + ".wgb";
 
             var result = selectSaveToPath.ShowDialog();
             if (result != DialogResult.OK) return;
