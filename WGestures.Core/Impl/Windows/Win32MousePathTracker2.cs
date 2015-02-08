@@ -40,10 +40,20 @@ namespace WGestures.Core.Impl.Windows
         /// </summary>
         public int InitialStayTimeoutMillis { get; set; }
 
+        private int _effectiveMove;
+
         /// <summary>
-        /// 获取和设置噪音过滤的阈值，即至少移动了多少像素才被认为移动了
+        /// 获取和设置噪音过滤的阈值，即至少移动了多少像素才被认为'有效‘移动了
         /// </summary>
-        public int EffectiveMove { get; set; }
+        public int EffectiveMove
+        {
+            get { return _effectiveMove; }
+            set
+            {
+                if(value < _stepSize) throw new ArgumentException("EffectiveMove 不能小于 StepSize");
+                _effectiveMove = value;
+            }
+        }
 
         /// <summary>
         /// 获取和设置是否允许停留超时
@@ -86,8 +96,18 @@ namespace WGestures.Core.Impl.Windows
         [Obsolete]
         public bool PerformNormalWhenTimeout { get; set; }
 
-
         public bool IsDisposed { get; private set; }
+
+        private int _stepSize;
+        public int StepSize 
+        {
+            get { return _stepSize; }
+            set
+            {
+                if (value > EffectiveMove) throw new ArgumentException("SetpSize 不能大于 EffectiveMove");
+                _stepSize = value;
+            } 
+        }
 
         #endregion
 
@@ -123,18 +143,20 @@ namespace WGestures.Core.Impl.Windows
         //避免滚轮事件发布过于频繁
         //用于记录鼠标滚轮事件上一次发生的时间，如果时间间隔小于一定值，则不发布新的事件。
         private DateTime _modifierEventHappendPrevTime;
-
         #endregion
+
         public Win32MousePathTracker2()
         {
+            var dpiFactor = Native.GetScreenDpi()/96.0f;
             
             //properties defaults
             //GestureButton = GestureButtons.RightButton;
-            InitialValidMove = 10;
+            InitialValidMove = (int)(10 * dpiFactor);
             InitialStayTimeout = true;
             InitialStayTimeoutMillis = 150;
 
-            EffectiveMove = (int)(20 * Native.GetScreenDpi() / 96.0f) * 2;//todo: 增加灵敏度调整
+            EffectiveMove = (int)(20 * dpiFactor) * 2;//todo: 增加灵敏度调整
+            StepSize = EffectiveMove/3;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
@@ -269,9 +291,9 @@ namespace WGestures.Core.Impl.Windows
             if (_isPaused) return;
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));
-            if (_simulatingMouse || mouseData.dwExtraInfo.ToInt32() == MOUSE_EVENT_EXTRA_SIMULATED)
+            if (_simulatingMouse/*mouseData.dwExtraInfo.ToInt32() == MOUSE_EVENT_EXTRA_SIMULATED*/)
             {
-                Debug.WriteLine("Got Simulated Event!");
+                Debug.WriteLine("Simulated:" + e.Msg);
                 if (InitialStayTimeout && _isInitialTimeout)
                 {
                     Debug.WriteLine("_captured=false");
@@ -365,6 +387,7 @@ namespace WGestures.Core.Impl.Windows
                             if (!_initialMoveValid)
                             {
                                 SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _curPos.X, _curPos.Y);
+                                Thread.Sleep(50);
                             }
                             else
                             {
@@ -387,15 +410,12 @@ namespace WGestures.Core.Impl.Windows
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
         {
+            const int EventInterval = 10;
+
             Debug.WriteLine("SimulateMouseEvent: " + _gestureBtn + " " + eventType);
             _simulatingMouse = true;
 
             var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
-
-            Native.POINT curPos;
-            Native.GetCursorPos(out curPos);
-
-            User32.MOUSEEVENTF events = 0;
 
             switch (_gestureBtn)
             {
@@ -405,13 +425,15 @@ namespace WGestures.Core.Impl.Windows
                         switch (eventType)
                         {
                             case GestureBtnEventType.UP:
-                                events = User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP;
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                             case GestureBtnEventType.DOWN:
-                                events = User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN;
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                             case GestureBtnEventType.CLICK:
-                                events = User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN | User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP;
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
+                                Thread.Sleep(EventInterval);
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                         }
                     }
@@ -420,13 +442,15 @@ namespace WGestures.Core.Impl.Windows
                         switch (eventType)
                         {
                             case GestureBtnEventType.UP:
-                                events = User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP;
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                             case GestureBtnEventType.DOWN:
-                                events = User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN;
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                             case GestureBtnEventType.CLICK:
-                                events = User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN | User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP;
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
+                                Thread.Sleep(EventInterval);
+                                User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                         }
                     }
@@ -435,21 +459,24 @@ namespace WGestures.Core.Impl.Windows
                     switch (eventType)
                     {
                         case GestureBtnEventType.UP:
-                            events = User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP;
+                            User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
+
                             break;
                         case GestureBtnEventType.DOWN:
-                            events = User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN;
+                            User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
+
                             break;
                         case GestureBtnEventType.CLICK:
-                            events = User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN | User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP;
+                            User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
+                            Thread.Sleep(EventInterval);
+                            User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                             break;
                     }
                     break;
             }
 
-            User32.SetCursorPos(x, y);
             //User32.SetMessageExtraInfo(new IntPtr(MOUSE_EVENT_EXTRA_SIMULATED));
-            User32.mouse_event(events, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
+            //User32.mouse_event(events, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
             //var sim = new InputSimulator();
             //sim.Mouse.RightButtonDown();
             //sim.Mouse.Sleep(10);
@@ -607,7 +634,7 @@ namespace WGestures.Core.Impl.Windows
 
             var dist = GetPointDistance(ref _curPos, ref _lastPoint);
 
-            if (dist > 4 && PathGrow != null)
+            if (dist >= StepSize && PathGrow != null)
             {
                 PathGrow(_currentEventArgs);
                 _lastPoint = _curPos;
