@@ -32,8 +32,8 @@ namespace WGestures.App.Gui.Windows.Controls
         public ColorButton()
         {
             mainPen = new Pen(Color, 2.0f * _dpiFactor);
-            borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), 4.0f * _dpiFactor);
-            shadowPen = new Pen(Color.FromArgb(60, 0, 0, 0), 5.0f * _dpiFactor);
+            borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), 4.5f * _dpiFactor);
+            shadowPen = new Pen(Color.FromArgb(80, 0, 0, 0), 5.0f * _dpiFactor);
         }
 
         protected override void OnPaint(PaintEventArgs pevent)
@@ -49,15 +49,24 @@ namespace WGestures.App.Gui.Windows.Controls
 
             //g.Clear(BackColor);
 
-            var bias = 6 * _dpiFactor;
+            var bias = 5 * _dpiFactor;
 
-            var rect = RectangleF.Inflate(Bounds, -bias, -bias);
-            rect.X = bias;
-            rect.Y = bias;
+            var rect = Rectangle.Inflate(Bounds, (int)-bias, (int)-bias);
+            rect.X = (int)bias;
+            rect.Y = (int)bias;
             
-            g.DrawEllipse(shadowPen, rect);
+            /*g.DrawEllipse(shadowPen, rect);
             g.DrawEllipse(borderPen, rect);
-            g.DrawEllipse(mainPen, rect);
+            g.DrawEllipse(mainPen, rect);*/
+
+            var p0 = new Point((int) rect.Left, (int) rect.Bottom);
+            var p1 = new Point((int) rect.Right, (int) rect.Bottom);
+            g.DrawLine(shadowPen, p0, p1);
+            g.DrawLine(borderPen, p0, p1);
+            g.DrawLine(mainPen, p0, p1);
+            /*g.DrawRectangle(shadowPen, rect);
+            g.DrawRectangle(borderPen, rect);
+            g.DrawRectangle(mainPen, rect);*/
         }
 
         protected override void OnClick(EventArgs e)
