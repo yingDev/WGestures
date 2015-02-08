@@ -238,6 +238,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Gui\Windows\AddGestureForm.en.resx">
+      <DependentUpon>AddGestureForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\Windows\CommandViews\CmdCommandView.resx">
       <DependentUpon>CmdCommandView.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,6 +261,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Windows\ImportForm.resx">
       <DependentUpon>ImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Windows\SettingsForm.en.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Windows\SettingsForm.zh-Hans.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QuickStartGuide\QuickStartGuideForm.resx">
       <DependentUpon>QuickStartGuideForm.cs</DependentUpon>

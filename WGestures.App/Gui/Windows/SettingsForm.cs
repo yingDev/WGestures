@@ -792,7 +792,7 @@ namespace WGestures.App.Gui.Windows
             if (group_Command.Text != intent.Name) group_Command.Text = string.Format("手势 \"{0}\" 的参数", intent.Name);
 
             //根据intent的Gesture是否包WheelDirection来决定是显示“滚动滚轮时立即执行”选框
-            check_executeOnMouseWheeling.Text = "识别手势时立即执行";
+            //check_executeOnMouseWheeling.Text = "识别手势时立即执行";
 
             check_executeOnMouseWheeling.Visible = (intent.Gesture.Modifier != GestureModifier.None);
             if (check_executeOnMouseWheeling.Visible) //设定其值

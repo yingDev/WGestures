@@ -117,34 +117,3077 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="settingsFormControllerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>167, 56</value>
-  </metadata>
-  <metadata name="settingsFormControllerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>167, 56</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="listGestureIntents.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 28</value>
+  </data>
+  <data name="lb_info.Location" type="System.Drawing.Point, System.Drawing">
+    <value>397, 0</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="combo_CommandTypes.ItemHeight" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="label2.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;checkInheritGlobal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_autoCheckUpdate.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 23</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="flowLayoutPanel3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="check_gesturingDisabled.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>使用习惯:</value>
+  </data>
+  <data name="&gt;&gt;btnEditApp.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="flowLayoutPanel6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddApp.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel6.Name" xml:space="preserve">
+    <value>flowLayoutPanel6</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="pic_menuBtn.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>CenterImage</value>
+  </data>
+  <data name="pictureSelectedApp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 3</value>
+  </data>
+  <data name="menuItem_import.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 22</value>
+  </data>
+  <data name="labelAppName.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel5.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerStayTimeoutMillis.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="picture_alipayCode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 184</value>
+  </data>
+  <data name="panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="menuItem_export.Text" xml:space="preserve">
+    <value>导出...</value>
+  </data>
+  <data name="label2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="colorBtn_unrecogonized.Text" xml:space="preserve">
+    <value>未识别</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>起始移动距离(像素)</value>
+  </data>
+  <data name="&gt;&gt;check_pathTrackerInitialStayTimeout.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="panel3.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tb_updateLog.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabControl.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="group_Command.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_disableOnFullscreen.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.ToolTip" xml:space="preserve">
+    <value>若按下右键后超过此时间未移动，则执行正常右键拖拽操作</value>
+  </data>
+  <data name="lb_Version.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_disableOnFullscreen.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pictureSelectedApp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="flowLayoutPanel6.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="picture_logo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 97</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="linkLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 17</value>
+  </data>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="btnAppRemove.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>有效性:</value>
+  </data>
+  <data name="linkLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>flowLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
+  </data>
+  <data name="&gt;&gt;btnEditApp.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.MetroButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="comboBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;panel_intentListOperations.Name" xml:space="preserve">
+    <value>panel_intentListOperations</value>
+  </data>
+  <data name="check_autoCheckUpdate.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label9.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowCommandName.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowPath.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="flowLayoutPanel3.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lb_info.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="groupBox1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;operation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="groupBox1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkGestureViewShowPath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelAppName.Text" xml:space="preserve">
+    <value>文件管理器阿不都第三方斯蒂芬李双江的方式</value>
+  </data>
+  <data name="&gt;&gt;lineLabel2.Name" xml:space="preserve">
+    <value>lineLabel2</value>
+  </data>
+  <data name="flowLayoutPanel2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="btnEditApp.ToolTip" xml:space="preserve">
+    <value>修改选中项目的名称或路径</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 21</value>
+  </data>
+  <data name="listApps.Alignment" type="System.Windows.Forms.ListViewAlignment, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="linkLabel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 8</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;lineLabel1.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.LineLabel, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dummyImgLstForLstViewHeightFix.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 3</value>
+  </data>
+  <data name="tabPage_general.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel5.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;errorProvider.Name" xml:space="preserve">
+    <value>errorProvider</value>
+  </data>
+  <data name="ctx_gesturesMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 48</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;btnAddGesture.Name" xml:space="preserve">
+    <value>btnAddGesture</value>
+  </data>
+  <data name="&gt;&gt;check_disableOnFullscreen.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="listGestureIntents.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel_intentListOperations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 196</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="picture_alipayCode.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>执行操作</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei, 9pt</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowPath.Name" xml:space="preserve">
+    <value>checkGestureViewShowPath</value>
+  </data>
+  <data name="btnAddApp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 393</value>
+  </data>
+  <data name="tabPage1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;colorMiddle.Name" xml:space="preserve">
+    <value>colorMiddle</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.Text" xml:space="preserve">
+    <value>停留超时 (毫秒)</value>
+  </data>
+  <data name="&gt;&gt;pic_menuBtn.Name" xml:space="preserve">
+    <value>pic_menuBtn</value>
+  </data>
+  <data name="flowLayoutPanel2.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="linkLabel2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="group_Command.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label10.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="check_autoStart.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="combo_CommandTypes.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ctx_gesturesMenu.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="panel3.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 10</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 32</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="combo_CommandTypes.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 23</value>
+  </data>
+  <data name="linkLabel2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>377, 14</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="panel_intentListOperations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>340, 23</value>
+  </data>
+  <data name="panel_commandView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="label12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="colorBtn_recogonized.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkGestureViewShowPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 21</value>
+  </data>
+  <data name="btn_RemoveGesture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>28, 0</value>
+  </data>
+  <data name="panel3.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnAddGesture.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="check_autoCheckUpdate.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label5.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="btn_checkUpdateNow.Text" xml:space="preserve">
+    <value>立即检查</value>
+  </data>
+  <data name="colorBtn_unrecogonized.ToolTip" xml:space="preserve">
+    <value>手势未被识别时，轨迹的颜色</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value>只有移动超过此距离，才开始识别手势</value>
+  </data>
+  <data name="checkGestureView_fadeOut.Text" xml:space="preserve">
+    <value>执行后淡出</value>
+  </data>
+  <data name="btnAppRemove.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel_commandView.ToolTip" xml:space="preserve">
+    <value>操作的额外参数</value>
+  </data>
+  <data name="check_gesturingDisabled.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
+    <value>flowLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowCommandName.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;tabPage_general.Parent" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label9.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="flowLayoutPanel4.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>显   示:</value>
+  </data>
+  <data name="&gt;&gt;dummyImgLstForLstViewHeightFix.Name" xml:space="preserve">
+    <value>dummyImgLstForLstViewHeightFix</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel4.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;check_executeOnMouseWheeling.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_checkUpdateNow.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SettingsForm</value>
+  </data>
+  <data name="flowLayoutPanel1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="linkLabel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;btn_checkUpdateNow.Name" xml:space="preserve">
+    <value>btn_checkUpdateNow</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_pathTrackerInitialStayTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tabPage_general.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_modifyGesture.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="pic_menuBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>541, 10</value>
+  </data>
+  <data name="listGestureIntents.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 3, 3, 3</value>
+  </data>
+  <data name="colorBtn_unrecogonized.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_modifyGesture.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>当前版本:</value>
+  </data>
+  <data name="listApps.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="colorMiddle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerInitialValidMove.Name" xml:space="preserve">
+    <value>numPathTrackerInitialValidMove</value>
+  </data>
+  <data name="btnAddGesture.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="tb_updateLog.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label8.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;checkPathTrackerStayTimeout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnAddApp.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="checkGestureViewShowPath.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnAddApp.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;btn_modifyGesture.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.MetroButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;colGestureDirs.Name" xml:space="preserve">
+    <value>colGestureDirs</value>
+  </data>
+  <data name="group_Command.Text" xml:space="preserve">
+    <value>手势参数</value>
+  </data>
+  <data name="&gt;&gt;picture_alipayCode.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="combo_CommandTypes.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="&gt;&gt;btn_checkUpdateNow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;check_disableOnFullscreen.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="colorBtn_recogonized.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
+    <value>flowLayoutPanel6</value>
+  </data>
+  <data name="label1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="check_autoCheckUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 21</value>
+  </data>
+  <data name="label1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_gesturingDisabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 21</value>
+  </data>
+  <data name="&gt;&gt;num_pathTrackerInitialStayTimeoutMillis.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkGestureViewShowPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>91, 161</value>
+  </data>
+  <data name="btn_modifyGesture.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10.125pt, style=Bold</value>
+  </data>
+  <data name="labelAppName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="picture_alipayCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ctx_gesturesMenu.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="group_Command.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 228</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pictureSelectedApp.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="picture_alipayCode.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerStayTimeoutMillis.Name" xml:space="preserve">
+    <value>numPathTrackerStayTimeoutMillis</value>
+  </data>
+  <data name="&gt;&gt;listApps.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="picture_logo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 21</value>
+  </data>
+  <data name="&gt;&gt;combo_CommandTypes.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.ToolTip" xml:space="preserve">
+    <value>若鼠标停止移动超过此时间，已画出的手势将被取消</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="colorBtn_unrecogonized.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="flowLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lineLabel2.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="linkLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 25</value>
+  </data>
+  <data name="btn_checkUpdateNow.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pictureSelectedApp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lineLabel1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panel_commandView.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>233, 208</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="operation.Text" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="pic_menuBtn.ToolTip" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;tabPage_general.Name" xml:space="preserve">
+    <value>tabPage_general</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;tabPage_general.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 9</value>
+  </data>
+  <data name="check_autoCheckUpdate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkPathTrackerStayTimeout.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btn_modifyGesture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Name" xml:space="preserve">
+    <value>linkLabel2</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lb_Version.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 6</value>
+  </data>
+  <data name="&gt;&gt;picture_alipayCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panel_commandView.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkGestureViewShowCommandName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 21</value>
+  </data>
+  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="tabPage_general.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>557, 16</value>
+  </data>
+  <data name="&gt;&gt;pictureSelectedApp.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="check_disableOnFullscreen.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_executeOnMouseWheeling.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 0</value>
+  </data>
+  <data name="&gt;&gt;listGestureIntents.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPage_general.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;num_pathTrackerInitialStayTimeoutMillis.Name" xml:space="preserve">
+    <value>num_pathTrackerInitialStayTimeoutMillis</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="lineLabel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;btnAddApp.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.MetroButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="flowLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btn_RemoveGesture.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lb_Version.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
+  </data>
+  <data name="panel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tb_updateLog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>130, 21</value>
+  </data>
+  <data name="check_autoStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="check_disableOnFullscreen.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnAppRemove.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="check_autoStart.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pic_menuBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.ToolTip" xml:space="preserve">
+    <value>只有移动超过此距离，才开始识别手势</value>
+  </data>
+  <data name="tabPage2.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="labelAppName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 2</value>
+  </data>
+  <data name="tb_updateLog.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;tip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="flowLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>277, 25</value>
+  </data>
+  <data name="&gt;&gt;ctx_gesturesMenu.Name" xml:space="preserve">
+    <value>ctx_gesturesMenu</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>203, 30</value>
+  </data>
+  <data name="&gt;&gt;panel_intentListOperations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_modifyGesture.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 1</value>
+  </data>
+  <data name="&gt;&gt;errorProvider.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ErrorProvider, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>使用手势</value>
+  </data>
+  <data name="lineLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_autoCheckUpdate.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;labelAppName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_Version.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAddApp.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lb_info.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lb_Version.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="comboBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;tb_updateLog.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="check_autoCheckUpdate.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label5.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnEditApp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>130, 181</value>
+  </data>
+  <data name="checkGestureView_fadeOut.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panel_commandView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>332, 86</value>
+  </data>
+  <data name="checkGestureView_fadeOut.Location" type="System.Drawing.Point, System.Drawing">
+    <value>271, 161</value>
+  </data>
+  <data name="&gt;&gt;picture_alipayCode.Name" xml:space="preserve">
+    <value>picture_alipayCode</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>WGestures设置</value>
+  </data>
+  <data name="check_autoCheckUpdate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_unrecogonized.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.ColorButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btnAddGesture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tb_updateLog.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei, 9pt</value>
+  </data>
+  <data name="labelAppName.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 17</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="listGestureIntents.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="picture_logo.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="linkLabel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 8</value>
+  </data>
+  <data name="colorBtn_recogonized.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 210</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowPath.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;panel_intentListOperations.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lb_info.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPage2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerInitialValidMove.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;checkInheritGlobal.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="check_autoStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 29</value>
+  </data>
+  <data name="checkGestureViewShowPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="colorMiddle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>SimSun, 8.25pt</value>
+  </data>
+  <data name="tb_updateLog.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="picture_logo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="&gt;&gt;btn_checkUpdateNow.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label6.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>352, 25</value>
+  </data>
+  <data name="&gt;&gt;check_gesturingDisabled.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="label5.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label6.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btn_RemoveGesture.ToolTip" xml:space="preserve">
+    <value>删除选中的项目</value>
+  </data>
+  <data name="&gt;&gt;labelAppName.Name" xml:space="preserve">
+    <value>labelAppName</value>
+  </data>
+  <data name="btn_RemoveGesture.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="ctx_gesturesMenu.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkGestureViewShowPath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="colGestureName.Width" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;lb_Version.Parent" xml:space="preserve">
+    <value>flowLayoutPanel3</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 90</value>
+  </data>
+  <data name="groupBox2.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="listApps.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="tabPage2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="check_disableOnFullscreen.Text" xml:space="preserve">
+    <value>全屏时自动禁用手势</value>
+  </data>
+  <data name="check_autoStart.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_autoStart.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panel_commandView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 65</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_recogonized.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;colListAppDummy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;check_gesturingDisabled.Name" xml:space="preserve">
+    <value>check_gesturingDisabled</value>
+  </data>
+  <data name="listGestureIntents.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="tabPage_general.Size" type="System.Drawing.Size, System.Drawing">
+    <value>551, 435</value>
+  </data>
+  <data name="comboBox1.ItemHeight" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="tabPage_general.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="btnAddApp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="colorMiddle.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label4.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="picture_alipayCode.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label8.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="listApps.LabelWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 16</value>
+  </data>
+  <data name="label10.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_checkUpdateNow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pictureSelectedApp.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;check_autoStart.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 23</value>
+  </data>
+  <data name="lb_Version.Text" xml:space="preserve">
+    <value>version</value>
+  </data>
+  <data name="lineLabel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;ctx_gesturesMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="combo_CommandTypes.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="comboBox1.Items" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="picture_logo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkInheritGlobal.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="btnAppRemove.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 20</value>
+  </data>
+  <data name="colorMiddle.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="flowLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 53</value>
+  </data>
+  <data name="&gt;&gt;btn_RemoveGesture.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;checkInheritGlobal.Name" xml:space="preserve">
+    <value>checkInheritGlobal</value>
+  </data>
+  <data name="check_disableOnFullscreen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 21</value>
+  </data>
+  <data name="&gt;&gt;btn_RemoveGesture.Name" xml:space="preserve">
+    <value>btn_RemoveGesture</value>
+  </data>
+  <data name="label2.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabControl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox2.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnAppRemove.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="lb_info.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 12, 0, 10</value>
+  </data>
+  <data name="flowLayoutPanel6.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;pictureSelectedApp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_modifyGesture.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lb_Version.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="checkInheritGlobal.Text" xml:space="preserve">
+    <value>继承全局手势</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="group_Command.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.ToolTip" xml:space="preserve">
+    <value>若按下右键后超过此时间未移动，则执行正常右键拖拽操作</value>
+  </data>
+  <data name="&gt;&gt;lineLabel2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="linkLabel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 32</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 17</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>412, 27</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>169, 161</value>
+  </data>
+  <data name="check_gesturingDisabled.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 2</value>
+  </data>
+  <data name="dummyImgLstForLstViewHeightFix.ImageSize" type="System.Drawing.Size, System.Drawing">
+    <value>1, 24</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="colorMiddle.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_checkUpdateNow.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;linkLabel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel5.Name" xml:space="preserve">
+    <value>flowLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lb_Version.Name" xml:space="preserve">
+    <value>lb_Version</value>
+  </data>
+  <data name="check_autoStart.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lb_info.Text" xml:space="preserve">
+    <value>*改动将自动保存并立即生效</value>
+  </data>
+  <data name="flowLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;btn_RemoveGesture.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.MetroButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="tabControl.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="comboBox1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>手势</value>
+  </data>
+  <data name="label12.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btn_RemoveGesture.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;picture_alipayCode.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;lineLabel2.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.LineLabel, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btn_RemoveGesture.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panel3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="check_gesturingDisabled.ToolTip" xml:space="preserve">
+    <value>在该程序上禁用手势（等同于双击应用程序条目）</value>
+  </data>
+  <data name="colorBtn_recogonized.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="check_autoStart.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel6.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tb_updateLog.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="&gt;&gt;check_disableOnFullscreen.Name" xml:space="preserve">
+    <value>check_disableOnFullscreen</value>
+  </data>
+  <data name="btnAddGesture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="&gt;&gt;btnAppRemove.Name" xml:space="preserve">
+    <value>btnAppRemove</value>
+  </data>
+  <data name="colorBtn_recogonized.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel2.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lb_Version.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tabControl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 8, 8, 8</value>
+  </data>
+  <data name="lineLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;colorMiddle.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="btnEditApp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 1</value>
+  </data>
+  <data name="groupBox2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="linkLabel1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label5.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="flowLayoutPanel5.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lb_info.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 17</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 16</value>
+  </data>
+  <data name="colorMiddle.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelAppName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;combo_CommandTypes.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnAppRemove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="flowLayoutPanel1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;tb_updateLog.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="btnEditApp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="checkInheritGlobal.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label3.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panel_intentListOperations.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_disableOnFullscreen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;check_autoStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="listApps.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="comboBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 25</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 17</value>
+  </data>
+  <data name="&gt;&gt;checkGestureView_fadeOut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="pictureSelectedApp.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowCommandName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnAddApp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10.125pt, style=Bold</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerInitialValidMove.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.InstantNumericUpDown, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btn_modifyGesture.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tip.Name" xml:space="preserve">
+    <value>tip</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="group_Command.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;btn_modifyGesture.Parent" xml:space="preserve">
+    <value>panel_intentListOperations</value>
+  </data>
+  <data name="colorBtn_unrecogonized.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="check_gesturingDisabled.Text" xml:space="preserve">
+    <value>禁止</value>
+  </data>
+  <data name="btn_modifyGesture.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;checkPathTrackerStayTimeout.Name" xml:space="preserve">
+    <value>checkPathTrackerStayTimeout</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="picture_alipayCode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>tabPage_general</value>
+  </data>
+  <data name="label6.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnAppRemove.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="colorMiddle.Text" xml:space="preserve">
+    <value>已识别
+(中键)</value>
+  </data>
+  <data name="&gt;&gt;panel_commandView.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;check_autoCheckUpdate.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;lb_info.Parent" xml:space="preserve">
+    <value>flowLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tabControl.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>250, 28</value>
+  </data>
+  <data name="btnAppRemove.ToolTip" xml:space="preserve">
+    <value>删除选中的项目</value>
+  </data>
+  <data name="checkInheritGlobal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkInheritGlobal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="flowLayoutPanel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="menuItem_import.Text" xml:space="preserve">
+    <value>导入...</value>
+  </data>
+  <data name="pic_menuBtn.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;pic_menuBtn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="flowLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 127</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnAddGesture.ToolTip" xml:space="preserve">
+    <value>添加手势</value>
+  </data>
+  <data name="checkInheritGlobal.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkGestureViewShowCommandName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;menuItem_import.Name" xml:space="preserve">
+    <value>menuItem_import</value>
+  </data>
+  <data name="label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="check_autoCheckUpdate.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btn_modifyGesture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 0</value>
+  </data>
+  <data name="lineLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 30</value>
+  </data>
+  <data name="labelAppName.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lb_info.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;checkGestureView_fadeOut.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.Text" xml:space="preserve">
+    <value>滑动滚轮时立即执行</value>
+  </data>
+  <data name="flowLayoutPanel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="label4.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>关 于</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="flowLayoutPanel6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>332, 149</value>
+  </data>
+  <data name="check_gesturingDisabled.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="listApps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 20</value>
+  </data>
+  <data name="check_disableOnFullscreen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>91, 121</value>
+  </data>
+  <data name="&gt;&gt;pic_menuBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 23</value>
+  </data>
+  <data name="listGestureIntents.Size" type="System.Drawing.Size, System.Drawing">
+    <value>339, 165</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>tabPage_general</value>
+  </data>
+  <data name="&gt;&gt;btnAddGesture.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;colorMiddle.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 10</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="colorBtn_unrecogonized.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;checkPathTrackerStayTimeout.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;check_pathTrackerInitialStayTimeout.Name" xml:space="preserve">
+    <value>check_pathTrackerInitialStayTimeout</value>
+  </data>
+  <data name="comboBox1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lb_info.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel3.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnEditApp.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label12.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="colorBtn_unrecogonized.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 42</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label12.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="picture_logo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="btn_RemoveGesture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="comboBox1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="panel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="colorBtn_recogonized.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="checkGestureView_fadeOut.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label7.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="combo_CommandTypes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 25</value>
+  </data>
+  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="comboBox1.Items1" xml:space="preserve">
+    <value>中文</value>
+  </data>
+  <data name="&gt;&gt;colListAppDummy.Name" xml:space="preserve">
+    <value>colListAppDummy</value>
+  </data>
+  <data name="flowLayoutPanel3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label7.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lb_info.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="panel_intentListOperations.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_modifyGesture.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="tb_updateLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>412, 153</value>
+  </data>
+  <data name="flowLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 81</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Name" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnEditApp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>152, 393</value>
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;group_Command.Name" xml:space="preserve">
+    <value>group_Command</value>
+  </data>
+  <data name="checkInheritGlobal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 21</value>
+  </data>
+  <data name="check_gesturingDisabled.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="btnAppRemove.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 1</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 17</value>
+  </data>
+  <data name="group_Command.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 0</value>
+  </data>
+  <data name="group_Command.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;group_Command.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnAddGesture.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowLayoutPanel6.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;listApps.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.AlwaysSelectedListView, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="picture_alipayCode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="&gt;&gt;pic_menuBtn.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label7.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>支付宝钱包扫码</value>
+  </data>
+  <data name="picture_logo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;tb_updateLog.Name" xml:space="preserve">
+    <value>tb_updateLog</value>
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="btn_checkUpdateNow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="flowLayoutPanel4.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAddApp.Name" xml:space="preserve">
+    <value>btnAddApp</value>
+  </data>
+  <data name="tabPage1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;colorBtn_recogonized.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>项目主页</value>
+  </data>
+  <data name="&gt;&gt;colGestureDirs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="flowLayoutPanel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="labelAppName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="linkLabel2.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;labelAppName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnAddApp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 1</value>
+  </data>
+  <data name="&gt;&gt;combo_CommandTypes.Name" xml:space="preserve">
+    <value>combo_CommandTypes</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="group_Command.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 9, 1, 1</value>
+  </data>
+  <data name="label3.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="colorBtn_unrecogonized.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="checkGestureView_fadeOut.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="checkGestureView_fadeOut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 21</value>
+  </data>
+  <data name="check_gesturingDisabled.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btn_checkUpdateNow.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="lb_info.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="check_disableOnFullscreen.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btn_RemoveGesture.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10.125pt, style=Bold</value>
+  </data>
+  <data name="&gt;&gt;checkInheritGlobal.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;listGestureIntents.Name" xml:space="preserve">
+    <value>listGestureIntents</value>
+  </data>
+  <data name="panel_intentListOperations.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;lb_info.Name" xml:space="preserve">
+    <value>lb_info</value>
+  </data>
+  <data name="linkLabel2.Text" xml:space="preserve">
+    <value>作者邮箱</value>
+  </data>
+  <data name="colGestureName.Text" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="&gt;&gt;check_pathTrackerInitialStayTimeout.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="panel1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="combo_CommandTypes.ToolTip" xml:space="preserve">
+    <value>手势触发后要执行的操作</value>
+  </data>
+  <data name="&gt;&gt;picture_logo.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;settingsFormControllerBindingSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label8.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnEditApp.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="checkGestureViewShowPath.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lineLabel2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_recogonized.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.ColorButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btnEditApp.Name" xml:space="preserve">
+    <value>btnEditApp</value>
+  </data>
+  <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;lineLabel1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="lineLabel2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkGestureView_fadeOut.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;menuItem_export.Name" xml:space="preserve">
+    <value>menuItem_export</value>
+  </data>
+  <data name="tabControl.Padding" type="System.Drawing.Point, System.Drawing">
+    <value>20, 3</value>
+  </data>
+  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ctx_gesturesMenu.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label6.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="label7.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btn_modifyGesture.Name" xml:space="preserve">
+    <value>btn_modifyGesture</value>
+  </data>
+  <data name="tabPage1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="labelAppName.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>90, 17</value>
+  </data>
+  <data name="tabPage1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="lineLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="colGestureDirs.Text" xml:space="preserve">
+    <value>助记符</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.Location" type="System.Drawing.Point, System.Drawing">
+    <value>203, 92</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAppRemove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 393</value>
+  </data>
+  <data name="colorMiddle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>162, 210</value>
+  </data>
+  <data name="&gt;&gt;listApps.Name" xml:space="preserve">
+    <value>listApps</value>
+  </data>
+  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="labelAppName.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel3.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="listApps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 370</value>
+  </data>
+  <data name="checkGestureView_fadeOut.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panel_commandView.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panel_commandView.Name" xml:space="preserve">
+    <value>panel_commandView</value>
+  </data>
+  <data name="panel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="checkInheritGlobal.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="listGestureIntents.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei, 8.25pt</value>
+  </data>
+  <data name="flowLayoutPanel5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label9.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 190</value>
+  </data>
+  <data name="&gt;&gt;check_gesturingDisabled.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;check_autoCheckUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tb_updateLog.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label12.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel6.Parent" xml:space="preserve">
+    <value>group_Command</value>
+  </data>
+  <data name="btnAddGesture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="colorMiddle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="colGestureDirs.Width" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;panel_commandView.Parent" xml:space="preserve">
+    <value>flowLayoutPanel6</value>
+  </data>
+  <data name="lb_Version.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>91, 59</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>577, 517</value>
+  </data>
+  <data name="panel_intentListOperations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 0, 0, 0</value>
+  </data>
+  <data name="colorBtn_unrecogonized.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="lb_Version.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;check_executeOnMouseWheeling.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lineLabel1.Parent" xml:space="preserve">
+    <value>flowLayoutPanel6</value>
+  </data>
+  <data name="btn_checkUpdateNow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 25</value>
+  </data>
+  <data name="picture_alipayCode.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;menuItem_import.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_unrecogonized.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="labelAppName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 2, 0, 2</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="tabPage_general.Text" xml:space="preserve">
+    <value>选 项</value>
+  </data>
+  <data name="check_autoStart.Text" xml:space="preserve">
+    <value>开机自动运行</value>
+  </data>
+  <data name="group_Command.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;check_autoStart.Name" xml:space="preserve">
+    <value>check_autoStart</value>
+  </data>
+  <data name="&gt;&gt;picture_logo.Name" xml:space="preserve">
+    <value>picture_logo</value>
+  </data>
+  <data name="label10.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="listGestureIntents.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.Name" xml:space="preserve">
+    <value>flowLayoutPanel3</value>
+  </data>
+  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_info.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkGestureView_fadeOut.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="tabPage_general.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="labelAppName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 17</value>
+  </data>
+  <data name="checkGestureViewShowPath.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkGestureViewShowCommandName.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.Location" type="System.Drawing.Point, System.Drawing">
+    <value>203, 61</value>
+  </data>
+  <data name="&gt;&gt;listGestureIntents.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="groupBox2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;colorMiddle.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.ColorButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;check_gesturingDisabled.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="pictureSelectedApp.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_disableOnFullscreen.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.ToolTip" xml:space="preserve">
+    <value>若鼠标停止移动超过此时间，已画出的手势将被取消</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="panel_intentListOperations.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="colorBtn_recogonized.Text" xml:space="preserve">
+    <value>已识别</value>
+  </data>
+  <data name="&gt;&gt;btnAppRemove.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.MetroButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>551, 435</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 38</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="combo_CommandTypes.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="pictureSelectedApp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="colorMiddle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 42</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="group_Command.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tabControl.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="picture_logo.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lineLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>18, 112</value>
+  </data>
+  <data name="lineLabel2.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="colorBtn_recogonized.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPage1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;panel_intentListOperations.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel4.Name" xml:space="preserve">
+    <value>flowLayoutPanel4</value>
+  </data>
+  <data name="check_autoStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="colorBtn_recogonized.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 42</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerInitialValidMove.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="linkLabel2.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lb_Version.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="pic_menuBtn.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lineLabel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 162</value>
+  </data>
+  <data name="btnAppRemove.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10.125pt, style=Bold</value>
+  </data>
+  <data name="picture_alipayCode.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;checkGestureView_fadeOut.Name" xml:space="preserve">
+    <value>checkGestureView_fadeOut</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>525, 95</value>
+  </data>
+  <data name="&gt;&gt;btnAddApp.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="flowLayoutPanel5.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="lb_Version.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddApp.ToolTip" xml:space="preserve">
+    <value>添加应用程序</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Parent" xml:space="preserve">
+    <value>flowLayoutPanel5</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 6</value>
+  </data>
+  <data name="&gt;&gt;lineLabel1.Name" xml:space="preserve">
+    <value>lineLabel1</value>
+  </data>
+  <data name="flowLayoutPanel2.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 32</value>
+  </data>
+  <data name="labelAppName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btn_RemoveGesture.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;colGestureName.Name" xml:space="preserve">
+    <value>colGestureName</value>
+  </data>
+  <data name="pictureSelectedApp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_recogonized.Name" xml:space="preserve">
+    <value>colorBtn_recogonized</value>
+  </data>
+  <data name="flowLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>189, 17</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkGestureView_fadeOut.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="picture_alipayCode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 232</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;group_Command.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;btn_RemoveGesture.Parent" xml:space="preserve">
+    <value>panel_intentListOperations</value>
+  </data>
+  <data name="&gt;&gt;listApps.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lineLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>329, 6</value>
+  </data>
+  <data name="&gt;&gt;comboBox1.Name" xml:space="preserve">
+    <value>comboBox1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="pictureSelectedApp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 2</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerStayTimeoutMillis.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 16</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="btn_checkUpdateNow.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="panel_commandView.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="listApps.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tb_updateLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkGestureViewShowPath.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 21</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 17</value>
+  </data>
+  <data name="&gt;&gt;group_Command.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="combo_CommandTypes.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei, 9pt</value>
+  </data>
+  <data name="checkGestureViewShowPath.Text" xml:space="preserve">
+    <value>轨迹</value>
+  </data>
+  <data name="label1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_unrecogonized.Name" xml:space="preserve">
+    <value>colorBtn_unrecogonized</value>
+  </data>
+  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>332, 35</value>
+  </data>
+  <data name="listApps.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei, 9pt</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;check_executeOnMouseWheeling.Parent" xml:space="preserve">
+    <value>flowLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;picture_logo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="linkLabel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkPathTrackerStayTimeout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="listApps.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="check_autoStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 21</value>
+  </data>
+  <data name="combo_CommandTypes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>66, 4</value>
+  </data>
+  <data name="&gt;&gt;num_pathTrackerInitialStayTimeoutMillis.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.InstantNumericUpDown, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>手 势</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="flowLayoutPanel4.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>RightToLeft</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 17</value>
+  </data>
+  <data name="&gt;&gt;btnAddGesture.Parent" xml:space="preserve">
+    <value>panel_intentListOperations</value>
+  </data>
+  <data name="&gt;&gt;check_autoCheckUpdate.Name" xml:space="preserve">
+    <value>check_autoCheckUpdate</value>
+  </data>
+  <data name="tabPage2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;combo_CommandTypes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="imglistAppIcons.ImageSize" type="System.Drawing.Size, System.Drawing">
+    <value>32, 32</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 132</value>
+  </data>
+  <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 0, 1, 0</value>
+  </data>
+  <data name="check_autoCheckUpdate.Text" xml:space="preserve">
+    <value>自动检查更新</value>
+  </data>
+  <data name="checkInheritGlobal.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="pic_menuBtn.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>flowLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;check_disableOnFullscreen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_executeOnMouseWheeling.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 21</value>
+  </data>
+  <data name="&gt;&gt;checkPathTrackerStayTimeout.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="numPathTrackerStayTimeoutMillis.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnEditApp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10.125pt, style=Bold</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="group_Command.Size" type="System.Drawing.Size, System.Drawing">
+    <value>340, 171</value>
+  </data>
+  <data name="&gt;&gt;numPathTrackerStayTimeoutMillis.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.InstantNumericUpDown, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btnAddGesture.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 10.125pt, style=Bold</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel6.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="numPathTrackerInitialValidMove.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;num_pathTrackerInitialStayTimeoutMillis.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="pic_menuBtn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;imglistAppIcons.Name" xml:space="preserve">
+    <value>imglistAppIcons</value>
+  </data>
+  <data name="btn_modifyGesture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;settingsFormControllerBindingSource.Name" xml:space="preserve">
+    <value>settingsFormControllerBindingSource</value>
+  </data>
+  <data name="&gt;&gt;check_executeOnMouseWheeling.Name" xml:space="preserve">
+    <value>check_executeOnMouseWheeling</value>
+  </data>
+  <data name="flowLayoutPanel2.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="colorBtn_recogonized.ToolTip" xml:space="preserve">
+    <value>手势被识别时，轨迹的颜色</value>
+  </data>
+  <data name="check_autoCheckUpdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 57</value>
+  </data>
+  <data name="checkGestureView_fadeOut.ToolTip" xml:space="preserve">
+    <value>手势执行后图形逐渐消失(而非突然消失)</value>
+  </data>
+  <data name="panel1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="listApps.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="lineLabel1.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 17</value>
+  </data>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;imglistAppIcons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="flowLayoutPanel5.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="btn_checkUpdateNow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>130, 53</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="picture_logo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabPage_general.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureSelectedApp.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnEditApp.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="flowLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>352, 400</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>551, 435</value>
+  </data>
+  <data name="groupBox2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="btnAppRemove.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;panel_commandView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnEditApp.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="flowLayoutPanel6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 18</value>
+  </data>
+  <data name="panel_commandView.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;checkGestureView_fadeOut.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="pictureSelectedApp.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="picture_logo.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="flowLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="tabPage_general.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="listGestureIntents.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;picture_logo.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;colorBtn_unrecogonized.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;btn_checkUpdateNow.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="tabPage2.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel2.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>525, 291</value>
+  </data>
+  <data name="&gt;&gt;colGestureName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_autoCheckUpdate.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="colorMiddle.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;lineLabel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label3.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnEditApp.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="flowLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="colorBtn_unrecogonized.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 210</value>
+  </data>
+  <data name="btnAddGesture.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;check_autoStart.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="btn_RemoveGesture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="label10.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panel_intentListOperations.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleRight</value>
+  </data>
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btn_RemoveGesture.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="linkLabel1.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="flowLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 488</value>
+  </data>
+  <data name="check_gesturingDisabled.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 2</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 25</value>
+  </data>
+  <data name="&gt;&gt;pictureSelectedApp.Name" xml:space="preserve">
+    <value>pictureSelectedApp</value>
+  </data>
+  <data name="&gt;&gt;menuItem_export.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>559, 471</value>
+  </data>
+  <data name="&gt;&gt;labelAppName.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="lb_Version.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 3</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkGestureViewShowPath.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;checkGestureViewShowCommandName.Name" xml:space="preserve">
+    <value>checkGestureViewShowCommandName</value>
+  </data>
+  <data name="check_disableOnFullscreen.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="colListAppDummy.Width" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>若WGestures对您有用，请考虑捐助支持该项目，以帮助我做得更好</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="btnAddApp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 20</value>
+  </data>
+  <data name="btnAddApp.IconPadding" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="pic_menuBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 24</value>
+  </data>
+  <data name="lineLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 59</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="tb_updateLog.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="&gt;&gt;operation.Name" xml:space="preserve">
+    <value>operation</value>
+  </data>
+  <data name="btnAddGesture.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>轨迹风格:</value>
+  </data>
+  <data name="&gt;&gt;listGestureIntents.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.AlwaysSelectedListView, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="checkInheritGlobal.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="num_pathTrackerInitialStayTimeoutMillis.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="check_gesturingDisabled.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>9, 2, 0, 2</value>
+  </data>
+  <data name="btn_modifyGesture.Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;btnAddGesture.Type" xml:space="preserve">
+    <value>WGestures.App.Gui.Windows.Controls.MetroButton, WGestures, Version=1.4.1.1, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="checkInheritGlobal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>253, 2</value>
+  </data>
+  <data name="menuItem_export.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 22</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkGestureViewShowCommandName.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel4.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="check_pathTrackerInitialStayTimeout.Text" xml:space="preserve">
+    <value>起始超时 (毫秒)</value>
+  </data>
+  <data name="tb_updateLog.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="checkGestureViewShowCommandName.Text" xml:space="preserve">
+    <value>手势名称</value>
+  </data>
   <metadata name="tip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>533, 17</value>
   </metadata>
-  <metadata name="settingsFormControllerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>167, 56</value>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en</value>
   </metadata>
-  <metadata name="dummyImgLstForLstViewHeightFix.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>293, 17</value>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ctx_gesturesMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 56</value>
   </metadata>
   <metadata name="imglistAppIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>154, 17</value>
   </metadata>
-  <metadata name="tip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>533, 17</value>
+  <metadata name="dummyImgLstForLstViewHeightFix.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>293, 17</value>
+  </metadata>
+  <metadata name="settingsFormControllerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>167, 56</value>
   </metadata>
   <metadata name="errorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>599, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>143</value>
-  </metadata>
-  <metadata name="ctx_gesturesMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
   </metadata>
 </root>
