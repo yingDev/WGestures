@@ -598,10 +598,14 @@ namespace WGestures.View.Impl.Windows
             if (origin.X > b.X) origin.X = b.X;
             if (origin.Y > b.Y) origin.Y = b.Y;
 
-            var ret = new Rectangle(origin.X - (int)(4 * _dpiFactor) - _screenBounds.X, 
-                (origin.Y - 4) - _screenBounds.Y,
-                Math.Abs(b.X - a.X) + (int)(8 * _dpiFactor), 
-                Math.Abs(b.Y - a.Y) + (int)(8 * _dpiFactor));
+            var thickness = _shadowPen.Width;
+            var halfThickness = thickness/2;
+
+            var ret = new Rectangle(
+                (int)(origin.X - halfThickness) - _screenBounds.X,
+                (int)(origin.Y - halfThickness) - _screenBounds.Y,
+                (int)(Math.Abs(b.X - a.X) + thickness),
+                (int)(Math.Abs(b.Y - a.Y) + thickness));
 
             ret.Intersect(new Rectangle(0, 0, _screenBounds.Width, _screenBounds.Height));
 
