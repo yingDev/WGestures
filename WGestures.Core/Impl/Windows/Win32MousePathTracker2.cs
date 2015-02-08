@@ -134,21 +134,13 @@ namespace WGestures.Core.Impl.Windows
             InitialStayTimeout = true;
             InitialStayTimeoutMillis = 150;
 
-            EffectiveMove = 20;
+            EffectiveMove = (int)(20 * Native.GetScreenDpi() / 96.0f) * 2;//todo: 增加灵敏度调整
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
             _mouseHook = new MouseHook();
             _mouseHook.MouseHookEvent += HookProc;
-            //_mouseHook.GotMessage += HookGotMessage;
 
-#if DEBUG
-            //_monitoringHook.MouseHookEvent += args =>
-           // {
-                //Debug.Write("M");
-            //};
-           // _monitoringHook.Install();
-#endif
         }
 
         public event Action<bool> RequestPauseResume;
