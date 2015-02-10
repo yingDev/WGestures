@@ -13,3 +13,7 @@ Visual Studio 2013, .Net Framework 3.5 SDK
 
 ###Build
 首次Build请先运行 `/makeTestCert.bat` 并按提示生成测试证书（根证书和签名证书分别自动拷贝到了  `/WGestures.App/cert/YingDevCA.cer` 和 `/YingDevSPC.pfx` ), 该证书会在BuildEvent中用于对生成的exe进行签名。
+
+###Todo
+ * 使用单独的AppDomain来完成IO和配置, 从而减小程序集占用的内存
+ * 消除Core对WinForms依赖, 使用Win32/Com替代NotifyIcon, Clippboard, Screen.
