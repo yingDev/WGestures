@@ -290,7 +290,8 @@ namespace WGestures.Core.Impl.Windows
             if (_isPaused) return;
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));
-            if (_simulatingMouse/*mouseData.dwExtraInfo.ToInt32() == MOUSE_EVENT_EXTRA_SIMULATED*/)
+            //fixme: 判断是否在模拟事件， 为什么不一定可靠？
+            if (_simulatingMouse || mouseData.dwExtraInfo.ToInt32() == MOUSE_EVENT_EXTRA_SIMULATED)
             {
                 Debug.WriteLine("Simulated:" + e.Msg);
                 if (InitialStayTimeout && _isInitialTimeout)
@@ -419,7 +420,9 @@ namespace WGestures.Core.Impl.Windows
             Debug.WriteLine("SimulateMouseEvent: " + _gestureBtn + " " + eventType);
             _simulatingMouse = true;
 
-            var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
+            User32.SetCursorPos(x, y);
+
+            var mouseSwapped = Native.IsMouseButtonSwapped();
 
             switch (_gestureBtn)
             {
