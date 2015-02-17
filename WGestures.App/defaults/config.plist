@@ -4,35 +4,21 @@
   <dict>
     <key>$$FileVersion</key>
     <string>1</string>
-    <key>AutoStart</key>
-    <true />
-    <key>IsFirstRun</key>
-    <true />
-    <key>PathTrackerInitialValidMove</key>
-    <integer>6</integer>
-    <key>PathTrackerStayTimeout</key>
-    <false />
-    <key>PathTrackerStayTimeoutMillis</key>
-    <integer>500</integer>
-    <key>GestureViewShowPath</key>
-    <true />
-    <key>GestureViewShowCommandName</key>
-    <true />
-    <key>GestureViewFadeOut</key>
-    <true />
-    <key>GestureViewMainPathColor</key>
-    <integer>-12337922</integer>
-    <key>GestureViewAlternativePathColor</key>
-    <integer>-65408</integer>
     <key>AutoCheckForUpdate</key>
     <true />
-    <key>PathTrackerInitialStayTimeout</key>
+    <key>AutoStart</key>
     <true />
-    <key>PathTrackerInitialStayTimoutMillis</key>
-    <integer>150</integer>
+    <key>PathTrackerGestureButton</key>
+    <integer>3</integer>
+    <key>PathTrackerStayTimeout</key>
+    <false />
     <key>GestureParserDisableInFullScreenMode</key>
     <true />
+    <key>GestureViewMainPathColor</key>
+    <integer>-14231820</integer>
     <key>GestureViewMiddleBtnMainColor</key>
-    <integer>-16729278</integer>
+    <integer>-9379830</integer>
+    <key>GestureViewAlternativePathColor</key>
+    <integer>-60653</integer>
   </dict>
 </plist>
