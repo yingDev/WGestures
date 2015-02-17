@@ -17,7 +17,7 @@ using ThreadState = System.Diagnostics.ThreadState;
 namespace WGestures.Core.Commands.Impl
 {
     [Named("执行快捷键")]
-    public class HotKeyCommand : AbstractCommand
+    public class HotKeyCommand : AbstractCommand, IGestureContextAware
     {
         public HotKeyCommand()
         {
@@ -85,9 +85,9 @@ namespace WGestures.Core.Commands.Impl
             {
                 Debug.WriteLine("* * Why Is fgWindow NULL?");
 
-                Native.POINT pt;
-                Native.GetCursorPos(out pt);
-                fgWindow = Native.WindowFromPoint(pt);
+                /*Native.POINT pt;
+                Native.GetCursorPos(out pt);*/
+                fgWindow = Native.WindowFromPoint(new Native.POINT(){x = Context.StartPoint.X, y = Context.StartPoint.Y});
 
                 if (fgWindow == IntPtr.Zero) return;
             }
@@ -283,5 +283,6 @@ namespace WGestures.Core.Commands.Impl
         }
 
 
+        public GestureContext Context { set; private get; }
     }
 }
