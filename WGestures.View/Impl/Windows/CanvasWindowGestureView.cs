@@ -87,6 +87,7 @@ namespace WGestures.View.Impl.Windows
         Pen _alternativePen;
         Pen _borderPen;
         Pen _shadowPen;
+        Pen _dirtyMarkerPen;
         Point _prevPoint;
         //Rectangle _pathDirtyRect;
         //Region _pathDirtyRegion = new Region();
@@ -176,6 +177,9 @@ namespace WGestures.View.Impl.Windows
             _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _shadowPen = new Pen(Color.FromArgb(30, 0, 0, 0), (widthBase + 5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _shadowPenWidth = _shadowPen.Width;
+            _dirtyMarkerPen = (Pen) _shadowPen.Clone();
+            _dirtyMarkerPen.Width *= 2;
+
             #endregion
         }
 
@@ -233,7 +237,7 @@ namespace WGestures.View.Impl.Windows
 
                     _gPathDirty.Reset();
                     _gPathDirty.AddLine(pA, pB);
-                    _gPathDirty.Widen(_shadowPen);
+                    _gPathDirty.Widen(_dirtyMarkerPen);
                 }
 
 
@@ -447,9 +451,12 @@ namespace WGestures.View.Impl.Windows
                     dirtyPath.Widen(_shadowPen);
                     g.SetClip(dirtyPath); 
                 }*/
-                _gPathDirty.Reset();
-                _gPathDirty.AddPath(_gPath, false);
-                _gPathDirty.Widen(_shadowPen);
+                if (_gPath.PointCount > 0)
+                {
+                    _gPathDirty.Reset();
+                    _gPathDirty.AddPath(_gPath, false);
+                    _gPathDirty.Widen(_dirtyMarkerPen);
+                }
 
             }// else g.SetClip(_pathDirtyRect);
             g.SetClip(_gPathDirty);
@@ -526,7 +533,7 @@ namespace WGestures.View.Impl.Windows
                 {
                     var g = _bitmap.BeginDraw();
 
-                    _gPath.Widen(_shadowPen);
+                    _gPath.Widen(_dirtyMarkerPen);
                     g.SetClip(_gPath);
                     g.Clear(Color.Transparent);
                     _bitmap.EndDraw();
@@ -725,6 +732,7 @@ namespace WGestures.View.Impl.Windows
             _borderPen.Dispose();
             _alternativePen.Dispose();
             _shadowPen.Dispose();
+            _dirtyMarkerPen.Dispose();
             #endregion
 
             if (_bitmap != null)
