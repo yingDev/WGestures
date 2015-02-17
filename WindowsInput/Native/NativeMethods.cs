@@ -90,6 +90,9 @@ namespace WindowsInput.Native
         [DllImport("user32.dll", SetLastError = true)]
         public static extern UInt32 SendInput(UInt32 numberOfInputs, INPUT[] inputs, Int32 sizeOfInputStructure);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public unsafe static extern UInt32 SendInput(UInt32 numberOfInputs, INPUT* inputs, Int32 sizeOfInputStructure);
+
         /// <summary>
         /// The GetMessageExtraInfo function retrieves the extra message information for the current thread. Extra message information is an application- or driver-defined value associated with the current thread's message queue. 
         /// </summary>

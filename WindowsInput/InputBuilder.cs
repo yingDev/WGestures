@@ -20,7 +20,7 @@ namespace WindowsInput
         /// </summary>
         public InputBuilder()
         {
-            _inputList = new List<INPUT>();
+            _inputList = new List<INPUT>(4);
         }
 
         /// <summary>
@@ -137,6 +137,57 @@ namespace WindowsInput
 
             _inputList.Add(down);
             return this;
+        }
+
+        public static INPUT MakeKeyDown(VirtualKeyCode keyCode)
+        {
+            uint VirtualScanCode = Native.NativeMethods.MapVirtualKey((uint)(keyCode), (uint)(Native.NativeMethods.MAPVK.MAPVK_VK_TO_VSC));
+
+            var down =
+                new INPUT
+                {
+                    Type = (UInt32)InputType.Keyboard,
+                    Data =
+                    {
+                        Keyboard =
+                            new KEYBDINPUT
+                            {
+                                KeyCode = (UInt16)keyCode,
+                                Scan = (ushort)(VirtualScanCode),
+                                Flags = IsExtendedKey(keyCode) ? (UInt32)KeyboardFlag.ExtendedKey : 0,
+                                Time = 0,
+                                ExtraInfo = IntPtr.Zero
+                            }
+                    }
+                };
+
+            return down;
+        }
+
+        public static INPUT MakeKeyUp(VirtualKeyCode keyCode)
+        {
+            uint VirtualScanCode = Native.NativeMethods.MapVirtualKey((uint)(keyCode), (uint)(Native.NativeMethods.MAPVK.MAPVK_VK_TO_VSC));
+            var up =
+                new INPUT
+                {
+                    Type = (UInt32)InputType.Keyboard,
+                    Data =
+                    {
+                        Keyboard =
+                            new KEYBDINPUT
+                            {
+                                KeyCode = (UInt16)keyCode,
+                                Scan = (ushort)VirtualScanCode,
+                                Flags = (UInt32)(IsExtendedKey(keyCode)
+                                                      ? KeyboardFlag.KeyUp | KeyboardFlag.ExtendedKey
+                                                      : KeyboardFlag.KeyUp),
+                                Time = 0,
+                                ExtraInfo = IntPtr.Zero
+                            }
+                    }
+                };
+
+            return up;
         }
 
         /// <summary>

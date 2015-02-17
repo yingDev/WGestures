@@ -16,5 +16,7 @@ namespace WindowsInput
         /// <exception cref="ArgumentNullException">If the <paramref name="inputs"/> array is null.</exception>
         /// <exception cref="Exception">If the any of the commands in the <paramref name="inputs"/> array could not be sent successfully.</exception>
         void DispatchInput(INPUT[] inputs);
+
+        unsafe void DispatchInput(INPUT* inputs, uint count);
     }
 }

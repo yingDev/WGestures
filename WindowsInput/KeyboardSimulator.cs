@@ -90,8 +90,15 @@ namespace WindowsInput
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to press</param>
         public IKeyboardSimulator KeyDown(VirtualKeyCode keyCode)
         {
-            var inputList = new InputBuilder().AddKeyDown(keyCode).ToArray();
-            SendSimulatedInput(inputList);
+            //var inputList = new InputBuilder().AddKeyDown(keyCode).ToArray();
+            unsafe
+            {
+                var input = stackalloc INPUT[1];
+                input[0] = InputBuilder.MakeKeyDown(keyCode);
+                _messageDispatcher.DispatchInput(input, 1);
+
+            }
+            
             return this;
         }
 
@@ -101,8 +108,13 @@ namespace WindowsInput
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to lift up</param>
         public IKeyboardSimulator KeyUp(VirtualKeyCode keyCode)
         {
-            var inputList = new InputBuilder().AddKeyUp(keyCode).ToArray();
-            SendSimulatedInput(inputList);
+            unsafe
+            {
+                var input = stackalloc INPUT[1];
+                input[0] = InputBuilder.MakeKeyUp(keyCode);
+                _messageDispatcher.DispatchInput(input, 1);
+
+            }
             return this;
         }
 
