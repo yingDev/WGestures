@@ -339,7 +339,7 @@ namespace WGestures.App.Gui.Windows
             var app = GetSelectedAppOrGlobal();
             if (app == null) return;
 
-            using (var addGestureForm = new AddGestureForm(Controller.GestureParser))
+            using (var addGestureForm = new EditGestureForm(Controller.GestureParser))
             {
 
                 var ok = addGestureForm.ShowDialog();
@@ -442,7 +442,42 @@ namespace WGestures.App.Gui.Windows
 
         private void btn_modifyGesture_Click(object sender, EventArgs e)
         {
-            listGestureIntents.SelectedItems[0].BeginEdit();
+            var app = GetSelectedAppOrGlobal();
+            var intent = GetSelectedGestureIntent();
+
+            using (var editFrm = new EditGestureForm(Controller.GestureParser, app, intent))
+            {
+                var result = editFrm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    var found = app.Find(editFrm.CapturedGesture);
+                    if (found != null && found != intent)
+                    {
+                        foreach (ListViewItem item in listGestureIntents.Items)
+                        {
+                            if (item.Tag == found)
+                            {
+                                item.Remove();
+                            }
+                        }
+                        app.Remove(found);
+                    }
+
+                    app.Remove(intent); //因为app内部是按gesture为key存储的， 无法单独修改key
+
+                    intent.Gesture = editFrm.CapturedGesture;
+                    intent.Name = editFrm.GestureName;
+                    app.Add(intent);
+
+                    var editingItem = listGestureIntents.SelectedItem;
+                    editingItem.Text = intent.Name;
+                    editingItem.SubItems[1].Text = intent.Gesture.ToString();
+                    editingItem.EnsureVisible();
+                    listGestureIntents.Focus();
+                }
+            }
+
+            //listGestureIntents.SelectedItems[0].BeginEdit();
         }
 
         private void check_executeOnMouseWheeling_CheckedChanged(object sender, EventArgs e)
@@ -1107,6 +1142,11 @@ namespace WGestures.App.Gui.Windows
         private void combo_GestureTriggerButton_SelectedIndexChanged(object sender, EventArgs e)
         {
             combo_GestureTriggerButton.DataBindings[0].WriteValue();
+        }
+
+        private void listGestureIntents_DoubleClick(object sender, EventArgs e)
+        {
+            btn_modifyGesture.PerformClick();
         }
 
     }

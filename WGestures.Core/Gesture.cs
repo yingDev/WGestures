@@ -9,7 +9,7 @@ namespace WGestures.Core
     /// </summary>
     public class Gesture
     {
-        private static readonly char[] dirs = { '上', '↗', '右', '↘', '下', '↙', '左', '↖' };
+        private static readonly char[] dirs = { '↑', '↗', '→', '↘', '↓', '↙', '←', '↖' };
 
         public GestureButtons GestureButton { get; set; }
         
@@ -81,6 +81,8 @@ namespace WGestures.Core
                 o.GestureButton == GestureButton &&
                 Dirs.SequenceEqual(o.Dirs) && Modifier == o.Modifier;
         }
+
+ 
 
         public enum GestureDir
         {

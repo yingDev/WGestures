@@ -234,10 +234,11 @@ namespace WGestures.App.Gui.Windows
             this.label3.Location = new System.Drawing.Point(296, 60);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 16);
+            this.label3.Size = new System.Drawing.Size(74, 16);
             this.label3.TabIndex = 16;
-            this.label3.Text = "手势键:";
+            this.label3.Text = "手势触发键";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tip.SetToolTip(this.label3, "允许哪个鼠标按钮触发手势？");
             // 
             // combo_GestureTriggerButton
             // 
@@ -246,11 +247,12 @@ namespace WGestures.App.Gui.Windows
             this.combo_GestureTriggerButton.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.combo_GestureTriggerButton.FormattingEnabled = true;
             this.combo_GestureTriggerButton.ItemHeight = 17;
-            this.combo_GestureTriggerButton.Location = new System.Drawing.Point(352, 57);
+            this.combo_GestureTriggerButton.Location = new System.Drawing.Point(372, 57);
             this.combo_GestureTriggerButton.Margin = new System.Windows.Forms.Padding(1);
             this.combo_GestureTriggerButton.Name = "combo_GestureTriggerButton";
-            this.combo_GestureTriggerButton.Size = new System.Drawing.Size(135, 25);
+            this.combo_GestureTriggerButton.Size = new System.Drawing.Size(116, 25);
             this.combo_GestureTriggerButton.TabIndex = 15;
+            this.tip.SetToolTip(this.combo_GestureTriggerButton, "允许哪个鼠标按钮触发手势？");
             this.combo_GestureTriggerButton.SelectedIndexChanged += new System.EventHandler(this.combo_GestureTriggerButton_SelectedIndexChanged);
             // 
             // settingsFormControllerBindingSource
@@ -353,7 +355,7 @@ namespace WGestures.App.Gui.Windows
             this.colorMiddle.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewMiddleBtnMainColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.colorMiddle.Font = new System.Drawing.Font("SimSun", 8.25F);
             this.colorMiddle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.colorMiddle.Location = new System.Drawing.Point(162, 210);
+            this.colorMiddle.Location = new System.Drawing.Point(162, 214);
             this.colorMiddle.Margin = new System.Windows.Forms.Padding(1);
             this.colorMiddle.Name = "colorMiddle";
             this.colorMiddle.Size = new System.Drawing.Size(60, 42);
@@ -367,7 +369,7 @@ namespace WGestures.App.Gui.Windows
             this.colorBtn_recogonized.Color = System.Drawing.Color.MediumTurquoise;
             this.colorBtn_recogonized.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewMainPathColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.colorBtn_recogonized.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.colorBtn_recogonized.Location = new System.Drawing.Point(89, 210);
+            this.colorBtn_recogonized.Location = new System.Drawing.Point(89, 214);
             this.colorBtn_recogonized.Margin = new System.Windows.Forms.Padding(1);
             this.colorBtn_recogonized.Name = "colorBtn_recogonized";
             this.colorBtn_recogonized.Size = new System.Drawing.Size(60, 42);
@@ -382,7 +384,7 @@ namespace WGestures.App.Gui.Windows
             this.colorBtn_unrecogonized.Color = System.Drawing.Color.DeepPink;
             this.colorBtn_unrecogonized.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewAlternativePathColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.colorBtn_unrecogonized.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.colorBtn_unrecogonized.Location = new System.Drawing.Point(232, 210);
+            this.colorBtn_unrecogonized.Location = new System.Drawing.Point(232, 214);
             this.colorBtn_unrecogonized.Margin = new System.Windows.Forms.Padding(1);
             this.colorBtn_unrecogonized.Name = "colorBtn_unrecogonized";
             this.colorBtn_unrecogonized.Size = new System.Drawing.Size(60, 42);
@@ -767,6 +769,7 @@ namespace WGestures.App.Gui.Windows
             this.listGestureIntents.View = System.Windows.Forms.View.Details;
             this.listGestureIntents.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.listGestureIntents_AfterLabelEdit);
             this.listGestureIntents.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listGestureIntents_ItemSelectionChanged);
+            this.listGestureIntents.DoubleClick += new System.EventHandler(this.listGestureIntents_DoubleClick);
             // 
             // colGestureName
             // 

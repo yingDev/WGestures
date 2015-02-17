@@ -67,8 +67,10 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
@@ -141,11 +143,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Gui\Windows\AddGestureForm.cs">
+    <Compile Include="Gui\Windows\EditGestureForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Gui\Windows\AddGestureForm.Designer.cs">
-      <DependentUpon>AddGestureForm.cs</DependentUpon>
+    <Compile Include="Gui\Windows\EditGestureForm.Designer.cs">
+      <DependentUpon>EditGestureForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Windows\CommandViews\GeneralNoParameterCommandView.cs">
       <SubType>UserControl</SubType>
@@ -238,8 +240,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Gui\Windows\AddGestureForm.en.resx">
-      <DependentUpon>AddGestureForm.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Windows\EditGestureForm.en.resx">
+      <DependentUpon>EditGestureForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Windows\CommandViews\CmdCommandView.resx">
       <DependentUpon>CmdCommandView.cs</DependentUpon>
@@ -279,8 +281,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Windows\AddGestureForm.resx">
-      <DependentUpon>AddGestureForm.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Windows\EditGestureForm.resx">
+      <DependentUpon>EditGestureForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Windows\CommandViews\CommandViewUserControl.resx">
       <DependentUpon>CommandViewUserControl.cs</DependentUpon>
