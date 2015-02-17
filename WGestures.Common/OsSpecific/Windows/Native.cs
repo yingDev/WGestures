@@ -75,6 +75,12 @@ namespace WGestures.Common.OsSpecific.Windows
             return procId;
         }
 
+        public static bool IsMouseButtonSwapped()
+        {
+            return GetSystemMetrics(SystemMetric.SM_SWAPBUTTON) != 0;
+            
+        }
+
         /*public static int GetParentProcessId(uint pid)
         {
             PROCESS_BASIC_INFORMATION pbi = new PROCESS_BASIC_INFORMATION();

@@ -64,6 +64,9 @@ namespace WGestures.App
             }
             catch (Exception e)
             {
+#if DEBUG
+                throw e;
+#endif
                 ShowFatalError(e);
             }
             finally { Dispose(); }
@@ -73,6 +76,11 @@ namespace WGestures.App
         {
             new Thread(() =>
             {
+
+#if DEBUG
+                gestureParser.Start();
+
+#else
                 try
                 {
                     gestureParser.Start();
@@ -81,6 +89,8 @@ namespace WGestures.App
                 {
                     ShowFatalError(e);
                 }
+#endif
+                
             }) {Name = "Parser线程", IsBackground = false}.Start();
         }
 
@@ -246,7 +256,7 @@ namespace WGestures.App
             #endregion
 
             #region pathTracker
-            //pathTracker.GestureButton = (Win32MousePathTracker2.GestureButtons)config.Get(ConfigKeys.PathTrackerGestureButton, 0);
+            pathTracker.TriggerButton = (Win32MousePathTracker2.GestureTriggerButton)config.Get(ConfigKeys.PathTrackerTriggerButton, Win32MousePathTracker2.GestureTriggerButton.Right);
             pathTracker.InitialValidMove = config.Get(ConfigKeys.PathTrackerInitialValidMove, 4);
             pathTracker.StayTimeout = config.Get(ConfigKeys.PathTrackerStayTimeout, true);
             pathTracker.StayTimeoutMillis = config.Get(ConfigKeys.PathTrackerStayTimeoutMillis, 500);

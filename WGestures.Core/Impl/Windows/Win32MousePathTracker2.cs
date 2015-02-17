@@ -22,8 +22,7 @@ namespace WGestures.Core.Impl.Windows
         /// <summary>
         /// 获取和设置哪个鼠标键引发手势
         /// </summary>
-        [Obsolete("不在使用单个按键作为手势键")]
-        public GestureButtons GestureButton { get; set; }
+        public GestureTriggerButton TriggerButton { get; set; }
 
         /// <summary>
         ///获取和设置鼠标键按下后至少移动多少距离才开始跟踪手势，单位为像素 
@@ -150,7 +149,7 @@ namespace WGestures.Core.Impl.Windows
             var dpiFactor = Native.GetScreenDpi()/96.0f;
             
             //properties defaults
-            //GestureButton = GestureButtons.RightButton;
+            TriggerButton = /*GestureButtons.RightButton |*/ GestureTriggerButton.Middle;
             InitialValidMove = (int)(10 * dpiFactor);
             InitialStayTimeout = true;
             InitialStayTimeoutMillis = 150;
@@ -311,7 +310,12 @@ namespace WGestures.Core.Impl.Windows
                 case MouseMsg.WM_RBUTTONDOWN:
                 case MouseMsg.WM_MBUTTONDOWN:
                     if (!_captured)
-                    {                        
+                    {
+                        if (m == MouseMsg.WM_MBUTTONDOWN && (TriggerButton & GestureTriggerButton.Middle) != GestureTriggerButton.Middle
+                            || m == MouseMsg.WM_RBUTTONDOWN && (TriggerButton & GestureTriggerButton.Right) != GestureTriggerButton.Right)
+                        {
+                            return;
+                        }
                         try
                         {
                             //notice: 这个方法在钩子线程中运行，因此必须足够快，而且不能失败
@@ -829,6 +833,13 @@ namespace WGestures.Core.Impl.Windows
 
             PAUSE_RESUME = WM_USER + 8
         }
+
+        [Flags]
+        public enum GestureTriggerButton
+        {
+            Right = 1, Middle = 2
+        }
+
 
 
         #endregion

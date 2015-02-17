@@ -10,7 +10,7 @@ namespace WGestures.App
         public const string AutoStart = "AutoStart";
         public const string AutoCheckForUpdate = "AutoCheckForUpdate";
 
-        public const string PathTrackerGestureButton = "PathTrackerGestureButton";
+        public const string PathTrackerTriggerButton = "PathTrackerGestureButton";
         public const string PathTrackerInitialValidMove = "PathTrackerInitialValidMove";
         public const string PathTrackerStayTimeout = "PathTrackerStayTimeout";
         public const string PathTrackerStayTimeoutMillis = "PathTrackerStayTimeoutMillis";

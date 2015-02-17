@@ -139,23 +139,43 @@ namespace WGestures.App.Gui.Windows
         /// <summary>
         /// 获取或设置哪一个鼠标按键作为手势键
         /// </summary>
-//        public int PathTrackerGestureButton
-//        {
-//            get
-//            {
-//                return (int)_pathTracker.GestureButton; 
-//            }
-//
-//            set
-//            {
-//                if (value == PathTrackerGestureButton) return;
-//
-//                _pathTracker.GestureButton = (Win32MousePathTracker2.GestureButtons)value;
-//                _config.Set(ConfigKeys.PathTrackerGestureButton, (int)_pathTracker.GestureButton);
-//
-//                OnPropertyChanged("PathTrackerGestureButton");
-//            }
-//        }
+        public string PathTrackerTriggerButton
+        {
+            get
+            {
+                switch (_pathTracker.TriggerButton)
+                {
+                    case Win32MousePathTracker2.GestureTriggerButton.Middle:
+                        return "中键";
+                    case Win32MousePathTracker2.GestureTriggerButton.Right:
+                        return Native.IsMouseButtonSwapped() ? "左键" : "右键";
+                    case Win32MousePathTracker2.GestureTriggerButton.Middle | Win32MousePathTracker2.GestureTriggerButton.Right:
+                        return (Native.IsMouseButtonSwapped() ? "左键" : "右键") + "和中键";
+                }
+                throw new InvalidOperationException("wtf？ 怎么会到这里?");
+            }
+
+            set
+            {
+                if (value == PathTrackerTriggerButton) return;
+                if (value.Contains("左键") || value.Contains("右键"))
+                {
+                    _pathTracker.TriggerButton = Win32MousePathTracker2.GestureTriggerButton.Right;
+                    if (value.Contains("中键"))
+                    {
+                        _pathTracker.TriggerButton |= Win32MousePathTracker2.GestureTriggerButton.Middle;
+                    }
+                }
+                else
+                {
+                    _pathTracker.TriggerButton = Win32MousePathTracker2.GestureTriggerButton.Middle;
+                }
+
+                _config.Set(ConfigKeys.PathTrackerTriggerButton, (int)_pathTracker.TriggerButton);
+
+                OnPropertyChanged("PathTrackerTriggerButton");
+            }
+        }
         /// <summary>
         /// 获取或设置出示有效移动距离
         /// </summary>
@@ -429,6 +449,7 @@ namespace WGestures.App.Gui.Windows
                 Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
             }*/
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+            GC.WaitForPendingFinalizers();
 
         }
 

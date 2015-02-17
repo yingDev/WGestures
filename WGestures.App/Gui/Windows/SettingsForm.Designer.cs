@@ -60,14 +60,15 @@ namespace WGestures.App.Gui.Windows
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_general = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.combo_GestureTriggerButton = new System.Windows.Forms.ComboBox();
+            this.settingsFormControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.lineLabel2 = new WGestures.App.Gui.Windows.Controls.LineLabel();
             this.check_disableOnFullscreen = new System.Windows.Forms.CheckBox();
-            this.settingsFormControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.num_pathTrackerInitialStayTimeoutMillis = new WGestures.App.Gui.Windows.Controls.InstantNumericUpDown();
             this.check_pathTrackerInitialStayTimeout = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -138,8 +139,6 @@ namespace WGestures.App.Gui.Windows
             this.ctx_gesturesMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItem_import = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_export = new System.Windows.Forms.ToolStripMenuItem();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.tabControl.SuspendLayout();
             this.tabPage_general.SuspendLayout();
@@ -171,35 +170,37 @@ namespace WGestures.App.Gui.Windows
             // 
             // tabControl
             // 
-            resources.ApplyResources(this.tabControl, "tabControl");
             this.tabControl.Controls.Add(this.tabPage_general);
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage1);
-            this.errorProvider.SetError(this.tabControl, resources.GetString("tabControl.Error"));
-            this.errorProvider.SetIconAlignment(this.tabControl, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabControl.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.tabControl, ((int)(resources.GetObject("tabControl.IconPadding"))));
+            this.tabControl.ItemSize = new System.Drawing.Size(250, 28);
+            this.tabControl.Location = new System.Drawing.Point(9, 9);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(8);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
+            this.tabControl.Padding = new System.Drawing.Point(20, 3);
             this.tabControl.SelectedIndex = 0;
-            this.tip.SetToolTip(this.tabControl, resources.GetString("tabControl.ToolTip"));
+            this.tabControl.Size = new System.Drawing.Size(559, 471);
+            this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tabPage_general
             // 
-            resources.ApplyResources(this.tabPage_general, "tabPage_general");
             this.tabPage_general.BackColor = System.Drawing.Color.White;
             this.tabPage_general.Controls.Add(this.groupBox2);
             this.tabPage_general.Controls.Add(this.groupBox1);
-            this.errorProvider.SetError(this.tabPage_general, resources.GetString("tabPage_general.Error"));
-            this.errorProvider.SetIconAlignment(this.tabPage_general, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabPage_general.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.tabPage_general, ((int)(resources.GetObject("tabPage_general.IconPadding"))));
+            this.tabPage_general.Location = new System.Drawing.Point(4, 32);
+            this.tabPage_general.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage_general.Name = "tabPage_general";
+            this.tabPage_general.Size = new System.Drawing.Size(551, 435);
+            this.tabPage_general.TabIndex = 0;
             this.tabPage_general.Tag = "general";
-            this.tip.SetToolTip(this.tabPage_general, resources.GetString("tabPage_general.ToolTip"));
+            this.tabPage_general.Text = "选 项";
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.combo_GestureTriggerButton);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.lineLabel2);
             this.groupBox2.Controls.Add(this.check_disableOnFullscreen);
@@ -218,61 +219,88 @@ namespace WGestures.App.Gui.Windows
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label1);
-            this.errorProvider.SetError(this.groupBox2, resources.GetString("groupBox2.Error"));
-            this.errorProvider.SetIconAlignment(this.groupBox2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("groupBox2.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.groupBox2, ((int)(resources.GetObject("groupBox2.IconPadding"))));
+            this.groupBox2.Location = new System.Drawing.Point(15, 132);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(1);
+            this.groupBox2.Size = new System.Drawing.Size(525, 291);
+            this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.tip.SetToolTip(this.groupBox2, resources.GetString("groupBox2.ToolTip"));
+            this.groupBox2.Text = "手势";
             // 
-            // label2
+            // label3
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.errorProvider.SetError(this.label2, resources.GetString("label2.Error"));
-            this.errorProvider.SetIconAlignment(this.label2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label2.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label2, ((int)(resources.GetObject("label2.IconPadding"))));
-            this.label2.Name = "label2";
-            this.tip.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
+            this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label3.Location = new System.Drawing.Point(296, 60);
+            this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 16);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "手势键:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lineLabel2
+            // combo_GestureTriggerButton
             // 
-            resources.ApplyResources(this.lineLabel2, "lineLabel2");
-            this.errorProvider.SetError(this.lineLabel2, resources.GetString("lineLabel2.Error"));
-            this.lineLabel2.ForeColor = System.Drawing.Color.Gainsboro;
-            this.errorProvider.SetIconAlignment(this.lineLabel2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lineLabel2.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.lineLabel2, ((int)(resources.GetObject("lineLabel2.IconPadding"))));
-            this.lineLabel2.IsVertical = true;
-            this.lineLabel2.Name = "lineLabel2";
-            this.tip.SetToolTip(this.lineLabel2, resources.GetString("lineLabel2.ToolTip"));
-            // 
-            // check_disableOnFullscreen
-            // 
-            resources.ApplyResources(this.check_disableOnFullscreen, "check_disableOnFullscreen");
-            this.check_disableOnFullscreen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureParserDisableInFullScreenMode", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.check_disableOnFullscreen, resources.GetString("check_disableOnFullscreen.Error"));
-            this.errorProvider.SetIconAlignment(this.check_disableOnFullscreen, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("check_disableOnFullscreen.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.check_disableOnFullscreen, ((int)(resources.GetObject("check_disableOnFullscreen.IconPadding"))));
-            this.check_disableOnFullscreen.Name = "check_disableOnFullscreen";
-            this.tip.SetToolTip(this.check_disableOnFullscreen, resources.GetString("check_disableOnFullscreen.ToolTip"));
-            this.check_disableOnFullscreen.UseVisualStyleBackColor = true;
+            this.combo_GestureTriggerButton.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.settingsFormControllerBindingSource, "PathTrackerTriggerButton", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.combo_GestureTriggerButton.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_GestureTriggerButton.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.combo_GestureTriggerButton.FormattingEnabled = true;
+            this.combo_GestureTriggerButton.ItemHeight = 17;
+            this.combo_GestureTriggerButton.Location = new System.Drawing.Point(352, 57);
+            this.combo_GestureTriggerButton.Margin = new System.Windows.Forms.Padding(1);
+            this.combo_GestureTriggerButton.Name = "combo_GestureTriggerButton";
+            this.combo_GestureTriggerButton.Size = new System.Drawing.Size(135, 25);
+            this.combo_GestureTriggerButton.TabIndex = 15;
+            this.combo_GestureTriggerButton.SelectedIndexChanged += new System.EventHandler(this.combo_GestureTriggerButton_SelectedIndexChanged);
             // 
             // settingsFormControllerBindingSource
             // 
             this.settingsFormControllerBindingSource.DataSource = typeof(WGestures.App.Gui.Windows.SettingsFormController);
             // 
+            // label2
+            // 
+            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label2.Location = new System.Drawing.Point(296, 32);
+            this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 16);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "使用习惯:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lineLabel2
+            // 
+            this.lineLabel2.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lineLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lineLabel2.IsVertical = true;
+            this.lineLabel2.Location = new System.Drawing.Point(268, 30);
+            this.lineLabel2.Name = "lineLabel2";
+            this.lineLabel2.Size = new System.Drawing.Size(18, 112);
+            this.lineLabel2.TabIndex = 13;
+            // 
+            // check_disableOnFullscreen
+            // 
+            this.check_disableOnFullscreen.AutoSize = true;
+            this.check_disableOnFullscreen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureParserDisableInFullScreenMode", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.check_disableOnFullscreen.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_disableOnFullscreen.Location = new System.Drawing.Point(91, 121);
+            this.check_disableOnFullscreen.Margin = new System.Windows.Forms.Padding(1);
+            this.check_disableOnFullscreen.Name = "check_disableOnFullscreen";
+            this.check_disableOnFullscreen.Size = new System.Drawing.Size(135, 21);
+            this.check_disableOnFullscreen.TabIndex = 12;
+            this.check_disableOnFullscreen.Text = "全屏时自动禁用手势";
+            this.check_disableOnFullscreen.UseVisualStyleBackColor = true;
+            // 
             // num_pathTrackerInitialStayTimeoutMillis
             // 
-            resources.ApplyResources(this.num_pathTrackerInitialStayTimeoutMillis, "num_pathTrackerInitialStayTimeoutMillis");
             this.num_pathTrackerInitialStayTimeoutMillis.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.settingsFormControllerBindingSource, "PathTrackerInitalStayTimeoutMillis", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.num_pathTrackerInitialStayTimeoutMillis.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.settingsFormControllerBindingSource, "PathTrackerInitialStayTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.num_pathTrackerInitialStayTimeoutMillis, resources.GetString("num_pathTrackerInitialStayTimeoutMillis.Error"));
-            this.errorProvider.SetIconAlignment(this.num_pathTrackerInitialStayTimeoutMillis, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("num_pathTrackerInitialStayTimeoutMillis.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.num_pathTrackerInitialStayTimeoutMillis, ((int)(resources.GetObject("num_pathTrackerInitialStayTimeoutMillis.IconPadding"))));
             this.num_pathTrackerInitialStayTimeoutMillis.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
+            this.num_pathTrackerInitialStayTimeoutMillis.Location = new System.Drawing.Point(203, 61);
             this.num_pathTrackerInitialStayTimeoutMillis.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -284,7 +312,9 @@ namespace WGestures.App.Gui.Windows
             0,
             0});
             this.num_pathTrackerInitialStayTimeoutMillis.Name = "num_pathTrackerInitialStayTimeoutMillis";
-            this.tip.SetToolTip(this.num_pathTrackerInitialStayTimeoutMillis, resources.GetString("num_pathTrackerInitialStayTimeoutMillis.ToolTip"));
+            this.num_pathTrackerInitialStayTimeoutMillis.Size = new System.Drawing.Size(51, 23);
+            this.num_pathTrackerInitialStayTimeoutMillis.TabIndex = 11;
+            this.tip.SetToolTip(this.num_pathTrackerInitialStayTimeoutMillis, "若按下右键后超过此时间未移动，则执行正常右键拖拽操作");
             this.num_pathTrackerInitialStayTimeoutMillis.Value = new decimal(new int[] {
             150,
             0,
@@ -293,76 +323,84 @@ namespace WGestures.App.Gui.Windows
             // 
             // check_pathTrackerInitialStayTimeout
             // 
-            resources.ApplyResources(this.check_pathTrackerInitialStayTimeout, "check_pathTrackerInitialStayTimeout");
+            this.check_pathTrackerInitialStayTimeout.AutoSize = true;
             this.check_pathTrackerInitialStayTimeout.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerInitialStayTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.check_pathTrackerInitialStayTimeout, resources.GetString("check_pathTrackerInitialStayTimeout.Error"));
-            this.errorProvider.SetIconAlignment(this.check_pathTrackerInitialStayTimeout, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("check_pathTrackerInitialStayTimeout.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.check_pathTrackerInitialStayTimeout, ((int)(resources.GetObject("check_pathTrackerInitialStayTimeout.IconPadding"))));
+            this.check_pathTrackerInitialStayTimeout.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_pathTrackerInitialStayTimeout.Location = new System.Drawing.Point(91, 59);
+            this.check_pathTrackerInitialStayTimeout.Margin = new System.Windows.Forms.Padding(1);
             this.check_pathTrackerInitialStayTimeout.Name = "check_pathTrackerInitialStayTimeout";
-            this.tip.SetToolTip(this.check_pathTrackerInitialStayTimeout, resources.GetString("check_pathTrackerInitialStayTimeout.ToolTip"));
+            this.check_pathTrackerInitialStayTimeout.Size = new System.Drawing.Size(111, 21);
+            this.check_pathTrackerInitialStayTimeout.TabIndex = 10;
+            this.check_pathTrackerInitialStayTimeout.Text = "起始超时 (毫秒)";
+            this.tip.SetToolTip(this.check_pathTrackerInitialStayTimeout, "若按下右键后超过此时间未移动，则执行正常右键拖拽操作");
             this.check_pathTrackerInitialStayTimeout.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
-            resources.ApplyResources(this.label9, "label9");
-            this.errorProvider.SetError(this.label9, resources.GetString("label9.Error"));
-            this.errorProvider.SetIconAlignment(this.label9, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label9.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label9, ((int)(resources.GetObject("label9.IconPadding"))));
+            this.label9.AutoSize = true;
+            this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label9.Location = new System.Drawing.Point(87, 190);
+            this.label9.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label9.Name = "label9";
-            this.tip.SetToolTip(this.label9, resources.GetString("label9.ToolTip"));
+            this.label9.Size = new System.Drawing.Size(59, 17);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "轨迹风格:";
             // 
             // colorMiddle
             // 
-            resources.ApplyResources(this.colorMiddle, "colorMiddle");
             this.colorMiddle.BackColor = System.Drawing.Color.White;
             this.colorMiddle.Color = System.Drawing.Color.YellowGreen;
             this.colorMiddle.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewMiddleBtnMainColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.colorMiddle, resources.GetString("colorMiddle.Error"));
-            this.errorProvider.SetIconAlignment(this.colorMiddle, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("colorMiddle.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.colorMiddle, ((int)(resources.GetObject("colorMiddle.IconPadding"))));
+            this.colorMiddle.Font = new System.Drawing.Font("SimSun", 8.25F);
+            this.colorMiddle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.colorMiddle.Location = new System.Drawing.Point(162, 210);
+            this.colorMiddle.Margin = new System.Windows.Forms.Padding(1);
             this.colorMiddle.Name = "colorMiddle";
-            this.tip.SetToolTip(this.colorMiddle, resources.GetString("colorMiddle.ToolTip"));
+            this.colorMiddle.Size = new System.Drawing.Size(60, 42);
+            this.colorMiddle.TabIndex = 8;
+            this.colorMiddle.Text = "已识别\r\n(中键)";
             this.colorMiddle.UseVisualStyleBackColor = false;
             // 
             // colorBtn_recogonized
             // 
-            resources.ApplyResources(this.colorBtn_recogonized, "colorBtn_recogonized");
             this.colorBtn_recogonized.BackColor = System.Drawing.Color.White;
             this.colorBtn_recogonized.Color = System.Drawing.Color.MediumTurquoise;
             this.colorBtn_recogonized.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewMainPathColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.colorBtn_recogonized, resources.GetString("colorBtn_recogonized.Error"));
-            this.errorProvider.SetIconAlignment(this.colorBtn_recogonized, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("colorBtn_recogonized.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.colorBtn_recogonized, ((int)(resources.GetObject("colorBtn_recogonized.IconPadding"))));
+            this.colorBtn_recogonized.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.colorBtn_recogonized.Location = new System.Drawing.Point(89, 210);
+            this.colorBtn_recogonized.Margin = new System.Windows.Forms.Padding(1);
             this.colorBtn_recogonized.Name = "colorBtn_recogonized";
-            this.tip.SetToolTip(this.colorBtn_recogonized, resources.GetString("colorBtn_recogonized.ToolTip"));
+            this.colorBtn_recogonized.Size = new System.Drawing.Size(60, 42);
+            this.colorBtn_recogonized.TabIndex = 8;
+            this.colorBtn_recogonized.Text = "已识别";
+            this.tip.SetToolTip(this.colorBtn_recogonized, "手势被识别时，轨迹的颜色");
             this.colorBtn_recogonized.UseVisualStyleBackColor = false;
             // 
             // colorBtn_unrecogonized
             // 
-            resources.ApplyResources(this.colorBtn_unrecogonized, "colorBtn_unrecogonized");
             this.colorBtn_unrecogonized.BackColor = System.Drawing.Color.White;
             this.colorBtn_unrecogonized.Color = System.Drawing.Color.DeepPink;
             this.colorBtn_unrecogonized.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewAlternativePathColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.colorBtn_unrecogonized, resources.GetString("colorBtn_unrecogonized.Error"));
-            this.errorProvider.SetIconAlignment(this.colorBtn_unrecogonized, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("colorBtn_unrecogonized.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.colorBtn_unrecogonized, ((int)(resources.GetObject("colorBtn_unrecogonized.IconPadding"))));
+            this.colorBtn_unrecogonized.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.colorBtn_unrecogonized.Location = new System.Drawing.Point(232, 210);
+            this.colorBtn_unrecogonized.Margin = new System.Windows.Forms.Padding(1);
             this.colorBtn_unrecogonized.Name = "colorBtn_unrecogonized";
-            this.tip.SetToolTip(this.colorBtn_unrecogonized, resources.GetString("colorBtn_unrecogonized.ToolTip"));
+            this.colorBtn_unrecogonized.Size = new System.Drawing.Size(60, 42);
+            this.colorBtn_unrecogonized.TabIndex = 8;
+            this.colorBtn_unrecogonized.Text = "未识别";
+            this.tip.SetToolTip(this.colorBtn_unrecogonized, "手势未被识别时，轨迹的颜色");
             this.colorBtn_unrecogonized.UseVisualStyleBackColor = false;
             // 
             // numPathTrackerStayTimeoutMillis
             // 
-            resources.ApplyResources(this.numPathTrackerStayTimeoutMillis, "numPathTrackerStayTimeoutMillis");
             this.numPathTrackerStayTimeoutMillis.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.settingsFormControllerBindingSource, "PathTrackerStayTimeoutMillis", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numPathTrackerStayTimeoutMillis.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.settingsFormControllerBindingSource, "PathTrackerStayTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.numPathTrackerStayTimeoutMillis, resources.GetString("numPathTrackerStayTimeoutMillis.Error"));
-            this.errorProvider.SetIconAlignment(this.numPathTrackerStayTimeoutMillis, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("numPathTrackerStayTimeoutMillis.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.numPathTrackerStayTimeoutMillis, ((int)(resources.GetObject("numPathTrackerStayTimeoutMillis.IconPadding"))));
             this.numPathTrackerStayTimeoutMillis.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
+            this.numPathTrackerStayTimeoutMillis.Location = new System.Drawing.Point(203, 92);
             this.numPathTrackerStayTimeoutMillis.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -374,7 +412,9 @@ namespace WGestures.App.Gui.Windows
             0,
             0});
             this.numPathTrackerStayTimeoutMillis.Name = "numPathTrackerStayTimeoutMillis";
-            this.tip.SetToolTip(this.numPathTrackerStayTimeoutMillis, resources.GetString("numPathTrackerStayTimeoutMillis.ToolTip"));
+            this.numPathTrackerStayTimeoutMillis.Size = new System.Drawing.Size(51, 23);
+            this.numPathTrackerStayTimeoutMillis.TabIndex = 7;
+            this.tip.SetToolTip(this.numPathTrackerStayTimeoutMillis, "若鼠标停止移动超过此时间，已画出的手势将被取消");
             this.numPathTrackerStayTimeoutMillis.Value = new decimal(new int[] {
             50,
             0,
@@ -383,13 +423,12 @@ namespace WGestures.App.Gui.Windows
             // 
             // numPathTrackerInitialValidMove
             // 
-            resources.ApplyResources(this.numPathTrackerInitialValidMove, "numPathTrackerInitialValidMove");
             this.numPathTrackerInitialValidMove.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.settingsFormControllerBindingSource, "PathTrackerInitialValidMove", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.numPathTrackerInitialValidMove, resources.GetString("numPathTrackerInitialValidMove.Error"));
-            this.errorProvider.SetIconAlignment(this.numPathTrackerInitialValidMove, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("numPathTrackerInitialValidMove.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.numPathTrackerInitialValidMove, ((int)(resources.GetObject("numPathTrackerInitialValidMove.IconPadding"))));
+            this.numPathTrackerInitialValidMove.Location = new System.Drawing.Point(203, 30);
             this.numPathTrackerInitialValidMove.Name = "numPathTrackerInitialValidMove";
-            this.tip.SetToolTip(this.numPathTrackerInitialValidMove, resources.GetString("numPathTrackerInitialValidMove.ToolTip"));
+            this.numPathTrackerInitialValidMove.Size = new System.Drawing.Size(51, 23);
+            this.numPathTrackerInitialValidMove.TabIndex = 7;
+            this.tip.SetToolTip(this.numPathTrackerInitialValidMove, "只有移动超过此距离，才开始识别手势");
             this.numPathTrackerInitialValidMove.Value = new decimal(new int[] {
             10,
             0,
@@ -398,267 +437,311 @@ namespace WGestures.App.Gui.Windows
             // 
             // checkGestureView_fadeOut
             // 
-            resources.ApplyResources(this.checkGestureView_fadeOut, "checkGestureView_fadeOut");
+            this.checkGestureView_fadeOut.AutoSize = true;
             this.checkGestureView_fadeOut.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureViewFadeOut", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.checkGestureView_fadeOut, resources.GetString("checkGestureView_fadeOut.Error"));
-            this.errorProvider.SetIconAlignment(this.checkGestureView_fadeOut, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkGestureView_fadeOut.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.checkGestureView_fadeOut, ((int)(resources.GetObject("checkGestureView_fadeOut.IconPadding"))));
+            this.checkGestureView_fadeOut.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.checkGestureView_fadeOut.Location = new System.Drawing.Point(271, 161);
+            this.checkGestureView_fadeOut.Margin = new System.Windows.Forms.Padding(1);
             this.checkGestureView_fadeOut.Name = "checkGestureView_fadeOut";
-            this.tip.SetToolTip(this.checkGestureView_fadeOut, resources.GetString("checkGestureView_fadeOut.ToolTip"));
+            this.checkGestureView_fadeOut.Size = new System.Drawing.Size(87, 21);
+            this.checkGestureView_fadeOut.TabIndex = 1;
+            this.checkGestureView_fadeOut.Text = "执行后淡出";
+            this.tip.SetToolTip(this.checkGestureView_fadeOut, "手势执行后图形逐渐消失(而非突然消失)");
             this.checkGestureView_fadeOut.UseVisualStyleBackColor = true;
             // 
             // checkGestureViewShowCommandName
             // 
-            resources.ApplyResources(this.checkGestureViewShowCommandName, "checkGestureViewShowCommandName");
+            this.checkGestureViewShowCommandName.AutoSize = true;
             this.checkGestureViewShowCommandName.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureViewShowCommandName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.checkGestureViewShowCommandName, resources.GetString("checkGestureViewShowCommandName.Error"));
-            this.errorProvider.SetIconAlignment(this.checkGestureViewShowCommandName, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkGestureViewShowCommandName.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.checkGestureViewShowCommandName, ((int)(resources.GetObject("checkGestureViewShowCommandName.IconPadding"))));
+            this.checkGestureViewShowCommandName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.checkGestureViewShowCommandName.Location = new System.Drawing.Point(169, 161);
+            this.checkGestureViewShowCommandName.Margin = new System.Windows.Forms.Padding(1);
             this.checkGestureViewShowCommandName.Name = "checkGestureViewShowCommandName";
-            this.tip.SetToolTip(this.checkGestureViewShowCommandName, resources.GetString("checkGestureViewShowCommandName.ToolTip"));
+            this.checkGestureViewShowCommandName.Size = new System.Drawing.Size(75, 21);
+            this.checkGestureViewShowCommandName.TabIndex = 1;
+            this.checkGestureViewShowCommandName.Text = "手势名称";
             this.checkGestureViewShowCommandName.UseVisualStyleBackColor = true;
             // 
             // checkPathTrackerStayTimeout
             // 
-            resources.ApplyResources(this.checkPathTrackerStayTimeout, "checkPathTrackerStayTimeout");
+            this.checkPathTrackerStayTimeout.AutoSize = true;
             this.checkPathTrackerStayTimeout.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerStayTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.checkPathTrackerStayTimeout, resources.GetString("checkPathTrackerStayTimeout.Error"));
-            this.errorProvider.SetIconAlignment(this.checkPathTrackerStayTimeout, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkPathTrackerStayTimeout.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.checkPathTrackerStayTimeout, ((int)(resources.GetObject("checkPathTrackerStayTimeout.IconPadding"))));
+            this.checkPathTrackerStayTimeout.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.checkPathTrackerStayTimeout.Location = new System.Drawing.Point(89, 90);
+            this.checkPathTrackerStayTimeout.Margin = new System.Windows.Forms.Padding(1);
             this.checkPathTrackerStayTimeout.Name = "checkPathTrackerStayTimeout";
-            this.tip.SetToolTip(this.checkPathTrackerStayTimeout, resources.GetString("checkPathTrackerStayTimeout.ToolTip"));
+            this.checkPathTrackerStayTimeout.Size = new System.Drawing.Size(111, 21);
+            this.checkPathTrackerStayTimeout.TabIndex = 0;
+            this.checkPathTrackerStayTimeout.Text = "停留超时 (毫秒)";
+            this.tip.SetToolTip(this.checkPathTrackerStayTimeout, "若鼠标停止移动超过此时间，已画出的手势将被取消");
             this.checkPathTrackerStayTimeout.UseVisualStyleBackColor = true;
             // 
             // checkGestureViewShowPath
             // 
-            resources.ApplyResources(this.checkGestureViewShowPath, "checkGestureViewShowPath");
+            this.checkGestureViewShowPath.AutoSize = true;
             this.checkGestureViewShowPath.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureViewShowPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.checkGestureViewShowPath, resources.GetString("checkGestureViewShowPath.Error"));
-            this.errorProvider.SetIconAlignment(this.checkGestureViewShowPath, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkGestureViewShowPath.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.checkGestureViewShowPath, ((int)(resources.GetObject("checkGestureViewShowPath.IconPadding"))));
+            this.checkGestureViewShowPath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.checkGestureViewShowPath.Location = new System.Drawing.Point(91, 161);
+            this.checkGestureViewShowPath.Margin = new System.Windows.Forms.Padding(1);
             this.checkGestureViewShowPath.Name = "checkGestureViewShowPath";
-            this.tip.SetToolTip(this.checkGestureViewShowPath, resources.GetString("checkGestureViewShowPath.ToolTip"));
+            this.checkGestureViewShowPath.Size = new System.Drawing.Size(51, 21);
+            this.checkGestureViewShowPath.TabIndex = 0;
+            this.checkGestureViewShowPath.Text = "轨迹";
             this.checkGestureViewShowPath.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.errorProvider.SetError(this.label6, resources.GetString("label6.Error"));
-            this.errorProvider.SetIconAlignment(this.label6, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label6.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label6, ((int)(resources.GetObject("label6.IconPadding"))));
+            this.label6.AutoSize = true;
+            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label6.Location = new System.Drawing.Point(86, 32);
+            this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.tip.SetToolTip(this.label6, resources.GetString("label6.ToolTip"));
+            this.label6.Size = new System.Drawing.Size(112, 17);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "起始移动距离(像素)";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tip.SetToolTip(this.label6, "只有移动超过此距离，才开始识别手势");
             // 
             // label5
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.errorProvider.SetError(this.label5, resources.GetString("label5.Error"));
-            this.errorProvider.SetIconAlignment(this.label5, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label5.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label5, ((int)(resources.GetObject("label5.IconPadding"))));
+            this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label5.Location = new System.Drawing.Point(27, 32);
+            this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.tip.SetToolTip(this.label5, resources.GetString("label5.ToolTip"));
+            this.label5.Size = new System.Drawing.Size(52, 16);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "有效性:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.errorProvider.SetError(this.label1, resources.GetString("label1.Error"));
-            this.errorProvider.SetIconAlignment(this.label1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label1, ((int)(resources.GetObject("label1.IconPadding"))));
+            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label1.Location = new System.Drawing.Point(26, 162);
+            this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.tip.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
+            this.label1.Size = new System.Drawing.Size(62, 16);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "显   示:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.flowLayoutPanel3);
             this.groupBox1.Controls.Add(this.check_autoStart);
             this.groupBox1.Controls.Add(this.btn_checkUpdateNow);
             this.groupBox1.Controls.Add(this.check_autoCheckUpdate);
-            this.errorProvider.SetError(this.groupBox1, resources.GetString("groupBox1.Error"));
-            this.errorProvider.SetIconAlignment(this.groupBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("groupBox1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.groupBox1, ((int)(resources.GetObject("groupBox1.IconPadding"))));
+            this.groupBox1.Location = new System.Drawing.Point(15, 20);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(1);
             this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(1);
+            this.groupBox1.Size = new System.Drawing.Size(525, 95);
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.tip.SetToolTip(this.groupBox1, resources.GetString("groupBox1.ToolTip"));
+            this.groupBox1.Text = "通用";
             // 
             // flowLayoutPanel3
             // 
-            resources.ApplyResources(this.flowLayoutPanel3, "flowLayoutPanel3");
             this.flowLayoutPanel3.Controls.Add(this.label4);
             this.flowLayoutPanel3.Controls.Add(this.lb_Version);
-            this.errorProvider.SetError(this.flowLayoutPanel3, resources.GetString("flowLayoutPanel3.Error"));
-            this.errorProvider.SetIconAlignment(this.flowLayoutPanel3, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("flowLayoutPanel3.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.flowLayoutPanel3, ((int)(resources.GetObject("flowLayoutPanel3.IconPadding"))));
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(232, 53);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.tip.SetToolTip(this.flowLayoutPanel3, resources.GetString("flowLayoutPanel3.ToolTip"));
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(277, 25);
+            this.flowLayoutPanel3.TabIndex = 5;
             // 
             // label4
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.errorProvider.SetError(this.label4, resources.GetString("label4.Error"));
+            this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.DarkGray;
-            this.errorProvider.SetIconAlignment(this.label4, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label4.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label4, ((int)(resources.GetObject("label4.IconPadding"))));
+            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label4.Location = new System.Drawing.Point(3, 6);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.label4.Name = "label4";
-            this.tip.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
+            this.label4.Size = new System.Drawing.Size(59, 17);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "当前版本:";
             // 
             // lb_Version
             // 
-            resources.ApplyResources(this.lb_Version, "lb_Version");
-            this.errorProvider.SetError(this.lb_Version, resources.GetString("lb_Version.Error"));
+            this.lb_Version.AutoSize = true;
             this.lb_Version.ForeColor = System.Drawing.Color.DarkGray;
-            this.errorProvider.SetIconAlignment(this.lb_Version, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lb_Version.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.lb_Version, ((int)(resources.GetObject("lb_Version.IconPadding"))));
+            this.lb_Version.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lb_Version.Location = new System.Drawing.Point(68, 6);
+            this.lb_Version.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.lb_Version.Name = "lb_Version";
-            this.tip.SetToolTip(this.lb_Version, resources.GetString("lb_Version.ToolTip"));
+            this.lb_Version.Size = new System.Drawing.Size(50, 17);
+            this.lb_Version.TabIndex = 3;
+            this.lb_Version.Text = "version";
             // 
             // check_autoStart
             // 
-            resources.ApplyResources(this.check_autoStart, "check_autoStart");
+            this.check_autoStart.AutoSize = true;
             this.check_autoStart.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "AutoStart", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.check_autoStart, resources.GetString("check_autoStart.Error"));
-            this.errorProvider.SetIconAlignment(this.check_autoStart, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("check_autoStart.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.check_autoStart, ((int)(resources.GetObject("check_autoStart.IconPadding"))));
+            this.check_autoStart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_autoStart.Location = new System.Drawing.Point(29, 29);
+            this.check_autoStart.Margin = new System.Windows.Forms.Padding(1);
             this.check_autoStart.Name = "check_autoStart";
-            this.tip.SetToolTip(this.check_autoStart, resources.GetString("check_autoStart.ToolTip"));
+            this.check_autoStart.Size = new System.Drawing.Size(99, 21);
+            this.check_autoStart.TabIndex = 0;
+            this.check_autoStart.Text = "开机自动运行";
             this.check_autoStart.UseVisualStyleBackColor = true;
             // 
             // btn_checkUpdateNow
             // 
-            resources.ApplyResources(this.btn_checkUpdateNow, "btn_checkUpdateNow");
-            this.errorProvider.SetError(this.btn_checkUpdateNow, resources.GetString("btn_checkUpdateNow.Error"));
-            this.errorProvider.SetIconAlignment(this.btn_checkUpdateNow, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btn_checkUpdateNow.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btn_checkUpdateNow, ((int)(resources.GetObject("btn_checkUpdateNow.IconPadding"))));
+            this.btn_checkUpdateNow.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btn_checkUpdateNow.Location = new System.Drawing.Point(130, 53);
+            this.btn_checkUpdateNow.Margin = new System.Windows.Forms.Padding(1);
             this.btn_checkUpdateNow.Name = "btn_checkUpdateNow";
-            this.tip.SetToolTip(this.btn_checkUpdateNow, resources.GetString("btn_checkUpdateNow.ToolTip"));
+            this.btn_checkUpdateNow.Size = new System.Drawing.Size(75, 25);
+            this.btn_checkUpdateNow.TabIndex = 2;
+            this.btn_checkUpdateNow.Text = "立即检查";
             this.btn_checkUpdateNow.UseVisualStyleBackColor = true;
             this.btn_checkUpdateNow.Click += new System.EventHandler(this.btn_checkUpdateNow_Click);
             // 
             // check_autoCheckUpdate
             // 
-            resources.ApplyResources(this.check_autoCheckUpdate, "check_autoCheckUpdate");
+            this.check_autoCheckUpdate.AutoSize = true;
             this.check_autoCheckUpdate.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "AutoCheckForUpdate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.errorProvider.SetError(this.check_autoCheckUpdate, resources.GetString("check_autoCheckUpdate.Error"));
-            this.errorProvider.SetIconAlignment(this.check_autoCheckUpdate, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("check_autoCheckUpdate.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.check_autoCheckUpdate, ((int)(resources.GetObject("check_autoCheckUpdate.IconPadding"))));
+            this.check_autoCheckUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_autoCheckUpdate.Location = new System.Drawing.Point(29, 57);
+            this.check_autoCheckUpdate.Margin = new System.Windows.Forms.Padding(1);
             this.check_autoCheckUpdate.Name = "check_autoCheckUpdate";
-            this.tip.SetToolTip(this.check_autoCheckUpdate, resources.GetString("check_autoCheckUpdate.ToolTip"));
+            this.check_autoCheckUpdate.Size = new System.Drawing.Size(99, 21);
+            this.check_autoCheckUpdate.TabIndex = 1;
+            this.check_autoCheckUpdate.Text = "自动检查更新";
             this.check_autoCheckUpdate.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.BackColor = System.Drawing.Color.White;
             this.tabPage2.Controls.Add(this.flowLayoutPanel2);
             this.tabPage2.Controls.Add(this.btnEditApp);
             this.tabPage2.Controls.Add(this.btnAppRemove);
             this.tabPage2.Controls.Add(this.btnAddApp);
             this.tabPage2.Controls.Add(this.listApps);
-            this.errorProvider.SetError(this.tabPage2, resources.GetString("tabPage2.Error"));
-            this.errorProvider.SetIconAlignment(this.tabPage2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabPage2.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.tabPage2, ((int)(resources.GetObject("tabPage2.IconPadding"))));
+            this.tabPage2.Location = new System.Drawing.Point(4, 32);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(551, 435);
+            this.tabPage2.TabIndex = 1;
             this.tabPage2.Tag = "gestures";
-            this.tip.SetToolTip(this.tabPage2, resources.GetString("tabPage2.ToolTip"));
+            this.tabPage2.Text = "手 势";
             // 
             // flowLayoutPanel2
             // 
-            resources.ApplyResources(this.flowLayoutPanel2, "flowLayoutPanel2");
+            this.flowLayoutPanel2.AutoSize = true;
+            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel2.Controls.Add(this.panel1);
             this.flowLayoutPanel2.Controls.Add(this.listGestureIntents);
             this.flowLayoutPanel2.Controls.Add(this.panel_intentListOperations);
             this.flowLayoutPanel2.Controls.Add(this.group_Command);
-            this.errorProvider.SetError(this.flowLayoutPanel2, resources.GetString("flowLayoutPanel2.Error"));
-            this.errorProvider.SetIconAlignment(this.flowLayoutPanel2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("flowLayoutPanel2.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.flowLayoutPanel2, ((int)(resources.GetObject("flowLayoutPanel2.IconPadding"))));
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(189, 17);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(1);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.tip.SetToolTip(this.flowLayoutPanel2, resources.GetString("flowLayoutPanel2.ToolTip"));
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(352, 400);
+            this.flowLayoutPanel2.TabIndex = 6;
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.AutoSize = true;
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.checkInheritGlobal);
             this.panel1.Controls.Add(this.flowLayoutPanel1);
-            this.errorProvider.SetError(this.panel1, resources.GetString("panel1.Error"));
-            this.errorProvider.SetIconAlignment(this.panel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panel1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.panel1, ((int)(resources.GetObject("panel1.IconPadding"))));
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.tip.SetToolTip(this.panel1, resources.GetString("panel1.ToolTip"));
+            this.panel1.Size = new System.Drawing.Size(352, 25);
+            this.panel1.TabIndex = 12;
             // 
             // checkInheritGlobal
             // 
-            resources.ApplyResources(this.checkInheritGlobal, "checkInheritGlobal");
-            this.errorProvider.SetError(this.checkInheritGlobal, resources.GetString("checkInheritGlobal.Error"));
-            this.errorProvider.SetIconAlignment(this.checkInheritGlobal, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkInheritGlobal.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.checkInheritGlobal, ((int)(resources.GetObject("checkInheritGlobal.IconPadding"))));
+            this.checkInheritGlobal.AutoSize = true;
+            this.checkInheritGlobal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.checkInheritGlobal.Location = new System.Drawing.Point(253, 2);
+            this.checkInheritGlobal.Margin = new System.Windows.Forms.Padding(0);
             this.checkInheritGlobal.Name = "checkInheritGlobal";
-            this.tip.SetToolTip(this.checkInheritGlobal, resources.GetString("checkInheritGlobal.ToolTip"));
+            this.checkInheritGlobal.Size = new System.Drawing.Size(99, 21);
+            this.checkInheritGlobal.TabIndex = 3;
+            this.checkInheritGlobal.Text = "继承全局手势";
             this.checkInheritGlobal.UseVisualStyleBackColor = true;
             this.checkInheritGlobal.CheckedChanged += new System.EventHandler(this.checkInheritGlobal_CheckedChanged);
             // 
             // flowLayoutPanel1
             // 
-            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel1.Controls.Add(this.check_gesturingDisabled);
             this.flowLayoutPanel1.Controls.Add(this.pictureSelectedApp);
             this.flowLayoutPanel1.Controls.Add(this.labelAppName);
             this.flowLayoutPanel1.Controls.Add(this.label7);
-            this.errorProvider.SetError(this.flowLayoutPanel1, resources.GetString("flowLayoutPanel1.Error"));
             this.flowLayoutPanel1.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.errorProvider.SetIconAlignment(this.flowLayoutPanel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("flowLayoutPanel1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.flowLayoutPanel1, ((int)(resources.GetObject("flowLayoutPanel1.IconPadding"))));
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.tip.SetToolTip(this.flowLayoutPanel1, resources.GetString("flowLayoutPanel1.ToolTip"));
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(212, 25);
+            this.flowLayoutPanel1.TabIndex = 2;
             // 
             // check_gesturingDisabled
             // 
-            resources.ApplyResources(this.check_gesturingDisabled, "check_gesturingDisabled");
-            this.errorProvider.SetError(this.check_gesturingDisabled, resources.GetString("check_gesturingDisabled.Error"));
+            this.check_gesturingDisabled.AutoSize = true;
             this.check_gesturingDisabled.ForeColor = System.Drawing.Color.Black;
-            this.errorProvider.SetIconAlignment(this.check_gesturingDisabled, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("check_gesturingDisabled.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.check_gesturingDisabled, ((int)(resources.GetObject("check_gesturingDisabled.IconPadding"))));
+            this.check_gesturingDisabled.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_gesturingDisabled.Location = new System.Drawing.Point(9, 2);
+            this.check_gesturingDisabled.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
             this.check_gesturingDisabled.Name = "check_gesturingDisabled";
-            this.tip.SetToolTip(this.check_gesturingDisabled, resources.GetString("check_gesturingDisabled.ToolTip"));
+            this.check_gesturingDisabled.Size = new System.Drawing.Size(51, 21);
+            this.check_gesturingDisabled.TabIndex = 5;
+            this.check_gesturingDisabled.Text = "禁止";
+            this.tip.SetToolTip(this.check_gesturingDisabled, "在该程序上禁用手势（等同于双击应用程序条目）");
             this.check_gesturingDisabled.UseVisualStyleBackColor = true;
             this.check_gesturingDisabled.CheckedChanged += new System.EventHandler(this.check_gesturingEnabled_CheckedChanged);
             // 
             // pictureSelectedApp
             // 
-            resources.ApplyResources(this.pictureSelectedApp, "pictureSelectedApp");
-            this.errorProvider.SetError(this.pictureSelectedApp, resources.GetString("pictureSelectedApp.Error"));
-            this.errorProvider.SetIconAlignment(this.pictureSelectedApp, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("pictureSelectedApp.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.pictureSelectedApp, ((int)(resources.GetObject("pictureSelectedApp.IconPadding"))));
+            this.pictureSelectedApp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureSelectedApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.pictureSelectedApp.Location = new System.Drawing.Point(60, 3);
+            this.pictureSelectedApp.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.pictureSelectedApp.Name = "pictureSelectedApp";
+            this.pictureSelectedApp.Size = new System.Drawing.Size(16, 16);
+            this.pictureSelectedApp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureSelectedApp.TabIndex = 2;
             this.pictureSelectedApp.TabStop = false;
-            this.tip.SetToolTip(this.pictureSelectedApp, resources.GetString("pictureSelectedApp.ToolTip"));
             // 
             // labelAppName
             // 
-            resources.ApplyResources(this.labelAppName, "labelAppName");
             this.labelAppName.AutoEllipsis = true;
+            this.labelAppName.AutoSize = true;
             this.labelAppName.BackColor = System.Drawing.Color.White;
-            this.errorProvider.SetError(this.labelAppName, resources.GetString("labelAppName.Error"));
             this.labelAppName.ForeColor = System.Drawing.Color.Black;
-            this.errorProvider.SetIconAlignment(this.labelAppName, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("labelAppName.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.labelAppName, ((int)(resources.GetObject("labelAppName.IconPadding"))));
+            this.labelAppName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.labelAppName.Location = new System.Drawing.Point(76, 2);
+            this.labelAppName.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.labelAppName.MaximumSize = new System.Drawing.Size(90, 17);
             this.labelAppName.Name = "labelAppName";
-            this.tip.SetToolTip(this.labelAppName, resources.GetString("labelAppName.ToolTip"));
+            this.labelAppName.Size = new System.Drawing.Size(80, 17);
+            this.labelAppName.TabIndex = 1;
+            this.labelAppName.Text = "文件管理器阿不都第三方斯蒂芬李双江的方式";
+            this.labelAppName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label7
             // 
-            resources.ApplyResources(this.label7, "label7");
+            this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.White;
-            this.errorProvider.SetError(this.label7, resources.GetString("label7.Error"));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.errorProvider.SetIconAlignment(this.label7, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label7.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label7, ((int)(resources.GetObject("label7.IconPadding"))));
+            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label7.Location = new System.Drawing.Point(156, 2);
+            this.label7.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.label7.Name = "label7";
-            this.tip.SetToolTip(this.label7, resources.GetString("label7.ToolTip"));
+            this.label7.Size = new System.Drawing.Size(56, 17);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "使用手势";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // listGestureIntents
             // 
-            resources.ApplyResources(this.listGestureIntents, "listGestureIntents");
             this.listGestureIntents.AllowDrop = true;
             this.listGestureIntents.AllowItemDrag = true;
             this.listGestureIntents.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -666,19 +749,20 @@ namespace WGestures.App.Gui.Windows
             this.colGestureName,
             this.colGestureDirs,
             this.operation});
-            this.errorProvider.SetError(this.listGestureIntents, resources.GetString("listGestureIntents.Error"));
+            this.listGestureIntents.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F);
             this.listGestureIntents.FullRowSelect = true;
             this.listGestureIntents.GridLines = true;
             this.listGestureIntents.HideSelection = false;
-            this.errorProvider.SetIconAlignment(this.listGestureIntents, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("listGestureIntents.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.listGestureIntents, ((int)(resources.GetObject("listGestureIntents.IconPadding"))));
             this.listGestureIntents.InsertionLineColor = System.Drawing.Color.DeepSkyBlue;
             this.listGestureIntents.LabelEdit = true;
+            this.listGestureIntents.Location = new System.Drawing.Point(9, 28);
+            this.listGestureIntents.Margin = new System.Windows.Forms.Padding(9, 3, 3, 3);
             this.listGestureIntents.MultiSelect = false;
             this.listGestureIntents.Name = "listGestureIntents";
+            this.listGestureIntents.Size = new System.Drawing.Size(339, 165);
             this.listGestureIntents.SmallImageList = this.dummyImgLstForLstViewHeightFix;
+            this.listGestureIntents.TabIndex = 1;
             this.listGestureIntents.TileSize = new System.Drawing.Size(255, 84);
-            this.tip.SetToolTip(this.listGestureIntents, resources.GetString("listGestureIntents.ToolTip"));
             this.listGestureIntents.UseCompatibleStateImageBehavior = false;
             this.listGestureIntents.View = System.Windows.Forms.View.Details;
             this.listGestureIntents.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.listGestureIntents_AfterLabelEdit);
@@ -686,221 +770,244 @@ namespace WGestures.App.Gui.Windows
             // 
             // colGestureName
             // 
-            resources.ApplyResources(this.colGestureName, "colGestureName");
+            this.colGestureName.Text = "名称";
+            this.colGestureName.Width = 10;
             // 
             // colGestureDirs
             // 
-            resources.ApplyResources(this.colGestureDirs, "colGestureDirs");
+            this.colGestureDirs.Text = "助记符";
+            this.colGestureDirs.Width = 10;
             // 
             // operation
             // 
-            resources.ApplyResources(this.operation, "operation");
+            this.operation.Text = "操作";
             // 
             // dummyImgLstForLstViewHeightFix
             // 
             this.dummyImgLstForLstViewHeightFix.ColorDepth = System.Windows.Forms.ColorDepth.Depth4Bit;
-            resources.ApplyResources(this.dummyImgLstForLstViewHeightFix, "dummyImgLstForLstViewHeightFix");
+            this.dummyImgLstForLstViewHeightFix.ImageSize = new System.Drawing.Size(1, 24);
             this.dummyImgLstForLstViewHeightFix.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // panel_intentListOperations
             // 
-            resources.ApplyResources(this.panel_intentListOperations, "panel_intentListOperations");
             this.panel_intentListOperations.Controls.Add(this.btn_RemoveGesture);
             this.panel_intentListOperations.Controls.Add(this.btn_modifyGesture);
             this.panel_intentListOperations.Controls.Add(this.btnAddGesture);
-            this.errorProvider.SetError(this.panel_intentListOperations, resources.GetString("panel_intentListOperations.Error"));
-            this.errorProvider.SetIconAlignment(this.panel_intentListOperations, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panel_intentListOperations.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.panel_intentListOperations, ((int)(resources.GetObject("panel_intentListOperations.IconPadding"))));
+            this.panel_intentListOperations.Location = new System.Drawing.Point(9, 196);
+            this.panel_intentListOperations.Margin = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.panel_intentListOperations.Name = "panel_intentListOperations";
-            this.tip.SetToolTip(this.panel_intentListOperations, resources.GetString("panel_intentListOperations.ToolTip"));
+            this.panel_intentListOperations.Size = new System.Drawing.Size(340, 23);
+            this.panel_intentListOperations.TabIndex = 9;
             // 
             // btn_RemoveGesture
             // 
-            resources.ApplyResources(this.btn_RemoveGesture, "btn_RemoveGesture");
-            this.errorProvider.SetError(this.btn_RemoveGesture, resources.GetString("btn_RemoveGesture.Error"));
+            this.btn_RemoveGesture.Enabled = false;
+            this.btn_RemoveGesture.Font = new System.Drawing.Font("Verdana", 10.125F, System.Drawing.FontStyle.Bold);
             this.btn_RemoveGesture.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.errorProvider.SetIconAlignment(this.btn_RemoveGesture, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btn_RemoveGesture.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btn_RemoveGesture, ((int)(resources.GetObject("btn_RemoveGesture.IconPadding"))));
             this.btn_RemoveGesture.Image = global::WGestures.App.Properties.Resources.remove;
+            this.btn_RemoveGesture.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btn_RemoveGesture.Location = new System.Drawing.Point(28, 0);
+            this.btn_RemoveGesture.Margin = new System.Windows.Forms.Padding(0);
             this.btn_RemoveGesture.Name = "btn_RemoveGesture";
-            this.tip.SetToolTip(this.btn_RemoveGesture, resources.GetString("btn_RemoveGesture.ToolTip"));
+            this.btn_RemoveGesture.Size = new System.Drawing.Size(29, 20);
+            this.btn_RemoveGesture.TabIndex = 8;
+            this.tip.SetToolTip(this.btn_RemoveGesture, "删除选中的项目");
             this.btn_RemoveGesture.UseVisualStyleBackColor = true;
             this.btn_RemoveGesture.Click += new System.EventHandler(this.btnRemoveGesture_Click);
             // 
             // btn_modifyGesture
             // 
-            resources.ApplyResources(this.btn_modifyGesture, "btn_modifyGesture");
-            this.errorProvider.SetError(this.btn_modifyGesture, resources.GetString("btn_modifyGesture.Error"));
+            this.btn_modifyGesture.Enabled = false;
+            this.btn_modifyGesture.Font = new System.Drawing.Font("Verdana", 10.125F, System.Drawing.FontStyle.Bold);
             this.btn_modifyGesture.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.errorProvider.SetIconAlignment(this.btn_modifyGesture, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btn_modifyGesture.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btn_modifyGesture, ((int)(resources.GetObject("btn_modifyGesture.IconPadding"))));
             this.btn_modifyGesture.Image = global::WGestures.App.Properties.Resources.Edit;
+            this.btn_modifyGesture.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btn_modifyGesture.Location = new System.Drawing.Point(309, 0);
+            this.btn_modifyGesture.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.btn_modifyGesture.Name = "btn_modifyGesture";
-            this.tip.SetToolTip(this.btn_modifyGesture, resources.GetString("btn_modifyGesture.ToolTip"));
+            this.btn_modifyGesture.Size = new System.Drawing.Size(29, 20);
+            this.btn_modifyGesture.TabIndex = 8;
             this.btn_modifyGesture.UseVisualStyleBackColor = true;
             this.btn_modifyGesture.Click += new System.EventHandler(this.btn_modifyGesture_Click);
             // 
             // btnAddGesture
             // 
-            resources.ApplyResources(this.btnAddGesture, "btnAddGesture");
-            this.errorProvider.SetError(this.btnAddGesture, resources.GetString("btnAddGesture.Error"));
+            this.btnAddGesture.Font = new System.Drawing.Font("Verdana", 10.125F, System.Drawing.FontStyle.Bold);
             this.btnAddGesture.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.errorProvider.SetIconAlignment(this.btnAddGesture, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnAddGesture.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btnAddGesture, ((int)(resources.GetObject("btnAddGesture.IconPadding"))));
             this.btnAddGesture.Image = global::WGestures.App.Properties.Resources.add;
+            this.btnAddGesture.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnAddGesture.Location = new System.Drawing.Point(0, 0);
+            this.btnAddGesture.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddGesture.Name = "btnAddGesture";
-            this.tip.SetToolTip(this.btnAddGesture, resources.GetString("btnAddGesture.ToolTip"));
+            this.btnAddGesture.Size = new System.Drawing.Size(29, 20);
+            this.btnAddGesture.TabIndex = 8;
+            this.tip.SetToolTip(this.btnAddGesture, "添加手势");
             this.btnAddGesture.UseVisualStyleBackColor = true;
             this.btnAddGesture.Click += new System.EventHandler(this.btnAddGesture_Click);
             // 
             // group_Command
             // 
-            resources.ApplyResources(this.group_Command, "group_Command");
+            this.group_Command.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.group_Command.Controls.Add(this.flowLayoutPanel6);
-            this.errorProvider.SetError(this.group_Command, resources.GetString("group_Command.Error"));
-            this.errorProvider.SetIconAlignment(this.group_Command, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("group_Command.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.group_Command, ((int)(resources.GetObject("group_Command.IconPadding"))));
+            this.group_Command.Enabled = false;
+            this.group_Command.Location = new System.Drawing.Point(9, 228);
+            this.group_Command.Margin = new System.Windows.Forms.Padding(9, 9, 1, 1);
             this.group_Command.Name = "group_Command";
+            this.group_Command.Padding = new System.Windows.Forms.Padding(1);
+            this.group_Command.Size = new System.Drawing.Size(340, 171);
+            this.group_Command.TabIndex = 10;
             this.group_Command.TabStop = false;
-            this.tip.SetToolTip(this.group_Command, resources.GetString("group_Command.ToolTip"));
+            this.group_Command.Text = "手势参数";
             // 
             // flowLayoutPanel6
             // 
-            resources.ApplyResources(this.flowLayoutPanel6, "flowLayoutPanel6");
             this.flowLayoutPanel6.Controls.Add(this.panel3);
             this.flowLayoutPanel6.Controls.Add(this.check_executeOnMouseWheeling);
             this.flowLayoutPanel6.Controls.Add(this.lineLabel1);
             this.flowLayoutPanel6.Controls.Add(this.panel_commandView);
-            this.errorProvider.SetError(this.flowLayoutPanel6, resources.GetString("flowLayoutPanel6.Error"));
-            this.errorProvider.SetIconAlignment(this.flowLayoutPanel6, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("flowLayoutPanel6.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.flowLayoutPanel6, ((int)(resources.GetObject("flowLayoutPanel6.IconPadding"))));
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(4, 18);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.tip.SetToolTip(this.flowLayoutPanel6, resources.GetString("flowLayoutPanel6.ToolTip"));
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(332, 149);
+            this.flowLayoutPanel6.TabIndex = 4;
             // 
             // panel3
             // 
-            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Controls.Add(this.label8);
             this.panel3.Controls.Add(this.combo_CommandTypes);
-            this.errorProvider.SetError(this.panel3, resources.GetString("panel3.Error"));
-            this.errorProvider.SetIconAlignment(this.panel3, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panel3.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.panel3, ((int)(resources.GetObject("panel3.IconPadding"))));
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.tip.SetToolTip(this.panel3, resources.GetString("panel3.ToolTip"));
+            this.panel3.Size = new System.Drawing.Size(332, 35);
+            this.panel3.TabIndex = 2;
             // 
             // label8
             // 
-            resources.ApplyResources(this.label8, "label8");
-            this.errorProvider.SetError(this.label8, resources.GetString("label8.Error"));
-            this.errorProvider.SetIconAlignment(this.label8, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label8.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label8, ((int)(resources.GetObject("label8.IconPadding"))));
+            this.label8.AutoSize = true;
+            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label8.Location = new System.Drawing.Point(3, 10);
+            this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
-            this.tip.SetToolTip(this.label8, resources.GetString("label8.ToolTip"));
+            this.label8.Size = new System.Drawing.Size(56, 17);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "执行操作";
             // 
             // combo_CommandTypes
             // 
-            resources.ApplyResources(this.combo_CommandTypes, "combo_CommandTypes");
             this.combo_CommandTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.errorProvider.SetError(this.combo_CommandTypes, resources.GetString("combo_CommandTypes.Error"));
+            this.combo_CommandTypes.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.combo_CommandTypes.FormattingEnabled = true;
-            this.errorProvider.SetIconAlignment(this.combo_CommandTypes, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("combo_CommandTypes.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.combo_CommandTypes, ((int)(resources.GetObject("combo_CommandTypes.IconPadding"))));
+            this.combo_CommandTypes.ItemHeight = 17;
+            this.combo_CommandTypes.Location = new System.Drawing.Point(66, 4);
+            this.combo_CommandTypes.Margin = new System.Windows.Forms.Padding(1);
             this.combo_CommandTypes.Name = "combo_CommandTypes";
-            this.tip.SetToolTip(this.combo_CommandTypes, resources.GetString("combo_CommandTypes.ToolTip"));
+            this.combo_CommandTypes.Size = new System.Drawing.Size(260, 25);
+            this.combo_CommandTypes.TabIndex = 0;
+            this.tip.SetToolTip(this.combo_CommandTypes, "手势触发后要执行的操作");
             this.combo_CommandTypes.SelectedIndexChanged += new System.EventHandler(this.combo_CommandTypes_SelectedIndexChanged);
             // 
             // check_executeOnMouseWheeling
             // 
-            resources.ApplyResources(this.check_executeOnMouseWheeling, "check_executeOnMouseWheeling");
-            this.errorProvider.SetError(this.check_executeOnMouseWheeling, resources.GetString("check_executeOnMouseWheeling.Error"));
-            this.errorProvider.SetIconAlignment(this.check_executeOnMouseWheeling, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("check_executeOnMouseWheeling.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.check_executeOnMouseWheeling, ((int)(resources.GetObject("check_executeOnMouseWheeling.IconPadding"))));
+            this.check_executeOnMouseWheeling.AutoSize = true;
+            this.check_executeOnMouseWheeling.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_executeOnMouseWheeling.Location = new System.Drawing.Point(3, 38);
+            this.check_executeOnMouseWheeling.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.check_executeOnMouseWheeling.Name = "check_executeOnMouseWheeling";
-            this.tip.SetToolTip(this.check_executeOnMouseWheeling, resources.GetString("check_executeOnMouseWheeling.ToolTip"));
+            this.check_executeOnMouseWheeling.Size = new System.Drawing.Size(135, 21);
+            this.check_executeOnMouseWheeling.TabIndex = 3;
+            this.check_executeOnMouseWheeling.Text = "滑动滚轮时立即执行";
             this.check_executeOnMouseWheeling.UseVisualStyleBackColor = true;
+            this.check_executeOnMouseWheeling.Visible = false;
             this.check_executeOnMouseWheeling.CheckedChanged += new System.EventHandler(this.check_executeOnMouseWheeling_CheckedChanged);
             // 
             // lineLabel1
             // 
-            resources.ApplyResources(this.lineLabel1, "lineLabel1");
-            this.errorProvider.SetError(this.lineLabel1, resources.GetString("lineLabel1.Error"));
             this.lineLabel1.ForeColor = System.Drawing.Color.Gainsboro;
-            this.errorProvider.SetIconAlignment(this.lineLabel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lineLabel1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.lineLabel1, ((int)(resources.GetObject("lineLabel1.IconPadding"))));
+            this.lineLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.lineLabel1.IsVertical = false;
+            this.lineLabel1.Location = new System.Drawing.Point(3, 59);
             this.lineLabel1.Name = "lineLabel1";
-            this.tip.SetToolTip(this.lineLabel1, resources.GetString("lineLabel1.ToolTip"));
+            this.lineLabel1.Size = new System.Drawing.Size(329, 6);
+            this.lineLabel1.TabIndex = 3;
             // 
             // panel_commandView
             // 
-            resources.ApplyResources(this.panel_commandView, "panel_commandView");
+            this.panel_commandView.AutoScroll = true;
             this.panel_commandView.BackColor = System.Drawing.Color.Transparent;
-            this.errorProvider.SetError(this.panel_commandView, resources.GetString("panel_commandView.Error"));
-            this.errorProvider.SetIconAlignment(this.panel_commandView, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panel_commandView.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.panel_commandView, ((int)(resources.GetObject("panel_commandView.IconPadding"))));
+            this.panel_commandView.Location = new System.Drawing.Point(0, 65);
+            this.panel_commandView.Margin = new System.Windows.Forms.Padding(0);
             this.panel_commandView.Name = "panel_commandView";
-            this.tip.SetToolTip(this.panel_commandView, resources.GetString("panel_commandView.ToolTip"));
+            this.panel_commandView.Size = new System.Drawing.Size(332, 86);
+            this.panel_commandView.TabIndex = 2;
+            this.tip.SetToolTip(this.panel_commandView, "操作的额外参数");
             // 
             // btnEditApp
             // 
-            resources.ApplyResources(this.btnEditApp, "btnEditApp");
-            this.errorProvider.SetError(this.btnEditApp, resources.GetString("btnEditApp.Error"));
+            this.btnEditApp.Font = new System.Drawing.Font("Verdana", 10.125F, System.Drawing.FontStyle.Bold);
             this.btnEditApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.errorProvider.SetIconAlignment(this.btnEditApp, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnEditApp.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btnEditApp, ((int)(resources.GetObject("btnEditApp.IconPadding"))));
             this.btnEditApp.Image = global::WGestures.App.Properties.Resources.Edit;
+            this.btnEditApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnEditApp.Location = new System.Drawing.Point(152, 393);
+            this.btnEditApp.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.btnEditApp.Name = "btnEditApp";
-            this.tip.SetToolTip(this.btnEditApp, resources.GetString("btnEditApp.ToolTip"));
+            this.btnEditApp.Size = new System.Drawing.Size(29, 20);
+            this.btnEditApp.TabIndex = 8;
+            this.tip.SetToolTip(this.btnEditApp, "修改选中项目的名称或路径");
             this.btnEditApp.UseVisualStyleBackColor = true;
             this.btnEditApp.Click += new System.EventHandler(this.btnEditApp_Click);
             // 
             // btnAppRemove
             // 
-            resources.ApplyResources(this.btnAppRemove, "btnAppRemove");
-            this.errorProvider.SetError(this.btnAppRemove, resources.GetString("btnAppRemove.Error"));
+            this.btnAppRemove.Font = new System.Drawing.Font("Verdana", 10.125F, System.Drawing.FontStyle.Bold);
             this.btnAppRemove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.errorProvider.SetIconAlignment(this.btnAppRemove, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnAppRemove.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btnAppRemove, ((int)(resources.GetObject("btnAppRemove.IconPadding"))));
             this.btnAppRemove.Image = global::WGestures.App.Properties.Resources.remove;
+            this.btnAppRemove.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnAppRemove.Location = new System.Drawing.Point(41, 393);
+            this.btnAppRemove.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.btnAppRemove.Name = "btnAppRemove";
-            this.tip.SetToolTip(this.btnAppRemove, resources.GetString("btnAppRemove.ToolTip"));
+            this.btnAppRemove.Size = new System.Drawing.Size(29, 20);
+            this.btnAppRemove.TabIndex = 8;
+            this.tip.SetToolTip(this.btnAppRemove, "删除选中的项目");
             this.btnAppRemove.UseVisualStyleBackColor = true;
             this.btnAppRemove.Click += new System.EventHandler(this.btnAppRemove_Click);
             // 
             // btnAddApp
             // 
-            resources.ApplyResources(this.btnAddApp, "btnAddApp");
-            this.errorProvider.SetError(this.btnAddApp, resources.GetString("btnAddApp.Error"));
+            this.btnAddApp.Font = new System.Drawing.Font("Verdana", 10.125F, System.Drawing.FontStyle.Bold);
             this.btnAddApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.errorProvider.SetIconAlignment(this.btnAddApp, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnAddApp.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.btnAddApp, ((int)(resources.GetObject("btnAddApp.IconPadding"))));
             this.btnAddApp.Image = global::WGestures.App.Properties.Resources.add;
+            this.btnAddApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnAddApp.Location = new System.Drawing.Point(13, 393);
+            this.btnAddApp.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.btnAddApp.Name = "btnAddApp";
-            this.tip.SetToolTip(this.btnAddApp, resources.GetString("btnAddApp.ToolTip"));
+            this.btnAddApp.Size = new System.Drawing.Size(29, 20);
+            this.btnAddApp.TabIndex = 8;
+            this.tip.SetToolTip(this.btnAddApp, "添加应用程序");
             this.btnAddApp.UseVisualStyleBackColor = true;
             this.btnAddApp.Click += new System.EventHandler(this.btnAddApp_Click);
             // 
             // listApps
             // 
-            resources.ApplyResources(this.listApps, "listApps");
+            this.listApps.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.listApps.AllowDrop = true;
             this.listApps.AllowItemDrag = true;
             this.listApps.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colListAppDummy});
-            this.errorProvider.SetError(this.listApps, resources.GetString("listApps.Error"));
+            this.listApps.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.listApps.FullRowSelect = true;
             this.listApps.GridLines = true;
             this.listApps.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listApps.HideSelection = false;
-            this.errorProvider.SetIconAlignment(this.listApps, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("listApps.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.listApps, ((int)(resources.GetObject("listApps.IconPadding"))));
             this.listApps.InsertionLineColor = System.Drawing.Color.DeepSkyBlue;
+            this.listApps.LabelWrap = false;
+            this.listApps.Location = new System.Drawing.Point(13, 20);
+            this.listApps.Margin = new System.Windows.Forms.Padding(1);
             this.listApps.MultiSelect = false;
             this.listApps.Name = "listApps";
+            this.listApps.Size = new System.Drawing.Size(168, 370);
             this.listApps.SmallImageList = this.imglistAppIcons;
+            this.listApps.TabIndex = 0;
             this.listApps.TileSize = new System.Drawing.Size(160, 42);
-            this.tip.SetToolTip(this.listApps, resources.GetString("listApps.ToolTip"));
             this.listApps.UseCompatibleStateImageBehavior = false;
             this.listApps.View = System.Windows.Forms.View.Details;
             this.listApps.ItemDragDrop += new System.EventHandler<WGestures.App.Gui.Windows.Controls.ListViewItemDragEventArgs>(this.listApps_ItemDragDrop);
@@ -911,134 +1018,147 @@ namespace WGestures.App.Gui.Windows
             // 
             // colListAppDummy
             // 
-            resources.ApplyResources(this.colListAppDummy, "colListAppDummy");
+            this.colListAppDummy.Width = 64;
             // 
             // imglistAppIcons
             // 
             this.imglistAppIcons.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            resources.ApplyResources(this.imglistAppIcons, "imglistAppIcons");
+            this.imglistAppIcons.ImageSize = new System.Drawing.Size(32, 32);
             this.imglistAppIcons.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // tabPage1
             // 
-            resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Controls.Add(this.label10);
             this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.picture_alipayCode);
             this.tabPage1.Controls.Add(this.tb_updateLog);
             this.tabPage1.Controls.Add(this.flowLayoutPanel5);
             this.tabPage1.Controls.Add(this.picture_logo);
-            this.errorProvider.SetError(this.tabPage1, resources.GetString("tabPage1.Error"));
-            this.errorProvider.SetIconAlignment(this.tabPage1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabPage1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.tabPage1, ((int)(resources.GetObject("tabPage1.IconPadding"))));
+            this.tabPage1.Location = new System.Drawing.Point(4, 32);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(1);
             this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(551, 435);
+            this.tabPage1.TabIndex = 2;
             this.tabPage1.Tag = "about";
-            this.tip.SetToolTip(this.tabPage1, resources.GetString("tabPage1.ToolTip"));
+            this.tabPage1.Text = "关 于";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
-            resources.ApplyResources(this.label10, "label10");
-            this.errorProvider.SetError(this.label10, resources.GetString("label10.Error"));
             this.label10.ForeColor = System.Drawing.Color.OrangeRed;
-            this.errorProvider.SetIconAlignment(this.label10, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label10.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label10, ((int)(resources.GetObject("label10.IconPadding"))));
+            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label10.Location = new System.Drawing.Point(233, 208);
+            this.label10.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label10.Name = "label10";
-            this.tip.SetToolTip(this.label10, resources.GetString("label10.ToolTip"));
+            this.label10.Size = new System.Drawing.Size(185, 23);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "支付宝钱包扫码";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label12
             // 
-            resources.ApplyResources(this.label12, "label12");
-            this.errorProvider.SetError(this.label12, resources.GetString("label12.Error"));
-            this.errorProvider.SetIconAlignment(this.label12, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label12.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label12, ((int)(resources.GetObject("label12.IconPadding"))));
+            this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label12.Location = new System.Drawing.Point(130, 181);
+            this.label12.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label12.Name = "label12";
-            this.tip.SetToolTip(this.label12, resources.GetString("label12.ToolTip"));
+            this.label12.Size = new System.Drawing.Size(412, 27);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "若WGestures对您有用，请考虑捐助支持该项目，以帮助我做得更好";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // picture_alipayCode
             // 
-            resources.ApplyResources(this.picture_alipayCode, "picture_alipayCode");
-            this.errorProvider.SetError(this.picture_alipayCode, resources.GetString("picture_alipayCode.Error"));
-            this.errorProvider.SetIconAlignment(this.picture_alipayCode, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("picture_alipayCode.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.picture_alipayCode, ((int)(resources.GetObject("picture_alipayCode.IconPadding"))));
             this.picture_alipayCode.Image = global::WGestures.App.Properties.Resources.alipay;
+            this.picture_alipayCode.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.picture_alipayCode.Location = new System.Drawing.Point(235, 232);
+            this.picture_alipayCode.Margin = new System.Windows.Forms.Padding(1);
             this.picture_alipayCode.Name = "picture_alipayCode";
+            this.picture_alipayCode.Size = new System.Drawing.Size(183, 184);
+            this.picture_alipayCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picture_alipayCode.TabIndex = 4;
             this.picture_alipayCode.TabStop = false;
-            this.tip.SetToolTip(this.picture_alipayCode, resources.GetString("picture_alipayCode.ToolTip"));
             // 
             // tb_updateLog
             // 
-            resources.ApplyResources(this.tb_updateLog, "tb_updateLog");
-            this.errorProvider.SetError(this.tb_updateLog, resources.GetString("tb_updateLog.Error"));
-            this.errorProvider.SetIconAlignment(this.tb_updateLog, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tb_updateLog.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.tb_updateLog, ((int)(resources.GetObject("tb_updateLog.IconPadding"))));
+            this.tb_updateLog.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.tb_updateLog.Location = new System.Drawing.Point(130, 21);
+            this.tb_updateLog.Margin = new System.Windows.Forms.Padding(1);
+            this.tb_updateLog.Multiline = true;
             this.tb_updateLog.Name = "tb_updateLog";
             this.tb_updateLog.ReadOnly = true;
-            this.tip.SetToolTip(this.tb_updateLog, resources.GetString("tb_updateLog.ToolTip"));
+            this.tb_updateLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_updateLog.Size = new System.Drawing.Size(412, 153);
+            this.tb_updateLog.TabIndex = 3;
             // 
             // flowLayoutPanel5
             // 
-            resources.ApplyResources(this.flowLayoutPanel5, "flowLayoutPanel5");
             this.flowLayoutPanel5.Controls.Add(this.linkLabel1);
             this.flowLayoutPanel5.Controls.Add(this.linkLabel2);
-            this.errorProvider.SetError(this.flowLayoutPanel5, resources.GetString("flowLayoutPanel5.Error"));
-            this.errorProvider.SetIconAlignment(this.flowLayoutPanel5, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("flowLayoutPanel5.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.flowLayoutPanel5, ((int)(resources.GetObject("flowLayoutPanel5.IconPadding"))));
+            this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(9, 127);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(1);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.tip.SetToolTip(this.flowLayoutPanel5, resources.GetString("flowLayoutPanel5.ToolTip"));
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(105, 81);
+            this.flowLayoutPanel5.TabIndex = 2;
             // 
             // linkLabel1
             // 
-            resources.ApplyResources(this.linkLabel1, "linkLabel1");
-            this.errorProvider.SetError(this.linkLabel1, resources.GetString("linkLabel1.Error"));
-            this.errorProvider.SetIconAlignment(this.linkLabel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("linkLabel1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.linkLabel1, ((int)(resources.GetObject("linkLabel1.IconPadding"))));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.linkLabel1.Location = new System.Drawing.Point(1, 0);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 8);
             this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(56, 17);
+            this.linkLabel1.TabIndex = 1;
             this.linkLabel1.TabStop = true;
-            this.tip.SetToolTip(this.linkLabel1, resources.GetString("linkLabel1.ToolTip"));
+            this.linkLabel1.Text = "项目主页";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel2
             // 
-            resources.ApplyResources(this.linkLabel2, "linkLabel2");
-            this.errorProvider.SetError(this.linkLabel2, resources.GetString("linkLabel2.Error"));
-            this.errorProvider.SetIconAlignment(this.linkLabel2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("linkLabel2.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.linkLabel2, ((int)(resources.GetObject("linkLabel2.IconPadding"))));
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.linkLabel2.Location = new System.Drawing.Point(1, 25);
+            this.linkLabel2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 8);
             this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(56, 17);
+            this.linkLabel2.TabIndex = 1;
             this.linkLabel2.TabStop = true;
-            this.tip.SetToolTip(this.linkLabel2, resources.GetString("linkLabel2.ToolTip"));
+            this.linkLabel2.Text = "作者邮箱";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // picture_logo
             // 
-            resources.ApplyResources(this.picture_logo, "picture_logo");
-            this.errorProvider.SetError(this.picture_logo, resources.GetString("picture_logo.Error"));
-            this.errorProvider.SetIconAlignment(this.picture_logo, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("picture_logo.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.picture_logo, ((int)(resources.GetObject("picture_logo.IconPadding"))));
             this.picture_logo.Image = global::WGestures.App.Properties.Resources._128;
+            this.picture_logo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.picture_logo.Location = new System.Drawing.Point(9, 21);
+            this.picture_logo.Margin = new System.Windows.Forms.Padding(1);
             this.picture_logo.Name = "picture_logo";
+            this.picture_logo.Size = new System.Drawing.Size(105, 97);
+            this.picture_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picture_logo.TabIndex = 0;
             this.picture_logo.TabStop = false;
-            this.tip.SetToolTip(this.picture_logo, resources.GetString("picture_logo.ToolTip"));
             // 
             // flowLayoutPanel4
             // 
-            resources.ApplyResources(this.flowLayoutPanel4, "flowLayoutPanel4");
             this.flowLayoutPanel4.Controls.Add(this.lb_info);
-            this.errorProvider.SetError(this.flowLayoutPanel4, resources.GetString("flowLayoutPanel4.Error"));
-            this.errorProvider.SetIconAlignment(this.flowLayoutPanel4, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("flowLayoutPanel4.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.flowLayoutPanel4, ((int)(resources.GetObject("flowLayoutPanel4.IconPadding"))));
+            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(9, 488);
+            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0, 12, 0, 10);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.tip.SetToolTip(this.flowLayoutPanel4, resources.GetString("flowLayoutPanel4.ToolTip"));
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(557, 16);
+            this.flowLayoutPanel4.TabIndex = 10;
             // 
             // lb_info
             // 
-            resources.ApplyResources(this.lb_info, "lb_info");
-            this.errorProvider.SetError(this.lb_info, resources.GetString("lb_info.Error"));
+            this.lb_info.AutoSize = true;
             this.lb_info.ForeColor = System.Drawing.Color.DimGray;
-            this.errorProvider.SetIconAlignment(this.lb_info, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lb_info.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.lb_info, ((int)(resources.GetObject("lb_info.IconPadding"))));
+            this.lb_info.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lb_info.Location = new System.Drawing.Point(397, 0);
             this.lb_info.Name = "lb_info";
-            this.tip.SetToolTip(this.lb_info, resources.GetString("lb_info.ToolTip"));
+            this.lb_info.Size = new System.Drawing.Size(157, 17);
+            this.lb_info.TabIndex = 6;
+            this.lb_info.Text = "*改动将自动保存并立即生效";
             // 
             // tip
             // 
@@ -1049,86 +1169,65 @@ namespace WGestures.App.Gui.Windows
             // 
             // pic_menuBtn
             // 
-            resources.ApplyResources(this.pic_menuBtn, "pic_menuBtn");
-            this.errorProvider.SetError(this.pic_menuBtn, resources.GetString("pic_menuBtn.Error"));
-            this.errorProvider.SetIconAlignment(this.pic_menuBtn, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("pic_menuBtn.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.pic_menuBtn, ((int)(resources.GetObject("pic_menuBtn.IconPadding"))));
             this.pic_menuBtn.Image = global::WGestures.App.Properties.Resources.menuBtn;
+            this.pic_menuBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.pic_menuBtn.Location = new System.Drawing.Point(541, 10);
             this.pic_menuBtn.Name = "pic_menuBtn";
+            this.pic_menuBtn.Size = new System.Drawing.Size(24, 24);
+            this.pic_menuBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pic_menuBtn.TabIndex = 11;
             this.pic_menuBtn.TabStop = false;
-            this.tip.SetToolTip(this.pic_menuBtn, resources.GetString("pic_menuBtn.ToolTip"));
+            this.tip.SetToolTip(this.pic_menuBtn, "菜单");
             this.pic_menuBtn.Click += new System.EventHandler(this.pic_menuBtn_Click);
             this.pic_menuBtn.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pic_menuBtn_MouseDown);
             // 
             // ctx_gesturesMenu
             // 
-            resources.ApplyResources(this.ctx_gesturesMenu, "ctx_gesturesMenu");
-            this.errorProvider.SetError(this.ctx_gesturesMenu, resources.GetString("ctx_gesturesMenu.Error"));
-            this.errorProvider.SetIconAlignment(this.ctx_gesturesMenu, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("ctx_gesturesMenu.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.ctx_gesturesMenu, ((int)(resources.GetObject("ctx_gesturesMenu.IconPadding"))));
             this.ctx_gesturesMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItem_import,
             this.menuItem_export});
             this.ctx_gesturesMenu.Name = "contextMenuStrip1";
-            this.tip.SetToolTip(this.ctx_gesturesMenu, resources.GetString("ctx_gesturesMenu.ToolTip"));
+            this.ctx_gesturesMenu.Size = new System.Drawing.Size(110, 48);
             this.ctx_gesturesMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.ctx_gesturesMenu_Closed);
             // 
             // menuItem_import
             // 
-            resources.ApplyResources(this.menuItem_import, "menuItem_import");
             this.menuItem_import.Name = "menuItem_import";
+            this.menuItem_import.Size = new System.Drawing.Size(109, 22);
+            this.menuItem_import.Text = "导入...";
             this.menuItem_import.Click += new System.EventHandler(this.menuItem_imxport_Click);
             // 
             // menuItem_export
             // 
-            resources.ApplyResources(this.menuItem_export, "menuItem_export");
             this.menuItem_export.Name = "menuItem_export";
+            this.menuItem_export.Size = new System.Drawing.Size(109, 22);
+            this.menuItem_export.Text = "导出...";
             this.menuItem_export.Click += new System.EventHandler(this.menuItem_export_Click);
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.errorProvider.SetError(this.label3, resources.GetString("label3.Error"));
-            this.errorProvider.SetIconAlignment(this.label3, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label3.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.label3, ((int)(resources.GetObject("label3.IconPadding"))));
-            this.label3.Name = "label3";
-            this.tip.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
-            // 
-            // comboBox1
-            // 
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.errorProvider.SetError(this.comboBox1, resources.GetString("comboBox1.Error"));
-            this.comboBox1.FormattingEnabled = true;
-            this.errorProvider.SetIconAlignment(this.comboBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("comboBox1.IconAlignment"))));
-            this.errorProvider.SetIconPadding(this.comboBox1, ((int)(resources.GetObject("comboBox1.IconPadding"))));
-            this.comboBox1.Items.AddRange(new object[] {
-            resources.GetString("comboBox1.Items"),
-            resources.GetString("comboBox1.Items1")});
-            this.comboBox1.Name = "comboBox1";
-            this.tip.SetToolTip(this.comboBox1, resources.GetString("comboBox1.ToolTip"));
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 300;
             this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider.ContainerControl = this;
-            resources.ApplyResources(this.errorProvider, "errorProvider");
             // 
             // SettingsForm
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox1);
+            this.ClientSize = new System.Drawing.Size(577, 517);
             this.Controls.Add(this.pic_menuBtn);
             this.Controls.Add(this.flowLayoutPanel4);
             this.Controls.Add(this.tabControl);
+            this.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
-            this.tip.SetToolTip(this, resources.GetString("$this.ToolTip"));
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "WGestures设置";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsForm_FormClosing);
             this.Shown += new System.EventHandler(this.SettingsForm_Shown);
             this.tabControl.ResumeLayout(false);
@@ -1170,7 +1269,6 @@ namespace WGestures.App.Gui.Windows
             this.ctx_gesturesMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1255,6 +1353,6 @@ namespace WGestures.App.Gui.Windows
         private LineLabel lineLabel2;
         private Label label2;
         private Label label3;
-        private ComboBox comboBox1;
+        private ComboBox combo_GestureTriggerButton;
     }
 }

@@ -79,6 +79,14 @@ namespace WGestures.App.Gui.Windows
         {
             #region tab1
             lb_Version.Text = Application.ProductVersion;
+
+            var rightButtonText = Native.IsMouseButtonSwapped() ? "左键" : "右键";
+            var middleButtonText = "中键";
+            combo_GestureTriggerButton.Items.AddRange(new object[]
+            {
+                rightButtonText,middleButtonText, rightButtonText + "和" + middleButtonText
+            
+            });
             #endregion
 
             #region tab2
@@ -1096,10 +1104,10 @@ namespace WGestures.App.Gui.Windows
         }
         #endregion
 
-
-
-
-
+        private void combo_GestureTriggerButton_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            combo_GestureTriggerButton.DataBindings[0].WriteValue();
+        }
 
     }
 
