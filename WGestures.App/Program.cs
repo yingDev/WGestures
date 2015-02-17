@@ -117,13 +117,16 @@ namespace WGestures.App
         private static void CheckAndDoFirstRunStuff()
         {
             //是否是第一次运行
-            isFirstRun = config.Get(ConfigKeys.IsFirstRun, false);
+             var maybeFirstRun = config.Get<bool?>(ConfigKeys.IsFirstRun);
+            isFirstRun = (!maybeFirstRun.HasValue || maybeFirstRun.Value);
 
             if (isFirstRun)
             {
                 ImportPrevousVersion();
 
                 config.Set(ConfigKeys.IsFirstRun, false);
+                config.Set(ConfigKeys.AutoCheckForUpdate, true);
+                config.Set(ConfigKeys.AutoStart, true);
                 config.Save();
             
                 ShowQuickStartGuide();
