@@ -187,6 +187,13 @@ namespace WGestures.Core.Impl.Windows
                 {
                     if(_msgQueue.Count == 0) Monitor.Wait(_msgQueue);
                     msg = _msgQueue.Dequeue();
+
+                    if (msg.message == WM.SIMULATE_MOUSE)
+                    {
+                        SimulateGestureBtnEvent((GestureBtnEventType) msg.param, _curPos.X, _curPos.Y);
+                        continue;
+                    }
+
                     UpdateContextAndEventArgs();
                 }
 
@@ -220,6 +227,7 @@ namespace WGestures.Core.Impl.Windows
                     case WM.STOP:
                         OnStop();
                         return;
+
                 }
 
             }
@@ -391,8 +399,18 @@ namespace WGestures.Core.Impl.Windows
                             //起始没有移动足够距离
                             if (!_initialMoveValid)
                             {
-                                SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _curPos.X, _curPos.Y);
-                                Thread.Sleep(50);
+                                //Note: 在hook线程里面模拟点击， 行为不可预测。
+                                Debug.WriteLine("Simulating Click");
+                                Post(WM.SIMULATE_MOUSE, (int) GestureBtnEventType.CLICK);
+                                /*new Thread(() =>
+                                {
+                                    SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
+                                }).Start();*/
+                                //SimulateGestureBtnEvent(GestureBtnEventType.UP, _curPos.X, _curPos.Y);
+
+                                //SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
+                                e.Handled = true;
+                                //Thread.Sleep(50);
                             }
                             else
                             {
@@ -415,7 +433,7 @@ namespace WGestures.Core.Impl.Windows
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
         {
-            const int EventInterval = 10;
+            //const int EventInterval = 10;
 
             Debug.WriteLine("SimulateMouseEvent: " + _gestureBtn + " " + eventType);
             _simulatingMouse = true;
@@ -439,7 +457,7 @@ namespace WGestures.Core.Impl.Windows
                                 break;
                             case GestureBtnEventType.CLICK:
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
-                                Thread.Sleep(EventInterval);
+                                //Thread.Sleep(EventInterval);
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                         }
@@ -456,7 +474,7 @@ namespace WGestures.Core.Impl.Windows
                                 break;
                             case GestureBtnEventType.CLICK:
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
-                                Thread.Sleep(EventInterval);
+                                //Thread.Sleep(EventInterval);
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                         }
@@ -475,7 +493,7 @@ namespace WGestures.Core.Impl.Windows
                             break;
                         case GestureBtnEventType.CLICK:
                             User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
-                            Thread.Sleep(EventInterval);
+                            //Thread.Sleep(EventInterval);
                             User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                             break;
                     }
@@ -834,7 +852,9 @@ namespace WGestures.Core.Impl.Windows
             GESTBTN_MOVE = WM_USER + 6,
             GESTBTN_MODIFIER = WM_USER + 7,//代表左键和滚轮事件
 
-            PAUSE_RESUME = WM_USER + 8
+            PAUSE_RESUME = WM_USER + 8,
+
+            SIMULATE_MOUSE = WM_USER + 9
         }
 
         [Flags]
