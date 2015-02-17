@@ -11,6 +11,7 @@ using WindowsInput.Native;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using Win32;
+using Screen = WGestures.Common.OsSpecific.Windows.Screen;
 using ThreadState = System.Diagnostics.ThreadState;
 
 namespace WGestures.Core.Commands.Impl
@@ -27,7 +28,7 @@ namespace WGestures.Core.Commands.Impl
         public List<VirtualKeyCode> Modifiers { get; set; }
 
         public List<VirtualKeyCode> Keys { get; set; }
-        private readonly InputSimulator _sim = new InputSimulator();
+        private static readonly InputSimulator sim = new InputSimulator();
 
 
         public override void Execute()
@@ -155,19 +156,19 @@ namespace WGestures.Core.Commands.Impl
         private void PerformKey(uint pid, uint tid, VirtualKeyCode key, bool isUp = false)
         {
 
-            Native.WaitForInputIdle(pid, tid, 100);
-
+            //Native.WaitForInputIdle(pid, tid, 100);
+            Thread.Sleep(10);
             if (!isUp)
             {
-                _sim.Keyboard.KeyDown(key);
+                sim.Keyboard.KeyDown(key);
 
             }
             else
             {
-                _sim.Keyboard.KeyUp(key);
+                sim.Keyboard.KeyUp(key);
             }
 
-            Native.WaitForInputIdle(pid, tid, 20);
+            //Native.WaitForInputIdle(pid, tid, 20);
 
         }
 

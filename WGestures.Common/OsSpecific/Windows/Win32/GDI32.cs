@@ -260,6 +260,10 @@ namespace Win32
         }
         #endregion
 
+        [DllImport(Gdi32Dll, SetLastError = true, EntryPoint = "CreateDC", CharSet = CharSet.Auto)]
+        public static extern IntPtr CreateDC(string lpszDriver, string lpszDeviceName, string lpszOutput, HandleRef devMode);
+        
+
         public const Int32 ULW_COLORKEY = 0x00000001;
         public const Int32 ULW_ALPHA = 0x00000002;
         public const Int32 ULW_OPAQUE = 0x00000004;

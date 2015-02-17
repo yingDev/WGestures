@@ -19,12 +19,12 @@ namespace WGestures.Core.Persistence
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public bool IsGesturingEnabledForContext(GestureContext context)
+        public bool IsGesturingEnabledForContext(GestureContext context, out ExeApp foundApp)
         {
-            var found = GetExeAppByContext(context);
-           
-            return found != null ?
-                found.IsGesturingEnabled : IntentStore.GlobalApp.IsGesturingEnabled;
+            foundApp = GetExeAppByContext(context);
+
+            return foundApp != null ?
+                foundApp.IsGesturingEnabled : IntentStore.GlobalApp.IsGesturingEnabled;
         }
 
         /// <summary>
@@ -54,6 +54,27 @@ namespace WGestures.Core.Persistence
 
             return found;
         }
+
+        public GestureIntent Find(Gesture gesture, ExeApp inApp)
+        {
+            GestureIntent found;
+
+            if (inApp != null)
+            {
+                found = inApp.Find(gesture);
+                if (found == null && inApp.InheritGlobalGestures) //是否继承了全局手势
+                {
+                    found = IntentStore.GlobalApp.Find(gesture);
+                }
+            }
+            else
+            {
+                found = IntentStore.GlobalApp.Find(gesture);
+            }
+
+            return found;
+        }
+
 
         /// <summary>
         /// 实现平台相关的查找

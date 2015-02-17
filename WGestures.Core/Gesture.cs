@@ -65,9 +65,9 @@ namespace WGestures.Core
             hash += hash*31 + GestureButton.GetHashCode();
             foreach (var d in Dirs)
             {
-                hash = hash * 31 + d.GetHashCode();
+                hash = hash * 31 + (int)d;
             }
-            hash = hash * 31 + Modifier.GetHashCode();
+            hash = hash * 31 + (int)Modifier;
            
 
             return hash;

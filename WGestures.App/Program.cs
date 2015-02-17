@@ -19,6 +19,7 @@ using WGestures.Core.Impl.Windows;
 using WGestures.Core.Persistence.Impl;
 using WGestures.Core.Persistence.Impl.Windows;
 using WGestures.View.Impl.Windows;
+using Screen = WGestures.Common.OsSpecific.Windows.Screen;
 using Timer = System.Windows.Forms.Timer;
 
 namespace WGestures.App

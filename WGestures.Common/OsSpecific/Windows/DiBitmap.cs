@@ -12,7 +12,7 @@ namespace WGestures.Common.OsSpecific.Windows
     /// </summary>
     public class DiBitmap : IDisposable
     {
-        public delegate void DrawingHandler(Graphics g);
+        //public delegate void DrawingHandler(Graphics g);
 
         public IntPtr HBitmap { get; private set; }
         public IntPtr PointerToBits { get; private set; }
@@ -54,6 +54,13 @@ namespace WGestures.Common.OsSpecific.Windows
                 PointerToBits = ptrBits;
                 if (HBitmap == IntPtr.Zero)
                     throw new ApplicationException("初始化失败：CreateDIBSection(...)失败(" + Native.GetLastError() + ")");
+
+                _oldObject = Native.SelectObject(_memDc, HBitmap);
+                _graphics = Graphics.FromHdc(_memDc);
+                _graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                _graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                Native.SelectObject(_memDc, _oldObject);
+
             }
             finally
             {
@@ -63,7 +70,7 @@ namespace WGestures.Common.OsSpecific.Windows
 
         }
 
-        public void DrawWith(DrawingHandler drawingHandler)
+        /*public void DrawWith(DrawingHandler drawingHandler)
         {
 
             try
@@ -90,6 +97,26 @@ namespace WGestures.Common.OsSpecific.Windows
                 //Native.ReleaseDC(IntPtr.Zero, screenDc);
 
             }
+        }*/
+
+        public Graphics BeginDraw()
+        {
+            _oldObject = Native.SelectObject(_memDc, HBitmap);
+
+            /*if (_graphics == null)
+            {
+                _graphics = Graphics.FromHdc(_memDc);
+
+                _graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                _graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            }*/
+
+            return _graphics;
+        }
+
+        public void EndDraw()
+        {
+            Native.SelectObject(_memDc, _oldObject);
         }
 
         public void Dispose()
@@ -105,12 +132,36 @@ namespace WGestures.Common.OsSpecific.Windows
 
             if (HBitmap != IntPtr.Zero)
             {
-                //Debug.WriteLine("Disposing ");
                 Native.DeleteObject(HBitmap);
                 HBitmap = IntPtr.Zero;
-                //GC.Collect();
             }
 
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Dispose();
+                GC.SuppressFinalize(this);
+            }
+            else
+            {
+                if (HBitmap != IntPtr.Zero)
+                {
+                    Native.DeleteObject(HBitmap);
+                    HBitmap = IntPtr.Zero;
+                }
+
+                Native.SelectObject(_memDc, _oldObject);
+                Native.DeleteDC(_memDc);
+
+            }
+        }
+
+        ~DiBitmap()
+        {
+            Dispose(false);
         }
     }
 }

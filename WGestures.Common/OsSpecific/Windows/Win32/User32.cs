@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using System.Runtime.InteropServices;
@@ -1463,6 +1464,102 @@ namespace Win32
             SPIF_SENDCHANGE = 0x02,
             /// <summary>Same as SPIF_SENDCHANGE.</summary>
             SPIF_SENDWININICHANGE = 0x02
+        }
+
+
+        [DllImport(User32Dll, ExactSpelling = true)]
+        public static extern IntPtr MonitorFromPoint(POINT pt, int flags);
+        [DllImport(User32Dll, ExactSpelling = true)]
+        public static extern IntPtr MonitorFromRect(ref GDI32.RECT rect, int flags);
+        [DllImport(User32Dll, ExactSpelling = true)]
+        public static extern IntPtr MonitorFromWindow(HandleRef handle, int flags);
+        [DllImport(User32Dll, ExactSpelling = true)]
+        public static extern bool EnumDisplayMonitors(HandleRef hdc, COMRECT rcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
+
+        [DllImport(User32Dll, ExactSpelling = true, CharSet = CharSet.Auto)]
+        public static extern int GetSystemMetrics(int nIndex);
+
+        [DllImport(User32Dll, CharSet = CharSet.Auto)]
+        public static extern bool SystemParametersInfo(int nAction, int nParam, ref GDI32.RECT rc, int nUpdate);
+        
+        public delegate bool MonitorEnumProc(IntPtr monitor, IntPtr hdc, IntPtr lprcMonitor, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfoEx lpmi);
+
+        private const int CCHDEVICENAME = 32;
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct MonitorInfoEx
+        {
+            public int Size;
+            public GDI32.RECT Monitor;
+            public GDI32.RECT WorkArea;
+            public uint Flags;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME)]
+            public string DeviceName;
+
+            public void Init()
+            {
+                this.Size = 40 + 2 * CCHDEVICENAME;
+                this.DeviceName = string.Empty;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+        public class MONITORINFO
+        {
+            internal int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+            internal GDI32.RECT rcMonitor = new GDI32.RECT();
+            internal GDI32.RECT rcWork = new GDI32.RECT();
+            internal int dwFlags = 0;
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public class COMRECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+
+            public COMRECT()
+            {
+            }
+
+            public COMRECT(System.Drawing.Rectangle r)
+            {
+                this.left = r.X;
+                this.top = r.Y;
+                this.right = r.Right;
+                this.bottom = r.Bottom;
+            }
+
+
+            public COMRECT(int left, int top, int right, int bottom)
+            {
+                this.left = left;
+                this.top = top;
+                this.right = right;
+                this.bottom = bottom;
+            }
+
+            /* Unused
+            public RECT ToRECT() {
+                return new RECT(left, top, right, bottom);
+            }
+            */
+
+            public static COMRECT FromXYWH(int x, int y, int width, int height)
+            {
+                return new COMRECT(x, y, x + width, y + height);
+            }
+
+            public override string ToString()
+            {
+                return "Left = " + left + " Top " + top + " Right = " + right + " Bottom = " + bottom;
+            }
         }
 
         /// <summary>

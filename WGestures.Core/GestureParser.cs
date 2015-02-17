@@ -91,6 +91,7 @@ namespace WGestures.Core
         private Point _lastPoint;
         private int _pointCount = 0;
         private GestureIntent _effectiveIntent;
+        private ExeApp _currentApp;
 
         private bool _isPaused;
 
@@ -230,7 +231,7 @@ namespace WGestures.Core
                 return;
             }
 
-            var shouldStart = IntentFinder.IsGesturingEnabledForContext(args.PathEventArgs.Context);
+            var shouldStart = IntentFinder.IsGesturingEnabledForContext(args.PathEventArgs.Context, out _currentApp);
             args.ShouldPathStart = shouldStart;
         }
 
@@ -255,7 +256,7 @@ namespace WGestures.Core
             }
 
             var lastEffectiveIntent = _effectiveIntent;
-            _effectiveIntent = IntentFinder.Find(_gesture, args.Context);
+            _effectiveIntent = IntentFinder.Find(_gesture, _currentApp);
 
             if (_effectiveIntent != null)
             {
