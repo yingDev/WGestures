@@ -173,7 +173,6 @@
         <File  Source="$(var.WGestures.App.TargetDir)QuickStartGuide\slides\2.png"/>
         <File  Source="$(var.WGestures.App.TargetDir)QuickStartGuide\slides\3.png"/>
         <File  Source="$(var.WGestures.App.TargetDir)QuickStartGuide\slides\4.png"/>
-        <File  Source="$(var.WGestures.App.TargetDir)QuickStartGuide\slides\5.png"/>
 
       </Component>
 

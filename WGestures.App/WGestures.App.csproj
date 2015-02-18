@@ -476,9 +476,6 @@
     <Content Include="QuickStartGuide\slides\4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="QuickStartGuide\slides\5.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Resources\128.png" />
     <EmbeddedResource Include="Resources\icon_bw.ico" />
     <EmbeddedResource Include="Resources\checking.gif" />
