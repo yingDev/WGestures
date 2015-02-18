@@ -47,7 +47,7 @@ namespace WGestures.App.Gui.Windows
             this.label2 = new System.Windows.Forms.Label();
             this.flowAlert = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lb_errMsg = new System.Windows.Forms.Label();
             this.lineFlowLayout1 = new WGestures.App.Gui.Windows.Controls.LineFlowLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -183,7 +183,7 @@ namespace WGestures.App.Gui.Windows
             // 
             this.flowAlert.AutoSize = true;
             this.flowAlert.Controls.Add(this.pictureBox1);
-            this.flowAlert.Controls.Add(this.label3);
+            this.flowAlert.Controls.Add(this.lb_errMsg);
             this.flowAlert.Location = new System.Drawing.Point(8, 206);
             this.flowAlert.Name = "flowAlert";
             this.flowAlert.Size = new System.Drawing.Size(243, 21);
@@ -200,17 +200,17 @@ namespace WGestures.App.Gui.Windows
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
-            // label3
+            // lb_errMsg
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label3.Location = new System.Drawing.Point(25, 3);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(215, 12);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "相同手势已存在， 点击保存会将其替代";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lb_errMsg.AutoSize = true;
+            this.lb_errMsg.ForeColor = System.Drawing.Color.DarkOrange;
+            this.lb_errMsg.Location = new System.Drawing.Point(25, 3);
+            this.lb_errMsg.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lb_errMsg.Name = "lb_errMsg";
+            this.lb_errMsg.Size = new System.Drawing.Size(215, 12);
+            this.lb_errMsg.TabIndex = 7;
+            this.lb_errMsg.Text = "相同手势已存在， 点击保存会将其替代";
+            this.lb_errMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lineFlowLayout1
             // 
@@ -267,6 +267,6 @@ namespace WGestures.App.Gui.Windows
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.FlowLayoutPanel flowAlert;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lb_errMsg;
     }
 }

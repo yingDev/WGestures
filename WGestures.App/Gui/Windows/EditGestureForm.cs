@@ -52,19 +52,24 @@ namespace WGestures.App.Gui.Windows
 
         private void GestureParser_GestureCaptured(Gesture gesture)
         {
+            if (gesture.Count() == 0) return;
             Debug.WriteLine("GestureCaptured: " + gesture);
             var formerMnemonic = lb_mnemonic.Text;
 
             CapturedGesture = gesture;
             if (_intent != null)
             {
-                flowAlert.Visible = (!gesture.Equals(_intent.Gesture) 
-                    && _app.Find(gesture) != null);
+                var found = _app.Find(gesture);
                 
+                if (found != null)
+                {
+                    lb_errMsg.Text = "相同手势(" + found.Name + ")已存在，点击‘确定’会将其替代";
+                }
+
+                flowAlert.Visible = (found != null && found != _intent);
+                lb_mnemonic.Text = gesture.ToString();
             }
             
-            if(_intent != null) lb_mnemonic.Text = gesture.ToString();
-
             if (formerMnemonic == tb_gestureName.Text|| string.IsNullOrEmpty(tb_gestureName.Text))
             {
                 tb_gestureName.Text = lb_mnemonic.Text;
