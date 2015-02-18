@@ -63,7 +63,7 @@ namespace WGestures.App.Gui.Windows
                 
                 if (found != null)
                 {
-                    lb_errMsg.Text = "相同手势(" + found.Name + ")已存在，点击‘确定’会将其替代";
+                    lb_errMsg.Text = "相同手势(" + found.Name + ")已存在，点击‘保存’会将其替代";
                 }
 
                 flowAlert.Visible = (found != null && found != _intent);
