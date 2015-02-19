@@ -67,9 +67,10 @@ namespace WGestures.App.Gui.Windows
                 }
 
                 flowAlert.Visible = (found != null && found != _intent);
-                lb_mnemonic.Text = gesture.ToString();
             }
-            
+                            
+            lb_mnemonic.Text = gesture.ToString();
+
             if (formerMnemonic == tb_gestureName.Text|| string.IsNullOrEmpty(tb_gestureName.Text))
             {
                 tb_gestureName.Text = lb_mnemonic.Text;
