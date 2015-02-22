@@ -298,18 +298,20 @@ namespace WGestures.Core.Impl.Windows
             if (e.Msg == MouseMsg.WM_MBUTTONDOWN)
             {
                 var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
-                if (Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0)
-                {
-                    Post(WM.GUI_REQUEST, (int) GUI_RequestType.PauseResume);
-                    return;
-                }
+                var lButtonPressed = Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0;
+                var shiftPressed = Native.GetAsyncKeyState(Keys.ShiftKey) < 0;
 
-            }else if (e.Msg == MouseMsg.WM_RBUTTONDOWN)
-            {
-                var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
-                if (Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0)
+                if (lButtonPressed)
                 {
-                    Post(WM.GUI_REQUEST, (int)GUI_RequestType.ShowHideTray);
+                    if (shiftPressed)
+                    {
+                        Post(WM.GUI_REQUEST, (int)GUI_RequestType.ShowHideTray);
+                    }
+                    else
+                    {
+                        Post(WM.GUI_REQUEST, (int)GUI_RequestType.PauseResume);
+                    }
+
                     return;
                 }
             }
