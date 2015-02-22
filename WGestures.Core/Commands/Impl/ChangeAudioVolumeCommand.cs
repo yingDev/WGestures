@@ -48,12 +48,15 @@ namespace WGestures.Core.Commands.Impl
                 switch (modifier)
                 {
                     case GestureModifier.WheelForward:
+                        ReportStatus("+");
                         5.Times(() => _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP));
                         break;
                     case GestureModifier.WheelBackward:
+                        ReportStatus("-");
                         5.Times(() => _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN));
                         break;
                     case GestureModifier.MiddleButtonDown:
+                        ReportStatus("x");
                         _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
                         break;
 
@@ -64,8 +67,6 @@ namespace WGestures.Core.Commands.Impl
                 Native.TryResetKeys(new[] { VirtualKeyCode.VOLUME_UP, VirtualKeyCode.VOLUME_DOWN, VirtualKeyCode.VOLUME_MUTE });
             }
 
-
-
         }
 
         public void GestureEnded()
@@ -74,6 +75,8 @@ namespace WGestures.Core.Commands.Impl
 
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
+
+        public event Action<string> ReportStatus;
     }
 
     static class IntExtension

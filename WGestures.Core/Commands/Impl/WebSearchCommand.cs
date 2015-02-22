@@ -23,8 +23,6 @@ namespace WGestures.Core.Commands.Impl
         public string SearchEngineUrl { get; set; }
         public string SearchEngingName { get; set; }
 
-        private InputSimulator _sim = new InputSimulator();
-
         public WebSearchCommand()
         {
             SearchEngingName = "Google";
@@ -60,7 +58,12 @@ namespace WGestures.Core.Commands.Impl
 
                     try
                     {
-                        _sim.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, new[] { VirtualKeyCode.VK_C });
+                        Sim.KeyDown(VirtualKeyCode.CONTROL);
+                        Sim.KeyDown(VirtualKeyCode.VK_C);
+                        
+                        Sim.KeyUp(VirtualKeyCode.VK_C);
+                        Sim.KeyUp(VirtualKeyCode.CONTROL);
+                        //_sim.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, new[] { VirtualKeyCode.VK_C });
                     }
                     catch (Exception ex)
                     {

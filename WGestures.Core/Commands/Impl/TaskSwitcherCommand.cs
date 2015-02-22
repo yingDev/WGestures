@@ -18,26 +18,22 @@ namespace WGestures.Core.Commands.Impl
     public class TaskSwitcherCommand : AbstractCommand, IGestureModifiersAware
     {
 
-        private InputSimulator _sim = new InputSimulator();
-
         public override void Execute()
         {
 
             try
             {
-
-
-                _sim.Keyboard.KeyDown(VirtualKeyCode.LMENU);
+                Sim.KeyDown(VirtualKeyCode.LMENU);
 
                 //Thread.Sleep(50);
-                _sim.Keyboard.KeyDown(VirtualKeyCode.TAB);
+                Sim.KeyDown(VirtualKeyCode.TAB);
 
                 //如果不延迟，foxitreader等ctrl+C可能失效！
                 Thread.Sleep(20);
 
-                _sim.Keyboard.KeyUp(VirtualKeyCode.TAB);
+                Sim.KeyUp(VirtualKeyCode.TAB);
 
-                _sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+                Sim.KeyUp(VirtualKeyCode.LMENU);
             }
             catch (Exception ex)
             {
@@ -60,8 +56,8 @@ namespace WGestures.Core.Commands.Impl
 
             try
             {
-                _sim.Keyboard.KeyDown(VirtualKeyCode.LMENU);
-                _sim.Keyboard.KeyPress(VirtualKeyCode.TAB);
+                Sim.KeyDown(VirtualKeyCode.LMENU);
+                Sim.KeyPress(VirtualKeyCode.TAB);
 
 
             }
@@ -76,14 +72,14 @@ namespace WGestures.Core.Commands.Impl
 
         public void ModifierTriggered(GestureModifier modifier)
         {
-            //直接交由系统的任务切换机制处理，不需要订阅任何事件
+            
         }
 
         public void GestureEnded()
         {
             try
             {
-                _sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+                Sim.KeyUp(VirtualKeyCode.LMENU);
 
             }
             catch (Exception ex)
@@ -92,6 +88,8 @@ namespace WGestures.Core.Commands.Impl
                 TryRecoverAltTab();
             }
         }
+
+        public event Action<string> ReportStatus;
 
         private void TryRecoverAltTab()
         {

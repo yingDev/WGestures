@@ -14,8 +14,6 @@ namespace WGestures.Core.Commands.Impl
     [Named("输出文本")]
     public class SendTextCommand : AbstractCommand
     {
-        private InputSimulator _sim = new InputSimulator();
-
         public string Text { get; set; }
 
         public override void Execute()
@@ -27,20 +25,20 @@ namespace WGestures.Core.Commands.Impl
                 //var fgThread = Native.GetWindowThreadProcessId(fgWin, out procId);
 
                 var txt = Text.Replace("\r\n", "\r");
+                Sim.TextEntry(txt);
 
-
-                foreach (var c in txt)
+                /*foreach (var c in txt)
                 {
                     Thread.Sleep(20);
                     try
                     {
-                        _sim.Keyboard.TextEntry(c);
+                        Sim.TextEntry(c);
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine("发送按键失败: " +ex);
                     }
-                }
+                }*/
 
 
             }

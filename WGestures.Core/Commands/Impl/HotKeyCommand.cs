@@ -28,7 +28,6 @@ namespace WGestures.Core.Commands.Impl
         public List<VirtualKeyCode> Modifiers { get; set; }
 
         public List<VirtualKeyCode> Keys { get; set; }
-        private static readonly InputSimulator sim = new InputSimulator();
 
 
         public override void Execute()
@@ -160,12 +159,12 @@ namespace WGestures.Core.Commands.Impl
             Thread.Sleep(10);
             if (!isUp)
             {
-                sim.Keyboard.KeyDown(key);
+                Sim.KeyDown(key);
 
             }
             else
             {
-                sim.Keyboard.KeyUp(key);
+                Sim.KeyUp(key);
             }
 
             //Native.WaitForInputIdle(pid, tid, 20);

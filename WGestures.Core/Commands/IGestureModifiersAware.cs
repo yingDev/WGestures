@@ -26,5 +26,7 @@ namespace WGestures.Core.Commands
         /// <param name="modifier">发生的修饰符事件</param>
         void ModifierTriggered(GestureModifier modifier);
         void GestureEnded();
+
+        event Action<string> ReportStatus;
     }
 }
