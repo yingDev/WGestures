@@ -12,7 +12,7 @@ namespace WGestures.App.Gui.Windows
         private GestureIntent _intent;
 
         //如果inApp不为null, 则为编辑模式
-        public EditGestureForm(GestureParser gestureParser, AbstractApp inApp = null, GestureIntent intent = null)
+        public EditGestureForm(GestureParser gestureParser, AbstractApp inApp, GestureIntent intent = null)
         {
             _gestureParser = gestureParser;
             _app = inApp;
@@ -20,7 +20,7 @@ namespace WGestures.App.Gui.Windows
 
             InitializeComponent();
 
-            if (_app != null && _intent != null)
+            if (_intent != null)
             {
                 if (inApp.Find(intent.Gesture) != intent)
                 {
@@ -52,12 +52,12 @@ namespace WGestures.App.Gui.Windows
 
         private void GestureParser_GestureCaptured(Gesture gesture)
         {
-            if (gesture.Count() == 0) return;
+            if (gesture.Count() == 0 && gesture.Modifier == GestureModifier.None) return;
             Debug.WriteLine("GestureCaptured: " + gesture);
             var formerMnemonic = lb_mnemonic.Text;
 
             CapturedGesture = gesture;
-            if (_intent != null)
+            //if (_intent != null)
             {
                 var found = _app.Find(gesture);
                 
@@ -66,7 +66,7 @@ namespace WGestures.App.Gui.Windows
                     lb_errMsg.Text = "相同手势(" + found.Name + ")已存在，点击‘保存’会将其替代";
                 }
 
-                flowAlert.Visible = (found != null && found != _intent);
+                flowAlert.Visible = (found != _intent);
             }
                             
             lb_mnemonic.Text = gesture.ToString();

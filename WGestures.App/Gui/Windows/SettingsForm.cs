@@ -339,7 +339,7 @@ namespace WGestures.App.Gui.Windows
             var app = GetSelectedAppOrGlobal();
             if (app == null) return;
 
-            using (var addGestureForm = new EditGestureForm(Controller.GestureParser))
+            using (var addGestureForm = new EditGestureForm(Controller.GestureParser,app))
             {
 
                 var ok = addGestureForm.ShowDialog();
