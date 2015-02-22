@@ -46,7 +46,9 @@ namespace WGestures.App
         [STAThread]
         static void Main(string[] args)
         {
+#if DEBUG
             Debug.Listeners.Add(new DetailedConsoleListener());
+#endif
 
             if (IsDuplicateInstance()) return;
             AppWideInit();
@@ -60,6 +62,9 @@ namespace WGestures.App
 
                 ConfigureComponents();
                 StartParserThread();
+
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+                GC.WaitForPendingFinalizers();
 
                 //显示托盘图标
                 ShowTrayIcon();
@@ -141,7 +146,7 @@ namespace WGestures.App
             Application.EnableVisualStyles();
             Native.SetProcessDPIAware();
 
-            Thread.CurrentThread.IsBackground = true;
+            Thread.CurrentThread.IsBackground = false;
             Thread.CurrentThread.Name = "入口线程";
 
             using (var proc = Process.GetCurrentProcess())
@@ -151,13 +156,13 @@ namespace WGestures.App
             }
 
 
-            SetWorkingSet(null, null);
+            //SetWorkingSet(null, null);
             SystemEvents.DisplaySettingsChanged += SetWorkingSet;
         }
 
         private static void SetWorkingSet(object sender, EventArgs e)
         {
-            using (var proc = Process.GetCurrentProcess())
+            /*using (var proc = Process.GetCurrentProcess())
             {
                 //工作集
                 var screenBounds = Screen.GetBounds(Point.Empty);
@@ -167,19 +172,26 @@ namespace WGestures.App
                 Debug.WriteLine("SetWorkingSet: min=" + min + "; max=" + (int)max);
 
                 Native.SetProcessWorkingSetSize(new IntPtr(proc.Id), min, (int)max);//按屏幕大小来预留工作集
-            }
+            }*/
         }
 
 
         private static void LoadFailSafeConfigFile()
         {
+#if Scafolding
+            config = new PlistConfig(AppSettings.ConfigFilePath){FileVersion = AppSettings.ConfigFileVersion};
+
+            intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
+            return;
+#endif
+
             if (!File.Exists(AppSettings.ConfigFilePath))
             {
                 File.Copy(string.Format("{0}/defaults/config.plist", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.ConfigFilePath);
             }
             if (!File.Exists(AppSettings.GesturesFilePath))
             {
-                File.Copy(string.Format("{0}/defaults/gestures.json", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
+                File.Copy(string.Format("{0}/defaults/gestures.wg", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
             }
 
             //如果文件损坏，则替换。
@@ -199,10 +211,10 @@ namespace WGestures.App
 
             try
             {
-                intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath);
+                intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
 
-                if (config.FileVersion != AppSettings.GesturesFileVersion ||
-                intentStore.FileVersion != AppSettings.ConfigFileVersion)
+                if (config.FileVersion != AppSettings.ConfigFileVersion ||
+                intentStore.FileVersion != AppSettings.GesturesFileVersion)
                 {
                     throw new Exception("配置文件版本不正确");
                 }
@@ -212,9 +224,9 @@ namespace WGestures.App
                 Debug.WriteLine("加载配置文件出错："+e);
 
                 File.Delete(AppSettings.GesturesFilePath);
-                File.Copy(string.Format("{0}/defaults/gestures.json", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
+                File.Copy(string.Format("{0}/defaults/gestures.wg", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
 
-                intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath);
+                intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
             }
 
         }
@@ -294,13 +306,23 @@ namespace WGestures.App
         {
             using (trayIcon = CreateNotifyIcon())
             {
+                trayIcon.BalloonTipClosed += (sender, args) => trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
+                trayIcon.BalloonTipClicked += (sender, args) => trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
+
+
                 if (isFirstRun)
                 {
                     trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单\n鼠标 左键+中键 随时暂停/继续手势", ToolTipIcon.Info);
                 }
                 else
                 {
-                    trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
+                    var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
+                    if (showIcon.HasValue && !showIcon.Value) //隐藏
+                    {
+                        trayIcon.ShowBalloonTip(3000, "WGestures后台运行中", "图标将自动隐藏。\n(按 Shift-左键-中键 切换显示/隐藏状态)", ToolTipIcon.Info);
+                    }
+
+                    
                 }
 
                 trayIcon.DoubleClick += (sender, args) => ShowSettings();
@@ -374,8 +396,18 @@ namespace WGestures.App
                         using (var frm = new UpdateInfoForm(ConfigurationManager.AppSettings.Get(Constants.ProductHomePageAppSettingKey), info))
                         {
                             frm.ShowDialog();
+                            tray.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
                         }
                     };
+                    if (!tray.Visible)
+                    {
+                        tray.Visible = true;
+                        /*tray.BalloonTipClosed += (o, args) =>
+                        {
+                            tray.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
+                        };*/
+                    }
+                    
                     tray.ShowBalloonTip(1000 * 15, Application.ProductName + "新版本可用!", "版本:" + info.Version + "\n" + whatsNew, ToolTipIcon.Info);
                 }
 
@@ -385,7 +417,6 @@ namespace WGestures.App
                 GC.Collect();
             };
 
-#if DEBUG
 
             checker.ErrorHappened += e =>
             {
@@ -395,16 +426,23 @@ namespace WGestures.App
 
                 GC.Collect();
             };
-#endif
 
             checker.CheckAsync();
         }
 
         private static void ToggleTrayIconVisibility()
-        {
+        {            
+
+            //如果图标当前可见， 而config中设置的值是不可见， 则说明是临时显示; 如果不是临时显示， 才需要修改config
+            if (!(trayIcon.Visible && !config.Get(ConfigKeys.TrayIconVisible, true)))
+            {
+                config.Set(ConfigKeys.TrayIconVisible, !trayIcon.Visible);
+                config.Save(); 
+            }
+
             trayIcon.Visible = !trayIcon.Visible;
-            config.Set(ConfigKeys.TrayIconVisible, trayIcon.Visible);
-            config.Save();
+
+            
         }
 
         private static void ShowSettings()
@@ -508,8 +546,11 @@ namespace WGestures.App
             var menuItem_showQuickStart = new MenuItem() { Text = "快速入门" };
             menuItem_showQuickStart.Click += (sender, args) => ShowQuickStartGuide();
 
-            var menuItem_toggleTray = new MenuItem() { Text = "隐藏 (左键 + 右键)" };
-            menuItem_toggleTray.Click += (sender, args) => ToggleTrayIconVisibility();
+            var menuItem_toggleTray = new MenuItem() { Text = "隐藏 (Shift + 左键 + 中键)" };
+            menuItem_toggleTray.Click += (sender, args) =>
+            {
+               ToggleTrayIconVisibility();
+            };
 
             contextMenu1.MenuItems.AddRange(new[] { menuItem_toggleTray, menuItem_pause, new MenuItem("-"), menuItem_settings,  menuItem_showQuickStart,new MenuItem("-"), menuItem_exit });
 

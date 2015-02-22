@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace WGestures.Core
 {
+    [Serializable]
     public abstract class AbstractApp
     {
         public string Name { get; set; }
@@ -26,14 +28,14 @@ namespace WGestures.Core
         {
            // Console.WriteLine("Find("+key.ToString()+")");
             GestureIntent val;
-            GestureIntents.TryGetValue(key,out val);
+            GestureIntents.TryGetValue(key.GetHashCode(),out val);
             //if(val!=null)Console.WriteLine("Found? "+val.ToString());
             return val;
         }
 
         public virtual void Add(GestureIntent intent)
         {
-            GestureIntents.Add(intent.Gesture,intent);
+            GestureIntents.Add(intent.Gesture.GetHashCode(),intent);
         }
 
         public virtual void Remove(GestureIntent intent)
@@ -57,22 +59,31 @@ namespace WGestures.Core
         }
     }
 
-    [JsonArray]
-    public class GestureIntentDict : Dictionary<Gesture, GestureIntent>
+    [JsonArray, Serializable]
+    public class GestureIntentDict : Dictionary<int, GestureIntent>
     {
+
+        public GestureIntentDict(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
+        public GestureIntentDict() { }
+
+
         public void Add(GestureIntent intent)
         {
-            Add(intent.Gesture,intent);
+            Add(intent.Gesture.GetHashCode(),intent);
         }
 
         public void Remove(GestureIntent intent)
         {
-            Remove(intent.Gesture);
+            Remove(intent.Gesture.GetHashCode());
         }
 
         public void AddOrReplace(GestureIntent intent)
         {
-            this[intent.Gesture] = intent;
+            this[intent.Gesture.GetHashCode()] = intent;
         }
 
         public void Import(GestureIntentDict from)
@@ -82,11 +93,23 @@ namespace WGestures.Core
                 this[kv.Key] = kv.Value;
             }
         }
+
+        public void Import(IEnumerable<GestureIntent> from, bool replace=false)
+        {
+            if(replace) Clear();
+
+            foreach (var i in from)
+            {
+                this[i.Gesture.GetHashCode()] = i;
+            }
+        }
     }
 
     /// <summary>
     /// 用可执行文件路径来代表的应用程序
     /// </summary>
+    /// 
+    [Serializable]
     public class ExeApp : AbstractApp
     {
         public bool InheritGlobalGestures { get; set; }
@@ -113,6 +136,7 @@ namespace WGestures.Core
     /// <summary>
     /// 表示全局有效的特殊应用
     /// </summary>
+    [Serializable]
     public class GlobalApp : AbstractApp
     {
         public GlobalApp()

@@ -44,7 +44,7 @@ namespace WGestures.App
 
         public static string GesturesFilePath
         {
-            get { return UserDataDirectory + @"\gestures.json"; }
+            get { return UserDataDirectory + @"\gestures.wg"; }
         }
 
 
@@ -56,7 +56,7 @@ namespace WGestures.App
 
         public static string GesturesFileVersion
         {
-            get { return "1"; }
+            get { return "2"; }
         }
         
     }
