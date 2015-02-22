@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace WGestures.Core
 {
     /// <summary>
     /// 表示一个手势实例
     /// </summary>
+    [Serializable]
     public class Gesture
     {
         private static readonly char[] dirs = { '↑', '↗', '→', '↘', '↓', '↙', '←', '↖' };

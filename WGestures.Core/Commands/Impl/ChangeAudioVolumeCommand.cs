@@ -6,16 +6,14 @@ using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("音量控制")]
+    [Named("音量控制"),Serializable]
     public class ChangeAudioVolumeCommand : AbstractCommand, IGestureModifiersAware
     {
-        private InputSimulator _sim = new InputSimulator();
-
         public override void Execute()
         {
             try
             {
-                _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
+                Sim.KeyPress(VirtualKeyCode.VOLUME_MUTE);
 
             }
             catch (Exception)
@@ -28,8 +26,8 @@ namespace WGestures.Core.Commands.Impl
         {
             try
             {
-                _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
-                _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN);
+                Sim.KeyPress(VirtualKeyCode.VOLUME_UP);
+                Sim.KeyPress(VirtualKeyCode.VOLUME_DOWN);
             }
             catch (Exception)
             {
@@ -49,15 +47,15 @@ namespace WGestures.Core.Commands.Impl
                 {
                     case GestureModifier.WheelForward:
                         ReportStatus("+");
-                        5.Times(() => _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP));
+                        5.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_UP));
                         break;
                     case GestureModifier.WheelBackward:
                         ReportStatus("-");
-                        5.Times(() => _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN));
+                        5.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_DOWN));
                         break;
                     case GestureModifier.MiddleButtonDown:
                         ReportStatus("x");
-                        _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
+                        Sim.KeyPress(VirtualKeyCode.VOLUME_MUTE);
                         break;
 
                 }

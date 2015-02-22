@@ -17,7 +17,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("Web搜索")]
+    [Named("Web搜索"), Serializable]
     public class WebSearchCommand : AbstractCommand, IGestureContextAware
     {
         public string SearchEngineUrl { get; set; }

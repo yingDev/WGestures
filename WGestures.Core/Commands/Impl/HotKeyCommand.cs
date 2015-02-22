@@ -16,7 +16,7 @@ using ThreadState = System.Diagnostics.ThreadState;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("执行快捷键")]
+    [Named("执行快捷键"), Serializable]
     public class HotKeyCommand : AbstractCommand, IGestureContextAware
     {
         public HotKeyCommand()

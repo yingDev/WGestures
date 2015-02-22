@@ -7,7 +7,7 @@ using WGestures.Common.Annotation;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("打开网址")]
+    [Named("打开网址"), Serializable]
     public class GotoUrlCommand : AbstractCommand
     {
         private string _url;

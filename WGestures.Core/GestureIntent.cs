@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Newtonsoft.Json;
 using WGestures.Core.Commands;
 
 namespace WGestures.Core
@@ -7,6 +8,7 @@ namespace WGestures.Core
     /// <summary>
     /// Gesture + Command + Context
     /// </summary>
+    [Serializable]
     public class GestureIntent
     {
         public class ExecutionResult

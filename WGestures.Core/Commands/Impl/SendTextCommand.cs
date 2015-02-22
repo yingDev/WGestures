@@ -11,7 +11,7 @@ using Win32;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("输出文本")]
+    [Named("输出文本"), Serializable]
     public class SendTextCommand : AbstractCommand
     {
         public string Text { get; set; }

@@ -13,7 +13,7 @@ using Win32;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("窗口控制")]
+    [Named("窗口控制"), Serializable]
     public class WindowControlCommand : AbstractCommand, IGestureContextAware
     {
         public enum WindowOperation

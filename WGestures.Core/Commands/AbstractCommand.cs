@@ -1,9 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using WGestures.Common.Annotation;
 using WGestures.Core.Annotations;
 
 namespace WGestures.Core.Commands
 {
+    [Serializable]
     public abstract class AbstractCommand
     {
         public abstract void Execute();

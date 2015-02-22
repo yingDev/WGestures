@@ -14,7 +14,7 @@ using Win32;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("任务切换")]
+    [Named("任务切换"), Serializable]
     public class TaskSwitcherCommand : AbstractCommand, IGestureModifiersAware
     {
 

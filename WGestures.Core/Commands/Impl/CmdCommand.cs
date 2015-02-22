@@ -6,7 +6,7 @@ using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("执行命令行代码")]
+    [Named("执行命令行代码"),Serializable]
     public class CmdCommand : Commands.AbstractCommand
     {
         private readonly static string explorerPath = Environment.GetEnvironmentVariable("windir") + Path.DirectorySeparatorChar + "explorer.exe";
