@@ -915,9 +915,9 @@ namespace WGestures.App.Gui.Windows
             this.check_executeOnMouseWheeling.Location = new System.Drawing.Point(3, 38);
             this.check_executeOnMouseWheeling.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.check_executeOnMouseWheeling.Name = "check_executeOnMouseWheeling";
-            this.check_executeOnMouseWheeling.Size = new System.Drawing.Size(135, 21);
+            this.check_executeOnMouseWheeling.Size = new System.Drawing.Size(147, 21);
             this.check_executeOnMouseWheeling.TabIndex = 3;
-            this.check_executeOnMouseWheeling.Text = "滑动滚轮时立即执行";
+            this.check_executeOnMouseWheeling.Text = "修饰键触发时立即执行";
             this.check_executeOnMouseWheeling.UseVisualStyleBackColor = true;
             this.check_executeOnMouseWheeling.Visible = false;
             this.check_executeOnMouseWheeling.CheckedChanged += new System.EventHandler(this.check_executeOnMouseWheeling_CheckedChanged);

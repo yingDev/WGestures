@@ -348,7 +348,7 @@ namespace WGestures.App.Gui.Windows
                     var gesture = addGestureForm.CapturedGesture;
                     var name = addGestureForm.GestureName;
 
-                    var gestureIntent = new GestureIntent() { Command = new HotKeyCommand(), Gesture = gesture, Name = name };
+                    var gestureIntent = new OrderableIntent(new GestureIntent() { Command = new HotKeyCommand(), Gesture = gesture, Name = name });
                     AddOrReplaceGestureIntent(gestureIntent);
 
                     AdjustListGestureIntentsColumnSize();
@@ -722,18 +722,23 @@ namespace WGestures.App.Gui.Windows
 
             listGestureIntents.BeginUpdate();
 
+            //每次加载新的列表，则保存原列表元素的顺序
+            ApplyListIntentsOrder();
+
             listGestureIntents.Items.Clear();
 
             if (app.GestureIntents.Count == 0)
             {
-
                 AdjustListGestureIntentsColumnSize();
 
                 listGestureIntents.EndUpdate();
                 return;
             }
 
-            foreach (var gest in app.GestureIntents)
+            var orderedIntents = (from i in app.GestureIntents select new OrderableIntent(i.Value)).OrderBy((o)=>o.Order).ToArray();
+            app.GestureIntents.Import(orderedIntents, true);
+
+            foreach (var gest in app.GestureIntents)//app.GestureIntents)
             {
                 AddGestureIntent(gest.Value);
             }
@@ -1112,6 +1117,7 @@ namespace WGestures.App.Gui.Windows
         private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ApplyListAppsOrder();
+            ApplyListIntentsOrder();
         }
 
         private void ApplyListAppsOrder()
@@ -1122,6 +1128,15 @@ namespace WGestures.App.Gui.Windows
 
                 var app = (OrderableExeApp)item.Tag;
                 app.Order = item.Index;
+            }
+        }
+
+        private void ApplyListIntentsOrder()
+        {
+            foreach (ListViewItem item in listGestureIntents.Items)
+            {
+                var intent = (OrderableIntent)item.Tag;
+                intent.Order = item.Index;
             }
         }
 
