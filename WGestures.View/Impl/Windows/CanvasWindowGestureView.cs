@@ -205,7 +205,6 @@ namespace WGestures.View.Impl.Windows
 
         private void HandlePathGrow(PathEventArgs args)
         {
-            Debug.Write('.');
 
             if (!ShowPath && !ShowCommandName) return;
             if (_pointCount > _pathMaxPointCount) return;
@@ -433,7 +432,9 @@ namespace WGestures.View.Impl.Windows
 
             #region 更新到窗口上
             var pathDirty = Rectangle.Ceiling(_gPathDirty.GetBounds());
+            pathDirty.Offset(_screenBounds.X, _screenBounds.Y);
             pathDirty.Intersect(_screenBounds);
+            pathDirty.Offset(-_screenBounds.X, -_screenBounds.Y); //挪回来变为基于窗口的坐标
 
             if (ShowPath) _canvasWindow.SetDiBitmap(_bitmap, /*_pathDirtyRect*/pathDirty);
 
@@ -561,7 +562,9 @@ namespace WGestures.View.Impl.Windows
                     _bitmap.EndDraw();
 
                     var pathDirty = Rectangle.Ceiling(_gPath.GetBounds());
+                    pathDirty.Offset(_screenBounds.X, _screenBounds.Y);
                     pathDirty.Intersect(_screenBounds);
+                    pathDirty.Offset(-_screenBounds.X, -_screenBounds.Y); //挪回来变为基于窗口的坐标
 
                     _canvasWindow.SetDiBitmap(_bitmap, pathDirty);
                     
