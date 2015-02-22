@@ -63,7 +63,7 @@ namespace WGestures.App.Gui.Windows
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(469, 280);
+            this.ClientSize = new System.Drawing.Size(920, 496);
             this.Controls.Add(this.web_container);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
