@@ -22,5 +22,13 @@
     <integer>-13771520</integer>
     <key>GestureViewAlternativePathColor</key>
     <integer>-60646</integer>
+    <key>GestureViewShowPath</key>
+    <true />
+    <key>GestureViewFadeOut</key>
+    <true />
+    <key>GestureViewShowCommandName</key>
+    <true />
+    <key>TrayIconVisible</key>
+    <true />
   </dict>
 </plist>
