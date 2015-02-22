@@ -29,5 +29,7 @@ namespace WGestures.App
         public const string IsFirstRun = "IsFirstRun";
         public const string Is360EverDected = "Is360EverDected";
 
+        public const string TrayIconVisible = "TrayIconVisible";
+
     }
 }

@@ -331,9 +331,12 @@ namespace WGestures.View.Impl.Windows
             //if (ShowPath) ResetPathDirtyRect();
             if (ShowCommandName)// && !_gestureParser.PathTracker.IsSuspended
             {
-                var modifierText = intent.Gesture.Modifier.ToMnemonic();
-                var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(120, 0, 0, 0));
+                //var modifierText = intent.Gesture.Modifier.ToMnemonic();
+                //var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
+                //if (!newLabelText.Equals(_labelText))
+                //{
+                    ShowLabel(Color.White, _labelText, Color.FromArgb(120, 0, 0, 0));
+                //}
             }
 
             //draw
@@ -375,6 +378,25 @@ namespace WGestures.View.Impl.Windows
             Debug.WriteLine("WhenGestureCaptured");
 
             EndView();
+        }
+
+        private void HandleCommandReportStatus(string status, GestureIntent intent)
+        {
+            if (ShowCommandName)
+            {
+                var modifierText = intent.Gesture.Modifier.ToMnemonic();
+                var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name + status;
+                if (newLabelText.Equals(_labelText)) return;
+
+                _labelText = newLabelText;
+
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
+                
+                DrawAndUpdate();
+
+                if (ShowCommandName) _labelChanged = false;
+            }
+
         }
         #endregion
 
@@ -675,6 +697,7 @@ namespace WGestures.View.Impl.Windows
             _gestureParser.PathTracker.PathTimeout += HandlePathTimeout;
 
             _gestureParser.GestureCaptured += HandleGestureRecorded;
+            _gestureParser.CommandReportStatus += HandleCommandReportStatus;
         }
 
 
@@ -724,6 +747,8 @@ namespace WGestures.View.Impl.Windows
             _gestureParser.IntentReadyToExecuteOnModifier -= HandleIntentReadyToExecuteOnModifier;
 
             _gestureParser.GestureCaptured -= HandleGestureRecorded;
+            _gestureParser.CommandReportStatus -= HandleCommandReportStatus;
+
             #endregion
 
             #region dispose pens

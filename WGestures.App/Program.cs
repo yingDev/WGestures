@@ -41,6 +41,8 @@ namespace WGestures.App
         private static JsonGestureIntentStore intentStore;
         private static Win32GestrueIntentFinder intentFinder;
 
+        private static NotifyIcon trayIcon;
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -267,6 +269,7 @@ namespace WGestures.App
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
 
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
+            pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
 
             #endregion
 
@@ -289,14 +292,18 @@ namespace WGestures.App
 
         private static void ShowTrayIcon()
         {
-            using (var notifyIcon = CreateNotifyIcon())
+            using (trayIcon = CreateNotifyIcon())
             {
                 if (isFirstRun)
                 {
-                    notifyIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单\n鼠标 左键+中键 随时暂停/继续手势", ToolTipIcon.Info);
+                    trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单\n鼠标 左键+中键 随时暂停/继续手势", ToolTipIcon.Info);
+                }
+                else
+                {
+                    trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
                 }
 
-                notifyIcon.DoubleClick += (sender, args) => ShowSettings();
+                trayIcon.DoubleClick += (sender, args) => ShowSettings();
                 //notifyIcon.Click += (sender, args) => menuItem_pause_Click(null, EventArgs.Empty);
 
                 //是否检查更新
@@ -306,7 +313,7 @@ namespace WGestures.App
 
                     checkForUpdateTimer.Tick += (sender, args) =>
                     {
-                        ScheduledUpdateCheck(sender, notifyIcon);
+                        ScheduledUpdateCheck(sender, trayIcon);
                     };
                     checkForUpdateTimer.Start();
                 }
@@ -391,6 +398,13 @@ namespace WGestures.App
 #endif
 
             checker.CheckAsync();
+        }
+
+        private static void ToggleTrayIconVisibility()
+        {
+            trayIcon.Visible = !trayIcon.Visible;
+            config.Set(ConfigKeys.TrayIconVisible, trayIcon.Visible);
+            config.Save();
         }
 
         private static void ShowSettings()
@@ -494,7 +508,10 @@ namespace WGestures.App
             var menuItem_showQuickStart = new MenuItem() { Text = "快速入门" };
             menuItem_showQuickStart.Click += (sender, args) => ShowQuickStartGuide();
 
-            contextMenu1.MenuItems.AddRange(new[] { menuItem_pause, menuItem_settings, new MenuItem("-"), menuItem_showQuickStart, menuItem_exit });
+            var menuItem_toggleTray = new MenuItem() { Text = "隐藏 (左键 + 右键)" };
+            menuItem_toggleTray.Click += (sender, args) => ToggleTrayIconVisibility();
+
+            contextMenu1.MenuItems.AddRange(new[] { menuItem_toggleTray, menuItem_pause, new MenuItem("-"), menuItem_settings,  menuItem_showQuickStart,new MenuItem("-"), menuItem_exit });
 
             notifyIcon.Icon = Resources.trayIcon;
             notifyIcon.Text = Application.ProductName;

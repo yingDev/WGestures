@@ -64,6 +64,7 @@ namespace WGestures.Core
         public event Action IntentInvalid;
         public event Action IntentOrPathCanceled;
         public event Action<GestureModifier> IntentReadyToExecuteOnModifier;
+        public event Action<string,GestureIntent> CommandReportStatus;
 
         public event Action<Gesture> GestureCaptured
         {
@@ -293,6 +294,7 @@ namespace WGestures.Core
                 if (modifierStateAwareCmd != null)
                 {
                     modifierStateAwareCmd.GestureEnded();
+                    modifierStateAwareCmd.ReportStatus -= OnCommandReportStatus;
                 }
 
                 //发布事件
@@ -360,6 +362,7 @@ namespace WGestures.Core
                     //todo: 这个逻辑似乎应该放在GestureIntent中
                     if (modifierStateAwareCommand != null)
                     {
+                        modifierStateAwareCommand.ReportStatus += OnCommandReportStatus;
                         GestureModifier observedModifiers;
                         modifierStateAwareCommand.GestureRecognized(out observedModifiers);
 
@@ -429,6 +432,11 @@ namespace WGestures.Core
         protected void OnIntentReadyToExecuteOnModifier(GestureModifier modifier)
         {
             if (IntentReadyToExecuteOnModifier != null) IntentReadyToExecuteOnModifier(modifier);
+        }
+
+        protected void OnCommandReportStatus(string status)
+        {
+            if (CommandReportStatus != null) CommandReportStatus(status, _effectiveIntent);
         }
 
         #endregion

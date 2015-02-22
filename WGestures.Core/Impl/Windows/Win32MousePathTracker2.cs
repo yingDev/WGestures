@@ -165,6 +165,7 @@ namespace WGestures.Core.Impl.Windows
         }
 
         public event Action<bool> RequestPauseResume;
+        public event Action RequestShowHideTray;
 
         #region IPathTracker Members
         public event BeforePathStartEventHandler BeforePathStart;
@@ -222,6 +223,16 @@ namespace WGestures.Core.Impl.Windows
                     case WM.PAUSE_RESUME:
                         var pause = (msg.param == 1);
                         OnPauseResume(pause);
+                        break;
+
+                    case WM.GUI_REQUEST:
+                        if (msg.param == (int) GUI_RequestType.PauseResume)
+                        {
+                            if(RequestPauseResume != null) RequestPauseResume(_isPaused);//todo: 必要这个参数吗
+                        }else if (msg.param == (int) GUI_RequestType.ShowHideTray)
+                        {
+                            if (RequestShowHideTray != null) RequestShowHideTray();
+                        }
                         break;
 
                     case WM.STOP:
@@ -289,8 +300,16 @@ namespace WGestures.Core.Impl.Windows
                 var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
                 if (Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0)
                 {
-                    e.Handled = true;
-                    if (RequestPauseResume != null) RequestPauseResume(_isPaused);
+                    Post(WM.GUI_REQUEST, (int) GUI_RequestType.PauseResume);
+                    return;
+                }
+
+            }else if (e.Msg == MouseMsg.WM_RBUTTONDOWN)
+            {
+                var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
+                if (Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0)
+                {
+                    Post(WM.GUI_REQUEST, (int)GUI_RequestType.ShowHideTray);
                     return;
                 }
             }
@@ -854,7 +873,14 @@ namespace WGestures.Core.Impl.Windows
 
             PAUSE_RESUME = WM_USER + 8,
 
-            SIMULATE_MOUSE = WM_USER + 9
+            SIMULATE_MOUSE = WM_USER + 9,
+            GUI_REQUEST = WM_USER + 10
+        }
+
+
+        private enum GUI_RequestType
+        {
+            PauseResume, ShowHideTray
         }
 
         [Flags]
