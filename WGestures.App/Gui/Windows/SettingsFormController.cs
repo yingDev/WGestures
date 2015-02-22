@@ -389,25 +389,25 @@ namespace WGestures.App.Gui.Windows
 
         private void ReApplyConfig()
         {
-            AutoStart = _config.Get<bool>(ConfigKeys.AutoStart);
-            AutoCheckForUpdate = _config.Get<bool>(ConfigKeys.AutoCheckForUpdate);
+            AutoStart = _config.Get<bool>(ConfigKeys.AutoStart, AutoStart);
+            AutoCheckForUpdate = _config.Get<bool>(ConfigKeys.AutoCheckForUpdate, AutoCheckForUpdate);
             
             //PathTrackerGestureButton = _config.Get<int>(ConfigKeys.PathTrackerGestureButton);
-            PathTrackerInitialValidMove = _config.Get<int>(ConfigKeys.PathTrackerInitialValidMove);
-            PathTrackerInitialStayTimeout = _config.Get<bool>(ConfigKeys.PathTrackerInitialStayTimeout);
-            PathTrackerInitalStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerInitialStayTimoutMillis);
-            
-            GestureParserDisableInFullScreenMode = _config.Get<bool>(ConfigKeys.GestureParserDisableInFullScreenMode);
-            
-            PathTrackerStayTimeout = _config.Get<bool>(ConfigKeys.PathTrackerStayTimeout);
-            PathTrackerStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerStayTimeoutMillis);
-            
-            GestureViewShowPath = _config.Get<bool>(ConfigKeys.GestureViewShowPath);
-            GestureViewShowCommandName = _config.Get<bool>(ConfigKeys.GestureViewShowCommandName);
-            GestureViewFadeOut = _config.Get<bool>(ConfigKeys.GestureViewFadeOut);
-            GestureViewMainPathColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewMainPathColor));
-            GestureViewAlternativePathColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewAlternativePathColor));
-            GestureViewMiddleBtnMainColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewMiddleBtnMainColor));
+            PathTrackerInitialValidMove = _config.Get<int>(ConfigKeys.PathTrackerInitialValidMove, PathTrackerInitialValidMove);
+            PathTrackerInitialStayTimeout = _config.Get<bool>(ConfigKeys.PathTrackerInitialStayTimeout, PathTrackerInitialStayTimeout);
+            PathTrackerInitalStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerInitialStayTimoutMillis, PathTrackerInitalStayTimeoutMillis);
+
+            GestureParserDisableInFullScreenMode = _config.Get<bool>(ConfigKeys.GestureParserDisableInFullScreenMode, GestureParserDisableInFullScreenMode);
+
+            PathTrackerStayTimeout = _config.Get<bool>(ConfigKeys.PathTrackerStayTimeout, PathTrackerStayTimeout);
+            PathTrackerStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerStayTimeoutMillis, PathTrackerStayTimeoutMillis);
+
+            GestureViewShowPath = _config.Get<bool>(ConfigKeys.GestureViewShowPath, GestureViewShowPath);
+            GestureViewShowCommandName = _config.Get<bool>(ConfigKeys.GestureViewShowCommandName, GestureViewShowCommandName);
+            GestureViewFadeOut = _config.Get<bool>(ConfigKeys.GestureViewFadeOut, GestureViewFadeOut);
+            GestureViewMainPathColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewMainPathColor, GestureViewMainPathColor.ToArgb()));
+            GestureViewAlternativePathColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewAlternativePathColor, GestureViewAlternativePathColor.ToArgb()));
+            GestureViewMiddleBtnMainColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewMiddleBtnMainColor, GestureViewMiddleBtnMainColor.ToArgb()));
         }
 
         #endregion
