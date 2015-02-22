@@ -64,6 +64,7 @@
     <Compile Include="Commands\Impl\OpenFileCommand.cs" />
     <Compile Include="Commands\Impl\PauseWGesturesCommand.cs" />
     <Compile Include="Commands\Impl\SendTextCommand.cs" />
+    <Compile Include="Commands\Impl\Sim.cs" />
     <Compile Include="Commands\Impl\TaskSwitcherCommand.cs" />
     <Compile Include="Commands\Impl\WebSearchCommand.cs" />
     <Compile Include="Commands\Impl\WindowControlCommand.cs" />
