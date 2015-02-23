@@ -19,7 +19,15 @@ namespace SerializeWrapper
         {
             using (var file = new FileStream(filename, FileMode.Open))
             {
-                using (var txtReader = new StreamReader(file))
+                DeserializeFromStream(file, version, true);
+            }
+        }
+
+        public void DeserializeFromStream(Stream s, string version, bool closeStream = false)
+        {
+            try
+            {
+                using (var txtReader = new StreamReader(s))
                 using (var jsonReader = new JsonTextReader(txtReader))
                 {
                     var ser = new JsonSerializer();
@@ -38,19 +46,25 @@ namespace SerializeWrapper
                     }
                     ser.Populate(jsonReader, this);
 
-                    //var result = ser.Deserialize<SerializeWrapper>(jsonReader);
-                    //FileVersion = result.FileVersion;
-                    //Apps = result.Apps;
-                    //Global = result.Global;
-
-
                 }
             }
+            finally
+            {
+                if(closeStream) s.Dispose();
+            }
+
         }
 
         public void SerializeTo(string fileName)
         {
+            using (var fs = new StreamWriter(fileName))
+            {
+                var ser = new JsonSerializer();
+                ser.Formatting = Formatting.None;
+                ser.TypeNameHandling = TypeNameHandling.Auto;
 
+                ser.Serialize(fs, this);
+            }
         }
 
 

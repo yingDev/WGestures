@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using WGestures.App.Gui.Windows;
 using WGestures.App.Migrate;
 using WGestures.App.Properties;
+using WGestures.Common;
 using WGestures.Common.Config.Impl;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common.Product;
@@ -432,7 +433,6 @@ namespace WGestures.App
 
         private static void ToggleTrayIconVisibility()
         {            
-
             //如果图标当前可见， 而config中设置的值是不可见， 则说明是临时显示; 如果不是临时显示， 才需要修改config
             if (!(trayIcon.Visible && !config.Get(ConfigKeys.TrayIconVisible, true)))
             {
@@ -441,8 +441,6 @@ namespace WGestures.App
             }
 
             trayIcon.Visible = !trayIcon.Visible;
-
-            
         }
 
         private static void ShowSettings()
