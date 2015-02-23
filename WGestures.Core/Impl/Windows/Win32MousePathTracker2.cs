@@ -295,7 +295,7 @@ namespace WGestures.Core.Impl.Windows
         private void HookProc(MouseHook.MouseHookEventArgs e)
         {
             //处理 左键 + 中键 用于 暂停继续的情形
-            if (e.Msg == MouseMsg.WM_MBUTTONDOWN)
+            if (!_captured && e.Msg == MouseMsg.WM_MBUTTONDOWN)
             {
                 var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
                 var lButtonPressed = Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0;
@@ -454,7 +454,7 @@ namespace WGestures.Core.Impl.Windows
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
         {
-            //const int EventInterval = 10;
+            const int CLICK_PRESS_RELEASE_INTERVAL = 20;
 
             Debug.WriteLine("SimulateMouseEvent: " + _gestureBtn + " " + eventType);
             _simulatingMouse = true;
@@ -478,7 +478,7 @@ namespace WGestures.Core.Impl.Windows
                                 break;
                             case GestureBtnEventType.CLICK:
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
-                                //Thread.Sleep(EventInterval);
+                                Thread.Sleep(CLICK_PRESS_RELEASE_INTERVAL);
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                         }
@@ -495,7 +495,7 @@ namespace WGestures.Core.Impl.Windows
                                 break;
                             case GestureBtnEventType.CLICK:
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
-                                //Thread.Sleep(EventInterval);
+                                Thread.Sleep(CLICK_PRESS_RELEASE_INTERVAL);
                                 User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                                 break;
                         }
@@ -514,7 +514,7 @@ namespace WGestures.Core.Impl.Windows
                             break;
                         case GestureBtnEventType.CLICK:
                             User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
-                            //Thread.Sleep(EventInterval);
+                            Thread.Sleep(CLICK_PRESS_RELEASE_INTERVAL);
                             User32.mouse_event(User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP, x, y, 0, MOUSE_EVENT_EXTRA_SIMULATED);
                             break;
                     }
