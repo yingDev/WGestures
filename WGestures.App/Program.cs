@@ -437,9 +437,10 @@ namespace WGestures.App
             if (!(trayIcon.Visible && !config.Get(ConfigKeys.TrayIconVisible, true)))
             {
                 config.Set(ConfigKeys.TrayIconVisible, !trayIcon.Visible);
-                config.Save(); 
+                config.Save();
             }
 
+            
             trayIcon.Visible = !trayIcon.Visible;
         }
 
@@ -564,6 +565,12 @@ namespace WGestures.App
                 {
                     menuItem_pause.Text = string.Format("继续 ({0}键 + 中键)",mouseSwapped ? "右" : "左");
                     notifyIcon.Icon = Resources.trayIcon_bw;
+
+                    if (!notifyIcon.Visible)
+                    {
+                        notifyIcon.Visible = true;
+                        notifyIcon.ShowBalloonTip(500, "WGestures", "已暂停", ToolTipIcon.Info);
+                    }
                 }
                 else
                 {

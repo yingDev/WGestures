@@ -1164,6 +1164,32 @@ namespace WGestures.App.Gui.Windows
             btn_modifyGesture.PerformClick();
         }
 
+        private void listGestureIntents_MouseHover(object sender, EventArgs e)
+        {
+            /*Console.WriteLine("xx");
+            tip.Hide(listGestureIntents);
+
+            var cursorPos = listGestureIntents.PointToClient(Cursor.Position);
+            var hoverItem = listGestureIntents.GetItemAt(cursorPos.X, cursorPos.Y);
+
+
+            if (hoverItem != null)
+            {
+                var subItem = hoverItem.GetSubItemAt(cursorPos.X, cursorPos.Y);
+                if (subItem == hoverItem.SubItems[1]) //mnemonic item
+                {
+                    tip.Show("xxx" + Cursor.Position, listGestureIntents, cursorPos);
+                }
+
+                //hoverItem.BackColor = Color.AliceBlue;
+            }*/
+        }
+
+        private void listGestureIntents_MouseEnter(object sender, EventArgs e)
+        {
+            listGestureIntents.Focus();
+        }
+
     }
 
 }

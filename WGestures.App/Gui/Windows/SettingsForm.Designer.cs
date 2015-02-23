@@ -770,6 +770,8 @@ namespace WGestures.App.Gui.Windows
             this.listGestureIntents.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.listGestureIntents_AfterLabelEdit);
             this.listGestureIntents.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listGestureIntents_ItemSelectionChanged);
             this.listGestureIntents.DoubleClick += new System.EventHandler(this.listGestureIntents_DoubleClick);
+            this.listGestureIntents.MouseEnter += new System.EventHandler(this.listGestureIntents_MouseEnter);
+            this.listGestureIntents.MouseHover += new System.EventHandler(this.listGestureIntents_MouseHover);
             // 
             // colGestureName
             // 
