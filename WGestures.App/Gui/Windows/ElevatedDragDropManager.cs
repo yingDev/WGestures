@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WGestures.Common.OsSpecific.Windows.Access
+namespace WGestures.App.Gui.Windows
 {
     public class ElevatedDragDropManager : IMessageFilter
     {

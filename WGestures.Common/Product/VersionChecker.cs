@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace WGestures.Common.Product
 {
@@ -31,9 +31,25 @@ namespace WGestures.Common.Product
 
                 VersionInfo versionInfo = null;
 
+                //{"Version":"1.5.2.0","WhatsNew":"Abcd\"efg"}
                 try
                 {
-                    versionInfo = JsonConvert.DeserializeObject<VersionInfo>(args.Result);
+                                            
+                    const string versionPattern = "\"Version\"\\s*:\\s*\"\\d.\\d.\\d.\\d\"";
+                    const string whatsNewPattern = "\"WhatsNew\"\\s*:\\s*((?<![\\\\])['\"])((?:.(?!(?<![\\\\])\\1))*.?)\\1";
+
+                    var versionMatch = Regex.Match(args.Result, versionPattern);//"^\\{\"Version\":\"\\d.\\d.\\d.\\d\",\"WhatsNew\":\"[^\"]*\"\\}$");
+                    var whatsNewMatch = Regex.Match(args.Result, whatsNewPattern);
+                    if (versionMatch.Success && whatsNewMatch.Success)
+                    {
+                        var versionStr = Regex.Match(versionMatch.Value,"\\d.\\d.\\d.\\d").Value;
+                        var whatsNewStr = whatsNewMatch.Value.Split(':')[1];
+                        whatsNewStr = whatsNewStr.Substring(1,whatsNewStr.Length -2).Replace("\\r\\n","\r\n").Replace("\\\"","\"");
+
+                        versionInfo = new VersionInfo(){Version = versionStr, WhatsNew = whatsNewStr};
+                    }
+                    else throw new Exception();
+                    
                 }
                 catch (Exception e)
                 {

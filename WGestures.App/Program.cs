@@ -10,7 +10,6 @@ using Microsoft.Win32;
 using WGestures.App.Gui.Windows;
 using WGestures.App.Migrate;
 using WGestures.App.Properties;
-using WGestures.Common;
 using WGestures.Common.Config.Impl;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common.Product;

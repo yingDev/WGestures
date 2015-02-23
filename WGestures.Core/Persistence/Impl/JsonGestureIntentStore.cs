@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 
 namespace WGestures.Core.Persistence.Impl
 {
@@ -18,7 +15,7 @@ namespace WGestures.Core.Persistence.Impl
         public GlobalApp GlobalApp { get; set; }
 
         private string jsonPath;
-        private JsonSerializer ser = new JsonSerializer();
+        //private JsonSerializer ser = new JsonSerializer();
 
         private JsonGestureIntentStore() { }
 
@@ -26,7 +23,7 @@ namespace WGestures.Core.Persistence.Impl
         {
             FileVersion = fileVersion;
             this.jsonPath = jsonPath;
-            SetupSerializer();
+            //SetupSerializer();
 
 
             if (File.Exists(jsonPath))
@@ -43,13 +40,13 @@ namespace WGestures.Core.Persistence.Impl
         public JsonGestureIntentStore(Stream stream, bool closeStream, string fileVersion)
         {
             FileVersion = fileVersion;
-            SetupSerializer();
+            //SetupSerializer();
             Deserialize(stream, closeStream);
         }
 
         private void Deserialize(Stream stream, bool closeStream)
         {
-            if(stream == null || !stream.CanRead) throw new ArgumentException("stream");
+            /*if(stream == null || !stream.CanRead) throw new ArgumentException("stream");
 
             try
             {
@@ -70,7 +67,7 @@ namespace WGestures.Core.Persistence.Impl
             finally
             {
                 if (closeStream) stream.Dispose();
-            }
+            }*/
             
         }
 
@@ -78,39 +75,46 @@ namespace WGestures.Core.Persistence.Impl
         {
             using (var fs = new StreamWriter(jsonPath))
             {
-                ser.Serialize(fs, new SerializeWrapper()
-                {FileVersion = FileVersion, ExeAppsRegistry = ExeAppsRegistry,GlobalApp = GlobalApp});
+                /*ser.Serialize(fs, new SerializeWrapper()
+                {FileVersion = FileVersion, ExeAppsRegistry = ExeAppsRegistry,GlobalApp = GlobalApp});*/
             }
         }
 
         private void Deserialize()
         {
-            using (var file = new FileStream(jsonPath, FileMode.Open))
+            /*using (var file = new FileStream(jsonPath, FileMode.Open))
             {
                 Deserialize(file, false);
-            }
+            }*/
 
             //todo: 完全在独立domain中加载json.net?
-            /*var deserializeDomain = AppDomain.CreateDomain("jsonDeserialize");
-            var wrapperRef = (SerializeWrapper) deserializeDomain.CreateInstanceAndUnwrap(typeof(SerializeWrapper).Assembly.FullName, typeof(SerializeWrapper).FullName);
+            var deserializeDomain = AppDomain.CreateDomain("jsonDeserialize");
+            deserializeDomain.DomainUnload += (sender, args) =>
+            {
+                Console.WriteLine("deserializeDomain Unloaded");
+            };
+            var wrapperRef = (ISerializeWrapper) deserializeDomain.CreateInstanceAndUnwrap("SerializeWrapper", "SerializeWrapper.SerializeWrapper");
             
             wrapperRef.DeserilizeFromFile(jsonPath, FileVersion);
 
-            GlobalApp = wrapperRef.GlobalApp;
-            ExeAppsRegistry = wrapperRef.ExeAppsRegistry;
+            GlobalApp = wrapperRef.Global;
+            ExeAppsRegistry = wrapperRef.Apps;
+
+            wrapperRef = null;
             
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             GC.WaitForPendingFinalizers();
 
             AppDomain.Unload(deserializeDomain);
+            deserializeDomain = null;
             
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             GC.WaitForPendingFinalizers();
-            */
+            
 
         }
 
-        private void SetupSerializer()
+        /*private void SetupSerializer()
         {
             ser.Formatting = Formatting.None;
             ser.TypeNameHandling = TypeNameHandling.Auto;
@@ -124,7 +128,7 @@ namespace WGestures.Core.Persistence.Impl
                 ser.Converters.Add(new GestureIntentConverter());
 
             }
-        }
+        }*/
 
 
         public bool TryGetExeApp(string key, out ExeApp found)
@@ -209,16 +213,16 @@ namespace WGestures.Core.Persistence.Impl
             return GetEnumerator();
         }
 
-        internal class SerializeWrapper : MarshalByRefObject
+        /*internal class SerializeWrapper : MarshalByRefObject
         {
-            [JsonProperty("FileVersion")]
+            //[JsonProperty("FileVersion")]
             public string FileVersion { get; set; }
 
-            [JsonProperty("Apps")]
-            public Dictionary<string, ExeApp> ExeAppsRegistry { get; set; }
+            //[JsonProperty("Apps")]
+            public Dictionary<string, ExeApp> Apps { get; set; }
             
-            [JsonProperty("Global")]
-            public GlobalApp GlobalApp { get; set; }
+            //[JsonProperty("Global")]
+            public GlobalApp Global { get; set; }
 
             public void DeserilizeFromFile(string filename, string version)
             {
@@ -251,6 +255,11 @@ namespace WGestures.Core.Persistence.Impl
                     
                     }
                 }
+            }
+
+            public void SerializeTo(string fileName)
+            {
+                
             }
         }
 
@@ -306,6 +315,16 @@ namespace WGestures.Core.Persistence.Impl
             {
                 return objectType == typeof(GestureIntentDict);
             }
+        }*/
+
+        public interface ISerializeWrapper
+        {
+             string FileVersion { get; set; }
+             Dictionary<string, ExeApp> Apps { get; set; }
+             GlobalApp Global { get; set; }
+
+             void DeserilizeFromFile(string filename, string version);
+             void SerializeTo(string fileName);
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Shell32;
 using WGestures.Common.OsSpecific.Windows;
-using WGestures.Common.OsSpecific.Windows.Access;
 using WGestures.Core;
 using WGestures.Core.Persistence;
 using Win32;

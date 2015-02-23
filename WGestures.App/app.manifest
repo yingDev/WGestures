@@ -16,7 +16,7 @@
             如果要利用文件和注册表虚拟化实现向后 
             兼容性，则删除 requestedExecutionLevel 节点。
         -->
-        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel level="asInvoker" uiAccess="true" />
       </requestedPrivileges>
       <applicationRequestMinimum>
         <defaultAssemblyRequest permissionSetReference="Custom" />

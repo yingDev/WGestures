@@ -125,6 +125,7 @@
         <File Source="$(var.WGestures.App.TargetDir)\WGestures.Common.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\WGestures.Core.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\WGestures.View.dll"/>
+        <File Source="$(var.WGestures.App.TargetDir)\SerializeWrapper.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\WindowsInput.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\UpdateLog.txt"/>
       

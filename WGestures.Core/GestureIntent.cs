@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading;
-using Newtonsoft.Json;
 using WGestures.Core.Commands;
 
 namespace WGestures.Core

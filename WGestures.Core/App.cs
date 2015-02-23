@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
 namespace WGestures.Core
 {
@@ -59,7 +58,7 @@ namespace WGestures.Core
         }
     }
 
-    [JsonArray, Serializable]
+    [/*JsonArray, */Serializable]
     public class GestureIntentDict : Dictionary<int, GestureIntent>
     {
 

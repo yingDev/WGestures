@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+//using System.Windows.Forms;
 using WindowsInput;
 using WindowsInput.Native;
 using Win32;
@@ -299,7 +300,7 @@ namespace WGestures.Common.OsSpecific.Windows
         public static extern IntPtr GetActiveWindow();
 
         [DllImport("user32.dll")]
-        public static extern short GetAsyncKeyState(System.Windows.Forms.Keys vKey); 
+        public static extern short GetAsyncKeyState(Keys vKey); 
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

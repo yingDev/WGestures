@@ -118,6 +118,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Gui\Windows\Controls\ReorderableListView\ListViewItemDragEventArgs.cs" />
+    <Compile Include="Gui\Windows\ElevatedDragDropManager.cs" />
     <Compile Include="Gui\Windows\ErrorForm.cs">
       <SubType>Form</SubType>
     </Compile>
