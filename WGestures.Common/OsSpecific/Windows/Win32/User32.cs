@@ -1,9 +1,9 @@
-﻿
-//This file contains the common Win32 API of the desktop Windows and the Windows CE/Mobile. 
-
-//Created by Warren Tang on 8/8/2008
-
-
+﻿//
+////This file contains the common Win32 API of the desktop Windows and the Windows CE/Mobile. 
+//
+////Created by Warren Tang on 8/8/2008
+//
+//
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -16,19 +16,20 @@ namespace Win32
 {
     public static partial class User32
     {
+        
 #if PocketPC
         private const string User32Dll = "coredll.dll";
 #else
         private const string User32Dll = "user32.dll";
 #endif
-
-        #region Win32
-
-        public const int CW_USEDEFAULT = unchecked((int)0x80000000);
-
-
+//
+//        #region Win32
+//
+//        public const int CW_USEDEFAULT = unchecked((int)0x80000000);
+//
+//
         public delegate IntPtr WndProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
-
+//
         //[DllImport(DllName, SetLastError = true)]
         //public extern static int RegisterClassEx([MarshalAs(UnmanagedType.Struct)]ref WNDCLASSEX wndClassEx);
 
@@ -38,13 +39,13 @@ namespace Win32
 
         [DllImport(User32Dll, SetLastError = true)]
         public extern static bool UnregisterClass(string lpClassName, IntPtr hInstance);
-
+//
         [DllImport(User32Dll)]
         public extern static IntPtr DefWindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetMessageExtraInfo(IntPtr lParam);
-
+//
+//        [DllImport("user32.dll")]
+//        public static extern IntPtr SetMessageExtraInfo(IntPtr lParam);
+//
         [DllImport(User32Dll, SetLastError = true)]
         public static extern IntPtr CreateWindowEx(
             WS_EX dwExStyle,
@@ -74,13 +75,13 @@ namespace Win32
 
         [DllImport(User32Dll)]
         public static extern IntPtr DispatchMessage([In] ref MSG lpmsg);
-
-        [DllImport(User32Dll)]
-        public static extern IntPtr BeginPaint(IntPtr hwnd, out GDI32.PAINTSTRUCT lpPaint);
-
-        [DllImport(User32Dll)]
-        public static extern IntPtr EndPaint(IntPtr hwnd, out GDI32.PAINTSTRUCT lpPaint);
-
+//
+//        [DllImport(User32Dll)]
+//        public static extern IntPtr BeginPaint(IntPtr hwnd, out GDI32.PAINTSTRUCT lpPaint);
+//
+//        [DllImport(User32Dll)]
+//        public static extern IntPtr EndPaint(IntPtr hwnd, out GDI32.PAINTSTRUCT lpPaint);
+//
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref uint pvParam, SPIF fWinIni); // T = any type
@@ -101,16 +102,16 @@ namespace Win32
 
         [DllImport("user32.dll")]
         public static extern bool AllowSetForegroundWindow(int dwProcessId);
-
+//
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LockSetForegroundWindow(uint uLockCode);
-
+//
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref ANIMATIONINFO pvParam, SPIF fWinIni);
 
-
+//
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetWindowInfo(IntPtr hwnd, ref WINDOWINFO pwi);
@@ -135,7 +136,7 @@ namespace Win32
             }
 
         }
-
+//
         [StructLayout(LayoutKind.Sequential)]
         public struct WNDCLASSEX
         {
@@ -165,61 +166,61 @@ namespace Win32
             public UInt32 time;
             public GDI32.POINT pt;
         }
-
-        public enum Bool
-        {
-            False = 0,
-            True
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct BLENDFUNCTION
-        {
-            public byte BlendOp;
-            public byte BlendFlags;
-            public byte SourceConstantAlpha;
-            public byte AlphaFormat;
-        }
-
-        #endregion
-
-        [DllImport(User32Dll)]
-        public static extern bool GetClientRect(IntPtr hWnd, out GDI32.RECT lpRect);
-
+//
+//        public enum Bool
+//        {
+//            False = 0,
+//            True
+//        }
+//
+//        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+//        public struct BLENDFUNCTION
+//        {
+//            public byte BlendOp;
+//            public byte BlendFlags;
+//            public byte SourceConstantAlpha;
+//            public byte AlphaFormat;
+//        }
+//
+//        #endregion
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool GetClientRect(IntPtr hWnd, out GDI32.RECT lpRect);
+//
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect(IntPtr hwnd, out GDI32.RECT lpRect);
-
+//
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
-
-        #region DrawText
-
-        [DllImport(User32Dll)]
-        public static extern int DrawText(IntPtr hDC, string lpString, int nCount, ref GDI32.RECT lpRect, DT uFormat);
-
-        [Flags]
-        public enum DT : uint
-        {
-            DT_TOP = 0x00000000,
-            DT_LEFT = 0x00000000,
-            DT_CENTER = 0x00000001,
-            DT_RIGHT = 0x00000002,
-            DT_VCENTER = 0x00000004,
-            DT_BOTTOM = 0x00000008,
-            DT_WORDBREAK = 0x00000010,
-            DT_SINGLELINE = 0x00000020,
-            DT_EXPANDTABS = 0x00000040,
-            DT_TABSTOP = 0x00000080,
-            DT_NOCLIP = 0x00000100,
-            DT_EXTERNALLEADING = 0x00000200,
-            DT_CALCRECT = 0x00000400,
-            DT_NOPREFIX = 0x00000800,
-            DT_INTERNAL = 0x00001000
-        }
-        #endregion
-
+//
+//        #region DrawText
+//
+//        [DllImport(User32Dll)]
+//        public static extern int DrawText(IntPtr hDC, string lpString, int nCount, ref GDI32.RECT lpRect, DT uFormat);
+//
+//        [Flags]
+//        public enum DT : uint
+//        {
+//            DT_TOP = 0x00000000,
+//            DT_LEFT = 0x00000000,
+//            DT_CENTER = 0x00000001,
+//            DT_RIGHT = 0x00000002,
+//            DT_VCENTER = 0x00000004,
+//            DT_BOTTOM = 0x00000008,
+//            DT_WORDBREAK = 0x00000010,
+//            DT_SINGLELINE = 0x00000020,
+//            DT_EXPANDTABS = 0x00000040,
+//            DT_TABSTOP = 0x00000080,
+//            DT_NOCLIP = 0x00000100,
+//            DT_EXTERNALLEADING = 0x00000200,
+//            DT_CALCRECT = 0x00000400,
+//            DT_NOPREFIX = 0x00000800,
+//            DT_INTERNAL = 0x00001000
+//        }
+//        #endregion
+//
         #region Cursor & Icon
         [DllImport(User32Dll, SetLastError = true)]
         public static extern IntPtr LoadCursor(IntPtr hInstance, IDC lpCursorName);
@@ -260,65 +261,65 @@ namespace Win32
         }
 
         #endregion
-
-        #region keyboard
-        [DllImport(User32Dll)]
-        public static extern int GetKeyboardType(GKT nTypeFlag);
-
-        public enum GKT
-        {
-            KeyBoardType = 0,
-            KeyBoardSubType = 1,
-            NumOfFuncKeys = 2
-        }
-        #endregion
-
-        #region Scroll bar
-        [DllImport(User32Dll)]
-        public static extern int GetScrollInfo(IntPtr hwnd, SB fnBar, ref SCROLLINFO lpsi);
-
-        [DllImport(User32Dll)]
-        public static extern int SetScrollInfo(IntPtr hwnd, SB fnBar, ref SCROLLINFO lpsi, bool fRedraw);
-
-        public enum SB : int
-        {
-            SB_HORZ = 0,
-            SB_VERT = 1,
-            SB_CTL = 2
-        }
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct SCROLLINFO
-        {
-            public int cbSize;
-            public int fMask;
-            public int nMin;
-            public int nMax;
-            public int nPage;
-            public int nPos;
-            public int nTrackPos;
-        }
-        #endregion
-
-        #region ExitWindow
-        [DllImport("aygshell.dll")]
-        public static extern bool ExitWindowsEx(EWX uFlags, uint dwReserved);
-
-        public enum EWX : uint
-        {
-            //EWX_LOGOFF = 0,
-            //EWX_SHUTDOWN = 1, 
-            EWX_REBOOT = 2,
-            //EWX_FORCE = 4,
-            EWX_POWEROFF = 8 //Not supported on PPC
-            //EWX_FORCEIFHUNG = 16
-        }
-
-        #endregion
-
-        #region SetWindowLong
-
+//
+//        #region keyboard
+//        [DllImport(User32Dll)]
+//        public static extern int GetKeyboardType(GKT nTypeFlag);
+//
+//        public enum GKT
+//        {
+//            KeyBoardType = 0,
+//            KeyBoardSubType = 1,
+//            NumOfFuncKeys = 2
+//        }
+//        #endregion
+//
+//        #region Scroll bar
+//        [DllImport(User32Dll)]
+//        public static extern int GetScrollInfo(IntPtr hwnd, SB fnBar, ref SCROLLINFO lpsi);
+//
+//        [DllImport(User32Dll)]
+//        public static extern int SetScrollInfo(IntPtr hwnd, SB fnBar, ref SCROLLINFO lpsi, bool fRedraw);
+//
+//        public enum SB : int
+//        {
+//            SB_HORZ = 0,
+//            SB_VERT = 1,
+//            SB_CTL = 2
+//        }
+//
+//
+//        [StructLayout(LayoutKind.Sequential)]
+//        public struct SCROLLINFO
+//        {
+//            public int cbSize;
+//            public int fMask;
+//            public int nMin;
+//            public int nMax;
+//            public int nPage;
+//            public int nPos;
+//            public int nTrackPos;
+//        }
+//        #endregion
+//
+//        #region ExitWindow
+//        [DllImport("aygshell.dll")]
+//        public static extern bool ExitWindowsEx(EWX uFlags, uint dwReserved);
+//
+//        public enum EWX : uint
+//        {
+//            //EWX_LOGOFF = 0,
+//            //EWX_SHUTDOWN = 1, 
+//            EWX_REBOOT = 2,
+//            //EWX_FORCE = 4,
+//            EWX_POWEROFF = 8 //Not supported on PPC
+//            //EWX_FORCEIFHUNG = 16
+//        }
+//
+//        #endregion
+//
+       #region SetWindowLong
+//
         [DllImport(User32Dll, SetLastError = true)]
         public static extern int GetWindowLong(IntPtr hWnd, GWL nIndex);
 
@@ -334,7 +335,7 @@ namespace Win32
         public extern static int CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hwnd, uint msg, uint wParam, int lParam);
 
         #endregion
-
+//
         #region GWL
         public enum GWL : int
         {
@@ -347,7 +348,7 @@ namespace Win32
             GWL_ID = (-12)
         }
         #endregion
-
+//
         #region WindowStyles
         [Flags]
         public enum WS : uint
@@ -388,7 +389,7 @@ namespace Win32
         public static extern void PostQuitMessage(int nExitCode);
 
         #endregion
-
+//
         #region Entented Window Styles
 
         [Flags]
@@ -507,48 +508,48 @@ namespace Win32
         }
 
         #endregion
-
-        /// <summary>
-        /// <para>The DestroyWindow function destroys the specified window. The function sends WM_DESTROY and WM_NCDESTROY messages to the window to deactivate it and remove the keyboard focus from it. The function also destroys the window's menu, flushes the thread message queue, destroys timers, removes clipboard ownership, and breaks the clipboard viewer chain (if the window is at the top of the viewer chain).</para>
-        /// <para>If the specified window is a parent or owner window, DestroyWindow automatically destroys the associated child or owned windows when it destroys the parent or owner window. The function first destroys child or owned windows, and then it destroys the parent or owner window.</para>
-        /// <para>DestroyWindow also destroys modeless dialog boxes created by the CreateDialog function.</para>
-        /// </summary>
-        /// <param name="hwnd">Handle to the window to be destroyed.</param>
-        /// <returns>If the function succeeds, the return value is nonzero. If the function fails, the return value is zero. To get extended error information, call GetLastError.</returns>
+//
+//        /// <summary>
+//        /// <para>The DestroyWindow function destroys the specified window. The function sends WM_DESTROY and WM_NCDESTROY messages to the window to deactivate it and remove the keyboard focus from it. The function also destroys the window's menu, flushes the thread message queue, destroys timers, removes clipboard ownership, and breaks the clipboard viewer chain (if the window is at the top of the viewer chain).</para>
+//        /// <para>If the specified window is a parent or owner window, DestroyWindow automatically destroys the associated child or owned windows when it destroys the parent or owner window. The function first destroys child or owned windows, and then it destroys the parent or owner window.</para>
+//        /// <para>DestroyWindow also destroys modeless dialog boxes created by the CreateDialog function.</para>
+//        /// </summary>
+//        /// <param name="hwnd">Handle to the window to be destroyed.</param>
+//        /// <returns>If the function succeeds, the return value is nonzero. If the function fails, the return value is zero. To get extended error information, call GetLastError.</returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DestroyWindow(IntPtr hwnd);
-
+//
         [DllImport(User32Dll)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SWP uFlags);
-
-        [DllImport(User32Dll)]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("coredll")]
-        public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
+//
+//        [DllImport(User32Dll)]
+//        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+//
+//        [DllImport("coredll")]
+//        public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+//
         [DllImport(User32Dll)]
         public static extern bool ShowWindow(IntPtr hwnd, SW nCmdShow);
 
         [DllImport("user32.dll")]
         public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-
-        [DllImport(User32Dll)]
-        public static extern bool EnableWindow(IntPtr hwnd, bool enabled);
-
-        [DllImport(User32Dll)]
-        public static extern bool InvalidateRect(IntPtr hWnd, int pRect, bool bErase);
-
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool EnableWindow(IntPtr hwnd, bool enabled);
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool InvalidateRect(IntPtr hWnd, int pRect, bool bErase);
+//
         [DllImport(User32Dll)]
         public static extern bool UpdateWindow(IntPtr hwnd);
-
-        [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern Bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize, IntPtr hdcSrc, ref Point pprSrc, Int32 crKey, ref BLENDFUNCTION pblend, Int32 dwFlags);
-
-        [DllImport(User32Dll)]
-        public static extern bool SetWindowText(IntPtr hWnd, string lpString);
-
+//
+//        [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
+//        public static extern Bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize, IntPtr hdcSrc, ref Point pprSrc, Int32 crKey, ref BLENDFUNCTION pblend, Int32 dwFlags);
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool SetWindowText(IntPtr hWnd, string lpString);
+//
         [DllImport(User32Dll)]
         public static extern int SendMessage(IntPtr hWnd, WM Msg, uint wParam, uint lParam);
 
@@ -559,63 +560,63 @@ namespace Win32
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool PostMessage(IntPtr hWnd, WM Msg, int wParam, int lParam);
 
-        [DllImport(User32Dll)]
-        public static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate, RDW flags);
-
+//        [DllImport(User32Dll)]
+//        public static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate, RDW flags);
+//
         [DllImport(User32Dll)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
-
+//
         [DllImport(User32Dll)]
         public static extern IntPtr GetForegroundWindow();
 
         [DllImport(User32Dll)]
         public static extern IntPtr GetActiveWindow();
-
-        [DllImport(User32Dll, SetLastError = true)]
-        public static extern int GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport(User32Dll, SetLastError = true)]
-        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-        [DllImport("user32.dll")]
-        public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
-
-
+//
+//        [DllImport(User32Dll, SetLastError = true)]
+//        public static extern int GetWindowTextLength(IntPtr hWnd);
+//
+//        [DllImport(User32Dll, SetLastError = true)]
+//        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+//
+//        [DllImport("user32.dll")]
+//        public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+//
+//
         [DllImport(User32Dll)]
         public static extern bool LockWorkStation();
-
-        #region GetLastInputInfo
-        [DllImport(User32Dll)]
-        public static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct LASTINPUTINFO
-        {
-            public int cbSize;
-            public int dwTime;
-        }
-
-        /// <summary>
-        /// Get the tick count since the last user input. (Wrapper)
-        /// </summary>
-        /// <returns>The tick count since the last user input.</returns>
-        public static int GetLastInputTime()
-        {
-            LASTINPUTINFO lastInPut = new LASTINPUTINFO();
-            lastInPut.cbSize = (int)Marshal.SizeOf(lastInPut);
-            lastInPut.dwTime = 0;
-
-            if (!GetLastInputInfo(ref lastInPut))
-            {
-                throw new Exception(Marshal.GetLastWin32Error().ToString());
-            }
-
-            return lastInPut.dwTime; // (int)TimeSpan.TicksPerMillisecond;
-        }
-
-        #endregion
-
+//
+//        #region GetLastInputInfo
+//        [DllImport(User32Dll)]
+//        public static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+//
+//
+//        [StructLayout(LayoutKind.Sequential)]
+//        public struct LASTINPUTINFO
+//        {
+//            public int cbSize;
+//            public int dwTime;
+//        }
+//
+//        /// <summary>
+//        /// Get the tick count since the last user input. (Wrapper)
+//        /// </summary>
+//        /// <returns>The tick count since the last user input.</returns>
+//        public static int GetLastInputTime()
+//        {
+//            LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+//            lastInPut.cbSize = (int)Marshal.SizeOf(lastInPut);
+//            lastInPut.dwTime = 0;
+//
+//            if (!GetLastInputInfo(ref lastInPut))
+//            {
+//                throw new Exception(Marshal.GetLastWin32Error().ToString());
+//            }
+//
+//            return lastInPut.dwTime; // (int)TimeSpan.TicksPerMillisecond;
+//        }
+//
+//        #endregion
+//
         #region User input
         [DllImport(User32Dll)]
         public static extern bool EnableHardwareKeyboard(bool bEnable);
@@ -651,87 +652,87 @@ namespace Win32
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetShellWindow();
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetWindow(IntPtr hWnd, GW uCmd);
-
-        #region RedrawWindow
-        [Flags]
-        public enum RDW : uint
-        {
-            RDW_INVALIDATE = 0x0001,
-            RDW_INTERNALPAINT = 0x0002,
-            RDW_ERASE = 0x0004,
-
-            RDW_VALIDATE = 0x0008,
-            RDW_NOINTERNALPAINT = 0x0010,
-            RDW_NOERASE = 0x0020,
-
-            RDW_NOCHILDREN = 0x0040,
-            RDW_ALLCHILDREN = 0x0080,
-
-            RDW_UPDATENOW = 0x0100,
-            RDW_ERASENOW = 0x0200,
-
-            RDW_FRAME = 0x0400,
-            RDW_NOFRAME = 0x0800
-        }
-        #endregion
-
-        #region Get Window(GW)
-        public enum GW : uint
-        {
-            GW_HWNDFIRST = 0,
-            GW_HWNDLAST = 1,
-            GW_HWNDNEXT = 2,
-            GW_HWNDPREV = 3,
-            GW_OWNER = 4,
-            GW_CHILD = 5,
-            GW_ENABLEDPOPUP = 6
-        }
-        #endregion
-
-        #region Hotkey
-
-        [DllImport("coredll")]
-        public static extern int RegisterHotKey(IntPtr hwnd, int id, KeyModifiers fsModifiers, VK vk);
-
-        [DllImport(User32Dll)]
-        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        [Flags]
-        public enum KeyModifiers
-        {
-            MOD_ALT = 0x0001,
-            MOD_CONTROL = 0x0002,
-            MOD_SHIFT = 0x0004,
-            MOD_WIN = 0x0008,
-            MOD_KEYUP = 0x1000,
-            NONE = 0x0000
-        }
-
-        public enum HardwareKeys : int
-        {
-            APP1 = 0xC1,
-            APP2 = 0xC2,
-            APP3 = 0xC3,
-            APP4 = 0xC4,
-            APP5 = 0xC5,
-            APP6 = 0xC6,
-            APP7 = 0xC7,
-            APP8 = 0xC8,
-            APP9 = 0xC9,
-            APP10 = 0xCA,
-            APP11 = 0xCB,
-            APP12 = 0xCC,
-            APP13 = 0xCD,
-            APP14 = 0xCE,
-            APP15 = 0xCF,
-            APP16
-        }
-
-        #endregion
-
+//
+//        [DllImport("user32.dll")]
+//        public static extern IntPtr GetWindow(IntPtr hWnd, GW uCmd);
+//
+//        #region RedrawWindow
+//        [Flags]
+//        public enum RDW : uint
+//        {
+//            RDW_INVALIDATE = 0x0001,
+//            RDW_INTERNALPAINT = 0x0002,
+//            RDW_ERASE = 0x0004,
+//
+//            RDW_VALIDATE = 0x0008,
+//            RDW_NOINTERNALPAINT = 0x0010,
+//            RDW_NOERASE = 0x0020,
+//
+//            RDW_NOCHILDREN = 0x0040,
+//            RDW_ALLCHILDREN = 0x0080,
+//
+//            RDW_UPDATENOW = 0x0100,
+//            RDW_ERASENOW = 0x0200,
+//
+//            RDW_FRAME = 0x0400,
+//            RDW_NOFRAME = 0x0800
+//        }
+//        #endregion
+//
+//        #region Get Window(GW)
+//        public enum GW : uint
+//        {
+//            GW_HWNDFIRST = 0,
+//            GW_HWNDLAST = 1,
+//            GW_HWNDNEXT = 2,
+//            GW_HWNDPREV = 3,
+//            GW_OWNER = 4,
+//            GW_CHILD = 5,
+//            GW_ENABLEDPOPUP = 6
+//        }
+//        #endregion
+//
+//        #region Hotkey
+//
+//        [DllImport("coredll")]
+//        public static extern int RegisterHotKey(IntPtr hwnd, int id, KeyModifiers fsModifiers, VK vk);
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+//
+//        [Flags]
+//        public enum KeyModifiers
+//        {
+//            MOD_ALT = 0x0001,
+//            MOD_CONTROL = 0x0002,
+//            MOD_SHIFT = 0x0004,
+//            MOD_WIN = 0x0008,
+//            MOD_KEYUP = 0x1000,
+//            NONE = 0x0000
+//        }
+//
+//        public enum HardwareKeys : int
+//        {
+//            APP1 = 0xC1,
+//            APP2 = 0xC2,
+//            APP3 = 0xC3,
+//            APP4 = 0xC4,
+//            APP5 = 0xC5,
+//            APP6 = 0xC6,
+//            APP7 = 0xC7,
+//            APP8 = 0xC8,
+//            APP9 = 0xC9,
+//            APP10 = 0xCA,
+//            APP11 = 0xCB,
+//            APP12 = 0xCC,
+//            APP13 = 0xCD,
+//            APP14 = 0xCE,
+//            APP15 = 0xCF,
+//            APP16
+//        }
+//
+//        #endregion
+//
         #region MOUSEEVENTF
         [Flags]
         public enum MOUSEEVENTF
@@ -750,7 +751,7 @@ namespace Win32
             MOUSEEVENTF_ABSOLUTE = 0x8000
         }
         #endregion
-
+//
         #region SetWindowPos(SWP)
         [Flags]
         public enum SWP
@@ -785,22 +786,22 @@ namespace Win32
             SW_RESTORE = 13
         }
         #endregion
-
-        #region HWND
-        public static class HWND
-        {
-            public static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
-
-            public static IntPtr HWND_TOP = (IntPtr)0;
-
-            public static IntPtr HWND_TOPMOST = (IntPtr)(-1);
-
-            public static IntPtr HWND_NOTOPMOST = (IntPtr)(-2);
-
-            public static IntPtr HWND_BOTTOM = (IntPtr)1;
-        }
-        #endregion
-
+//
+//        #region HWND
+//        public static class HWND
+//        {
+//            public static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
+//
+//            public static IntPtr HWND_TOP = (IntPtr)0;
+//
+//            public static IntPtr HWND_TOPMOST = (IntPtr)(-1);
+//
+//            public static IntPtr HWND_NOTOPMOST = (IntPtr)(-2);
+//
+//            public static IntPtr HWND_BOTTOM = (IntPtr)1;
+//        }
+//        #endregion
+//
         #region Windows Message(WM)
         public enum WM
         {
@@ -1011,7 +1012,7 @@ namespace Win32
             WM_XBUTTONUP = 0x020C
         }
         #endregion
-
+//
         #region Virtual Key(VK)
         public enum VK : int
         {
@@ -1202,7 +1203,7 @@ namespace Win32
             VK_OEM_CLEAR = 0xFE
         }
         #endregion
-
+//
         #region Class Styles
         [Flags]
         public enum CS : uint
@@ -1223,90 +1224,90 @@ namespace Win32
         }
 
         #endregion
-
-        [DllImport(User32Dll)]
-        public static extern bool BlockInput(bool fBlockIt);
-
-        [DllImport(User32Dll)]
-        private static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
-
-        [DllImport(User32Dll, SetLastError = true)]
-        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool BlockInput(bool fBlockIt);
+//
+//        [DllImport(User32Dll)]
+//        private static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
+//
+//        [DllImport(User32Dll, SetLastError = true)]
+//        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
         [DllImport(User32Dll, CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr SendMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport(User32Dll)]
-        public static extern void mouse_event(MOUSEEVENTF dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
-
-        [DllImport(User32Dll)]
-        public static extern bool GetCursorPos(out Point lpPoint);
-
-        [DllImport(User32Dll, SetLastError = true)]
-        public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
-
-        [DllImport(User32Dll)]
-        public static extern IntPtr GetMessageExtraInfo();
-
-        #region Hook
-        [DllImport(User32Dll, SetLastError = true)]
-        static extern IntPtr SetWindowsHookEx(HookType hook, HookProc callback,
-           IntPtr hMod, uint dwThreadId);
-
-        [DllImport(User32Dll, SetLastError = true)]
-        static extern IntPtr SetWindowsHookEx(HookType hook, LowLevelKeyboardProc callback,
-           IntPtr hMod, uint dwThreadId);
-
-        [DllImport(User32Dll, SetLastError = true)]
-        static extern IntPtr SetWindowsHookEx(HookType code, LowLevelMouseProc func,
-            IntPtr hInstance, int threadID);
-
-        delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
-
-        delegate int LowLevelKeyboardProc(int nCode, WM wParam, [In]KBDLLHOOKSTRUCT lParam);
-
-        delegate int LowLevelMouseProc(int code, WM wParam, [In]MSLLHOOKSTRUCT lParam);
-
-        public enum HookType : int
-        {
-            WH_JOURNALRECORD = 0,
-            WH_JOURNALPLAYBACK = 1,
-            WH_KEYBOARD = 2,
-            WH_GETMESSAGE = 3,
-            WH_CALLWNDPROC = 4,
-            WH_CBT = 5,
-            WH_SYSMSGFILTER = 6,
-            WH_MOUSE = 7,
-            WH_HARDWARE = 8,
-            WH_DEBUG = 9,
-            WH_SHELL = 10,
-            WH_FOREGROUNDIDLE = 11,
-            WH_CALLWNDPROCRET = 12,
-            WH_KEYBOARD_LL = 13,
-            WH_MOUSE_LL = 14
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class MSLLHOOKSTRUCT
-        {
-            public POINT pt;
-            public int mouseData;
-            public int flags;
-            public int time;
-            public IntPtr dwExtraInfo;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class KBDLLHOOKSTRUCT
-        {
-            public int vkCode;
-            public int scanCode;
-            public int flags;
-            public int time;
-            public IntPtr dwExtraInfo;
-        }
-        #endregion
-
+//
+//        [DllImport(User32Dll)]
+//        public static extern void mouse_event(MOUSEEVENTF dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
+//
+//        [DllImport(User32Dll)]
+//        public static extern bool GetCursorPos(out Point lpPoint);
+//
+//        [DllImport(User32Dll, SetLastError = true)]
+//        public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
+//
+//        [DllImport(User32Dll)]
+//        public static extern IntPtr GetMessageExtraInfo();
+//
+//        #region Hook
+//        [DllImport(User32Dll, SetLastError = true)]
+//        static extern IntPtr SetWindowsHookEx(HookType hook, HookProc callback,
+//           IntPtr hMod, uint dwThreadId);
+//
+//        [DllImport(User32Dll, SetLastError = true)]
+//        static extern IntPtr SetWindowsHookEx(HookType hook, LowLevelKeyboardProc callback,
+//           IntPtr hMod, uint dwThreadId);
+//
+//        [DllImport(User32Dll, SetLastError = true)]
+//        static extern IntPtr SetWindowsHookEx(HookType code, LowLevelMouseProc func,
+//            IntPtr hInstance, int threadID);
+//
+//        delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
+//
+//        delegate int LowLevelKeyboardProc(int nCode, WM wParam, [In]KBDLLHOOKSTRUCT lParam);
+//
+//        delegate int LowLevelMouseProc(int code, WM wParam, [In]MSLLHOOKSTRUCT lParam);
+//
+//        public enum HookType : int
+//        {
+//            WH_JOURNALRECORD = 0,
+//            WH_JOURNALPLAYBACK = 1,
+//            WH_KEYBOARD = 2,
+//            WH_GETMESSAGE = 3,
+//            WH_CALLWNDPROC = 4,
+//            WH_CBT = 5,
+//            WH_SYSMSGFILTER = 6,
+//            WH_MOUSE = 7,
+//            WH_HARDWARE = 8,
+//            WH_DEBUG = 9,
+//            WH_SHELL = 10,
+//            WH_FOREGROUNDIDLE = 11,
+//            WH_CALLWNDPROCRET = 12,
+//            WH_KEYBOARD_LL = 13,
+//            WH_MOUSE_LL = 14
+//        }
+//
+//        [StructLayout(LayoutKind.Sequential)]
+//        public class MSLLHOOKSTRUCT
+//        {
+//            public POINT pt;
+//            public int mouseData;
+//            public int flags;
+//            public int time;
+//            public IntPtr dwExtraInfo;
+//        }
+//
+//        [StructLayout(LayoutKind.Sequential)]
+//        public class KBDLLHOOKSTRUCT
+//        {
+//            public int vkCode;
+//            public int scanCode;
+//            public int flags;
+//            public int time;
+//            public IntPtr dwExtraInfo;
+//        }
+//        #endregion
+//
         #region POINT
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
@@ -1351,7 +1352,7 @@ namespace Win32
         }
 
         #endregion
-
+//
         #region SendInput structs
         [StructLayout(LayoutKind.Sequential)]
         public struct MOUSEINPUT
@@ -1453,7 +1454,7 @@ namespace Win32
             public System.Drawing.Rectangle rcNormalPosition;
         }
         #endregion
-
+//
         [Flags]
         public enum SPIF
         {
@@ -1466,7 +1467,7 @@ namespace Win32
             SPIF_SENDWININICHANGE = 0x02
         }
 
-
+//
         [DllImport(User32Dll, ExactSpelling = true)]
         public static extern IntPtr MonitorFromPoint(POINT pt, int flags);
         [DllImport(User32Dll, ExactSpelling = true)]
@@ -1483,7 +1484,7 @@ namespace Win32
         public static extern bool SystemParametersInfo(int nAction, int nParam, ref GDI32.RECT rc, int nUpdate);
         
         public delegate bool MonitorEnumProc(IntPtr monitor, IntPtr hdc, IntPtr lprcMonitor, IntPtr lParam);
-
+//
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfoEx lpmi);
 
@@ -1561,14 +1562,14 @@ namespace Win32
                 return "Left = " + left + " Top " + top + " Right = " + right + " Bottom = " + bottom;
             }
         }
-
-        /// <summary>
-        /// ANIMATIONINFO specifies animation effects associated with user actions. 
-        /// Used with SystemParametersInfo when SPI_GETANIMATION or SPI_SETANIMATION action is specified.
-        /// </summary>
-        /// <remark>
-        /// The uiParam value must be set to (System.UInt32)Marshal.SizeOf(typeof(ANIMATIONINFO)) when using this structure.
-        /// </remark>
+//
+//        /// <summary>
+//        /// ANIMATIONINFO specifies animation effects associated with user actions. 
+//        /// Used with SystemParametersInfo when SPI_GETANIMATION or SPI_SETANIMATION action is specified.
+//        /// </summary>
+//        /// <remark>
+//        /// The uiParam value must be set to (System.UInt32)Marshal.SizeOf(typeof(ANIMATIONINFO)) when using this structure.
+//        /// </remark>
         [StructLayout(LayoutKind.Sequential)]
         public struct ANIMATIONINFO
         {
@@ -1592,177 +1593,176 @@ namespace Win32
             /// </summary>
             public System.Int32 iMinAnimate;
         }
-
-        // ALTERNATIVE K.I.S.S. VERSION
-
-        public const uint SPI_GETBEEP = 0x0001;
-        public const uint SPI_SETBEEP = 0x0002;
-        public const uint SPI_GETMOUSE = 0x0003;
-        public const uint SPI_SETMOUSE = 0x0004;
-        public const uint SPI_GETBORDER = 0x0005;
-        public const uint SPI_SETBORDER = 0x0006;
-        public const uint SPI_GETKEYBOARDSPEED = 0x000A;
-        public const uint SPI_SETKEYBOARDSPEED = 0x000B;
-        public const uint SPI_LANGDRIVER = 0x000C;
-        public const uint SPI_ICONHORIZONTALSPACING = 0x000D;
-        public const uint SPI_GETSCREENSAVETIMEOUT = 0x000E;
-        public const uint SPI_SETSCREENSAVETIMEOUT = 0x000F;
-        public const uint SPI_GETSCREENSAVEACTIVE = 0x0010;
-        public const uint SPI_SETSCREENSAVEACTIVE = 0x0011;
-        public const uint SPI_GETGRIDGRANULARITY = 0x0012;
-        public const uint SPI_SETGRIDGRANULARITY = 0x0013;
-        public const uint SPI_SETDESKWALLPAPER = 0x0014;
-        public const uint SPI_SETDESKPATTERN = 0x0015;
-        public const uint SPI_GETKEYBOARDDELAY = 0x0016;
-        public const uint SPI_SETKEYBOARDDELAY = 0x0017;
-        public const uint SPI_ICONVERTICALSPACING = 0x0018;
-        public const uint SPI_GETICONTITLEWRAP = 0x0019;
-        public const uint SPI_SETICONTITLEWRAP = 0x001A;
-        public const uint SPI_GETMENUDROPALIGNMENT = 0x001B;
-        public const uint SPI_SETMENUDROPALIGNMENT = 0x001C;
-        public const uint SPI_SETDOUBLECLKWIDTH = 0x001D;
-        public const uint SPI_SETDOUBLECLKHEIGHT = 0x001E;
-        public const uint SPI_GETICONTITLELOGFONT = 0x001F;
-        public const uint SPI_SETDOUBLECLICKTIME = 0x0020;
-        public const uint SPI_SETMOUSEBUTTONSWAP = 0x0021;
-        public const uint SPI_SETICONTITLELOGFONT = 0x0022;
-        public const uint SPI_GETFASTTASKSWITCH = 0x0023;
-        public const uint SPI_SETFASTTASKSWITCH = 0x0024;
-        public const uint SPI_SETDRAGFULLWINDOWS = 0x0025;
-        public const uint SPI_GETDRAGFULLWINDOWS = 0x0026;
-        public const uint SPI_GETNONCLIENTMETRICS = 0x0029;
-        public const uint SPI_SETNONCLIENTMETRICS = 0x002A;
-        public const uint SPI_GETMINIMIZEDMETRICS = 0x002B;
-        public const uint SPI_SETMINIMIZEDMETRICS = 0x002C;
-        public const uint SPI_GETICONMETRICS = 0x002D;
-        public const uint SPI_SETICONMETRICS = 0x002E;
-        public const uint SPI_SETWORKAREA = 0x002F;
+//
+//        // ALTERNATIVE K.I.S.S. VERSION
+//        public const uint SPI_GETBEEP = 0x0001;
+//        public const uint SPI_SETBEEP = 0x0002;
+//        public const uint SPI_GETMOUSE = 0x0003;
+//        public const uint SPI_SETMOUSE = 0x0004;
+//        public const uint SPI_GETBORDER = 0x0005;
+//        public const uint SPI_SETBORDER = 0x0006;
+//        public const uint SPI_GETKEYBOARDSPEED = 0x000A;
+//        public const uint SPI_SETKEYBOARDSPEED = 0x000B;
+//        public const uint SPI_LANGDRIVER = 0x000C;
+//        public const uint SPI_ICONHORIZONTALSPACING = 0x000D;
+//        public const uint SPI_GETSCREENSAVETIMEOUT = 0x000E;
+//        public const uint SPI_SETSCREENSAVETIMEOUT = 0x000F;
+//        public const uint SPI_GETSCREENSAVEACTIVE = 0x0010;
+//        public const uint SPI_SETSCREENSAVEACTIVE = 0x0011;
+//        public const uint SPI_GETGRIDGRANULARITY = 0x0012;
+//        public const uint SPI_SETGRIDGRANULARITY = 0x0013;
+//        public const uint SPI_SETDESKWALLPAPER = 0x0014;
+//        public const uint SPI_SETDESKPATTERN = 0x0015;
+//        public const uint SPI_GETKEYBOARDDELAY = 0x0016;
+//        public const uint SPI_SETKEYBOARDDELAY = 0x0017;
+//        public const uint SPI_ICONVERTICALSPACING = 0x0018;
+//        public const uint SPI_GETICONTITLEWRAP = 0x0019;
+//        public const uint SPI_SETICONTITLEWRAP = 0x001A;
+//        public const uint SPI_GETMENUDROPALIGNMENT = 0x001B;
+//        public const uint SPI_SETMENUDROPALIGNMENT = 0x001C;
+//        public const uint SPI_SETDOUBLECLKWIDTH = 0x001D;
+//        public const uint SPI_SETDOUBLECLKHEIGHT = 0x001E;
+//        public const uint SPI_GETICONTITLELOGFONT = 0x001F;
+//        public const uint SPI_SETDOUBLECLICKTIME = 0x0020;
+//        public const uint SPI_SETMOUSEBUTTONSWAP = 0x0021;
+//        public const uint SPI_SETICONTITLELOGFONT = 0x0022;
+//        public const uint SPI_GETFASTTASKSWITCH = 0x0023;
+//        public const uint SPI_SETFASTTASKSWITCH = 0x0024;
+//        public const uint SPI_SETDRAGFULLWINDOWS = 0x0025;
+//        public const uint SPI_GETDRAGFULLWINDOWS = 0x0026;
+//        public const uint SPI_GETNONCLIENTMETRICS = 0x0029;
+//        public const uint SPI_SETNONCLIENTMETRICS = 0x002A;
+//        public const uint SPI_GETMINIMIZEDMETRICS = 0x002B;
+//        public const uint SPI_SETMINIMIZEDMETRICS = 0x002C;
+//        public const uint SPI_GETICONMETRICS = 0x002D;
+//        public const uint SPI_SETICONMETRICS = 0x002E;
+//        public const uint SPI_SETWORKAREA = 0x002F;
         public const uint SPI_GETWORKAREA = 0x0030;
-        public const uint SPI_SETPENWINDOWS = 0x0031;
-        public const uint SPI_GETHIGHCONTRAST = 0x0042;
-        public const uint SPI_SETHIGHCONTRAST = 0x0043;
-        public const uint SPI_GETKEYBOARDPREF = 0x0044;
-        public const uint SPI_SETKEYBOARDPREF = 0x0045;
-        public const uint SPI_GETSCREENREADER = 0x0046;
-        public const uint SPI_SETSCREENREADER = 0x0047;
-        public const uint SPI_GETANIMATION = 0x0048;
-        public const uint SPI_SETANIMATION = 0x0049;
-        public const uint SPI_GETFONTSMOOTHING = 0x004A;
-        public const uint SPI_SETFONTSMOOTHING = 0x004B;
-        public const uint SPI_SETDRAGWIDTH = 0x004C;
-        public const uint SPI_SETDRAGHEIGHT = 0x004D;
-        public const uint SPI_SETHANDHELD = 0x004E;
-        public const uint SPI_GETLOWPOWERTIMEOUT = 0x004F;
-        public const uint SPI_GETPOWEROFFTIMEOUT = 0x0050;
-        public const uint SPI_SETLOWPOWERTIMEOUT = 0x0051;
-        public const uint SPI_SETPOWEROFFTIMEOUT = 0x0052;
-        public const uint SPI_GETLOWPOWERACTIVE = 0x0053;
-        public const uint SPI_GETPOWEROFFACTIVE = 0x0054;
-        public const uint SPI_SETLOWPOWERACTIVE = 0x0055;
-        public const uint SPI_SETPOWEROFFACTIVE = 0x0056;
-        public const uint SPI_SETICONS = 0x0058;
-        public const uint SPI_GETDEFAULTINPUTLANG = 0x0059;
-        public const uint SPI_SETDEFAULTINPUTLANG = 0x005A;
-        public const uint SPI_SETLANGTOGGLE = 0x005B;
-        public const uint SPI_GETWINDOWSEXTENSION = 0x005C;
-        public const uint SPI_SETMOUSETRAILS = 0x005D;
-        public const uint SPI_GETMOUSETRAILS = 0x005E;
-        public const uint SPI_SCREENSAVERRUNNING = 0x0061;
-        public const uint SPI_GETFILTERKEYS = 0x0032;
-        public const uint SPI_SETFILTERKEYS = 0x0033;
-        public const uint SPI_GETTOGGLEKEYS = 0x0034;
-        public const uint SPI_SETTOGGLEKEYS = 0x0035;
-        public const uint SPI_GETMOUSEKEYS = 0x0036;
-        public const uint SPI_SETMOUSEKEYS = 0x0037;
-        public const uint SPI_GETSHOWSOUNDS = 0x0038;
-        public const uint SPI_SETSHOWSOUNDS = 0x0039;
-        public const uint SPI_GETSTICKYKEYS = 0x003A;
-        public const uint SPI_SETSTICKYKEYS = 0x003B;
-        public const uint SPI_GETACCESSTIMEOUT = 0x003C;
-        public const uint SPI_SETACCESSTIMEOUT = 0x003D;
-        public const uint SPI_GETSERIALKEYS = 0x003E;
-        public const uint SPI_SETSERIALKEYS = 0x003F;
-        public const uint SPI_GETSOUNDSENTRY = 0x0040;
-        public const uint SPI_SETSOUNDSENTRY = 0x0041;
-        public const uint SPI_GETSNAPTODEFBUTTON = 0x005F;
-        public const uint SPI_SETSNAPTODEFBUTTON = 0x0060;
-        public const uint SPI_GETMOUSEHOVERWIDTH = 0x0062;
-        public const uint SPI_SETMOUSEHOVERWIDTH = 0x0063;
-        public const uint SPI_GETMOUSEHOVERHEIGHT = 0x0064;
-        public const uint SPI_SETMOUSEHOVERHEIGHT = 0x0065;
-        public const uint SPI_GETMOUSEHOVERTIME = 0x0066;
-        public const uint SPI_SETMOUSEHOVERTIME = 0x0067;
-        public const uint SPI_GETWHEELSCROLLLINES = 0x0068;
-        public const uint SPI_SETWHEELSCROLLLINES = 0x0069;
-        public const uint SPI_GETMENUSHOWDELAY = 0x006A;
-        public const uint SPI_SETMENUSHOWDELAY = 0x006B;
-        public const uint SPI_GETSHOWIMEUI = 0x006E;
-        public const uint SPI_SETSHOWIMEUI = 0x006F;
-        public const uint SPI_GETMOUSESPEED = 0x0070;
-        public const uint SPI_SETMOUSESPEED = 0x0071;
-        public const uint SPI_GETSCREENSAVERRUNNING = 0x0072;
-        public const uint SPI_GETDESKWALLPAPER = 0x0073;
-        public const uint SPI_GETACTIVEWINDOWTRACKING = 0x1000;
-        public const uint SPI_SETACTIVEWINDOWTRACKING = 0x1001;
-        public const uint SPI_GETMENUANIMATION = 0x1002;
-        public const uint SPI_SETMENUANIMATION = 0x1003;
-        public const uint SPI_GETCOMBOBOXANIMATION = 0x1004;
-        public const uint SPI_SETCOMBOBOXANIMATION = 0x1005;
-        public const uint SPI_GETLISTBOXSMOOTHSCROLLING = 0x1006;
-        public const uint SPI_SETLISTBOXSMOOTHSCROLLING = 0x1007;
-        public const uint SPI_GETGRADIENTCAPTIONS = 0x1008;
-        public const uint SPI_SETGRADIENTCAPTIONS = 0x1009;
-        public const uint SPI_GETKEYBOARDCUES = 0x100A;
-        public const uint SPI_SETKEYBOARDCUES = 0x100B;
-        public const uint SPI_GETMENUUNDERLINES = SPI_GETKEYBOARDCUES;
-        public const uint SPI_SETMENUUNDERLINES = SPI_SETKEYBOARDCUES;
-        public const uint SPI_GETACTIVEWNDTRKZORDER = 0x100C;
-        public const uint SPI_SETACTIVEWNDTRKZORDER = 0x100D;
-        public const uint SPI_GETHOTTRACKING = 0x100E;
-        public const uint SPI_SETHOTTRACKING = 0x100F;
-        public const uint SPI_GETMENUFADE = 0x1012;
-        public const uint SPI_SETMENUFADE = 0x1013;
-        public const uint SPI_GETSELECTIONFADE = 0x1014;
-        public const uint SPI_SETSELECTIONFADE = 0x1015;
-        public const uint SPI_GETTOOLTIPANIMATION = 0x1016;
-        public const uint SPI_SETTOOLTIPANIMATION = 0x1017;
-        public const uint SPI_GETTOOLTIPFADE = 0x1018;
-        public const uint SPI_SETTOOLTIPFADE = 0x1019;
-        public const uint SPI_GETCURSORSHADOW = 0x101A;
-        public const uint SPI_SETCURSORSHADOW = 0x101B;
-        public const uint SPI_GETMOUSESONAR = 0x101C;
-        public const uint SPI_SETMOUSESONAR = 0x101D;
-        public const uint SPI_GETMOUSECLICKLOCK = 0x101E;
-        public const uint SPI_SETMOUSECLICKLOCK = 0x101F;
-        public const uint SPI_GETMOUSEVANISH = 0x1020;
-        public const uint SPI_SETMOUSEVANISH = 0x1021;
-        public const uint SPI_GETFLATMENU = 0x1022;
-        public const uint SPI_SETFLATMENU = 0x1023;
-        public const uint SPI_GETDROPSHADOW = 0x1024;
-        public const uint SPI_SETDROPSHADOW = 0x1025;
-        public const uint SPI_GETBLOCKSENDINPUTRESETS = 0x1026;
-        public const uint SPI_SETBLOCKSENDINPUTRESETS = 0x1027;
-        public const uint SPI_GETUIEFFECTS = 0x103E;
-        public const uint SPI_SETUIEFFECTS = 0x103F;
+//        public const uint SPI_SETPENWINDOWS = 0x0031;
+//        public const uint SPI_GETHIGHCONTRAST = 0x0042;
+//        public const uint SPI_SETHIGHCONTRAST = 0x0043;
+//        public const uint SPI_GETKEYBOARDPREF = 0x0044;
+//        public const uint SPI_SETKEYBOARDPREF = 0x0045;
+//        public const uint SPI_GETSCREENREADER = 0x0046;
+//        public const uint SPI_SETSCREENREADER = 0x0047;
+//        public const uint SPI_GETANIMATION = 0x0048;
+//        public const uint SPI_SETANIMATION = 0x0049;
+//        public const uint SPI_GETFONTSMOOTHING = 0x004A;
+//        public const uint SPI_SETFONTSMOOTHING = 0x004B;
+//        public const uint SPI_SETDRAGWIDTH = 0x004C;
+//        public const uint SPI_SETDRAGHEIGHT = 0x004D;
+//        public const uint SPI_SETHANDHELD = 0x004E;
+//        public const uint SPI_GETLOWPOWERTIMEOUT = 0x004F;
+//        public const uint SPI_GETPOWEROFFTIMEOUT = 0x0050;
+//        public const uint SPI_SETLOWPOWERTIMEOUT = 0x0051;
+//        public const uint SPI_SETPOWEROFFTIMEOUT = 0x0052;
+//        public const uint SPI_GETLOWPOWERACTIVE = 0x0053;
+//        public const uint SPI_GETPOWEROFFACTIVE = 0x0054;
+//        public const uint SPI_SETLOWPOWERACTIVE = 0x0055;
+//        public const uint SPI_SETPOWEROFFACTIVE = 0x0056;
+//        public const uint SPI_SETICONS = 0x0058;
+//        public const uint SPI_GETDEFAULTINPUTLANG = 0x0059;
+//        public const uint SPI_SETDEFAULTINPUTLANG = 0x005A;
+//        public const uint SPI_SETLANGTOGGLE = 0x005B;
+//        public const uint SPI_GETWINDOWSEXTENSION = 0x005C;
+//        public const uint SPI_SETMOUSETRAILS = 0x005D;
+//        public const uint SPI_GETMOUSETRAILS = 0x005E;
+//        public const uint SPI_SCREENSAVERRUNNING = 0x0061;
+//        public const uint SPI_GETFILTERKEYS = 0x0032;
+//        public const uint SPI_SETFILTERKEYS = 0x0033;
+//        public const uint SPI_GETTOGGLEKEYS = 0x0034;
+//        public const uint SPI_SETTOGGLEKEYS = 0x0035;
+//        public const uint SPI_GETMOUSEKEYS = 0x0036;
+//        public const uint SPI_SETMOUSEKEYS = 0x0037;
+//        public const uint SPI_GETSHOWSOUNDS = 0x0038;
+//        public const uint SPI_SETSHOWSOUNDS = 0x0039;
+//        public const uint SPI_GETSTICKYKEYS = 0x003A;
+//        public const uint SPI_SETSTICKYKEYS = 0x003B;
+//        public const uint SPI_GETACCESSTIMEOUT = 0x003C;
+//        public const uint SPI_SETACCESSTIMEOUT = 0x003D;
+//        public const uint SPI_GETSERIALKEYS = 0x003E;
+//        public const uint SPI_SETSERIALKEYS = 0x003F;
+//        public const uint SPI_GETSOUNDSENTRY = 0x0040;
+//        public const uint SPI_SETSOUNDSENTRY = 0x0041;
+//        public const uint SPI_GETSNAPTODEFBUTTON = 0x005F;
+//        public const uint SPI_SETSNAPTODEFBUTTON = 0x0060;
+//        public const uint SPI_GETMOUSEHOVERWIDTH = 0x0062;
+//        public const uint SPI_SETMOUSEHOVERWIDTH = 0x0063;
+//        public const uint SPI_GETMOUSEHOVERHEIGHT = 0x0064;
+//        public const uint SPI_SETMOUSEHOVERHEIGHT = 0x0065;
+//        public const uint SPI_GETMOUSEHOVERTIME = 0x0066;
+//        public const uint SPI_SETMOUSEHOVERTIME = 0x0067;
+//        public const uint SPI_GETWHEELSCROLLLINES = 0x0068;
+//        public const uint SPI_SETWHEELSCROLLLINES = 0x0069;
+//        public const uint SPI_GETMENUSHOWDELAY = 0x006A;
+//        public const uint SPI_SETMENUSHOWDELAY = 0x006B;
+//        public const uint SPI_GETSHOWIMEUI = 0x006E;
+//        public const uint SPI_SETSHOWIMEUI = 0x006F;
+//        public const uint SPI_GETMOUSESPEED = 0x0070;
+//        public const uint SPI_SETMOUSESPEED = 0x0071;
+//        public const uint SPI_GETSCREENSAVERRUNNING = 0x0072;
+//        public const uint SPI_GETDESKWALLPAPER = 0x0073;
+//        public const uint SPI_GETACTIVEWINDOWTRACKING = 0x1000;
+//        public const uint SPI_SETACTIVEWINDOWTRACKING = 0x1001;
+//        public const uint SPI_GETMENUANIMATION = 0x1002;
+//        public const uint SPI_SETMENUANIMATION = 0x1003;
+//        public const uint SPI_GETCOMBOBOXANIMATION = 0x1004;
+//        public const uint SPI_SETCOMBOBOXANIMATION = 0x1005;
+//        public const uint SPI_GETLISTBOXSMOOTHSCROLLING = 0x1006;
+//        public const uint SPI_SETLISTBOXSMOOTHSCROLLING = 0x1007;
+//        public const uint SPI_GETGRADIENTCAPTIONS = 0x1008;
+//        public const uint SPI_SETGRADIENTCAPTIONS = 0x1009;
+//        public const uint SPI_GETKEYBOARDCUES = 0x100A;
+//        public const uint SPI_SETKEYBOARDCUES = 0x100B;
+//        public const uint SPI_GETMENUUNDERLINES = SPI_GETKEYBOARDCUES;
+//        public const uint SPI_SETMENUUNDERLINES = SPI_SETKEYBOARDCUES;
+//        public const uint SPI_GETACTIVEWNDTRKZORDER = 0x100C;
+//        public const uint SPI_SETACTIVEWNDTRKZORDER = 0x100D;
+//        public const uint SPI_GETHOTTRACKING = 0x100E;
+//        public const uint SPI_SETHOTTRACKING = 0x100F;
+//        public const uint SPI_GETMENUFADE = 0x1012;
+//        public const uint SPI_SETMENUFADE = 0x1013;
+//        public const uint SPI_GETSELECTIONFADE = 0x1014;
+//        public const uint SPI_SETSELECTIONFADE = 0x1015;
+//        public const uint SPI_GETTOOLTIPANIMATION = 0x1016;
+//        public const uint SPI_SETTOOLTIPANIMATION = 0x1017;
+//        public const uint SPI_GETTOOLTIPFADE = 0x1018;
+//        public const uint SPI_SETTOOLTIPFADE = 0x1019;
+//        public const uint SPI_GETCURSORSHADOW = 0x101A;
+//        public const uint SPI_SETCURSORSHADOW = 0x101B;
+//        public const uint SPI_GETMOUSESONAR = 0x101C;
+//        public const uint SPI_SETMOUSESONAR = 0x101D;
+//        public const uint SPI_GETMOUSECLICKLOCK = 0x101E;
+//        public const uint SPI_SETMOUSECLICKLOCK = 0x101F;
+//        public const uint SPI_GETMOUSEVANISH = 0x1020;
+//        public const uint SPI_SETMOUSEVANISH = 0x1021;
+//        public const uint SPI_GETFLATMENU = 0x1022;
+//        public const uint SPI_SETFLATMENU = 0x1023;
+//        public const uint SPI_GETDROPSHADOW = 0x1024;
+//        public const uint SPI_SETDROPSHADOW = 0x1025;
+//        public const uint SPI_GETBLOCKSENDINPUTRESETS = 0x1026;
+//        public const uint SPI_SETBLOCKSENDINPUTRESETS = 0x1027;
+//        public const uint SPI_GETUIEFFECTS = 0x103E;
+//        public const uint SPI_SETUIEFFECTS = 0x103F;
         public const uint SPI_GETFOREGROUNDLOCKTIMEOUT = 0x2000;
         public const uint SPI_SETFOREGROUNDLOCKTIMEOUT = 0x2001;
-        public const uint SPI_GETACTIVEWNDTRKTIMEOUT = 0x2002;
-        public const uint SPI_SETACTIVEWNDTRKTIMEOUT = 0x2003;
-        public const uint SPI_GETFOREGROUNDFLASHCOUNT = 0x2004;
-        public const uint SPI_SETFOREGROUNDFLASHCOUNT = 0x2005;
-        public const uint SPI_GETCARETWIDTH = 0x2006;
-        public const uint SPI_SETCARETWIDTH = 0x2007;
-        public const uint SPI_GETMOUSECLICKLOCKTIME = 0x2008;
-        public const uint SPI_SETMOUSECLICKLOCKTIME = 0x2009;
-        public const uint SPI_GETFONTSMOOTHINGTYPE = 0x200A;
-        public const uint SPI_SETFONTSMOOTHINGTYPE = 0x200B;
-        public const uint SPI_GETFONTSMOOTHINGCONTRAST = 0x200C;
-        public const uint SPI_SETFONTSMOOTHINGCONTRAST = 0x200D;
-        public const uint SPI_GETFOCUSBORDERWIDTH = 0x200E;
-        public const uint SPI_SETFOCUSBORDERWIDTH = 0x200F;
-        public const uint SPI_GETFOCUSBORDERHEIGHT = 0x2010;
-        public const uint SPI_SETFOCUSBORDERHEIGHT = 0x2011;
-        public const uint SPI_GETFONTSMOOTHINGORIENTATION = 0x2012;
-        public const uint SPI_SETFONTSMOOTHINGORIENTATION = 0x2013;
+//        public const uint SPI_GETACTIVEWNDTRKTIMEOUT = 0x2002;
+//        public const uint SPI_SETACTIVEWNDTRKTIMEOUT = 0x2003;
+//        public const uint SPI_GETFOREGROUNDFLASHCOUNT = 0x2004;
+//        public const uint SPI_SETFOREGROUNDFLASHCOUNT = 0x2005;
+//        public const uint SPI_GETCARETWIDTH = 0x2006;
+//        public const uint SPI_SETCARETWIDTH = 0x2007;
+//        public const uint SPI_GETMOUSECLICKLOCKTIME = 0x2008;
+//        public const uint SPI_SETMOUSECLICKLOCKTIME = 0x2009;
+//        public const uint SPI_GETFONTSMOOTHINGTYPE = 0x200A;
+//        public const uint SPI_SETFONTSMOOTHINGTYPE = 0x200B;
+//        public const uint SPI_GETFONTSMOOTHINGCONTRAST = 0x200C;
+//        public const uint SPI_SETFONTSMOOTHINGCONTRAST = 0x200D;
+//        public const uint SPI_GETFOCUSBORDERWIDTH = 0x200E;
+//        public const uint SPI_SETFOCUSBORDERWIDTH = 0x200F;
+//        public const uint SPI_GETFOCUSBORDERHEIGHT = 0x2010;
+//        public const uint SPI_SETFOCUSBORDERHEIGHT = 0x2011;
+//        public const uint SPI_GETFONTSMOOTHINGORIENTATION = 0x2012;
+//        public const uint SPI_SETFONTSMOOTHINGORIENTATION = 0x2013;
     }
 }
