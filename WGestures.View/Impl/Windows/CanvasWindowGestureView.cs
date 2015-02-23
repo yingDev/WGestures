@@ -178,7 +178,7 @@ namespace WGestures.View.Impl.Windows
             _shadowPen = new Pen(Color.FromArgb(30, 0, 0, 0), (widthBase + 5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _shadowPenWidth = _shadowPen.Width;
             _dirtyMarkerPen = (Pen) _shadowPen.Clone();
-            _dirtyMarkerPen.Width *= 2;
+            _dirtyMarkerPen.Width *= 1.5f;
 
             #endregion
         }
@@ -438,24 +438,22 @@ namespace WGestures.View.Impl.Windows
 
             if (ShowPath) _canvasWindow.SetDiBitmap(_bitmap, /*_pathDirtyRect*/pathDirty);
 
-            if (ShowCommandName)
+            if (_labelChanged) //ShowCommandName)
             {
                 var labelDirtyRect = _labelRect.Width > _lastLabelRect.Width ? _labelRect : _lastLabelRect;
                 labelDirtyRect.Height = _labelRect.Height > _lastLabelRect.Height ? _labelRect.Height : _lastLabelRect.Height;
-            
-                var labelDirty = Rectangle.Ceiling(labelDirtyRect);
+                _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(labelDirtyRect));
+            }
+            else if(_labelVisible)
+            {
+                var labelDirty = Rectangle.Ceiling(_labelRect);
                 var intercected = pathDirty.IntersectsWith(labelDirty);
 
-                if (_labelChanged)
-                {
-                    _canvasWindow.SetDiBitmap(_bitmap, labelDirty);
-                }
-                else if (intercected && !pathDirty.Contains(labelDirty))
+                if (intercected && !pathDirty.Contains(labelDirty))
                 {
                     labelDirty.Intersect(pathDirty);
                     _canvasWindow.SetDiBitmap(_bitmap, labelDirty);
                 }
-
             }
             #endregion
 
@@ -484,13 +482,32 @@ namespace WGestures.View.Impl.Windows
             }// else g.SetClip(_pathDirtyRect);
             g.SetClip(_gPathDirty);
 
+            var labelAffected = false;
+            //如果Label的内容改变，则整个重绘
+            //不然，就判断哪些区域收到了path的影响，然只更新受影响的一小部分。
             if (_labelChanged)
             {
                 var labelDirtyRect = _labelRect.Width > _lastLabelRect.Width ? _labelRect : _lastLabelRect;
                 labelDirtyRect.Height = _labelRect.Height > _lastLabelRect.Height ? _labelRect.Height : _lastLabelRect.Height;
-
+                
                 g.SetClip(labelDirtyRect, CombineMode.Union);
+                labelAffected = _labelVisible;
             }
+            else if(_labelVisible)
+            {
+                var labelDirty = Rectangle.Ceiling(_labelRect);
+                var pathDirty = Rectangle.Ceiling(_gPathDirty.GetBounds());
+                labelAffected = pathDirty.IntersectsWith(labelDirty);
+
+                if (labelAffected && !pathDirty.Contains(labelDirty))
+                {
+                    labelDirty.Intersect(pathDirty);
+                    g.SetClip(labelDirty, CombineMode.Union);
+
+                    Debug.WriteLine("LabelDirty="+labelDirty);
+                }
+            }
+                                
 
             g.Clear(Color.Transparent);
 
@@ -504,21 +521,9 @@ namespace WGestures.View.Impl.Windows
             #endregion
 
             #region 2) 绘制标签
-            if (ShowCommandName && _labelVisible)
-            {
-                var labelDirty = Rectangle.Ceiling(_labelRect);
-                var pathDirty = Rectangle.Ceiling(_gPathDirty.GetBounds());
-                var intercected = /*_pathDirtyRect*/pathDirty.IntersectsWith(labelDirty);
 
-                //如果Label的内容改变，则整个重绘
-                //不然，就判断哪些区域收到了path的影响，然只更新受影响的一小部分。
-                if (_labelChanged) g.SetClip(labelDirty);
-                else if (!intercected) goto endDrawLabel;
-                else if (!pathDirty.Contains(labelDirty))
-                {
-                    labelDirty.Intersect(pathDirty);
-                    g.SetClip(labelDirty);
-                }
+            if (labelAffected) //ShowCommandName && _labelVisible)
+            {
                 Debug.WriteLine("Label Redraw");
                 using (var pen = new Pen(Color.White, 1.5f * _dpiFactor))
                 using (var shadow = new Pen(Color.FromArgb(40, 0, 0, 0), 3f * _dpiFactor))
@@ -537,8 +542,6 @@ namespace WGestures.View.Impl.Windows
 
                     using (Brush brush = new SolidBrush(_labelColor)) g.FillPath(brush, _labelPath);
                 }
-            endDrawLabel:
-                ;
             }
             #endregion
 
@@ -578,7 +581,7 @@ namespace WGestures.View.Impl.Windows
 
                 }
 
-                if (ShowCommandName)
+                if (_labelVisible)//ShowCommandName)
                 {
                     var g = _bitmap.BeginDraw();
                     g.SetClip(_labelRect);
@@ -588,7 +591,9 @@ namespace WGestures.View.Impl.Windows
                     _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(_labelRect));
 
                     _labelPath.Reset();
-                    _labelText = null;
+                    
+                    HideLabel();
+                    _labelChanged = false;
                 }                    
                 
             }
