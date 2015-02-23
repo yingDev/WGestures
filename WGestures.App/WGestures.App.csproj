@@ -146,7 +146,6 @@
     <Compile Include="Migrate\MigrateException.cs" />
     <Compile Include="Migrate\MigrateService.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Gui\Windows\EditGestureForm.cs">
       <SubType>Form</SubType>
@@ -245,9 +244,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Gui\Windows\EditGestureForm.en.resx">
-      <DependentUpon>EditGestureForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Gui\Windows\CommandViews\CmdCommandView.resx">
       <DependentUpon>CmdCommandView.cs</DependentUpon>
     </EmbeddedResource>
@@ -268,12 +264,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Windows\ImportForm.resx">
       <DependentUpon>ImportForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Windows\SettingsForm.en.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Windows\SettingsForm.zh-Hans.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="QuickStartGuide\QuickStartGuideForm.resx">
       <DependentUpon>QuickStartGuideForm.cs</DependentUpon>
@@ -407,7 +397,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\triangle.png" />
-    <None Include="packages.config" />
     <None Include="Properties\DataSources\WGestures.App.Gui.Windows.SettingsFormController.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

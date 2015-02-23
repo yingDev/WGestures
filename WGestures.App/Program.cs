@@ -156,23 +156,24 @@ namespace WGestures.App
             }
 
 
-            //SetWorkingSet(null, null);
+            SetWorkingSet(null, null);
             SystemEvents.DisplaySettingsChanged += SetWorkingSet;
         }
 
         private static void SetWorkingSet(object sender, EventArgs e)
         {
-            /*using (var proc = Process.GetCurrentProcess())
+            using (var proc = Process.GetCurrentProcess())
             {
                 //工作集
                 var screenBounds = Screen.GetBounds(Point.Empty);
                 var screenArea = screenBounds.Width * screenBounds.Height;
-                var min = screenArea * 4 + 1024 * 1024 * 10;
+                var min = screenArea*4 + 1024 * 1024 * 5;
                 var max = min * 1.5f;
                 Debug.WriteLine("SetWorkingSet: min=" + min + "; max=" + (int)max);
 
+
                 Native.SetProcessWorkingSetSize(new IntPtr(proc.Id), min, (int)max);//按屏幕大小来预留工作集
-            }*/
+            }
         }
 
 
