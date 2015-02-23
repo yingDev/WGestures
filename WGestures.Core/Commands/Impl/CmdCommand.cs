@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 
@@ -70,25 +71,35 @@ namespace WGestures.Core.Commands.Impl
         {
             string path = null;
 
+            //TODO: ReleaseCom
             var shellWindows = new SHDocVw.ShellWindows();
 
-            foreach (SHDocVw.InternetExplorer ie in shellWindows)
+            try
             {
-                var filename = Path.GetFileNameWithoutExtension(ie.FullName).ToLower();
 
-                var activeWindow = Native.GetForegroundWindow();
-
-                if (filename.Equals("explorer") && activeWindow == new IntPtr(ie.HWND))
+                foreach (SHDocVw.InternetExplorer ie in shellWindows)
                 {
-                    var uri = ie.LocationURL;
-                    if (Uri.IsWellFormedUriString(uri,UriKind.Absolute))
+                    var filename = Path.GetFileNameWithoutExtension(ie.FullName).ToLower();
+
+                    var activeWindow = Native.GetForegroundWindow();
+
+                    if (filename.Equals("explorer") && activeWindow == new IntPtr(ie.HWND))
                     {
-                        path = new Uri(uri).LocalPath;
+                        var uri = ie.LocationURL;
+                        if (Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+                        {
+                            path = new Uri(uri).LocalPath;
+                        }
                     }
                 }
+
+                return path;
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(shellWindows);
             }
 
-            return path;
         }
     }
 }
