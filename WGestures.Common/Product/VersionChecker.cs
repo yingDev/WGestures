@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace WGestures.Common.Product
 {
@@ -34,8 +35,9 @@ namespace WGestures.Common.Product
                 //{"Version":"1.5.2.0","WhatsNew":"Abcd\"efg"}
                 try
                 {
-                                            
-                    const string versionPattern = "\"Version\"\\s*:\\s*\"\\d.\\d.\\d.\\d\"";
+                    versionInfo = JsonConvert.DeserializeObject<VersionInfo>(args.Result);
+
+                    /*const string versionPattern = "\"Version\"\\s*:\\s*\"\\d.\\d.\\d.\\d\"";
                     const string whatsNewPattern = "\"WhatsNew\"\\s*:\\s*((?<![\\\\])['\"])((?:.(?!(?<![\\\\])\\1))*.?)\\1";
 
                     var versionMatch = Regex.Match(args.Result, versionPattern);//"^\\{\"Version\":\"\\d.\\d.\\d.\\d\",\"WhatsNew\":\"[^\"]*\"\\}$");
@@ -48,8 +50,8 @@ namespace WGestures.Common.Product
 
                         versionInfo = new VersionInfo(){Version = versionStr, WhatsNew = whatsNewStr};
                     }
-                    else throw new Exception();
-                    
+                    else throw new Exception();*/
+
                 }
                 catch (Exception e)
                 {
