@@ -155,7 +155,7 @@ namespace WGestures.Core.Impl.Windows
             InitialStayTimeoutMillis = 150;
 
             EffectiveMove = (int)(20 * dpiFactor) * 2;//todo: 增加灵敏度调整
-            StepSize = EffectiveMove/3;
+            StepSize = (int) (2*dpiFactor);// EffectiveMove/8;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
@@ -679,7 +679,6 @@ namespace WGestures.Core.Impl.Windows
             _moveCount++;
 
             var dist = GetPointDistance(ref _curPos, ref _lastPoint);
-
             if (dist >= StepSize && PathGrow != null)
             {
                 PathGrow(_currentEventArgs);
