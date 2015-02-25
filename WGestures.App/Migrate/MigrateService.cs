@@ -149,9 +149,9 @@ namespace WGestures.App.Migrate
             var arcFile = new StreamingArchiveFile(wgbFilePath);
             var files = arcFile.FileIndex.IndexedFileNames.ToArray();
 
-            var fileShortNames = (from f in files select Path.GetFileName(f)).ToArray();
+            /*var fileShortNames = (from f in files select Path.GetFileName(f)).ToArray();
             if (!fileShortNames.Contains(cofnigFileName) || !fileShortNames.Contains(gesturesFileName))
-                throw new MigrateException("文件内容不正确（未找到需要的部分）: " + wgbFilePath);
+                throw new MigrateException("文件内容不正确（未找到需要的部分）: " + wgbFilePath);*/
 
             try
             {
@@ -186,15 +186,18 @@ namespace WGestures.App.Migrate
                     }
 
                 }
-
-
-                return new ConfigAndGestures(config, gestures);
             }
             catch (Exception e)
             {
                 if (e is SystemException) throw;
-                throw new MigrateException("导入错误", e);
+                throw new MigrateException("文件内容错误");
             }
+            
+
+            if(config == null || gestures == null) throw new MigrateException("文件内容错误");
+
+            return new ConfigAndGestures(config, gestures);
+            
 
         }
 
