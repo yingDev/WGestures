@@ -32,12 +32,38 @@ namespace WGestures.Core.Impl.Windows
         /// <summary>
         /// 获取和设置是否允许起始移动超时（如果启用， 则手势键按下后若超过InitalStayTimeoutMillis时间没有有效移动，将执行正常拖拽操作）
         /// </summary>
-        public bool InitialStayTimeout { get; set; }
+        public bool InitialStayTimeout
+        {
+            get { return _initalStayTimeout; }
+            set
+            {
+                _initalStayTimeout = value;
+                if (value && _initialStayTimer == null)
+                {
+                    _initialStayTimer = new Timer();
+                    _initialStayTimer.Elapsed += InitialStayTimeoutProc;
+                }
+                else if (!value && _initialStayTimer != null)
+                {
+                    _initialStayTimer.Dispose();
+                    _initialStayTimer = null;
+                }
+            }
+        }
+
 
         /// <summary>
         /// 获取和设置起始移动超时的时间值
         /// </summary>
-        public int InitialStayTimeoutMillis { get; set; }
+        public int InitialStayTimeoutMillis
+        {
+            get { return _intialStayTimeoutMillis; }
+            set
+            {
+                _intialStayTimeoutMillis = value;
+                if (_initialStayTimer != null) _initialStayTimer.Interval = value;
+            }
+        }
 
         private int _effectiveMove;
 
@@ -126,12 +152,15 @@ namespace WGestures.Core.Impl.Windows
         private readonly PathEventArgs _currentEventArgs = new PathEventArgs();
 
         //for timers
-        private Timer _stayTimer;
+        private Timer _stayTimer, _initialStayTimer;
         private volatile bool _isTimeout;
         private bool _isInitialTimeout;
+        
 
         private bool _stayTimeout;
         private int _stayTimeoutMillis = 500;
+        private bool _initalStayTimeout;
+        private int _intialStayTimeoutMillis = 150;
 
 
         private bool _initialMoveValid;
@@ -153,6 +182,7 @@ namespace WGestures.Core.Impl.Windows
             InitialValidMove = (int)(10 * dpiFactor);
             InitialStayTimeout = true;
             InitialStayTimeoutMillis = 150;
+            
 
             EffectiveMove = (int)(20 * dpiFactor) * 2;//todo: 增加灵敏度调整
             StepSize = (int) (2*dpiFactor);// EffectiveMove/8;
@@ -189,11 +219,12 @@ namespace WGestures.Core.Impl.Windows
                     if(_msgQueue.Count == 0) Monitor.Wait(_msgQueue);
                     msg = _msgQueue.Dequeue();
 
-                    if (msg.message == WM.SIMULATE_MOUSE)
+                    /*if (msg.message == WM.SIMULATE_MOUSE)
                     {
                         SimulateGestureBtnEvent((GestureBtnEventType) msg.param, _curPos.X, _curPos.Y);
+                        //new Thread(()=>SimulateGestureBtnEvent((GestureBtnEventType) msg.param, _curPos.X, _curPos.Y)).Start();
                         continue;
-                    }
+                    }*/
 
                     UpdateContextAndEventArgs();
                 }
@@ -418,7 +449,7 @@ namespace WGestures.Core.Impl.Windows
                             _captured = false;
 
                             //起始没有移动足够距离
-                            if (!_initialMoveValid)
+                            /*if (!_initialMoveValid)
                             {
                                 //Note: 在hook线程里面模拟点击， 行为不可预测。
                                 Debug.WriteLine("Simulating Click");
@@ -430,10 +461,10 @@ namespace WGestures.Core.Impl.Windows
                                 //SimulateGestureBtnEvent(GestureBtnEventType.UP, _curPos.X, _curPos.Y);
 
                                 //SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
-                                e.Handled = true;
+                                //e.Handled = true;
                                 //Thread.Sleep(50);
-                            }
-                            else
+                            //}
+                            //else
                             {
                                 e.Handled = true;
                                 Post(WM.GESTBTN_UP);
@@ -580,6 +611,45 @@ namespace WGestures.Core.Impl.Windows
             Post(WM.STAY_TIMEOUT);
         }
 
+        private void InitialStayTimeoutProc(object sender, ElapsedEventArgs args)
+        {
+            Console.WriteLine("InitialStayTimer.Elapsed");
+            _initialStayTimer.Stop();
+            if (Monitor.TryEnter(_initialStayTimer))
+            {
+                try
+                {
+                    var info = new User32.CURSORINFO() { cbSize = Marshal.SizeOf(typeof(User32.CURSORINFO)) };
+                    User32.GetCursorInfo(out info);
+
+                    var cur = User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_SIZEALL);
+
+                    if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_ARROW))
+                    {
+                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_NORMAL);
+                    }
+                    else if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_IBEAM))
+                    {
+                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_IBEAM);
+                    }
+                    else if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_HAND))
+                    {
+                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_HAND);
+                    }
+                    else if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_CROSS))
+                    {
+                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_CROSS);
+                    }
+                   
+                }
+                finally
+                {
+                    Monitor.Exit(_initialStayTimer);
+                }
+            }
+        }
+
+
         private void UpdateContextAndEventArgs()
         {
             if (_moveCount == 0)
@@ -615,9 +685,9 @@ namespace WGestures.Core.Impl.Windows
         private DateTime _mouseDownTime = DateTime.UtcNow;
         private void OnMouseDown()
         {
-            GCSettings.LatencyMode = GCLatencyMode.LowLatency;
+            //GCSettings.LatencyMode = GCLatencyMode.LowLatency;
 
-            Debug.WriteLine("OnMouseDown");
+            Debug.WriteLine("OnMouseDownX");
 
             _lastPoint = _curPos;
             _lastEffectivePos = _curPos;
@@ -626,11 +696,17 @@ namespace WGestures.Core.Impl.Windows
             _isInitialTimeout = false;
             _initialMoveValid = false;
 
+            if (InitialStayTimeout)
+            {
+                _initialStayTimer.Stop();
+                _initialStayTimer.Start();
+            }
+
             if (InitialStayTimeout) _mouseDownTime = DateTime.UtcNow;
         }
 
         private void OnMouseMove()
-        {
+        {                    
             if (StayTimeout && _isTimeout) return;
 
             //如果冻结了移动跟踪，则不通知移动事件
@@ -657,12 +733,18 @@ namespace WGestures.Core.Impl.Windows
                 {
                     _initialMoveValid = true;
 
-                    if (InitialStayTimeout && _isInitialTimeout)
+                    if (InitialStayTimeout)
                     {
-                        Debug.WriteLine("Begin Drag");
-                        SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _startPoint.X, _startPoint.Y);
-                        return;
+                        //Reset Cursor
+                        ResetCursor();
+                        if (_isInitialTimeout)
+                        {
+                            Debug.WriteLine("Begin Drag");
+                            SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _startPoint.X, _startPoint.Y);
+                            return; 
+                        }
                     }
+
 
                     if (PathStart != null)
                     {
@@ -695,6 +777,22 @@ namespace WGestures.Core.Impl.Windows
             {
                 _stayTimer.Stop();
                 _stayTimer.Start();
+            }
+        }
+
+        private void ResetCursor()
+        {
+            if (Monitor.TryEnter(_initialStayTimer))
+            {
+                try
+                {
+                    _initialStayTimer.Stop();
+                    User32.SystemParametersInfo(0x0057, 0, IntPtr.Zero, 0);
+                }
+                finally
+                {
+                    Monitor.Exit(_initialStayTimer);
+                }
             }
         }
 
@@ -731,15 +829,13 @@ namespace WGestures.Core.Impl.Windows
         {
             Debug.WriteLine("OnMouseUp");
             //如果手势初始时没有移动足够的距离，则模拟发送相应事件
-            //            if (!_initialMoveValid)
-            //            {
-            //                Console.WriteLine("SimulateCick");
-            //                SimulateMouseEvent(MouseEventType.DOWN,_curPos.X, _curPos.Y);
-            //                //SimulateGestureKeyButtonEvent(GestureKeyButtonEventType.DOWN);
-            //                //两次事件稍微间隔一点时间，否则任务栏上右击有时会无效！
-            //                //Thread.Sleep(10);
-            //                SimulateMouseEvent(MouseEventType.UP,_curPos.X, _curPos.Y);
-            //            }
+            if (!_initialMoveValid)
+            {
+                if(InitialStayTimeout) ResetCursor();
+                Console.WriteLine("SimulateCick");
+                SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
+                return;
+            }
 
 
             if (_stayTimeout) _stayTimer.Stop();
@@ -750,8 +846,8 @@ namespace WGestures.Core.Impl.Windows
             IsSuspended = false;
             _moveCount = 0;
 
-            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-            GCSettings.LatencyMode = GCLatencyMode.Interactive;
+            //GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+            //GCSettings.LatencyMode = GCLatencyMode.Interactive;
 
             //Low Memory Usage Illusion...
             /*using (var proc = Process.GetCurrentProcess())
@@ -821,6 +917,7 @@ namespace WGestures.Core.Impl.Windows
 
                 if (!_isStopped) Stop();
                 if (_stayTimer != null) _stayTimer.Dispose();
+                if (_initialStayTimer != null) _initialStayTimer.Dispose();
 
             }
             else
