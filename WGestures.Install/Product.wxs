@@ -5,7 +5,7 @@
 
   <!-- UPgrade Code 不能改变 -->
   <Product Id="*" Name="WGestures 1.5" Language="2052" 
-           Version="1.5.2.1" Manufacturer="YingDev.com"
+           Version="1.5.2.2" Manufacturer="YingDev.com"
            UpgradeCode="00b924a0-e9c8-4c83-ac45-0e4c22b1eabc" Codepage="936">
 
     <!-- 要求Windows Installer 2.0以上版本 -->
