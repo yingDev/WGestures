@@ -454,7 +454,7 @@ namespace WGestures.Core.Impl.Windows
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
         {
-            const int CLICK_PRESS_RELEASE_INTERVAL = 20;
+            const int CLICK_PRESS_RELEASE_INTERVAL = 10;
 
             Debug.WriteLine("SimulateMouseEvent: " + _gestureBtn + " " + eventType);
             _simulatingMouse = true;
