@@ -613,7 +613,7 @@ namespace WGestures.Core.Impl.Windows
 
         private void InitialStayTimeoutProc(object sender, ElapsedEventArgs args)
         {
-            Console.WriteLine("InitialStayTimer.Elapsed");
+            Debug.WriteLine("InitialStayTimer.Elapsed");
             _initialStayTimer.Stop();
             if (Monitor.TryEnter(_initialStayTimer))
             {
@@ -808,6 +808,11 @@ namespace WGestures.Core.Impl.Windows
             if (!_initialMoveValid && PathStart != null)
             {
                 _initialMoveValid = true;
+
+                if (InitialStayTimeout)
+                {
+                    ResetCursor();
+                }
 
                 _currentEventArgs.Location = _startPoint;
                 PathStart(_currentEventArgs);
