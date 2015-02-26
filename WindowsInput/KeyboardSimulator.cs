@@ -124,8 +124,18 @@ namespace WindowsInput
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to press</param>
         public IKeyboardSimulator KeyPress(VirtualKeyCode keyCode)
         {
-            var inputList = new InputBuilder().AddKeyPress(keyCode).ToArray();
-            SendSimulatedInput(inputList);
+            unsafe
+            {
+                var input = stackalloc INPUT[2];
+                input[0] = InputBuilder.MakeKeyDown(keyCode);
+                input[1] = InputBuilder.MakeKeyUp(keyCode);
+                
+                _messageDispatcher.DispatchInput(input, 2);
+
+            }
+
+            //var inputList = new InputBuilder().AddKeyPress(keyCode).ToArray();
+            //SendSimulatedInput(inputList);
             return this;
         }
 
