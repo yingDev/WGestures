@@ -38,16 +38,16 @@ namespace WGestures.Core.Impl.Windows
             set
             {
                 _initalStayTimeout = value;
-                if (value && _initialStayTimer == null)
+                /*if (value && _initialStayTimer == null)
                 {
-                    _initialStayTimer = new Timer();
-                    _initialStayTimer.Elapsed += InitialStayTimeoutProc;
+                    //_initialStayTimer = new Timer();
+                    //_initialStayTimer.Elapsed += InitialStayTimeoutProc;
                 }
                 else if (!value && _initialStayTimer != null)
                 {
-                    _initialStayTimer.Dispose();
-                    _initialStayTimer = null;
-                }
+                    //_initialStayTimer.Dispose();
+                    //_initialStayTimer = null;
+                }*/
             }
         }
 
@@ -61,7 +61,7 @@ namespace WGestures.Core.Impl.Windows
             set
             {
                 _intialStayTimeoutMillis = value;
-                if (_initialStayTimer != null) _initialStayTimer.Interval = value;
+                //if (_initialStayTimer != null) _initialStayTimer.Interval = value;
             }
         }
 
@@ -152,7 +152,7 @@ namespace WGestures.Core.Impl.Windows
         private readonly PathEventArgs _currentEventArgs = new PathEventArgs();
 
         //for timers
-        private Timer _stayTimer, _initialStayTimer;
+        private Timer _stayTimer;//, _initialStayTimer;
         private volatile bool _isTimeout;
         private bool _isInitialTimeout;
         
@@ -219,6 +219,10 @@ namespace WGestures.Core.Impl.Windows
                     if(_msgQueue.Count == 0) Monitor.Wait(_msgQueue);
                     msg = _msgQueue.Dequeue();
 
+                    {
+                        //Console.WriteLine(_moveCount);
+                    }
+
                     /*if (msg.message == WM.SIMULATE_MOUSE)
                     {
                         SimulateGestureBtnEvent((GestureBtnEventType) msg.param, _curPos.X, _curPos.Y);
@@ -236,6 +240,7 @@ namespace WGestures.Core.Impl.Windows
                         break;
 
                     case WM.GESTBTN_MOVE:
+                        //Console.Write('X');
                         OnMouseMove();
                         break;
 
@@ -398,7 +403,7 @@ namespace WGestures.Core.Impl.Windows
 
                             _modifierEventHappendPrevTime = new DateTime(0);
                             e.Handled = true;
-
+                            //Console.WriteLine("Down");
                             Post(WM.GESTBTN_DOWN);
                         }
                     }
@@ -412,6 +417,8 @@ namespace WGestures.Core.Impl.Windows
                 case MouseMsg.WM_MOUSEMOVE:
                     if (_captured)
                     {
+                        //Console.Write('.');
+
                         //永远不拦截move消息，所以不设置e.Handled = true
                         Post(WM.GESTBTN_MOVE);
                     }
@@ -611,7 +618,7 @@ namespace WGestures.Core.Impl.Windows
             Post(WM.STAY_TIMEOUT);
         }
 
-        private void InitialStayTimeoutProc(object sender, ElapsedEventArgs args)
+        /*private void InitialStayTimeoutProc(object sender, ElapsedEventArgs args)
         {
             Debug.WriteLine("InitialStayTimer.Elapsed");
             _initialStayTimer.Stop();
@@ -647,7 +654,7 @@ namespace WGestures.Core.Impl.Windows
                     Monitor.Exit(_initialStayTimer);
                 }
             }
-        }
+        }*/
 
 
         private void UpdateContextAndEventArgs()
@@ -696,11 +703,11 @@ namespace WGestures.Core.Impl.Windows
             _isInitialTimeout = false;
             _initialMoveValid = false;
 
-            if (InitialStayTimeout)
+            /*if (InitialStayTimeout)
             {
                 _initialStayTimer.Stop();
                 _initialStayTimer.Start();
-            }
+            }*/
 
             if (InitialStayTimeout) _mouseDownTime = DateTime.UtcNow;
         }
@@ -736,7 +743,7 @@ namespace WGestures.Core.Impl.Windows
                     if (InitialStayTimeout)
                     {
                         //Reset Cursor
-                        ResetCursor();
+                        //ResetCursor();
                         if (_isInitialTimeout)
                         {
                             Debug.WriteLine("Begin Drag");
@@ -749,6 +756,7 @@ namespace WGestures.Core.Impl.Windows
                     if (PathStart != null)
                     {
                         _currentEventArgs.Location = _startPoint;
+                        //Console.WriteLine('>');
                         PathStart(_currentEventArgs);
                     }
                 }
@@ -779,14 +787,20 @@ namespace WGestures.Core.Impl.Windows
                 _stayTimer.Start();
             }
         }
-
+        /*Stopwatch sw = new Stopwatch();
         private void ResetCursor()
         {
+            Console.WriteLine("ResetCursor");
+            sw.Reset();
+            sw.Start();
             if (Monitor.TryEnter(_initialStayTimer))
             {
+
                 try
                 {
-                    _initialStayTimer.Stop();
+                    _initialStayTimer.Stop(); 
+
+                    //damn! fucking slow!
                     User32.SystemParametersInfo(0x0057, 0, IntPtr.Zero, 0);
                 }
                 finally
@@ -794,7 +808,9 @@ namespace WGestures.Core.Impl.Windows
                     Monitor.Exit(_initialStayTimer);
                 }
             }
-        }
+
+            sw.Stop();
+        }*/
 
         private void OnModifier(GestureModifier modifier)
         {
@@ -809,10 +825,10 @@ namespace WGestures.Core.Impl.Windows
             {
                 _initialMoveValid = true;
 
-                if (InitialStayTimeout)
+                /*if (InitialStayTimeout)
                 {
                     ResetCursor();
-                }
+                }*/
 
                 _currentEventArgs.Location = _startPoint;
                 PathStart(_currentEventArgs);
@@ -836,8 +852,8 @@ namespace WGestures.Core.Impl.Windows
             //如果手势初始时没有移动足够的距离，则模拟发送相应事件
             if (!_initialMoveValid)
             {
-                if(InitialStayTimeout) ResetCursor();
-                Console.WriteLine("SimulateCick");
+                //if(InitialStayTimeout) ResetCursor();
+                //Console.WriteLine("SimulateCick");
                 SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
                 return;
             }
@@ -922,7 +938,7 @@ namespace WGestures.Core.Impl.Windows
 
                 if (!_isStopped) Stop();
                 if (_stayTimer != null) _stayTimer.Dispose();
-                if (_initialStayTimer != null) _initialStayTimer.Dispose();
+                //if (_initialStayTimer != null) _initialStayTimer.Dispose();
 
             }
             else
