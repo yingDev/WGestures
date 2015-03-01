@@ -250,18 +250,25 @@ namespace WGestures.Common.OsSpecific.Windows
             return GetProcessFile(proc);
         }
 
-
         public static string GetProcessFile(uint proc)
         {
             int pathLength = 256;
             var procFullName = new StringBuilder(pathLength);
 
-            var hProc = OpenProcess(Native.ProcessAccessFlags.QueryInformation, false, proc);
-            QueryFullProcessImageNameW(hProc, 0, procFullName, ref pathLength);
+            var hProc = OpenProcess(Native.ProcessAccessFlags.QueryInformation | ProcessAccessFlags.VMRead, false, proc);
+            //QueryFullProcessImageNameW(hProc, 0, procFullName, ref pathLength);
+            if (GetModuleFileNameEx(hProc, IntPtr.Zero, procFullName, (uint) pathLength) == 0)
+            {
+                throw new Exception("GetModuleFileNameEx Failed:"+GetLastError());
+            }
             CloseHandle(hProc);
-
+            
             return procFullName.ToString();
         }
+
+        //[DllImport("psapi.dll")]
+        [DllImport("psapi.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        static extern uint GetModuleFileNameEx(IntPtr hProcess, IntPtr hModule, [Out] StringBuilder lpBaseName, uint nSize);
 
         public static uint GetProcessIdByWindowHandle(IntPtr hwnd)
         {
