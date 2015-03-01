@@ -41,9 +41,9 @@ namespace WGestures.Core.Commands.Impl
 
                 if (rootWin == IntPtr.Zero) return;
 
-                Debug.WriteLine(string.Format("win     : {0:X}", win.ToInt32()));
-                Debug.WriteLine(string.Format("root    : {0:X}",rootWin.ToInt32()));
-                Debug.WriteLine(string.Format("topLevel: {0:X}", topLevelWin.ToInt32()));
+                Debug.WriteLine(string.Format("win     : {0:X}", win.ToInt64()));
+                Debug.WriteLine(string.Format("root    : {0:X}",rootWin.ToInt64()));
+                Debug.WriteLine(string.Format("topLevel: {0:X}", topLevelWin.ToInt64()));
 
                 var rootWinStyle = User32.GetWindowLong(rootWin, User32.GWL.GWL_STYLE);
                 var topLevelWinstyle = User32.GetWindowLong(topLevelWin, User32.GWL.GWL_STYLE);

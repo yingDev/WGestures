@@ -351,7 +351,7 @@ namespace WGestures.Core.Impl.Windows
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));
             //fixme: 判断是否在模拟事件， 为什么不一定可靠？
-            if (_simulatingMouse || mouseData.dwExtraInfo.ToInt32() == MOUSE_EVENT_EXTRA_SIMULATED)
+            if (_simulatingMouse || mouseData.dwExtraInfo.ToInt64() == MOUSE_EVENT_EXTRA_SIMULATED)
             {
                 Debug.WriteLine("Simulated:" + e.Msg);
                 if (InitialStayTimeout && _isInitialTimeout)

@@ -20,7 +20,7 @@ namespace WGestures.App.Gui.Windows.Controls
             // Swallow mouse messages that are not in the client area
                         if (m.Msg >= 0x201 && m.Msg <= 0x209)
                         {
-                            Point pos = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+                            Point pos = new Point((int) (m.LParam.ToInt64() & 0xffff), (int) (m.LParam.ToInt64() >> 16));
                             var hit = this.HitTest(pos);
                             switch (hit.Location)
                             {

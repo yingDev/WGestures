@@ -30,12 +30,16 @@ namespace WGestures.Core.Persistence.Impl.Windows
 
             var procId = Native.GetActiveProcessId();
 
+            Debug.WriteLine("procId="+procId);
+
 
             if (!_procFileNameDict.TryGetValue(procId, out str))
             {
                 str = Native.GetProcessFile(procId);
                 _procFileNameDict[procId] = str;
             }
+
+            Debug.WriteLine("Image="+str);
             
             IntentStore.TryGetExeApp(str, out found);
 

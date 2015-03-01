@@ -46,7 +46,7 @@ namespace WGestures.Core.Impl.Windows
                         return false;
                     }
 
-                    Debug.WriteLine(string.Format("Window[{0:x}] IsInFullScreenMode:",fgWindow.ToInt32()));
+                    Debug.WriteLine(string.Format("Window[{0:x}] IsInFullScreenMode:",fgWindow.ToInt64()));
                     return true;
 
                 }

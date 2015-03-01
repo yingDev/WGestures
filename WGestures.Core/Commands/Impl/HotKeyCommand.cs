@@ -46,7 +46,7 @@ namespace WGestures.Core.Commands.Impl
             var fgWindow = Native.GetForegroundWindow();
             var rootWindow = IntPtr.Zero;
 
-            Debug.WriteLine(string.Format("FGWindow: {0:X}", fgWindow.ToInt32()));
+            Debug.WriteLine(string.Format("FGWindow: {0:X}", fgWindow.ToInt64()));
 
             //如果没有前台窗口，或者前台窗口是任务栏，则使用鼠标指针下方的窗口？
             var useCursorWindow = false;
