@@ -5,6 +5,7 @@ using System.Text;
 
 namespace WGestures.Core
 {
+
     /// <summary>
     /// 表示一个手势实例
     /// </summary>
@@ -18,7 +19,8 @@ namespace WGestures.Core
         public List<GestureDir> Dirs { get; set; }
         public GestureModifier Modifier { get; set; }
 
-        public Gesture(GestureButtons gestureBtn=GestureButtons.RightButton, int defaultCapacity=32)
+
+        public Gesture(GestureButtons gestureBtn=GestureButtons.RightButton, int defaultCapacity=16)
         {
             GestureButton = gestureBtn;
             Dirs = new List<GestureDir>(defaultCapacity);

@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
+using WindowsInput.Native;
 using WGestures.Core.Commands;
+using WGestures.Core.Commands.Impl;
 
 
 namespace WGestures.Core
@@ -44,6 +46,9 @@ namespace WGestures.Core
                 }
             }
         }
+
+        public bool EnableHotCorners { get; set; }
+        public bool Enable8DirGesture { get; set; }
 
         public bool DisableInFullScreenMode { get; set; }
 
@@ -109,7 +114,10 @@ namespace WGestures.Core
             PathTracker.PathEnd += PathTrackerOnPathEnd;
             PathTracker.EffectivePathGrow += PathTrackerOnEffectivePathGrow;
             PathTracker.PathModifier += PathTrackerOnPathModifier;
+            PathTracker.HotCornerTriggered += PathTracker_HotCornerTriggered;
         }
+
+
 
         public virtual void Start()
         {
@@ -155,50 +163,58 @@ namespace WGestures.Core
                 var vector = new Point(args.Location.X - _lastPoint.X, -args.Location.Y + _lastPoint.Y);
                 Gesture.GestureDir dir;
 
-                var count = _gesture.Count();
-                switch (count)
+                if (Enable8DirGesture)
                 {
-                    case 0:
-                        dir = Get8DirectionDir(vector);
-                        _lastVector = vector;
-                        _firstStrokeEndPoint = args.Location;
-                        break;
-                    case 1:
-                        var last = _gesture.Last().Value;
-                        if ((int)last % 2 == 0) //如果不是斜线
-                        {
-                            dir = Get4DirectionDir(vector);
+                    var count = _gesture.Count();
+                    switch (count)
+                    {
+                        case 0:
+                            dir = Get8DirectionDir(vector);
+                            _lastVector = vector;
+                            _firstStrokeEndPoint = args.Location;
                             break;
-                        }
-
-                        dir = Get8DirectionDir(vector);
-                        if (dir != last)
-                        {
-                            if (GetAngle(new Point(_firstStrokeEndPoint.X - args.Context.StartPoint.X, _firstStrokeEndPoint.Y - args.Context.StartPoint.X),
-                                new Point(args.Location.X - _firstStrokeEndPoint.X, args.Location.Y - _firstStrokeEndPoint.Y)) < 36f)
+                        case 1:
+                            var last = _gesture.Last().Value;
+                            if ((int)last % 2 == 0) //如果不是斜线
                             {
-                                dir = last;
+                                dir = Get4DirectionDir(vector);
                                 break;
                             }
 
+                            dir = Get8DirectionDir(vector);
+                            if (dir != last)
+                            {
+                                if (GetAngle(new Point(_firstStrokeEndPoint.X - args.Context.StartPoint.X, _firstStrokeEndPoint.Y - args.Context.StartPoint.X),
+                                    new Point(args.Location.X - _firstStrokeEndPoint.X, args.Location.Y - _firstStrokeEndPoint.Y)) < 36f)
+                                {
+                                    dir = last;
+                                    break;
+                                }
+
+                                dir = Get4DirectionDir(vector);
+
+                                var lastDirShouldBe = Get4DirectionDir(_lastVector);
+
+                                _gesture.Dirs[0] = lastDirShouldBe;
+
+                                gestureChanged = true;
+                            }
+                            else
+                            {
+                                //如果依然延续斜线，则记录下最后一个点
+                                _firstStrokeEndPoint = args.Location;
+                            }
+                            break;
+                        default:
                             dir = Get4DirectionDir(vector);
-
-                            var lastDirShouldBe = Get4DirectionDir(_lastVector);
-
-                            _gesture.Dirs[0] = lastDirShouldBe;
-
-                            gestureChanged = true;
-                        }
-                        else
-                        {
-                            //如果依然延续斜线，则记录下最后一个点
-                            _firstStrokeEndPoint = args.Location;
-                        }
-                        break;
-                    default:
-                        dir = Get4DirectionDir(vector);
-                        break;
+                            break;
+                    }
                 }
+                else
+                {
+                    dir = Get4DirectionDir(vector);
+                }
+                
 
                 if (dir != _gesture.Last())
                 {
@@ -387,6 +403,35 @@ namespace WGestures.Core
 
         }
 
+
+        //FIXME: MUST REFACTOR
+        void PathTracker_HotCornerTriggered(ScreenCorner corner)
+        {
+            if (!EnableHotCorners) return;
+            Debug.WriteLine("HotCorner: " + corner);
+            switch (corner)
+            {
+                case ScreenCorner.RightBottom:
+                    Sim.KeyDown(VirtualKeyCode.LWIN);
+                    Sim.KeyDown(VirtualKeyCode.VK_D);
+                    Sim.KeyUp(VirtualKeyCode.VK_D);
+                    Sim.KeyUp(VirtualKeyCode.LWIN);
+                    break;
+                case ScreenCorner.RightTop:
+                    Sim.KeyDown(VirtualKeyCode.LMENU);
+                    Sim.KeyDown(VirtualKeyCode.TAB);
+                    Thread.Sleep(100);
+                    Sim.KeyUp(VirtualKeyCode.TAB);
+                    Sim.KeyUp(VirtualKeyCode.LMENU);
+                    break;
+                case ScreenCorner.LeftTop:
+                    Sim.KeyPress(VirtualKeyCode.CANCEL);
+                    break;
+                case ScreenCorner.LeftBottom:
+                    Sim.KeyPress(VirtualKeyCode.LWIN);
+                    break;
+            }
+        }
         #endregion
 
         #region Event Publishing
@@ -554,6 +599,7 @@ namespace WGestures.Core
                 PathTracker.PathEnd -= PathTrackerOnPathEnd;
                 PathTracker.EffectivePathGrow -= PathTrackerOnEffectivePathGrow;
                 PathTracker.PathModifier -= PathTrackerOnPathModifier;
+                PathTracker.HotCornerTriggered -= PathTracker_HotCornerTriggered;
             }
         }
     }

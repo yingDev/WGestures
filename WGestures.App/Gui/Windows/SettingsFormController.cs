@@ -176,6 +176,19 @@ namespace WGestures.App.Gui.Windows
                 OnPropertyChanged("PathTrackerTriggerButton");
             }
         }
+
+        public bool GestureParserEnable8DirGesture
+        {
+            get { return _parser.Enable8DirGesture; }
+            set
+            {
+                if (value == _parser.Enable8DirGesture) return;
+                _parser.Enable8DirGesture = value;
+                _config.Set(ConfigKeys.GestureParserEnable8DirGesture, value);
+                OnPropertyChanged("GestureParserEnable8DirGesture");
+            }
+        }
+
         /// <summary>
         /// 获取或设置出示有效移动距离
         /// </summary>
@@ -408,6 +421,10 @@ namespace WGestures.App.Gui.Windows
             GestureViewMainPathColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewMainPathColor, GestureViewMainPathColor.ToArgb()));
             GestureViewAlternativePathColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewAlternativePathColor, GestureViewAlternativePathColor.ToArgb()));
             GestureViewMiddleBtnMainColor = Color.FromArgb(_config.Get<int>(ConfigKeys.GestureViewMiddleBtnMainColor, GestureViewMiddleBtnMainColor.ToArgb()));
+
+            GestureParserEnableHotCorners = _config.Get(ConfigKeys.GestureParserEnableHotCorners, _parser.EnableHotCorners);
+            GestureParserEnable8DirGesture = _config.Get(ConfigKeys.GestureParserEnable8DirGesture, _parser.Enable8DirGesture);
+
         }
 
         #endregion
@@ -433,6 +450,21 @@ namespace WGestures.App.Gui.Windows
         /// </summary>
         public GestureParser GestureParser { get { return _parser; } }
 
+        #endregion
+
+        #region hotcorners
+
+        public bool GestureParserEnableHotCorners
+        {
+            get { return _parser.EnableHotCorners; }
+            set
+            {
+                if (value == _parser.EnableHotCorners) return;
+                _parser.EnableHotCorners = value;
+                Config.Set(ConfigKeys.GestureParserEnableHotCorners, value);
+                OnPropertyChanged("GestureParserEnableHotCorners");
+            }
+        }
         #endregion
         /// <summary>
         /// 以Modal方式呈现主设置窗口

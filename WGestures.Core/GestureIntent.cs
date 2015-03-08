@@ -31,6 +31,7 @@ namespace WGestures.Core
             return Gesture.Modifier != GestureModifier.None && ExecuteOnModifier;
         }
 
+
         public string Name { get; set; }
 
         public ExecutionResult Execute(GestureContext context, GestureParser gestureParser)

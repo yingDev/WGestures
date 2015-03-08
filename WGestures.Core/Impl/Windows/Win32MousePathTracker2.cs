@@ -179,12 +179,12 @@ namespace WGestures.Core.Impl.Windows
             
             //properties defaults
             TriggerButton = /*GestureButtons.RightButton |*/ GestureTriggerButton.Middle;
-            InitialValidMove = (int)(10 * dpiFactor);
+            InitialValidMove = (int)(5 * dpiFactor);
             InitialStayTimeout = true;
             InitialStayTimeoutMillis = 150;
             
 
-            EffectiveMove = (int)(20 * dpiFactor) * 2;//todo: 增加灵敏度调整
+            EffectiveMove = (int)(10 * dpiFactor) * 2;//todo: 增加灵敏度调整
             StepSize = (int) (2*dpiFactor);// EffectiveMove/8;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
@@ -205,6 +205,7 @@ namespace WGestures.Core.Impl.Windows
         public event PathTrackEventHandler PathEnd;
         public event PathTrackEventHandler PathTimeout;
         public event PathTrackEventHandler PathModifier;
+        public event Action<ScreenCorner> HotCornerTriggered;
 
 
         public void Start()
@@ -240,8 +241,11 @@ namespace WGestures.Core.Impl.Windows
                         break;
 
                     case WM.GESTBTN_MOVE:
-                        //Console.Write('X');
                         OnMouseMove();
+                        break;
+
+                    case WM.HOT_CORNER:
+                        OnHotCorner((ScreenCorner)msg.param);
                         break;
 
                     case WM.GESTBTN_MODIFIER:
@@ -367,6 +371,7 @@ namespace WGestures.Core.Impl.Windows
                 return;
             }
 
+            var prevPos = _curPos;
             _curPos = new Point(e.X, e.Y);
 
             var m = e.Msg;
@@ -417,11 +422,14 @@ namespace WGestures.Core.Impl.Windows
                 case MouseMsg.WM_MOUSEMOVE:
                     if (_captured)
                     {
-                        //Console.Write('.');
-
                         //永远不拦截move消息，所以不设置e.Handled = true
                         Post(WM.GESTBTN_MOVE);
                     }
+                    else //未捕获的情况下才允许hotcorner
+                    {
+                        HotCornerHitTest();
+                    }
+
                     break;
 
                 case MouseMsg.WM_MOUSEWHEEL:
@@ -488,6 +496,78 @@ namespace WGestures.Core.Impl.Windows
             }
 
 
+        }
+
+        private bool _isHotCornerReset = true;
+        private ScreenCorner _lastTriggeredCorner;
+        private void HotCornerHitTest()
+        {
+            //FIXME: multi screen
+            var scr = Native.GetScreenBounds();
+            const int TRIGGER_DIST = 2;
+            const int REST_DIST = 40;
+
+            //reset when dist > Rest_Dist
+            float dist;
+
+            var leftBottom = new Point(scr.Left, scr.Bottom);
+            dist = GetPointDistance(ref leftBottom, ref _curPos);
+            if (!_isHotCornerReset && _lastTriggeredCorner == ScreenCorner.LeftBottom && dist > REST_DIST)
+            {
+                _isHotCornerReset = true;
+            }
+            else if (dist <= TRIGGER_DIST && _isHotCornerReset)
+            {
+                _isHotCornerReset = false;
+                _lastTriggeredCorner = ScreenCorner.LeftBottom;
+                Post(WM.HOT_CORNER, (int) ScreenCorner.LeftBottom);
+                return;
+            }
+
+
+            var leftTop = new Point(scr.Left, scr.Top);
+            dist = GetPointDistance(ref leftTop, ref _curPos);
+            if (!_isHotCornerReset && _lastTriggeredCorner == ScreenCorner.LeftTop && dist > REST_DIST)
+            {
+                _isHotCornerReset = true;
+            }
+            else if (dist <= TRIGGER_DIST && _isHotCornerReset)
+            {
+                _isHotCornerReset = false;
+                _lastTriggeredCorner = ScreenCorner.LeftTop;
+                Post(WM.HOT_CORNER, (int) ScreenCorner.LeftTop);
+                return;
+            }
+
+
+            var rightTop = new Point(scr.Right, scr.Top);
+            dist = GetPointDistance(ref rightTop, ref _curPos);
+            if (!_isHotCornerReset && _lastTriggeredCorner == ScreenCorner.RightTop && dist > REST_DIST)
+            {
+                _isHotCornerReset = true;
+            }
+            else if (dist <= TRIGGER_DIST && _isHotCornerReset)
+            {
+                _isHotCornerReset = false;
+                _lastTriggeredCorner = ScreenCorner.RightTop;
+                Post(WM.HOT_CORNER, (int) ScreenCorner.RightTop);
+                return;
+            }
+
+
+            var rightBottom = new Point(scr.Right, scr.Bottom);
+            dist = GetPointDistance(ref rightBottom, ref _curPos);
+            if (!_isHotCornerReset && _lastTriggeredCorner == ScreenCorner.RightBottom && dist > REST_DIST)
+            {
+                _isHotCornerReset = true;
+            }
+            else if (dist <= TRIGGER_DIST && _isHotCornerReset)
+            {
+                _isHotCornerReset = false;
+                _lastTriggeredCorner = ScreenCorner.RightBottom;
+                Post(WM.HOT_CORNER, (int) ScreenCorner.RightBottom);
+                return;
+            }
         }
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
@@ -694,8 +774,6 @@ namespace WGestures.Core.Impl.Windows
         {
             //GCSettings.LatencyMode = GCLatencyMode.LowLatency;
 
-            Debug.WriteLine("OnMouseDownX");
-
             _lastPoint = _curPos;
             _lastEffectivePos = _curPos;
             _startPoint = _lastEffectivePos;
@@ -811,6 +889,15 @@ namespace WGestures.Core.Impl.Windows
 
             sw.Stop();
         }*/
+
+
+        private void OnHotCorner(ScreenCorner corner)
+        {
+            if (HotCornerTriggered != null) HotCornerTriggered(corner);
+            //Console.WriteLine("+++++HotCorner:" + corner);
+            //throw new NotImplementedException();
+        }
+
 
         private void OnModifier(GestureModifier modifier)
         {
@@ -989,11 +1076,13 @@ namespace WGestures.Core.Impl.Windows
             GESTBTN_UP = WM_USER + 5,
             GESTBTN_MOVE = WM_USER + 6,
             GESTBTN_MODIFIER = WM_USER + 7,//代表左键和滚轮事件
+            
+            HOT_CORNER = WM_USER + 8,
 
-            PAUSE_RESUME = WM_USER + 8,
+            PAUSE_RESUME = WM_USER + 9,
 
-            SIMULATE_MOUSE = WM_USER + 9,
-            GUI_REQUEST = WM_USER + 10
+            SIMULATE_MOUSE = WM_USER + 10,
+            GUI_REQUEST = WM_USER + 11
         }
 
 

@@ -31,5 +31,8 @@ namespace WGestures.App
 
         public const string TrayIconVisible = "TrayIconVisible";
 
+        public const string GestureParserEnableHotCorners = "GestureParserEnableHotCorners";
+        public const string GestureParserEnable8DirGesture = "GestureParserEnable8DirGesture";
+
     }
 }

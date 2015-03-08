@@ -134,6 +134,7 @@ namespace WGestures.App
                 config.Set(ConfigKeys.IsFirstRun, false);
                 config.Set(ConfigKeys.AutoCheckForUpdate, true);
                 config.Set(ConfigKeys.AutoStart, true);
+                config.Set(ConfigKeys.GestureParserEnableHotCorners, true);
                 config.Save();
             
                 ShowQuickStartGuide();
@@ -293,12 +294,14 @@ namespace WGestures.App
             gestureView.PathMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMainPathColor, gestureView.PathMainColor.ToArgb()));
             gestureView.PathAlternativeColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewAlternativePathColor, gestureView.PathAlternativeColor.ToArgb()));
             gestureView.PathMiddleBtnMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMiddleBtnMainColor, gestureView.PathMiddleBtnMainColor.ToArgb()));
-
             #endregion
 
 
             #region GestureParser
             gestureParser.DisableInFullScreenMode = config.Get(ConfigKeys.GestureParserDisableInFullScreenMode, false);
+            gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
+            gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
+
             #endregion
 
         }

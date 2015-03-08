@@ -37,6 +37,11 @@ namespace WGestures.Core
         }
     }
 
+    public enum ScreenCorner
+    {
+        LeftBottom, LeftTop, RightTop, RightBottom
+    }
+
     public delegate void PathTrackEventHandler(PathEventArgs args);
 
     public delegate void BeforePathStartEventHandler(BeforePathStartEventArgs args);
@@ -58,5 +63,7 @@ namespace WGestures.Core
         event PathTrackEventHandler PathEnd;
         event PathTrackEventHandler PathTimeout;
         event PathTrackEventHandler PathModifier;
+
+        event Action<ScreenCorner> HotCornerTriggered;
     }
 }
