@@ -11,6 +11,7 @@ using WindowsInput;
 using WGestures.Common.OsSpecific.Windows;
 using Win32;
 using Timer = System.Timers.Timer;
+using System.Text;
 
 namespace WGestures.Core.Impl.Windows
 {
@@ -55,6 +56,12 @@ namespace WGestures.Core.Impl.Windows
         /// 是否优先使用鼠标指针下方窗口作为目标
         /// </summary>
         public bool PreferWindowUnderCursorAsTarget
+        {
+            get;
+            set;
+        }
+
+        public bool DisableInFullscreen
         {
             get;
             set;
@@ -707,44 +714,6 @@ namespace WGestures.Core.Impl.Windows
             Post(WM.STAY_TIMEOUT);
         }
 
-        /*private void InitialStayTimeoutProc(object sender, ElapsedEventArgs args)
-        {
-            Debug.WriteLine("InitialStayTimer.Elapsed");
-            _initialStayTimer.Stop();
-            if (Monitor.TryEnter(_initialStayTimer))
-            {
-                try
-                {
-                    var info = new User32.CURSORINFO() { cbSize = Marshal.SizeOf(typeof(User32.CURSORINFO)) };
-                    User32.GetCursorInfo(out info);
-
-                    var cur = User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_SIZEALL);
-
-                    if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_ARROW))
-                    {
-                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_NORMAL);
-                    }
-                    else if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_IBEAM))
-                    {
-                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_IBEAM);
-                    }
-                    else if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_HAND))
-                    {
-                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_HAND);
-                    }
-                    else if (info.hCursor == User32.LoadCursor(IntPtr.Zero, User32.IDC.IDC_CROSS))
-                    {
-                        User32.SetSystemCursor(cur, (uint)User32.OCR_SYSTEM_CURSORS.OCR_CROSS);
-                    }
-                   
-                }
-                finally
-                {
-                    Monitor.Exit(_initialStayTimer);
-                }
-            }
-        }*/
-
 
         private void UpdateContextAndEventArgs()
         {
@@ -755,8 +724,9 @@ namespace WGestures.Core.Impl.Windows
                 if(PreferWindowUnderCursorAsTarget)
                 {
                     var fgWin = Native.WindowFromPoint(new Native.POINT() { x = _curPos.X, y = _curPos.Y });
-                    var rootWindow = Native.GetAncestor(fgWin, Native.GetAncestorFlags.GetRoot);
-                    User32.SetForegroundWindow(rootWindow);
+                    //var rootWindow = Native.GetAncestor(fgWin, Native.GetAncestorFlags.GetRoot);
+                    //User32.SetForegroundWindow(rootWindow);
+                    _currentContext.WinId = fgWin;
                     _currentContext.ProcId = Native.GetProcessIdByWindowHandle(fgWin);
                 }else
                 {
@@ -783,6 +753,8 @@ namespace WGestures.Core.Impl.Windows
 
         private bool OnBeforePathStart()
         {
+            if (DisableInFullscreen && IsInFullScreenMode()) return false;
+
             UpdateContextAndEventArgs();
 
             var args = new BeforePathStartEventArgs(_currentEventArgs);
@@ -886,34 +858,11 @@ namespace WGestures.Core.Impl.Windows
                 _stayTimer.Start();
             }
         }
-        /*Stopwatch sw = new Stopwatch();
-        private void ResetCursor()
-        {
-            Console.WriteLine("ResetCursor");
-            sw.Reset();
-            sw.Start();
-            if (Monitor.TryEnter(_initialStayTimer))
-            {
-
-                try
-                {
-                    _initialStayTimer.Stop(); 
-
-                    //damn! fucking slow!
-                    User32.SystemParametersInfo(0x0057, 0, IntPtr.Zero, 0);
-                }
-                finally
-                {
-                    Monitor.Exit(_initialStayTimer);
-                }
-            }
-
-            sw.Stop();
-        }*/
-
 
         private void OnHotCorner(ScreenCorner corner)
         {
+            if (DisableInFullscreen && IsInFullScreenMode()) return;
+
             var mousePressed = Native.GetAsyncKeyState(Keys.LButton) < 0 ||
                                Native.GetAsyncKeyState(Keys.RButton) < 0 ||
                                Native.GetAsyncKeyState(Keys.MButton) < 0;
@@ -944,7 +893,17 @@ namespace WGestures.Core.Impl.Windows
                 _currentEventArgs.Location = _startPoint;
                 PathStart(_currentEventArgs);
             }
-            if (PathModifier != null) PathModifier(_currentEventArgs);
+            if (PathModifier != null)
+            {
+                if(PreferWindowUnderCursorAsTarget)
+                {                
+                    var rootWindow = Native.GetAncestor(_currentContext.WinId, Native.GetAncestorFlags.GetRoot);
+                    User32.SetForegroundWindow(rootWindow);
+                }
+
+
+                PathModifier(_currentEventArgs);
+            }
 
             //如果已经被冻结，则不应继续计时
             if (!IsSuspended && _stayTimeout)
@@ -971,8 +930,16 @@ namespace WGestures.Core.Impl.Windows
 
 
             if (_stayTimeout) _stayTimer.Stop();
-            if (PathEnd != null && _initialMoveValid && !_isTimeout) PathEnd(_currentEventArgs);
+            if (PathEnd != null && _initialMoveValid && !_isTimeout)
+            {
+                if (PreferWindowUnderCursorAsTarget)
+                {
+                    var rootWindow = Native.GetAncestor(_currentContext.WinId, Native.GetAncestorFlags.GetRoot);
+                    User32.SetForegroundWindow(rootWindow);
+                }
 
+                PathEnd(_currentEventArgs);
+            }
 
             _filteredModifiers = GestureModifier.None;
             IsSuspended = false;
@@ -1033,6 +1000,45 @@ namespace WGestures.Core.Impl.Windows
             var dx = a.X - b.X;
             var dy = a.Y - b.Y;
             return (int)Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        public bool IsInFullScreenMode()
+        {
+            var fgWindow = Native.GetAncestor(Native.GetForegroundWindow(), Native.GetAncestorFlags.GetRoot);
+            var deskWindow = User32.GetDesktopWindow();
+            var shellWindow = User32.GetShellWindow();
+
+
+            if (fgWindow == IntPtr.Zero || // !IsTopMostWindow(fgWindow) ||
+                fgWindow == deskWindow ||
+                fgWindow == shellWindow) return false;
+
+
+            GDI32.RECT fgRect, screenRect;
+            User32.GetWindowRect(deskWindow, out screenRect);
+            User32.GetWindowRect(fgWindow, out fgRect);
+
+            if (fgRect == screenRect)
+            {
+                var className = new StringBuilder(64);
+                User32.GetClassName(fgWindow, className, className.Capacity);
+
+                var classNameStr = className.ToString();
+                if (classNameStr == "WorkerW" || //桌面窗口
+                    classNameStr == "CanvasWindow" ||
+                    classNameStr == "ImmersiveLauncher" || //win8 开始屏幕
+                    classNameStr == "Windows.UI.Core.CoreWindow") //win8 metro
+                {
+                    return false;
+                }
+
+                Debug.WriteLine(string.Format("Window[{0:x}] IsInFullScreenMode:", fgWindow.ToInt64()));
+                return true;
+
+            }
+
+            return false;
+
         }
         #endregion
 

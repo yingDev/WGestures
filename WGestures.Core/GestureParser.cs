@@ -50,7 +50,7 @@ namespace WGestures.Core
         public bool EnableHotCorners { get; set; }
         public bool Enable8DirGesture { get; set; }
 
-        public bool DisableInFullScreenMode { get; set; }
+        //public bool DisableInFullScreenMode { get; set; }
 
         public int MaxGestureSteps { get; set; }
         public bool IsPaused { get { return _isPaused; } }
@@ -241,12 +241,12 @@ namespace WGestures.Core
             if (IsInCaptureMode) return;
 
             //全屏下禁止手势的情况
-            if (DisableInFullScreenMode && args.Context.IsInFullScreenMode)
+            /*if (DisableInFullScreenMode && args.Context.IsInFullScreenMode)
             {
                 Debug.WriteLine("全屏禁用");
                 args.ShouldPathStart = false;
                 return;
-            }
+            }*/
 
             var shouldStart = IntentFinder.IsGesturingEnabledForContext(args.PathEventArgs.Context, out _currentApp);
             args.ShouldPathStart = shouldStart;

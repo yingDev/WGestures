@@ -275,6 +275,8 @@ namespace WGestures.App
             #endregion
 
             #region pathTracker
+            pathTracker.DisableInFullscreen = config.Get(ConfigKeys.PathTrackerDisableInFullScreen, true);
+            pathTracker.PreferWindowUnderCursorAsTarget = config.Get(ConfigKeys.PathTrackerPreferCursorWindow, false);
             pathTracker.TriggerButton = (Win32MousePathTracker2.GestureTriggerButton)config.Get(ConfigKeys.PathTrackerTriggerButton, Win32MousePathTracker2.GestureTriggerButton.Right);
             pathTracker.InitialValidMove = config.Get(ConfigKeys.PathTrackerInitialValidMove, 4);
             pathTracker.StayTimeout = config.Get(ConfigKeys.PathTrackerStayTimeout, true);
@@ -298,7 +300,7 @@ namespace WGestures.App
 
 
             #region GestureParser
-            gestureParser.DisableInFullScreenMode = config.Get(ConfigKeys.GestureParserDisableInFullScreenMode, false);
+
             gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
 

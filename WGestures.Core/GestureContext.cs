@@ -9,10 +9,9 @@ namespace WGestures.Core
         public Point EndPoint;
 
         public uint ProcId;
+        public IntPtr WinId;
 
         public GestureButtons GestureButton;
-
-        public virtual bool IsInFullScreenMode { get{return false;} }
 
     }
 }

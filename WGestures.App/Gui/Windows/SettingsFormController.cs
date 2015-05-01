@@ -234,17 +234,17 @@ namespace WGestures.App.Gui.Windows
             }
         }
 
-        public bool GestureParserDisableInFullScreenMode
+        public bool PathTrackerDisableInFullScreen
         {
-            get { return GestureParser.DisableInFullScreenMode; }
+            get { return _pathTracker.DisableInFullscreen; }
             set
             {
-                if (value == GestureParserDisableInFullScreenMode) return;
+                if (value == PathTrackerDisableInFullScreen) return;
 
-                GestureParser.DisableInFullScreenMode = value;
-                _config.Set(ConfigKeys.GestureParserDisableInFullScreenMode, value);
+                _pathTracker.DisableInFullscreen = value;
+                _config.Set(ConfigKeys.PathTrackerDisableInFullScreen, value);
 
-                OnPropertyChanged("GestureParserDisableInFullScreenMode");
+                OnPropertyChanged("PathTrackerDisableInFullScreen");
             }
         }
 
@@ -427,7 +427,7 @@ namespace WGestures.App.Gui.Windows
             PathTrackerInitalStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerInitialStayTimoutMillis, PathTrackerInitalStayTimeoutMillis);
             PathTrackerPreferCursorWindow = _config.Get<bool>(ConfigKeys.PathTrackerPreferCursorWindow, PathTrackerPreferCursorWindow);
 
-            GestureParserDisableInFullScreenMode = _config.Get<bool>(ConfigKeys.GestureParserDisableInFullScreenMode, GestureParserDisableInFullScreenMode);
+            PathTrackerDisableInFullScreen = _config.Get<bool>(ConfigKeys.PathTrackerDisableInFullScreen, PathTrackerDisableInFullScreen);
 
             PathTrackerStayTimeout = _config.Get<bool>(ConfigKeys.PathTrackerStayTimeout, PathTrackerStayTimeout);
             PathTrackerStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerStayTimeoutMillis, PathTrackerStayTimeoutMillis);
