@@ -28,7 +28,7 @@ namespace WGestures.Core.Persistence.Impl.Windows
             string str;
             ExeApp found = null;
 
-            var procId = Native.GetActiveProcessId();
+            var procId = context.ProcId;//Native.GetActiveProcessId();
 
             Debug.WriteLine("procId="+procId);
 

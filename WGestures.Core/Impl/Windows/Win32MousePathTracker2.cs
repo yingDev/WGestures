@@ -51,6 +51,15 @@ namespace WGestures.Core.Impl.Windows
             }
         }
 
+        /// <summary>
+        /// 是否优先使用鼠标指针下方窗口作为目标
+        /// </summary>
+        public bool PreferWindowUnderCursorAsTarget
+        {
+            get;
+            set;
+        }
+
 
         /// <summary>
         /// 获取和设置起始移动超时的时间值
@@ -742,6 +751,18 @@ namespace WGestures.Core.Impl.Windows
             if (_moveCount == 0)
             {
                 _currentContext.StartPoint = _curPos; //ToLeftDownCoord(ref _curPos);
+
+                if(PreferWindowUnderCursorAsTarget)
+                {
+                    var fgWin = Native.WindowFromPoint(new Native.POINT() { x = _curPos.X, y = _curPos.Y });
+                    var rootWindow = Native.GetAncestor(fgWin, Native.GetAncestorFlags.GetRoot);
+                    User32.SetForegroundWindow(rootWindow);
+                    _currentContext.ProcId = Native.GetProcessIdByWindowHandle(fgWin);
+                }else
+                {
+                    _currentContext.ProcId = Native.GetActiveProcessId();
+                }
+
             }
 
             _currentContext.GestureButton = _gestureBtn;
@@ -893,7 +914,10 @@ namespace WGestures.Core.Impl.Windows
 
         private void OnHotCorner(ScreenCorner corner)
         {
-            if (HotCornerTriggered != null) HotCornerTriggered(corner);
+            var mousePressed = Native.GetAsyncKeyState(Keys.LButton) < 0 ||
+                               Native.GetAsyncKeyState(Keys.RButton) < 0 ||
+                               Native.GetAsyncKeyState(Keys.MButton) < 0;
+            if (!mousePressed && HotCornerTriggered != null) HotCornerTriggered(corner);
             //Console.WriteLine("+++++HotCorner:" + corner);
             //throw new NotImplementedException();
         }

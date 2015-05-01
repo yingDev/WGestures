@@ -280,6 +280,22 @@ namespace WGestures.App.Gui.Windows
                 OnPropertyChanged("PathTrackerStayTimeoutMillis");
             }
         }
+
+        public bool PathTrackerPreferCursorWindow
+        {
+            get 
+            {
+                return _pathTracker.PreferWindowUnderCursorAsTarget;
+            }
+            set 
+            {
+                if (value == PathTrackerPreferCursorWindow) return;
+                _pathTracker.PreferWindowUnderCursorAsTarget = value;
+                _config.Set(ConfigKeys.PathTrackerPreferCursorWindow, value);
+
+                OnPropertyChanged("PathTrackerPreferCursorWindow");
+            }
+        }
         /// <summary>
         /// 获取或设置是否显示手势路径
         /// </summary>
@@ -409,6 +425,7 @@ namespace WGestures.App.Gui.Windows
             PathTrackerInitialValidMove = _config.Get<int>(ConfigKeys.PathTrackerInitialValidMove, PathTrackerInitialValidMove);
             PathTrackerInitialStayTimeout = _config.Get<bool>(ConfigKeys.PathTrackerInitialStayTimeout, PathTrackerInitialStayTimeout);
             PathTrackerInitalStayTimeoutMillis = _config.Get<int>(ConfigKeys.PathTrackerInitialStayTimoutMillis, PathTrackerInitalStayTimeoutMillis);
+            PathTrackerPreferCursorWindow = _config.Get<bool>(ConfigKeys.PathTrackerPreferCursorWindow, PathTrackerPreferCursorWindow);
 
             GestureParserDisableInFullScreenMode = _config.Get<bool>(ConfigKeys.GestureParserDisableInFullScreenMode, GestureParserDisableInFullScreenMode);
 

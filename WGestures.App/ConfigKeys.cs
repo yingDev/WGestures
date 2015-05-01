@@ -16,6 +16,7 @@ namespace WGestures.App
         public const string PathTrackerStayTimeoutMillis = "PathTrackerStayTimeoutMillis";
         public const string PathTrackerInitialStayTimeout = "PathTrackerInitialStayTimeout";
         public const string PathTrackerInitialStayTimoutMillis = "PathTrackerInitialStayTimoutMillis";
+        public const string PathTrackerPreferCursorWindow = "PathTrackerPreferCursorWindow";
 
         public const string GestureParserDisableInFullScreenMode = "GestureParserDisableInFullScreenMode";
 

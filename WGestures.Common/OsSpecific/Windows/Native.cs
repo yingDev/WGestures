@@ -13,6 +13,7 @@ using WindowsInput;
 using WindowsInput.Native;
 using Win32;
 using ThreadState = System.Diagnostics.ThreadState;
+using System.IO;
 
 namespace WGestures.Common.OsSpecific.Windows
 {
@@ -252,16 +253,31 @@ namespace WGestures.Common.OsSpecific.Windows
 
         public static string GetProcessFile(uint proc)
         {
+            /*using (var p = Process.GetProcessById((int) proc))
+            {
+                return p.MainModule.FileName;
+            }*/
+
             int pathLength = 256;
             var procFullName = new StringBuilder(pathLength);
 
             var hProc = OpenProcess(Native.ProcessAccessFlags.QueryInformation | ProcessAccessFlags.VMRead, false, proc);
-            //QueryFullProcessImageNameW(hProc, 0, procFullName, ref pathLength);
+           // QueryFullProcessImageNameW(hProc, 0, procFullName, ref pathLength);
             if (GetModuleFileNameEx(hProc, IntPtr.Zero, procFullName, (uint) pathLength) == 0)
             {
                 throw new Exception("GetModuleFileNameEx Failed:"+GetLastError());
             }
             CloseHandle(hProc);
+            
+            
+            //toLower
+//            for(int i=0; i<procFullName.Length; i++)
+//            {
+//                if (Char.IsUpper(procFullName[i]))
+//                {
+//                    procFullName[i] = Char.ToLower(procFullName[i]);
+//                }
+//            }
             
             return procFullName.ToString();
         }
