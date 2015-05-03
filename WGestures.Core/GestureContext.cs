@@ -13,5 +13,7 @@ namespace WGestures.Core
 
         public GestureButtons GestureButton;
 
+        public abstract void ActivateTargetWindow();
+
     }
 }

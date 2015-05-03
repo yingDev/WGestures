@@ -51,6 +51,7 @@ namespace WGestures.Core
             {
                 try
                 {
+                    context.ActivateTargetWindow();
                     Command.Execute();
                 }
                 catch (Exception)

@@ -895,11 +895,11 @@ namespace WGestures.Core.Impl.Windows
             }
             if (PathModifier != null)
             {
-                if(PreferWindowUnderCursorAsTarget)
+                /*if(PreferWindowUnderCursorAsTarget)
                 {                
                     var rootWindow = Native.GetAncestor(_currentContext.WinId, Native.GetAncestorFlags.GetRoot);
                     User32.SetForegroundWindow(rootWindow);
-                }
+                }*/
 
 
                 PathModifier(_currentEventArgs);
@@ -932,11 +932,11 @@ namespace WGestures.Core.Impl.Windows
             if (_stayTimeout) _stayTimer.Stop();
             if (PathEnd != null && _initialMoveValid && !_isTimeout)
             {
-                if (PreferWindowUnderCursorAsTarget)
+                /*if (PreferWindowUnderCursorAsTarget)
                 {
                     var rootWindow = Native.GetAncestor(_currentContext.WinId, Native.GetAncestorFlags.GetRoot);
                     User32.SetForegroundWindow(rootWindow);
-                }
+                }*/
 
                 PathEnd(_currentEventArgs);
             }

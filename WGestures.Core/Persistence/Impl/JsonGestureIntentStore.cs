@@ -73,7 +73,16 @@ namespace WGestures.Core.Persistence.Impl
 
                     FileVersion = result.FileVersion;
                     GlobalApp = result.Global;
-                    Apps = result.Apps;
+                    //Apps = result.Apps;
+
+                    Apps = new Dictionary<string, ExeApp>();
+
+                    //to lower
+                    foreach(var a in result.Apps.Values)
+                    {
+                        a.ExecutablePath = a.ExecutablePath.ToLower();
+                        Apps.Add(a.ExecutablePath, a);
+                    }
 
 
                 }
@@ -176,27 +185,28 @@ namespace WGestures.Core.Persistence.Impl
 
         public bool TryGetExeApp(string key, out ExeApp found)
         {
-            return Apps.TryGetValue(key, out found);
+            return Apps.TryGetValue(key.ToLower(), out found);
         }
 
         public ExeApp GetExeApp(string key)
         {
-            return Apps[key];
+            return Apps[key.ToLower()];
         }
 
 
         public void Remove(string key)
         {
-            Apps.Remove(key);
+            Apps.Remove(key.ToLower());
         }
 
         public void Remove(ExeApp app)
         {
-            Remove(app.ExecutablePath);
+            Remove(app.ExecutablePath.ToLower());
         }
 
         public void Add(ExeApp app)
         {
+            app.ExecutablePath = app.ExecutablePath.ToLower();
             Apps.Add(app.ExecutablePath, app);
         }
 
@@ -234,7 +244,7 @@ namespace WGestures.Core.Persistence.Impl
             {
                 ExeApp appInSelf;
                 //如果应用程序已经在列表中，则合并手势
-                if (TryGetExeApp(kv.Key, out appInSelf))
+                if (TryGetExeApp(kv.Key.ToLower(), out appInSelf))
                 {
                     appInSelf.ImportGestures(kv.Value);
                     appInSelf.IsGesturingEnabled = appInSelf.IsGesturingEnabled && kv.Value.IsGesturingEnabled;
