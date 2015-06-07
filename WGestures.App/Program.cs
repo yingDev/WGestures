@@ -50,7 +50,13 @@ namespace WGestures.App
             Debug.Listeners.Add(new DetailedConsoleListener());
 #endif
 
-            if (IsDuplicateInstance()) return;
+            if (IsDuplicateInstance())
+            {
+                //让主实例打开`设置`
+                PostIpcCmd("ShowSettings");
+                return;
+            }
+
             AppWideInit();
 
             try
@@ -68,6 +74,12 @@ namespace WGestures.App
 
                 //显示托盘图标
                 ShowTrayIcon();
+
+                //监听IPC消息
+                StartIpcPipe();
+
+                Application.Run();
+
             }
             catch (Exception e)
             {
@@ -77,6 +89,54 @@ namespace WGestures.App
                 ShowFatalError(e);
             }
             finally { Dispose(); }
+        }
+
+        private static void StartIpcPipe()
+        {
+            //todo: impl a set of IPC APIs to perform some cmds. eg.Pause/Resume, Quit...
+            //todo: Temporay IPC mechanism.
+            var synCtx = new WindowsFormsSynchronizationContext();//note: won't work with `SynchronizationContext.Current`
+            var pipeThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    using (var server = new System.IO.Pipes.NamedPipeServerStream("WGestures_IPC_API"))
+                    {
+                        server.WaitForConnection();
+
+                        Debug.WriteLine("Clien Connected");
+                        using (var reader = new StreamReader(server))
+                        {
+                            var cmd = reader.ReadLine();
+                            Debug.WriteLine("Pipe CMD=" + cmd);
+
+                            if (cmd == "ShowSettings")
+                            {
+                                synCtx.Post((s) =>
+                                {
+                                    Debug.WriteLine("Thread=" + Thread.CurrentThread.ManagedThreadId);
+                                    ShowSettings();
+                                    //ToggleTrayIconVisibility();
+                                }, null);
+                            }
+                        }
+                    }
+                }
+            }) { IsBackground = true };
+            pipeThread.Start();
+        }
+
+        private static void PostIpcCmd(string cmd)
+        {
+            using (var pipeClient = new System.IO.Pipes.NamedPipeClientStream("WGestures_IPC_API"))
+            {
+                pipeClient.Connect();
+                using (var writer = new StreamWriter(pipeClient) { AutoFlush = true })
+                {
+                    writer.WriteLine(cmd);
+                }
+
+            }
         }
 
         private static void StartParserThread()
@@ -310,10 +370,23 @@ namespace WGestures.App
 
         private static void ShowTrayIcon()
         {
-            using (trayIcon = CreateNotifyIcon())
-            {
-                trayIcon.BalloonTipClosed += (sender, args) => trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
-                trayIcon.BalloonTipClicked += (sender, args) => trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
+            trayIcon = CreateNotifyIcon();
+
+            EventHandler handleBalloon = (sender, args) =>
+                {
+                    var timer = new Timer { Interval = 1000 };
+                    timer.Tick += (sender_1, args_1) =>
+                    {
+                        timer.Stop();
+                        trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
+                    };
+                    timer.Start();
+                    
+                };
+
+                trayIcon.BalloonTipClosed += handleBalloon;
+                trayIcon.BalloonTipClicked += handleBalloon;
+                trayIcon.DoubleClick += (sender, args) => ShowSettings();
 
 
                 if (isFirstRun)
@@ -331,7 +404,6 @@ namespace WGestures.App
                     
                 }
 
-                trayIcon.DoubleClick += (sender, args) => ShowSettings();
                 //notifyIcon.Click += (sender, args) => menuItem_pause_Click(null, EventArgs.Empty);
 
                 //是否检查更新
@@ -341,13 +413,12 @@ namespace WGestures.App
 
                     checkForUpdateTimer.Tick += (sender, args) =>
                     {
+                        checkForUpdateTimer.Stop();
                         ScheduledUpdateCheck(sender, trayIcon);
+
                     };
                     checkForUpdateTimer.Start();
                 }
-
-                Application.Run();
-            }
         }
 
         #region event handlers
@@ -378,10 +449,6 @@ namespace WGestures.App
         //仅在启动一段时间后检查一次更新，
         private static void ScheduledUpdateCheck(object sender, NotifyIcon tray)
         {
-            var timer = sender as Timer;
-            timer.Stop();
-            timer.Dispose();
-            timer = null;
 
             if (!config.Get<bool>(ConfigKeys.AutoCheckForUpdate)) return;
 
@@ -445,8 +512,15 @@ namespace WGestures.App
                 config.Save();
             }
 
-            
-            trayIcon.Visible = !trayIcon.Visible;
+            if(trayIcon.Visible)
+            {
+                trayIcon.ShowBalloonTip(5000, "WGestures图标将隐藏", "(按 Shift + 左键 + 中键 恢复显示)",ToolTipIcon.Info);
+                //MessageBox.Show("WGestures图标已隐藏。\n您可按 Shift+左键+中键 恢复显示。", "WGestures", MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }else
+            {
+                trayIcon.Visible = true;
+            }
+
         }
 
         private static void ShowSettings()
@@ -627,4 +701,5 @@ namespace WGestures.App
 
         }
     }
+
 }
