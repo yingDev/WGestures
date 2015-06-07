@@ -173,9 +173,9 @@ namespace WGestures.View.Impl.Windows
             #region init pens
             _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _borderPen = new Pen(Color.FromArgb(220, 255, 255, 255), (widthBase + 2.8f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _borderPen = new Pen(Color.FromArgb(220, 255, 255, 255), (widthBase + 2.5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _shadowPen = new Pen(Color.FromArgb(30, 0, 0, 0), (widthBase + 5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _shadowPen = new Pen(Color.FromArgb(30, 0, 0, 0), (widthBase + 4f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _shadowPenWidth = _shadowPen.Width;
             _dirtyMarkerPen = (Pen) _shadowPen.Clone();
             _dirtyMarkerPen.Width *= 1.5f;
