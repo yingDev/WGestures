@@ -86,12 +86,14 @@ namespace WGestures.Core.Commands.Impl
                         //如果是URL则打开，否则搜索
                         if (Uri.IsWellFormedUriString(text, UriKind.Absolute))
                         {
-                            using(Process.Start(text));
+                            using(Process.Start("explorer.exe", "\"" + text + "\""));
                         }
                         else
                         {
                             if (text.Length > 100) text = text.Substring(0, 100);
-                            using (Process.Start(PopulateSearchEngingUrl(text))) ;
+                            var url = "\"" + PopulateSearchEngingUrl(text) + "\"";
+                            var startInfo = new ProcessStartInfo("explorer.exe", url);
+                            using (Process.Start(startInfo));
                         }
                     }
 
@@ -122,7 +124,7 @@ namespace WGestures.Core.Commands.Impl
         {
 
             //todo:!
-            return /*HttpUtility.UrlPathEncode(*/ string.Format(SearchEngineUrl, param); //);
+            return HttpUtility.UrlPathEncode(string.Format(SearchEngineUrl, param));
         }
 
         public override string Description()
