@@ -16,4 +16,4 @@ _______________________
 * WGestures.Install 项目(安装程序)需要Wix: http://wixtoolset.org/releases/
 
 ###Build
-首次Build请先运行 `/makeTestCert.bat` 并按提示生成测试证书（根证书和签名证书分别自动拷贝到了  `/WGestures.App/cert/YingDevCA.cer` 和 `/YingDevSPC.pfx` ), 该证书会在BuildEvent中用于对生成的exe进行签名。
+首次Build请先运行 `/makeTestCert.bat` 并按提示生成测试证书（根证书和签名证书分别自动拷贝到了  `/WGestures.App/cert/YingDevCA.cer` 和 `/YingDevSPC.pfx` ), 该证书会在BuildEvent中用于对生成的exe进行签名。要正确运行此脚本,请打开"VS开发人员命令提示" > cd `WGestures所在目录` > makeTestCert.bat
