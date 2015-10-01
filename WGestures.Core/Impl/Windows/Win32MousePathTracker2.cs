@@ -519,7 +519,7 @@ namespace WGestures.Core.Impl.Windows
         private void HotCornerHitTest()
         {
             //FIXME: multi screen
-            var scr = Native.GetScreenBounds();
+            var scr = Common.OsSpecific.Windows.Screen.ScreenBoundsFromPoint(_curPos);
             const int TRIGGER_DIST = 2;
             const int REST_DIST = 40;
 
