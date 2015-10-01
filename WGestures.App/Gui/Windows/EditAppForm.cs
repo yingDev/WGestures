@@ -334,7 +334,7 @@ namespace WGestures.App.Gui.Windows
 
             try
             {
-                wsh = new IWshRuntimeLibrary.WshShellClass();
+                wsh = new IWshRuntimeLibrary.WshShell();
                 sc = (IWshRuntimeLibrary.IWshShortcut)wsh.CreateShortcut(lnkPath);
                 return sc.TargetPath;
             }
