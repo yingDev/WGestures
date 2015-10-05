@@ -59,6 +59,7 @@ namespace WGestures.App.Gui.Windows
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(SendTextCommand)), typeof(SendTextCommand));
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(GotoUrlCommand)), typeof(GotoUrlCommand));
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(CmdCommand)), typeof(CmdCommand));
+            SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(ScriptCommand)), typeof(ScriptCommand));
 
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(PauseWGesturesCommand)), typeof(PauseWGesturesCommand));
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(ChangeAudioVolumeCommand)), typeof(ChangeAudioVolumeCommand));
@@ -75,6 +76,7 @@ namespace WGestures.App.Gui.Windows
             CommandViewFactory.Register<CmdCommand, CmdCommandView>();
             CommandViewFactory.Register<SendTextCommand, SendTextCommandView>();
             CommandViewFactory.Register<TaskSwitcherCommand, TaskSwitcherCommandView>();
+            CommandViewFactory.Register<ScriptCommand, ScriptCommandView>();
 
             CommandViewFactory.Register<ChangeAudioVolumeCommand, GeneralNoParameterCommandView>();
 
