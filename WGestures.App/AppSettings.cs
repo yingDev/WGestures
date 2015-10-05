@@ -16,7 +16,7 @@ namespace WGestures.App
             {
 
 #if DEBUG
-                return "http://localhost:1226/projects/latestVersion?product=WGestures";
+                return ConfigurationManager.AppSettings.Get(Constants.CheckForUpdateUrlAppSettingKey);// "http://localhost:1226/projects/latestVersion?product=WGestures";
 
 #else
                 return ConfigurationManager.AppSettings.Get(Constants.CheckForUpdateUrlAppSettingKey);

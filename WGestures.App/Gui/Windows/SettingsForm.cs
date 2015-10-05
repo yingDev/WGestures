@@ -992,14 +992,16 @@ namespace WGestures.App.Gui.Windows
         #region Tab3
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(AppSettings.ProductHomePage);
+            var startInfo = new ProcessStartInfo("explorer.exe", AppSettings.ProductHomePage);
+            using (Process.Start(startInfo)) { }
         }
 
         #endregion
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=HiYnKS0sKCguJ15vbzB9cXM");
+            var startInfo = new ProcessStartInfo("explorer.exe", "http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=HiYnKS0sKCguJ15vbzB9cXM");
+            using (Process.Start(startInfo)) { }
         }
 
         #region Gesture tab Menu button
