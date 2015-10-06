@@ -1,4 +1,5 @@
-﻿using WGestures.Core.Commands;
+﻿using System.Windows.Forms;
+using WGestures.Core.Commands;
 using WGestures.Core.Commands.Impl;
 
 namespace WGestures.App.Gui.Windows.CommandViews
@@ -55,6 +56,28 @@ namespace WGestures.App.Gui.Windows.CommandViews
         private void txt_gestureEnded_TextChanged(object sender, System.EventArgs e)
         {
             _cmd.GestureEndedScript = txt_gestureEnded.Text;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            //todo:...
+        }
+
+        private void txt_initScript_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Tab)
+            {
+                SendKeys.Send("    "); //tab -> spaces
+                e.Handled = true;
+            }
+        }
+
+        private void txt_initScript_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == '\t')
+            {
+                e.Handled = true;
+            }
         }
     }
 }

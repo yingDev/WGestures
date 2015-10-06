@@ -55,13 +55,25 @@ namespace WGestures.Core.Commands.Impl
                 throw new InvalidOperationException("Already Initialized!");
 
             if (_state != null) _state.Dispose();
-
+            
             _state = new Lua();
             _state.LoadCLRPackage();
 
+            _state.DoString(@"luanet.load_assembly('WGestures.Core');
+                              luanet.load_assembly('WindowsInput');
+                              luanet.load_assembly('WGestures.Common');
+
+                              GestureModifier=luanet.import_type('WGestures.Core.GestureModifier');  
+                              VK=luanet.import_type('WindowsInput.Native.VirtualKeyCode');
+                              Native=luanet.import_type('WGestures.Common.OsSpecific.Windows.Native');
+                            ", "_init");
+
+            _state["Input"] = Sim.Simulator;
+            _state.RegisterFunction("ReportStatus", this, typeof(ScriptCommand).GetMethod("OnReportStatus"));
+
             if(InitScript != null)
             {
-                DoString(InitScript);
+                DoString(InitScript, "Init");
             }
             
             IsInitialized = true;
@@ -74,7 +86,7 @@ namespace WGestures.Core.Commands.Impl
 
             if(Script != null)
             {
-                DoString(Script);
+                DoString(Script, "Execute");
             }
         }
 
@@ -82,15 +94,16 @@ namespace WGestures.Core.Commands.Impl
         {
             if (HandleModifiers && GestureRecognizedScript != null)
             {
-                var retVals = DoString(GestureRecognizedScript);
+                var retVals = DoString(GestureRecognizedScript, "GestureRecognized");
                 if(retVals.Length > 0)
                 {
-                    var gm = retVals[0] as GestureModifier?;
-                    if(gm != null)
-                    {
-                        observeModifiers = gm.Value;
-                        return;
-                    }
+                    var number = (int)(GestureModifier)retVals[0];
+                    
+                    var gm = (GestureModifier)number;
+                    Debug.WriteLine("observeModifier=" + gm);
+                    observeModifiers = gm;
+                    return;
+                    
                 }
             }
 
@@ -102,7 +115,7 @@ namespace WGestures.Core.Commands.Impl
             if(HandleModifiers && ModifierTriggeredScript != null)
             {
                 _state["modifier"] = modifier;
-                DoString(ModifierTriggeredScript);
+                DoString(ModifierTriggeredScript, "ModifierTriggered");
                 _state["modifier"] = null;
             }
         }
@@ -111,28 +124,44 @@ namespace WGestures.Core.Commands.Impl
         {
             if(HandleModifiers && GestureEndedScript != null)
             {
-                DoString(GestureEndedScript);
+                DoString(GestureEndedScript, "GestureEnded");
             }
         }
 
-        private object[] DoString(string script)
+        private object[] DoString(string script, string name)
         {
             try
             {
-                return _state.DoString(script);
+                return _state.DoString(script, name);
             }catch(LuaScriptException e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.InnerException);
                 MessageBox.Show(e.ToString(), "Lua脚本错误");
                 return new object[0];
             }
             
         }
+
+        public void OnReportStatus(string s)
+        {
+            if(ReportStatus != null)
+                ReportStatus(s);
+        }
     }
 
     //helper methods
-    static class WG
+    namespace _ExportToLua
     {
+        public static class WG
+        {
+            public static void HelloWorld()
+            {
+                MessageBox.Show("Hello World!");
+            }
+
+        }
+
 
     }
+
 }

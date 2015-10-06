@@ -378,6 +378,12 @@ namespace WGestures.Core
                     //todo: 这个逻辑似乎应该放在GestureIntent中
                     if (modifierStateAwareCommand != null)
                     {
+                        var shouldInit = modifierStateAwareCommand as INeedInit;
+                        if (shouldInit != null && !shouldInit.IsInitialized)
+                        {
+                            shouldInit.Init();
+                        }
+
                         modifierStateAwareCommand.ReportStatus += OnCommandReportStatus;
                         GestureModifier observedModifiers;
                         modifierStateAwareCommand.GestureRecognized(out observedModifiers);
