@@ -401,6 +401,13 @@ namespace WGestures.App.Gui.Windows
             MigrateService.ExportTo(filePath);
         }
 
+        internal void RestoreDefaultGestures()
+        {
+            _intentStore.GlobalApp.GestureIntents.Clear();
+            _intentStore.Import(MigrateService.Import(AppSettings.DefaultGesturesFilePath).GestureIntentStore, replace: true);
+            OnPropertyChanged("IntentStore");
+        }
+
         internal void Import(ConfigAndGestures configAndGestures, bool importConfig, bool importGestures, bool mergeGestures)
         {
             //config 必然是合并

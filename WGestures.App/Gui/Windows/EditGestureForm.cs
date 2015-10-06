@@ -138,5 +138,19 @@ namespace WGestures.App.Gui.Windows
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private void tb_gestureName_TextChanged(object sender, EventArgs e)
+        {
+            var isNameValid = (tb_gestureName.Text.Length > 0);
+
+            if(isNameValid)
+            {
+                if(CapturedGesture == null)
+                {
+                    CapturedGesture = _intent.Gesture;
+                }
+            }
+
+            btnOk.Enabled = isNameValid;
+        }
     }
 }

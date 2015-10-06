@@ -126,7 +126,6 @@ namespace WGestures.App.Gui.Windows
             this.colListAppDummy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imglistAppIcons = new System.Windows.Forms.ImageList(this.components);
             this.tab_hotCorners = new System.Windows.Forms.TabPage();
-            this.label11 = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -149,6 +148,7 @@ namespace WGestures.App.Gui.Windows
             this.ctx_gesturesMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItem_import = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_export = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItem_resetGestures = new System.Windows.Forms.ToolStripMenuItem();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.tabControl.SuspendLayout();
             this.tabPage_general.SuspendLayout();
@@ -192,7 +192,7 @@ namespace WGestures.App.Gui.Windows
             this.tabControl.Name = "tabControl";
             this.tabControl.Padding = new System.Drawing.Point(20, 3);
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(559, 471);
+            this.tabControl.Size = new System.Drawing.Size(559, 504);
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
@@ -204,7 +204,7 @@ namespace WGestures.App.Gui.Windows
             this.tabPage_general.Location = new System.Drawing.Point(4, 32);
             this.tabPage_general.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage_general.Name = "tabPage_general";
-            this.tabPage_general.Size = new System.Drawing.Size(551, 435);
+            this.tabPage_general.Size = new System.Drawing.Size(551, 468);
             this.tabPage_general.TabIndex = 0;
             this.tabPage_general.Tag = "general";
             this.tabPage_general.Text = "选 项";
@@ -273,11 +273,12 @@ namespace WGestures.App.Gui.Windows
             // 
             // label3
             // 
+            this.label3.AutoSize = true;
             this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label3.Location = new System.Drawing.Point(296, 60);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 16);
+            this.label3.Size = new System.Drawing.Size(68, 17);
             this.label3.TabIndex = 16;
             this.label3.Text = "手势触发键";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -663,7 +664,7 @@ namespace WGestures.App.Gui.Windows
             this.tabPage2.Location = new System.Drawing.Point(4, 32);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(551, 435);
+            this.tabPage2.Size = new System.Drawing.Size(551, 468);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Tag = "gestures";
             this.tabPage2.Text = "手 势";
@@ -680,7 +681,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel2.Location = new System.Drawing.Point(189, 17);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(1);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(352, 400);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(352, 447);
             this.flowLayoutPanel2.TabIndex = 6;
             // 
             // panel1
@@ -898,7 +899,7 @@ namespace WGestures.App.Gui.Windows
             this.group_Command.Margin = new System.Windows.Forms.Padding(9, 9, 1, 1);
             this.group_Command.Name = "group_Command";
             this.group_Command.Padding = new System.Windows.Forms.Padding(1);
-            this.group_Command.Size = new System.Drawing.Size(340, 171);
+            this.group_Command.Size = new System.Drawing.Size(340, 218);
             this.group_Command.TabIndex = 10;
             this.group_Command.TabStop = false;
             this.group_Command.Text = "手势参数";
@@ -911,7 +912,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel6.Controls.Add(this.panel_commandView);
             this.flowLayoutPanel6.Location = new System.Drawing.Point(4, 18);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(332, 149);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(332, 193);
             this.flowLayoutPanel6.TabIndex = 4;
             // 
             // panel3
@@ -980,7 +981,7 @@ namespace WGestures.App.Gui.Windows
             this.panel_commandView.Location = new System.Drawing.Point(0, 65);
             this.panel_commandView.Margin = new System.Windows.Forms.Padding(0);
             this.panel_commandView.Name = "panel_commandView";
-            this.panel_commandView.Size = new System.Drawing.Size(332, 86);
+            this.panel_commandView.Size = new System.Drawing.Size(332, 128);
             this.panel_commandView.TabIndex = 2;
             this.tip.SetToolTip(this.panel_commandView, "操作的额外参数");
             // 
@@ -990,8 +991,8 @@ namespace WGestures.App.Gui.Windows
             this.btnEditApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnEditApp.Image = global::WGestures.App.Properties.Resources.Edit;
             this.btnEditApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnEditApp.Location = new System.Drawing.Point(152, 393);
-            this.btnEditApp.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.btnEditApp.Location = new System.Drawing.Point(152, 438);
+            this.btnEditApp.Margin = new System.Windows.Forms.Padding(0, 3, 0, 1);
             this.btnEditApp.Name = "btnEditApp";
             this.btnEditApp.Size = new System.Drawing.Size(29, 20);
             this.btnEditApp.TabIndex = 8;
@@ -1005,8 +1006,8 @@ namespace WGestures.App.Gui.Windows
             this.btnAppRemove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnAppRemove.Image = global::WGestures.App.Properties.Resources.remove;
             this.btnAppRemove.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnAppRemove.Location = new System.Drawing.Point(41, 393);
-            this.btnAppRemove.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.btnAppRemove.Location = new System.Drawing.Point(41, 438);
+            this.btnAppRemove.Margin = new System.Windows.Forms.Padding(0, 3, 0, 1);
             this.btnAppRemove.Name = "btnAppRemove";
             this.btnAppRemove.Size = new System.Drawing.Size(29, 20);
             this.btnAppRemove.TabIndex = 8;
@@ -1020,8 +1021,8 @@ namespace WGestures.App.Gui.Windows
             this.btnAddApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnAddApp.Image = global::WGestures.App.Properties.Resources.add;
             this.btnAddApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnAddApp.Location = new System.Drawing.Point(13, 393);
-            this.btnAddApp.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.btnAddApp.Location = new System.Drawing.Point(13, 438);
+            this.btnAddApp.Margin = new System.Windows.Forms.Padding(0, 3, 0, 1);
             this.btnAddApp.Name = "btnAddApp";
             this.btnAddApp.Size = new System.Drawing.Size(29, 20);
             this.btnAddApp.TabIndex = 8;
@@ -1048,7 +1049,7 @@ namespace WGestures.App.Gui.Windows
             this.listApps.Margin = new System.Windows.Forms.Padding(1);
             this.listApps.MultiSelect = false;
             this.listApps.Name = "listApps";
-            this.listApps.Size = new System.Drawing.Size(168, 370);
+            this.listApps.Size = new System.Drawing.Size(168, 414);
             this.listApps.SmallImageList = this.imglistAppIcons;
             this.listApps.TabIndex = 0;
             this.listApps.TileSize = new System.Drawing.Size(160, 42);
@@ -1072,7 +1073,6 @@ namespace WGestures.App.Gui.Windows
             // 
             // tab_hotCorners
             // 
-            this.tab_hotCorners.Controls.Add(this.label11);
             this.tab_hotCorners.Controls.Add(this.comboBox4);
             this.tab_hotCorners.Controls.Add(this.comboBox3);
             this.tab_hotCorners.Controls.Add(this.comboBox2);
@@ -1082,20 +1082,10 @@ namespace WGestures.App.Gui.Windows
             this.tab_hotCorners.Location = new System.Drawing.Point(4, 32);
             this.tab_hotCorners.Margin = new System.Windows.Forms.Padding(2);
             this.tab_hotCorners.Name = "tab_hotCorners";
-            this.tab_hotCorners.Size = new System.Drawing.Size(551, 435);
+            this.tab_hotCorners.Size = new System.Drawing.Size(551, 468);
             this.tab_hotCorners.TabIndex = 3;
             this.tab_hotCorners.Text = "触发角";
             this.tab_hotCorners.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(163, 61);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(200, 17);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "(即将支持自定义触发角， 敬请期待)";
             // 
             // comboBox4
             // 
@@ -1174,7 +1164,7 @@ namespace WGestures.App.Gui.Windows
             this.tabPage1.Location = new System.Drawing.Point(4, 32);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(1);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(551, 435);
+            this.tabPage1.Size = new System.Drawing.Size(551, 468);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Tag = "about";
             this.tabPage1.Text = "关 于";
@@ -1280,7 +1270,7 @@ namespace WGestures.App.Gui.Windows
             // 
             this.flowLayoutPanel4.Controls.Add(this.lb_info);
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(9, 488);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(9, 521);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0, 12, 0, 10);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(557, 16);
@@ -1306,12 +1296,13 @@ namespace WGestures.App.Gui.Windows
             // 
             // pic_menuBtn
             // 
+            this.pic_menuBtn.BackColor = System.Drawing.Color.Transparent;
             this.pic_menuBtn.Image = global::WGestures.App.Properties.Resources.menuBtn;
             this.pic_menuBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.pic_menuBtn.Location = new System.Drawing.Point(541, 10);
             this.pic_menuBtn.Name = "pic_menuBtn";
             this.pic_menuBtn.Size = new System.Drawing.Size(24, 24);
-            this.pic_menuBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pic_menuBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pic_menuBtn.TabIndex = 11;
             this.pic_menuBtn.TabStop = false;
             this.tip.SetToolTip(this.pic_menuBtn, "菜单");
@@ -1320,26 +1311,35 @@ namespace WGestures.App.Gui.Windows
             // 
             // ctx_gesturesMenu
             // 
+            this.ctx_gesturesMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ctx_gesturesMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItem_import,
-            this.menuItem_export});
+            this.menuItem_export,
+            this.menuItem_resetGestures});
             this.ctx_gesturesMenu.Name = "contextMenuStrip1";
-            this.ctx_gesturesMenu.Size = new System.Drawing.Size(110, 48);
+            this.ctx_gesturesMenu.Size = new System.Drawing.Size(153, 70);
             this.ctx_gesturesMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.ctx_gesturesMenu_Closed);
             // 
             // menuItem_import
             // 
             this.menuItem_import.Name = "menuItem_import";
-            this.menuItem_import.Size = new System.Drawing.Size(109, 22);
+            this.menuItem_import.Size = new System.Drawing.Size(152, 22);
             this.menuItem_import.Text = "导入...";
             this.menuItem_import.Click += new System.EventHandler(this.menuItem_imxport_Click);
             // 
             // menuItem_export
             // 
             this.menuItem_export.Name = "menuItem_export";
-            this.menuItem_export.Size = new System.Drawing.Size(109, 22);
+            this.menuItem_export.Size = new System.Drawing.Size(152, 22);
             this.menuItem_export.Text = "导出...";
             this.menuItem_export.Click += new System.EventHandler(this.menuItem_export_Click);
+            // 
+            // menuItem_resetGestures
+            // 
+            this.menuItem_resetGestures.Name = "menuItem_resetGestures";
+            this.menuItem_resetGestures.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_resetGestures.Text = "恢复默认手势";
+            this.menuItem_resetGestures.Click += new System.EventHandler(this.menuItem_resetGestures_Click);
             // 
             // errorProvider
             // 
@@ -1354,7 +1354,7 @@ namespace WGestures.App.Gui.Windows
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(577, 517);
+            this.ClientSize = new System.Drawing.Size(577, 544);
             this.Controls.Add(this.pic_menuBtn);
             this.Controls.Add(this.flowLayoutPanel4);
             this.Controls.Add(this.tabControl);
@@ -1500,8 +1500,8 @@ namespace WGestures.App.Gui.Windows
         private ComboBox comboBox2;
         private ComboBox comboBox1;
         private Panel panel2;
-        private Label label11;
         private CheckBox check_enable8DirGesture;
         private CheckBox check_preferCursorWindow;
+        private ToolStripMenuItem menuItem_resetGestures;
     }
 }

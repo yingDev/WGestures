@@ -60,6 +60,7 @@ namespace WGestures.App.Gui.Windows
             imglistAppIcons.ImageSize = new Size((int)(imglistAppIcons.ImageSize.Width * _dpiF), (int)(imglistAppIcons.ImageSize.Height * _dpiF));
             dummyImgLstForLstViewHeightFix.ImageSize = new Size(1, (int)(dummyImgLstForLstViewHeightFix.ImageSize.Height * _dpiF));
 
+            //pic_menuBtn.Size = new Size((int)(pic_menuBtn.Width * _dpiF), (int)(pic_menuBtn.Height * _dpiF));
             //listGestureIntents.TileSize = new Size((int)((listGestureIntents.TileSize.Width - 2) * _dpiF), (int)(listGestureIntents.TileSize.Height * _dpiF));
 
 
@@ -1192,6 +1193,17 @@ namespace WGestures.App.Gui.Windows
             listGestureIntents.Focus();
         }
 
+        private void menuItem_resetGestures_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show(this, "是否将所有手势恢复为默认值? \n这将使您自定义的手势丢失。", "恢复默认手势", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if(confirm == DialogResult.Yes)
+            {
+                Controller.RestoreDefaultGestures();
+                if (listApps.Items.Count > 0) LoadApps();
+            }
+
+        }
     }
 
 }

@@ -5,20 +5,33 @@ using NLua.Exceptions;
 using NLua.Event;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace WGestures.Core.Commands.Impl
 {
     [Named("执行脚本"), Serializable, JsonObject(MemberSerialization.OptIn)]
-    public class ScriptCommand : AbstractCommand/*, IGestureModifiersAware*/, INeedInit
+    public class ScriptCommand : AbstractCommand, IGestureModifiersAware, INeedInit
     {
         Lua _state;
+        string _initScript;
 
         public event Action<string> ReportStatus;
 
         [JsonProperty]
-        public string InitScript { get; set; }
+        public string InitScript
+        {
+            get{ return _initScript; }
+            set
+            {
+                _initScript = value;
+                IsInitialized = false;//需要重新初始化
+            }
+        }
         [JsonProperty]
         public string Script { get; set; }
+
+        [JsonProperty]
+        public bool HandleModifiers { get; set; }
 
         //for modified gestures
         [JsonProperty]
@@ -41,17 +54,16 @@ namespace WGestures.Core.Commands.Impl
             if (IsInitialized)
                 throw new InvalidOperationException("Already Initialized!");
 
+            if (_state != null) _state.Dispose();
+
             _state = new Lua();
-            _state.HookException += _hookLuaException;
             _state.LoadCLRPackage();
 
             if(InitScript != null)
             {
-                _state.DoString(InitScript);
+                DoString(InitScript);
             }
-
-           
-
+            
             IsInitialized = true;
         }
 
@@ -62,29 +74,59 @@ namespace WGestures.Core.Commands.Impl
 
             if(Script != null)
             {
-                _state.DoString(Script);
+                DoString(Script);
             }
         }
 
         public void GestureRecognized(out GestureModifier observeModifiers)
         {
-            throw new NotImplementedException();
+            if (HandleModifiers && GestureRecognizedScript != null)
+            {
+                var retVals = DoString(GestureRecognizedScript);
+                if(retVals.Length > 0)
+                {
+                    var gm = retVals[0] as GestureModifier?;
+                    if(gm != null)
+                    {
+                        observeModifiers = gm.Value;
+                        return;
+                    }
+                }
+            }
+
+            observeModifiers = GestureModifier.None;
         }
 
         public void ModifierTriggered(GestureModifier modifier)
         {
-            throw new NotImplementedException();
+            if(HandleModifiers && ModifierTriggeredScript != null)
+            {
+                _state["modifier"] = modifier;
+                DoString(ModifierTriggeredScript);
+                _state["modifier"] = null;
+            }
         }
 
         public void GestureEnded()
         {
-            throw new NotImplementedException();
+            if(HandleModifiers && GestureEndedScript != null)
+            {
+                DoString(GestureEndedScript);
+            }
         }
 
-        private void _hookLuaException(object sender, HookExceptionEventArgs args)
+        private object[] DoString(string script)
         {
-            //todo: impl
-            Debug.WriteLine(args.Exception);
+            try
+            {
+                return _state.DoString(script);
+            }catch(LuaScriptException e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show(e.ToString(), "Lua脚本错误");
+                return new object[0];
+            }
+            
         }
     }
 

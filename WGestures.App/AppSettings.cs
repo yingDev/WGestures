@@ -47,6 +47,10 @@ namespace WGestures.App
             get { return UserDataDirectory + @"\gestures.wg"; }
         }
 
+        public static string DefaultGesturesFilePath
+        {
+            get { return Application.StartupPath + @"\defaults\gestures.wg"; }
+        }
 
 
         public static string ConfigFileVersion

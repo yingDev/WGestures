@@ -44,11 +44,11 @@ namespace WGestures.App.Gui.Windows
             this.lb_capturing = new System.Windows.Forms.Label();
             this.lb_mnemonic = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lineFlowLayout1 = new WGestures.App.Gui.Windows.Controls.LineFlowLayout();
             this.label2 = new System.Windows.Forms.Label();
             this.flowAlert = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lb_errMsg = new System.Windows.Forms.Label();
-            this.lineFlowLayout1 = new WGestures.App.Gui.Windows.Controls.LineFlowLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -109,9 +109,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.tb_gestureName.Location = new System.Drawing.Point(66, 2);
             this.tb_gestureName.Margin = new System.Windows.Forms.Padding(2);
+            this.tb_gestureName.MaxLength = 32;
             this.tb_gestureName.Name = "tb_gestureName";
             this.tb_gestureName.Size = new System.Drawing.Size(259, 21);
             this.tb_gestureName.TabIndex = 8;
+            this.tb_gestureName.TextChanged += new System.EventHandler(this.tb_gestureName_TextChanged);
             this.tb_gestureName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_gestureName_KeyDown);
             // 
             // flowLayoutPanel1
@@ -168,6 +170,16 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel2.Size = new System.Drawing.Size(364, 252);
             this.flowLayoutPanel2.TabIndex = 13;
             // 
+            // lineFlowLayout1
+            // 
+            this.lineFlowLayout1.ForeColor = System.Drawing.Color.SkyBlue;
+            this.lineFlowLayout1.Location = new System.Drawing.Point(7, 41);
+            this.lineFlowLayout1.Margin = new System.Windows.Forms.Padding(2);
+            this.lineFlowLayout1.Name = "lineFlowLayout1";
+            this.lineFlowLayout1.Size = new System.Drawing.Size(344, 16);
+            this.lineFlowLayout1.TabIndex = 12;
+            this.lineFlowLayout1.Vertical = false;
+            // 
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
@@ -211,16 +223,6 @@ namespace WGestures.App.Gui.Windows
             this.lb_errMsg.TabIndex = 7;
             this.lb_errMsg.Text = "相同手势已存在， 点击保存会将其替代";
             this.lb_errMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lineFlowLayout1
-            // 
-            this.lineFlowLayout1.ForeColor = System.Drawing.Color.SkyBlue;
-            this.lineFlowLayout1.Location = new System.Drawing.Point(7, 41);
-            this.lineFlowLayout1.Margin = new System.Windows.Forms.Padding(2);
-            this.lineFlowLayout1.Name = "lineFlowLayout1";
-            this.lineFlowLayout1.Size = new System.Drawing.Size(344, 16);
-            this.lineFlowLayout1.TabIndex = 12;
-            this.lineFlowLayout1.Vertical = false;
             // 
             // EditGestureForm
             // 
