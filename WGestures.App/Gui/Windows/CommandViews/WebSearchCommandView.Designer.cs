@@ -56,7 +56,7 @@
             this.combo_searchEngines.FormattingEnabled = true;
             this.combo_searchEngines.Location = new System.Drawing.Point(62, 2);
             this.combo_searchEngines.Name = "combo_searchEngines";
-            this.combo_searchEngines.Size = new System.Drawing.Size(185, 20);
+            this.combo_searchEngines.Size = new System.Drawing.Size(192, 20);
             this.combo_searchEngines.TabIndex = 1;
             this.combo_searchEngines.SelectedIndexChanged += new System.EventHandler(this.combo_searchEngines_SelectedIndexChanged);
             // 
@@ -70,7 +70,7 @@
             this.panel_customSearchEngine.Location = new System.Drawing.Point(0, 0);
             this.panel_customSearchEngine.Margin = new System.Windows.Forms.Padding(0);
             this.panel_customSearchEngine.Name = "panel_customSearchEngine";
-            this.panel_customSearchEngine.Size = new System.Drawing.Size(300, 44);
+            this.panel_customSearchEngine.Size = new System.Drawing.Size(254, 44);
             this.panel_customSearchEngine.TabIndex = 4;
             this.panel_customSearchEngine.Visible = false;
             // 
@@ -99,7 +99,7 @@
             // 
             this.tb_url.Location = new System.Drawing.Point(59, 3);
             this.tb_url.Name = "tb_url";
-            this.tb_url.Size = new System.Drawing.Size(238, 21);
+            this.tb_url.Size = new System.Drawing.Size(192, 21);
             this.tb_url.TabIndex = 2;
             this.tb_url.TextChanged += new System.EventHandler(this.tb_url_TextChanged);
             // 
@@ -124,7 +124,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 28);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(300, 55);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(254, 55);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // WebSearchCommandView
@@ -136,7 +136,7 @@
             this.Controls.Add(this.combo_searchEngines);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "WebSearchCommandView";
-            this.Size = new System.Drawing.Size(306, 81);
+            this.Size = new System.Drawing.Size(260, 86);
             this.panel_customSearchEngine.ResumeLayout(false);
             this.panel_customSearchEngine.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);

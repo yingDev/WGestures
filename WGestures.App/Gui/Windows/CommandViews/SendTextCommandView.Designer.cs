@@ -37,7 +37,7 @@
             this.txt_text.Multiline = true;
             this.txt_text.Name = "txt_text";
             this.txt_text.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_text.Size = new System.Drawing.Size(300, 60);
+            this.txt_text.Size = new System.Drawing.Size(254, 50);
             this.txt_text.TabIndex = 0;
             this.txt_text.TextChanged += new System.EventHandler(this.txt_text_TextChanged);
             // 
@@ -48,7 +48,7 @@
             this.Controls.Add(this.txt_text);
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "SendTextCommandView";
-            this.Size = new System.Drawing.Size(306, 68);
+            this.Size = new System.Drawing.Size(260, 58);
             this.ResumeLayout(false);
             this.PerformLayout();
 
