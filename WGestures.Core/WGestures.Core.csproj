@@ -59,9 +59,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\IGestureContextAware.cs" />
@@ -74,6 +76,12 @@
     <Compile Include="Commands\Impl\OpenFileCommand.cs" />
     <Compile Include="Commands\Impl\PauseWGesturesCommand.cs" />
     <Compile Include="Commands\Impl\ScriptCommand.cs" />
+    <Compile Include="Commands\Impl\SearchBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Commands\Impl\SearchBox.Designer.cs">
+      <DependentUpon>SearchBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Commands\Impl\SendTextCommand.cs" />
     <Compile Include="Commands\Impl\Sim.cs" />
     <Compile Include="Commands\Impl\TaskSwitcherCommand.cs" />
@@ -124,6 +132,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Commands\Impl\SearchBox.resx">
+      <DependentUpon>SearchBox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
