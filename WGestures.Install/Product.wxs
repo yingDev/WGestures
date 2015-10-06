@@ -4,12 +4,12 @@
      xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx">
 
   <!-- UPgrade Code 不能改变 -->
-  <Product Id="*" Name="WGestures 1.6" Language="2052" 
-           Version="1.6.4.0" Manufacturer="YingDev.com"
+  <Product Id="*" Name="WGestures 1.7" Language="2052" 
+           Version="1.7.0.0" Manufacturer="YingDev.com"
            UpgradeCode="00b924a0-e9c8-4c83-ac45-0e4c22b1eabc" Codepage="936">
 
     <!-- 要求Windows Installer 2.0以上版本 -->
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" />
+    <Package InstallerVersion="200" Compressed="yes"   InstallScope="perMachine"/>
     
     <!-- 系统版本要求 -->
     <Condition Message="!(loc.OSNotSupported)">
@@ -45,12 +45,12 @@
       <UIRef Id="MinUI" />
 
       <!-- 安装结束时要引发的事件 -->
-      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"  Value="LaunchApplication">
-        WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
-      </Publish>
+      <!--Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"  Value="LaunchApplication">
+        NOT Installed
+      </Publish-->
 
         <!-- 显示“运行WGestures”选框 -->
-      <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.RunNow)" />
+      <!--Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.RunNow)" /-->
 
       <!-- 在“程序和功能”中显示的图标 -->
       <Property Id="ARPPRODUCTICON" Value="logo.ico" />
@@ -74,19 +74,21 @@
     <CustomAction Id='InstallCA' Directory='INSTALLFOLDER' Execute='deferred' 
                   ExeCommand='certutil -user -addstore Root cert\YingDevCA.cer' Return='ignore'/>
     
-    <InstallExecuteSequence>
-
-      <RemoveExistingProducts Overridable='yes'  Before="InstallInitialize" />
-
-      <Custom Action="InstallCA" Before="InstallFinalize">Not Remove</Custom>
-    </InstallExecuteSequence>
-
     <!-- “LaunchApplication”要运行的应用程序 -->
-    <Property Id="WixShellExecTarget" Value="[#WGestures.exe]" />
+    <Property Id="WixShellExecTarget" Value="explorer" />
     <!-- “运行应用程序”自定义动作 -->
-    <CustomAction Id="LaunchApplication" BinaryKey="WixCA"  DllEntry="WixShellExec" Impersonate="yes" />
+    <!--CustomAction Id="LaunchApplication"  BinaryKey="WixCA" DllEntry="WixShellExec"
+                  Impersonate="no" Return="check" Execute="immediate"  /-->
 
+    <CustomAction Id="LaunchApplication" Directory="INSTALLFOLDER"
+                  Execute="immediate" Impersonate="no" Return="ignore"
+                  ExeCommand="explorer WGestures.exe" />
     
+    <InstallExecuteSequence>
+        <RemoveExistingProducts Overridable='yes'  Before="InstallInitialize" />
+        <Custom Action="InstallCA" Before="InstallFinalize">Not Remove</Custom>
+        <Custom Action="LaunchApplication" After="InstallFinalize" >NOT Installed </Custom>
+    </InstallExecuteSequence>
     
   </Product>
 
@@ -95,6 +97,8 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="WGestures">
           <Directory Id="DefaultsDir" Name="defaults"/>
+          <Directory Id="x86Dir" Name="x86"/>
+          <Directory Id="x64Dir" Name="x64"/>
           <Directory Id="CertDir" Name="cert"/>
 
           <Directory Id="QuickStartGuideDir" Name="QuickStartGuide">
@@ -127,13 +131,15 @@
         <File Source="$(var.WGestures.App.TargetDir)\WGestures.View.dll"/>
         <!--File Source="$(var.WGestures.App.TargetDir)\SerializeWrapper.dll"/-->
         <File Source="$(var.WGestures.App.TargetDir)\WindowsInput.dll"/>
+        <File Source="$(var.WGestures.App.TargetDir)\NLua.dll"/>
+        <File Source="$(var.WGestures.App.TargetDir)\KeraLua.dll"/>
         <File Source="$(var.WGestures.App.TargetDir)\UpdateLog.txt"/>
       
-        <File Source="$(var.WGestures.App.TargetPath)">
-          <netfx:NativeImage Id="ngen_WGestures.exe" 
+        <File Source="$(var.WGestures.App.TargetDir)\WGestures.exe" Id="WGesturesExe">
+          <!--netfx:NativeImage Id="ngen_WGestures.exe" 
                              Platform="all" 
                              Priority="0"
-                             AppBaseDirectory="INSTALLFOLDER"/>
+                             AppBaseDirectory="INSTALLFOLDER"/-->
         </File>
       </Component>
 
@@ -146,6 +152,14 @@
       <Component Id="CertComponent" Directory="CertDir"
            Guid="A7C22554-1C22-4C70-8D5C-0FD0F9151034">
         <File Source="$(var.WGestures.App.TargetDir)\cert\YingDevCA.cer"/>
+      </Component>
+
+      <Component Id="X86Component" Directory="x86Dir" Guid="B340A8C5-4DA9-4288-95FB-9335C6A544B2">
+        <File Source="$(var.WGestures.App.TargetDir)\x86\lua52.dll"/>
+      </Component>
+
+      <Component Id="X64Component" Directory="x64Dir" Guid="439800EA-D333-4968-86AD-573703B812CF">
+        <File Source="$(var.WGestures.App.TargetDir)\x64\lua52.dll"/>
       </Component>
 
     </ComponentGroup>
@@ -231,4 +245,6 @@
     </UI>
     <UIRef Id="WixUI_Common" />
   </Fragment>
+  
+     
 </Wix>
