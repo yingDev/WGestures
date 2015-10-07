@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using WGestures.App.Gui.Model;
 using WGestures.App.Gui.Windows.CommandViews;
 using WGestures.App.Properties;
+using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common.Product;
 using WGestures.Core;
@@ -26,6 +27,7 @@ namespace WGestures.App.Gui.Windows
         private readonly float _dpiF = Native.GetScreenDpi() / 96f;
 
         private VersionChecker _versionChecker;
+        private RadioButton[] _hotCornerRadioBtns;
 
         public SettingsFormController Controller { get; set; }
 
@@ -78,7 +80,7 @@ namespace WGestures.App.Gui.Windows
 
         private void InitControlValues()
         {
-            #region tab1
+            #region tab options
             lb_Version.Text = Application.ProductVersion;
 
             var rightButtonText = Native.IsMouseButtonSwapped() ? "左键" : "右键";
@@ -90,12 +92,13 @@ namespace WGestures.App.Gui.Windows
             });
             #endregion
 
-            #region tab2
+            #region tab gestures
             imglistAppIcons.Images.Add("icon", Resources.icon);
             imglistAppIcons.Images.Add("icon_bw", Resources.icon_bw);
             imglistAppIcons.Images.Add("unknown", Resources.unknown);
-
             #endregion
+
+            _hotCornerRadioBtns = new[] { radio_corner_0, radio_corner_1, radio_corner_2, radio_corner_3 };
 
             #region tab about
             tb_updateLog.Text = Application.ProductName + " " + Application.ProductVersion + Environment.NewLine + Environment.NewLine;
@@ -390,7 +393,6 @@ namespace WGestures.App.Gui.Windows
 
         private void listGestureIntents_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-
             var sel = listGestureIntents.SelectedItems;
             if (sel.Count == 0)
             {
@@ -714,7 +716,6 @@ namespace WGestures.App.Gui.Windows
             listApps.EndUpdate();
         }
 
-
         private void LoadGestureIntents(AbstractApp app)
         {
             //禁用删除和修改按钮
@@ -831,8 +832,6 @@ namespace WGestures.App.Gui.Windows
             SuspendDrawingControl.ResumeDrawing(listGestureIntents);
         }
 
-
-
         private void LoadCommand(GestureIntent intent)
         {
             //SuspendDrawingControl.SuspendDrawing(group_Command);
@@ -898,8 +897,7 @@ namespace WGestures.App.Gui.Windows
         private void LoadCommandView(GestureIntent intent)
         {
             var cmdView = Controller.CommandViewFactory.GetCommandView(intent.Command);
-
-
+            
             if (cmdView != null)
             {
                 //如果目标视图实现了该接口，则注入选中的app
@@ -921,11 +919,35 @@ namespace WGestures.App.Gui.Windows
             }
         }
 
+        private void LoadHotCornerCommands()
+        {
+            for(var i=0; i<Controller.IntentStore.HotCornerCommands.Length; i++)
+            {
+                var cmd = Controller.IntentStore.HotCornerCommands[i];
+                if (cmd == null)
+                {
+                    cmd = new DoNothingCommand();
+                    Controller.IntentStore.HotCornerCommands[i] = cmd;
+                }
+
+                _hotCornerRadioBtns[i].Text = cmd.Description();
+            }
+
+            _hotCornerRadioBtns[0].Checked = false;
+            _hotCornerRadioBtns[0].Checked = true;
+        }
+
+        private void LoadHotCornerCommandTypes()
+        {
+            var cmdTypes = Controller.SupportedHotCornerCommands;
+
+            combo_hotcornerCmdTypes.Items.AddRange(cmdTypes.Keys.ToArray());
+        }
+
         #endregion
 
         #region utils
-
-
+        
         private static ScrollBars GetVisibleScrollbars(Control ctl)
         {
             var wndStyle = Native.GetWindowLong(ctl.Handle, Native.GWL_STYLE);
@@ -937,7 +959,6 @@ namespace WGestures.App.Gui.Windows
             else
                 return vsVisible ? ScrollBars.Vertical : ScrollBars.None;
         }
-
        
         #endregion
 
@@ -964,23 +985,27 @@ namespace WGestures.App.Gui.Windows
         {
             lb_info.Text = Equals(tabControl.SelectedTab.Tag, "about") ? "Copyright (c) " + DateTime.Now.Year+" 应元东" : "*改动将自动保存并立即生效";
 
-            //初次选中“手势”tab的时候，选中app
-            var isGesturesTab = object.Equals(tabControl.SelectedTab.Tag, "gestures");
-
-            if (isGesturesTab && listApps.SelectedItems.Count == 0)
+            if (object.Equals(tabControl.SelectedTab.Tag, "gestures"))
             {
-                //第0个项目，必须是(全局)
-                var globalAppItem = new ListViewItem("(全局)");//listApps.Items[0];
-                globalAppItem.ImageKey = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? "icon" : "icon_bw";
-                globalAppItem.ForeColor = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? Color.DodgerBlue : Color.Firebrick;
-                globalAppItem.Tag = Controller.IntentStore.GlobalApp;
-                listApps.Items.Add(globalAppItem);
+                if (listApps.SelectedItems.Count == 0)
+                {
+                    //第0个项目，必须是(全局)
+                    var globalAppItem = new ListViewItem("(全局)");//listApps.Items[0];
+                    globalAppItem.ImageKey = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? "icon" : "icon_bw";
+                    globalAppItem.ForeColor = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? Color.DodgerBlue : Color.Firebrick;
+                    globalAppItem.Tag = Controller.IntentStore.GlobalApp;
+                    listApps.Items.Add(globalAppItem);
 
-                LoadApps();
+                    LoadApps();
+                    LoadCommandTypes();
+                }
 
-                LoadCommandTypes();
+            }else if(object.Equals(tabControl.SelectedTab.Tag, "corners") && combo_hotcornerCmdTypes.Items.Count == 0) //lazy load
+            {
+                LoadHotCornerCommandTypes();
+                LoadHotCornerCommands();
+               
             }
-
         }
 
         private void SettingsForm_Shown(object sender, EventArgs e)
@@ -990,13 +1015,12 @@ namespace WGestures.App.Gui.Windows
         }
 
 
-        #region Tab3
+        #region Tab about
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var startInfo = new ProcessStartInfo("explorer.exe", AppSettings.ProductHomePage);
             using (Process.Start(startInfo)) { }
         }
-
         #endregion
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1195,13 +1219,76 @@ namespace WGestures.App.Gui.Windows
 
         private void menuItem_resetGestures_Click(object sender, EventArgs e)
         {
-            var confirm = MessageBox.Show(this, "是否将所有手势恢复为默认值? \n这将使您自定义的手势丢失。", "恢复默认手势", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var confirm = MessageBox.Show(this, "是否将所有手势和触发角恢复为默认值? \n这将使您自定义设置丢失。", "重置手势和触发角", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if(confirm == DialogResult.Yes)
             {
                 Controller.RestoreDefaultGestures();
                 if (listApps.Items.Count > 0) LoadApps();
+
+                LoadHotCornerCommands();
             }
+        }
+
+        private void radio_corner_1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!(sender as RadioButton).Checked) return;
+
+            var tag = int.Parse((string)(sender as RadioButton).Tag);
+            var cmd = Controller.IntentStore.HotCornerCommands[tag];
+
+            combo_hotcornerCmdTypes.SelectedItem = NamedAttribute.GetNameOf(cmd.GetType());
+
+            LoadHotCornerCmdView(cmd);
+        }
+
+        private void LoadHotCornerCmdView(AbstractCommand cmd)
+        {
+            var cmdView = Controller.HotCornerCommandViewFactory.GetCommandView(cmd);
+            panel_cornorCmdView.Controls.Clear();
+            panel_cornorCmdView.Controls.Add(cmdView);
+
+            cmdView.CommandValueChanged -= HotcornerComandValueChangedHandler;
+            cmdView.CommandValueChanged += HotcornerComandValueChangedHandler;
+        }
+
+        private void combo_hotcornerCmdTypes_SelectedValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HotcornerComandValueChangedHandler(AbstractCommand cmd)
+        {
+            var selectedRadioBtn = (from btn in _hotCornerRadioBtns where btn.Checked select btn).Single();
+            selectedRadioBtn.Text = cmd.Description();
+        }
+
+        private void check_enableHotCorners_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void combo_hotcornerCmdTypes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (combo_hotcornerCmdTypes.SelectedItem == null) return; 
+
+            var cornerBtn = (from btn in _hotCornerRadioBtns where btn.Checked select btn).Single();
+            var corner = int.Parse((string) cornerBtn.Tag);
+
+            var currentCmd = Controller.IntentStore.HotCornerCommands[corner];
+            var cmdType = Controller.SupportedHotCornerCommands[(string) combo_hotcornerCmdTypes.SelectedItem];
+
+            AbstractCommand cmd;
+            if (currentCmd.GetType() != cmdType)
+            {
+                cmd = (AbstractCommand) Activator.CreateInstance(cmdType);
+            }else
+            {
+                cmd = currentCmd;
+            }
+            
+            Controller.IntentStore.HotCornerCommands[corner] = cmd;
+            LoadHotCornerCmdView(cmd);
+            cornerBtn.Text = cmd.Description();
 
         }
     }

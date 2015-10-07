@@ -14,7 +14,6 @@ namespace WGestures.Core
     //todo:重构事件发布
     public class GestureParser : IDisposable
     {
-
         #region delegate types
         public delegate void GestureIntentEventHandler(GestureIntent intent);
         public delegate void IntentExecutedEventHandler(GestureIntent intent, GestureIntent.ExecutionResult result);
@@ -50,16 +49,13 @@ namespace WGestures.Core
         public bool EnableHotCorners { get; set; }
         public bool Enable8DirGesture { get; set; }
 
-        //public bool DisableInFullScreenMode { get; set; }
-
         public int MaxGestureSteps { get; set; }
         public bool IsPaused { get { return _isPaused; } }
 
         public IPathTracker PathTracker { get; private set; }
         public IGestureIntentFinder IntentFinder { get; private set; }
         #endregion
-
-
+        
         private Dictionary<Action<Gesture>, SynchronizationContext> _gestureCapturedEventHandlerContexts = new Dictionary<Action<Gesture>, SynchronizationContext>();
 
         #region Events
@@ -409,13 +405,25 @@ namespace WGestures.Core
 
         }
 
-
-        //FIXME: MUST REFACTOR
+        
         void PathTracker_HotCornerTriggered(ScreenCorner corner)
         {
             if (!EnableHotCorners) return;
             Debug.WriteLine("HotCorner: " + corner);
-            switch (corner)
+
+            var cmd = IntentFinder.IntentStore.HotCornerCommands[(int)corner];
+            if(cmd != null)
+            {
+                var shouldInit = cmd as INeedInit;
+                if (shouldInit != null && !shouldInit.IsInitialized)
+                {
+                    shouldInit.Init();
+                }
+                cmd.Execute();
+            }
+
+            //previous hard-coded impl
+            /*switch (corner)
             {
                 case ScreenCorner.RightBottom:
                     Sim.KeyDown(VirtualKeyCode.LWIN);
@@ -436,7 +444,7 @@ namespace WGestures.Core
                 case ScreenCorner.LeftBottom:
                     Sim.KeyPress(VirtualKeyCode.LWIN);
                     break;
-            }
+            }*/
         }
         #endregion
 

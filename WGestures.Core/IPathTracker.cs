@@ -37,10 +37,6 @@ namespace WGestures.Core
         }
     }
 
-    public enum ScreenCorner
-    {
-        LeftBottom, LeftTop, RightTop, RightBottom
-    }
 
     public delegate void PathTrackEventHandler(PathEventArgs args);
 

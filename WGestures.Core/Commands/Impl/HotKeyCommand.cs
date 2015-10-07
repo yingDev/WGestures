@@ -84,11 +84,12 @@ namespace WGestures.Core.Commands.Impl
             {
                 Debug.WriteLine("* * Why Is fgWindow NULL?");
 
-                /*Native.POINT pt;
-                Native.GetCursorPos(out pt);*/
-                fgWindow = Native.WindowFromPoint(new Native.POINT(){x = Context.StartPoint.X, y = Context.StartPoint.Y});
-
-                if (fgWindow == IntPtr.Zero) return;
+                if(Context != null) //触发角将不会注入此字段
+                {
+                        fgWindow = Native.WindowFromPoint(new Native.POINT(){x = Context.StartPoint.X, y = Context.StartPoint.Y});
+                        if (fgWindow == IntPtr.Zero) return;
+                }
+                
             }
 
             if (rootWindow == IntPtr.Zero) rootWindow = Native.GetAncestor(fgWindow, Native.GetAncestorFlags.GetRoot);

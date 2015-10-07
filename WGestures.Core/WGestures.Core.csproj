@@ -91,6 +91,7 @@
     <Compile Include="GestureButton.cs" />
     <Compile Include="GestureContext.cs" />
     <Compile Include="GestureModifier.cs" />
+    <Compile Include="ScreenCorner.cs" />
     <Compile Include="Impl\Windows\MouseHook.cs" />
     <Compile Include="Impl\Windows\Win32GestureContext.cs" />
     <Compile Include="Impl\Windows\Win32MousePathTracker2.cs" />

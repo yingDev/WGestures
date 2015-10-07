@@ -12,7 +12,7 @@ namespace WGestures.Core
 
         GestureIntent Find(Gesture gesture, GestureContext context);
         GestureIntent Find(Gesture gesture, ExeApp inApp);
-
-        //IGestureIntentStore IntentStore { get; }
+        
+        IGestureIntentStore IntentStore { get; }
     }
 }

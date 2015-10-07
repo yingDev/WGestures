@@ -38,7 +38,6 @@ namespace WGestures.App.Gui.Windows
             Win32MousePathTracker2 pathTracker, JsonGestureIntentStore intentStore,
             CanvasWindowGestureView gestureView)
         {
-
             _config = config;
             _parser = parser;
             _pathTracker = pathTracker;
@@ -46,9 +45,6 @@ namespace WGestures.App.Gui.Windows
             _gestureView = gestureView;
 
             #region 初始化支持的命令和命令视图
-            SupportedCommands = new Dictionary<string, Type>();
-            CommandViewFactory = new CommandViewFactory<CommandViewUserControl>() { EnableCaching = false };
-
             //Add Command Types
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(DoNothingCommand)), typeof(DoNothingCommand));
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(HotKeyCommand)), typeof(HotKeyCommand));
@@ -63,9 +59,7 @@ namespace WGestures.App.Gui.Windows
 
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(PauseWGesturesCommand)), typeof(PauseWGesturesCommand));
             SupportedCommands.Add(NamedAttribute.GetNameOf(typeof(ChangeAudioVolumeCommand)), typeof(ChangeAudioVolumeCommand));
-
-
-
+            
             CommandViewFactory.Register<OpenFileCommand, OpenFileCommandView>();
             CommandViewFactory.Register<DoNothingCommand, GeneralNoParameterCommandView>();
             CommandViewFactory.Register<HotKeyCommand, HotKeyCommandView>();
@@ -77,11 +71,15 @@ namespace WGestures.App.Gui.Windows
             CommandViewFactory.Register<SendTextCommand, SendTextCommandView>();
             CommandViewFactory.Register<TaskSwitcherCommand, TaskSwitcherCommandView>();
             CommandViewFactory.Register<ScriptCommand, ScriptCommandView>();
-
             CommandViewFactory.Register<ChangeAudioVolumeCommand, GeneralNoParameterCommandView>();
+            #endregion
 
+            #region Hotcorner 
+            SupportedHotCornerCommands.Add(NamedAttribute.GetNameOf(typeof(DoNothingCommand)), typeof(DoNothingCommand));
+            SupportedHotCornerCommands.Add(NamedAttribute.GetNameOf(typeof(HotKeyCommand)), typeof(HotKeyCommand));
 
-
+            HotCornerCommandViewFactory.Register<DoNothingCommand, GeneralNoParameterCommandView>();
+            HotCornerCommandViewFactory.Register<HotKeyCommand, HotKeyCommandView>();
             #endregion
 
             _form = new SettingsForm(this);
@@ -403,7 +401,6 @@ namespace WGestures.App.Gui.Windows
 
         internal void RestoreDefaultGestures()
         {
-            _intentStore.GlobalApp.GestureIntents.Clear();
             _intentStore.Import(MigrateService.Import(AppSettings.DefaultGesturesFilePath).GestureIntentStore, replace: true);
             OnPropertyChanged("IntentStore");
         }
@@ -459,11 +456,11 @@ namespace WGestures.App.Gui.Windows
         /// <summary>
         /// 获取支持的命令类型字典
         /// </summary>
-        public Dictionary<string, Type> SupportedCommands { get; private set; }
+        public Dictionary<string, Type> SupportedCommands { get; private set; } = new Dictionary<string, Type>();
         /// <summary>
         /// 获取命令视图工厂
         /// </summary>
-        public ICommandViewFactory<CommandViewUserControl> CommandViewFactory { get; private set; }
+        public ICommandViewFactory<CommandViewUserControl> CommandViewFactory { get; private set; } = new CommandViewFactory<CommandViewUserControl>() { EnableCaching = false };
         /// <summary>
         /// 获取内存中的手示意图存储结构
         /// </summary>
@@ -479,6 +476,8 @@ namespace WGestures.App.Gui.Windows
         #endregion
 
         #region hotcorners
+        public Dictionary<string, Type> SupportedHotCornerCommands { get; private set; } = new Dictionary<string, Type>();
+        public ICommandViewFactory<CommandViewUserControl> HotCornerCommandViewFactory { get; private set; } = new CommandViewFactory<CommandViewUserControl>() { EnableCaching = false };
 
         public bool GestureParserEnableHotCorners
         {

@@ -126,11 +126,15 @@ namespace WGestures.App.Gui.Windows
             this.colListAppDummy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imglistAppIcons = new System.Windows.Forms.ImageList(this.components);
             this.tab_hotCorners = new System.Windows.Forms.TabPage();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.panel_hotcornerSettings = new System.Windows.Forms.Panel();
+            this.radio_corner_1 = new System.Windows.Forms.RadioButton();
+            this.label11 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.combo_hotcornerCmdTypes = new System.Windows.Forms.ComboBox();
+            this.panel_cornorCmdView = new System.Windows.Forms.Panel();
+            this.radio_corner_0 = new System.Windows.Forms.RadioButton();
+            this.radio_corner_2 = new System.Windows.Forms.RadioButton();
+            this.radio_corner_3 = new System.Windows.Forms.RadioButton();
             this.check_enableHotCorners = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
@@ -169,6 +173,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel6.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tab_hotCorners.SuspendLayout();
+            this.panel_hotcornerSettings.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture_alipayCode)).BeginInit();
             this.flowLayoutPanel5.SuspendLayout();
@@ -991,7 +996,7 @@ namespace WGestures.App.Gui.Windows
             this.btnEditApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnEditApp.Image = global::WGestures.App.Properties.Resources.Edit;
             this.btnEditApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnEditApp.Location = new System.Drawing.Point(152, 438);
+            this.btnEditApp.Location = new System.Drawing.Point(152, 444);
             this.btnEditApp.Margin = new System.Windows.Forms.Padding(0, 3, 0, 1);
             this.btnEditApp.Name = "btnEditApp";
             this.btnEditApp.Size = new System.Drawing.Size(29, 20);
@@ -1006,7 +1011,7 @@ namespace WGestures.App.Gui.Windows
             this.btnAppRemove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnAppRemove.Image = global::WGestures.App.Properties.Resources.remove;
             this.btnAppRemove.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnAppRemove.Location = new System.Drawing.Point(41, 438);
+            this.btnAppRemove.Location = new System.Drawing.Point(41, 444);
             this.btnAppRemove.Margin = new System.Windows.Forms.Padding(0, 3, 0, 1);
             this.btnAppRemove.Name = "btnAppRemove";
             this.btnAppRemove.Size = new System.Drawing.Size(29, 20);
@@ -1021,7 +1026,7 @@ namespace WGestures.App.Gui.Windows
             this.btnAddApp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnAddApp.Image = global::WGestures.App.Properties.Resources.add;
             this.btnAddApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnAddApp.Location = new System.Drawing.Point(13, 438);
+            this.btnAddApp.Location = new System.Drawing.Point(13, 444);
             this.btnAddApp.Margin = new System.Windows.Forms.Padding(0, 3, 0, 1);
             this.btnAddApp.Name = "btnAddApp";
             this.btnAddApp.Size = new System.Drawing.Size(29, 20);
@@ -1049,7 +1054,7 @@ namespace WGestures.App.Gui.Windows
             this.listApps.Margin = new System.Windows.Forms.Padding(1);
             this.listApps.MultiSelect = false;
             this.listApps.Name = "listApps";
-            this.listApps.Size = new System.Drawing.Size(168, 414);
+            this.listApps.Size = new System.Drawing.Size(168, 420);
             this.listApps.SmallImageList = this.imglistAppIcons;
             this.listApps.TabIndex = 0;
             this.listApps.TileSize = new System.Drawing.Size(160, 42);
@@ -1073,73 +1078,147 @@ namespace WGestures.App.Gui.Windows
             // 
             // tab_hotCorners
             // 
-            this.tab_hotCorners.Controls.Add(this.comboBox4);
-            this.tab_hotCorners.Controls.Add(this.comboBox3);
-            this.tab_hotCorners.Controls.Add(this.comboBox2);
-            this.tab_hotCorners.Controls.Add(this.comboBox1);
-            this.tab_hotCorners.Controls.Add(this.panel2);
+            this.tab_hotCorners.Controls.Add(this.panel_hotcornerSettings);
             this.tab_hotCorners.Controls.Add(this.check_enableHotCorners);
             this.tab_hotCorners.Location = new System.Drawing.Point(4, 32);
             this.tab_hotCorners.Margin = new System.Windows.Forms.Padding(2);
             this.tab_hotCorners.Name = "tab_hotCorners";
             this.tab_hotCorners.Size = new System.Drawing.Size(551, 468);
             this.tab_hotCorners.TabIndex = 3;
+            this.tab_hotCorners.Tag = "corners";
             this.tab_hotCorners.Text = "触发角";
             this.tab_hotCorners.UseVisualStyleBackColor = true;
             // 
-            // comboBox4
+            // panel_hotcornerSettings
             // 
-            this.comboBox4.Enabled = false;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(64, 245);
-            this.comboBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(98, 25);
-            this.comboBox4.TabIndex = 5;
-            this.comboBox4.Text = "开始";
+            this.panel_hotcornerSettings.Controls.Add(this.radio_corner_1);
+            this.panel_hotcornerSettings.Controls.Add(this.label11);
+            this.panel_hotcornerSettings.Controls.Add(this.panel2);
+            this.panel_hotcornerSettings.Controls.Add(this.combo_hotcornerCmdTypes);
+            this.panel_hotcornerSettings.Controls.Add(this.panel_cornorCmdView);
+            this.panel_hotcornerSettings.Controls.Add(this.radio_corner_0);
+            this.panel_hotcornerSettings.Controls.Add(this.radio_corner_2);
+            this.panel_hotcornerSettings.Controls.Add(this.radio_corner_3);
+            this.panel_hotcornerSettings.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.settingsFormControllerBindingSource, "GestureParserEnableHotCorners", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.panel_hotcornerSettings.Location = new System.Drawing.Point(13, 46);
+            this.panel_hotcornerSettings.Name = "panel_hotcornerSettings";
+            this.panel_hotcornerSettings.Size = new System.Drawing.Size(523, 419);
+            this.panel_hotcornerSettings.TabIndex = 10;
             // 
-            // comboBox3
+            // radio_corner_1
             // 
-            this.comboBox3.Enabled = false;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(396, 245);
-            this.comboBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(98, 25);
-            this.comboBox3.TabIndex = 4;
-            this.comboBox3.Text = "切换到桌面";
+            this.radio_corner_1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio_corner_1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.radio_corner_1.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
+            this.radio_corner_1.FlatAppearance.CheckedBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.radio_corner_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio_corner_1.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.radio_corner_1.Location = new System.Drawing.Point(71, 13);
+            this.radio_corner_1.Name = "radio_corner_1";
+            this.radio_corner_1.Size = new System.Drawing.Size(120, 27);
+            this.radio_corner_1.TabIndex = 7;
+            this.radio_corner_1.TabStop = true;
+            this.radio_corner_1.Tag = "1";
+            this.radio_corner_1.Text = "?";
+            this.tip.SetToolTip(this.radio_corner_1, "屏幕左上角");
+            this.radio_corner_1.UseVisualStyleBackColor = false;
+            this.radio_corner_1.CheckedChanged += new System.EventHandler(this.radio_corner_1_CheckedChanged);
             // 
-            // comboBox2
+            // label11
             // 
-            this.comboBox2.Enabled = false;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(396, 102);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(98, 25);
-            this.comboBox2.TabIndex = 3;
-            this.comboBox2.Text = "上一个任务";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Enabled = false;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(64, 102);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(98, 25);
-            this.comboBox1.TabIndex = 2;
-            this.comboBox1.Text = "Esc键";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(68, 185);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 17);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "执行操作";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(166, 102);
+            this.panel2.Location = new System.Drawing.Point(196, 13);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(225, 168);
+            this.panel2.Size = new System.Drawing.Size(140, 133);
             this.panel2.TabIndex = 1;
+            // 
+            // combo_hotcornerCmdTypes
+            // 
+            this.combo_hotcornerCmdTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_hotcornerCmdTypes.FormattingEnabled = true;
+            this.combo_hotcornerCmdTypes.Location = new System.Drawing.Point(130, 182);
+            this.combo_hotcornerCmdTypes.Name = "combo_hotcornerCmdTypes";
+            this.combo_hotcornerCmdTypes.Size = new System.Drawing.Size(121, 25);
+            this.combo_hotcornerCmdTypes.TabIndex = 8;
+            this.combo_hotcornerCmdTypes.SelectedIndexChanged += new System.EventHandler(this.combo_hotcornerCmdTypes_SelectedIndexChanged);
+            this.combo_hotcornerCmdTypes.SelectedValueChanged += new System.EventHandler(this.combo_hotcornerCmdTypes_SelectedValueChanged);
+            // 
+            // panel_cornorCmdView
+            // 
+            this.panel_cornorCmdView.BackColor = System.Drawing.Color.Transparent;
+            this.panel_cornorCmdView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_cornorCmdView.Location = new System.Drawing.Point(71, 215);
+            this.panel_cornorCmdView.Name = "panel_cornorCmdView";
+            this.panel_cornorCmdView.Size = new System.Drawing.Size(390, 194);
+            this.panel_cornorCmdView.TabIndex = 6;
+            // 
+            // radio_corner_0
+            // 
+            this.radio_corner_0.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio_corner_0.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.radio_corner_0.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
+            this.radio_corner_0.FlatAppearance.CheckedBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.radio_corner_0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio_corner_0.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.radio_corner_0.Location = new System.Drawing.Point(71, 119);
+            this.radio_corner_0.Name = "radio_corner_0";
+            this.radio_corner_0.Size = new System.Drawing.Size(120, 27);
+            this.radio_corner_0.TabIndex = 7;
+            this.radio_corner_0.TabStop = true;
+            this.radio_corner_0.Tag = "0";
+            this.radio_corner_0.Text = "?";
+            this.tip.SetToolTip(this.radio_corner_0, "屏幕左下角");
+            this.radio_corner_0.UseVisualStyleBackColor = false;
+            this.radio_corner_0.CheckedChanged += new System.EventHandler(this.radio_corner_1_CheckedChanged);
+            // 
+            // radio_corner_2
+            // 
+            this.radio_corner_2.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio_corner_2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.radio_corner_2.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
+            this.radio_corner_2.FlatAppearance.CheckedBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.radio_corner_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio_corner_2.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.radio_corner_2.Location = new System.Drawing.Point(341, 13);
+            this.radio_corner_2.Name = "radio_corner_2";
+            this.radio_corner_2.Size = new System.Drawing.Size(120, 27);
+            this.radio_corner_2.TabIndex = 7;
+            this.radio_corner_2.TabStop = true;
+            this.radio_corner_2.Tag = "2";
+            this.radio_corner_2.Text = "?";
+            this.tip.SetToolTip(this.radio_corner_2, "屏幕右上角");
+            this.radio_corner_2.UseVisualStyleBackColor = false;
+            this.radio_corner_2.CheckedChanged += new System.EventHandler(this.radio_corner_1_CheckedChanged);
+            // 
+            // radio_corner_3
+            // 
+            this.radio_corner_3.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radio_corner_3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.radio_corner_3.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
+            this.radio_corner_3.FlatAppearance.CheckedBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.radio_corner_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.radio_corner_3.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.radio_corner_3.Location = new System.Drawing.Point(341, 119);
+            this.radio_corner_3.Name = "radio_corner_3";
+            this.radio_corner_3.Size = new System.Drawing.Size(120, 27);
+            this.radio_corner_3.TabIndex = 7;
+            this.radio_corner_3.TabStop = true;
+            this.radio_corner_3.Tag = "3";
+            this.radio_corner_3.Text = "?";
+            this.tip.SetToolTip(this.radio_corner_3, "屏幕右下角");
+            this.radio_corner_3.UseVisualStyleBackColor = false;
+            this.radio_corner_3.CheckedChanged += new System.EventHandler(this.radio_corner_1_CheckedChanged);
             // 
             // check_enableHotCorners
             // 
@@ -1317,28 +1396,28 @@ namespace WGestures.App.Gui.Windows
             this.menuItem_export,
             this.menuItem_resetGestures});
             this.ctx_gesturesMenu.Name = "contextMenuStrip1";
-            this.ctx_gesturesMenu.Size = new System.Drawing.Size(153, 70);
+            this.ctx_gesturesMenu.Size = new System.Drawing.Size(188, 92);
             this.ctx_gesturesMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.ctx_gesturesMenu_Closed);
             // 
             // menuItem_import
             // 
             this.menuItem_import.Name = "menuItem_import";
-            this.menuItem_import.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_import.Size = new System.Drawing.Size(178, 22);
             this.menuItem_import.Text = "导入...";
             this.menuItem_import.Click += new System.EventHandler(this.menuItem_imxport_Click);
             // 
             // menuItem_export
             // 
             this.menuItem_export.Name = "menuItem_export";
-            this.menuItem_export.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_export.Size = new System.Drawing.Size(178, 22);
             this.menuItem_export.Text = "导出...";
             this.menuItem_export.Click += new System.EventHandler(this.menuItem_export_Click);
             // 
             // menuItem_resetGestures
             // 
             this.menuItem_resetGestures.Name = "menuItem_resetGestures";
-            this.menuItem_resetGestures.Size = new System.Drawing.Size(152, 22);
-            this.menuItem_resetGestures.Text = "恢复默认手势";
+            this.menuItem_resetGestures.Size = new System.Drawing.Size(187, 22);
+            this.menuItem_resetGestures.Text = "重置手势和触发角...";
             this.menuItem_resetGestures.Click += new System.EventHandler(this.menuItem_resetGestures_Click);
             // 
             // errorProvider
@@ -1396,6 +1475,8 @@ namespace WGestures.App.Gui.Windows
             this.panel3.PerformLayout();
             this.tab_hotCorners.ResumeLayout(false);
             this.tab_hotCorners.PerformLayout();
+            this.panel_hotcornerSettings.ResumeLayout(false);
+            this.panel_hotcornerSettings.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture_alipayCode)).EndInit();
@@ -1495,13 +1576,17 @@ namespace WGestures.App.Gui.Windows
         private ComboBox combo_GestureTriggerButton;
         private TabPage tab_hotCorners;
         private CheckBox check_enableHotCorners;
-        private ComboBox comboBox4;
-        private ComboBox comboBox3;
-        private ComboBox comboBox2;
-        private ComboBox comboBox1;
         private Panel panel2;
         private CheckBox check_enable8DirGesture;
         private CheckBox check_preferCursorWindow;
         private ToolStripMenuItem menuItem_resetGestures;
+        private Panel panel_cornorCmdView;
+        private RadioButton radio_corner_2;
+        private RadioButton radio_corner_3;
+        private RadioButton radio_corner_0;
+        private RadioButton radio_corner_1;
+        private ComboBox combo_hotcornerCmdTypes;
+        private Label label11;
+        private Panel panel_hotcornerSettings;
     }
 }

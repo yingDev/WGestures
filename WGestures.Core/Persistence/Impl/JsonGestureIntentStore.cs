@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using WGestures.Core.Commands;
 
 //using Newtonsoft.Json;
 
@@ -16,6 +17,7 @@ namespace WGestures.Core.Persistence.Impl
         public string FileVersion { get; set; }
         public Dictionary<string, ExeApp> Apps { get; set; }
         public GlobalApp GlobalApp { get; set; }
+        public AbstractCommand[] HotCornerCommands{get;set;} //4 corners
 
         private string jsonPath;
         private JsonSerializer ser = new JsonSerializer();
@@ -27,8 +29,7 @@ namespace WGestures.Core.Persistence.Impl
             FileVersion = fileVersion;
             this.jsonPath = jsonPath;
             SetupSerializer();
-
-
+            
             if (File.Exists(jsonPath))
             {
                 Deserialize();
@@ -37,6 +38,7 @@ namespace WGestures.Core.Persistence.Impl
             {
                 Apps = new Dictionary<string, ExeApp>();
                 GlobalApp = new GlobalApp();
+                HotCornerCommands = new AbstractCommand[4];
             }
         }
 
@@ -84,7 +86,7 @@ namespace WGestures.Core.Persistence.Impl
                         Apps.Add(a.ExecutablePath, a);
                     }
 
-
+                    HotCornerCommands = result.HotCornerCommands;
                 }
             }
             finally
@@ -126,7 +128,7 @@ namespace WGestures.Core.Persistence.Impl
                 using (var writer = new JsonTextWriter(fs))
                 {
                  
-                    ser.Serialize(writer,new SerializeWrapper(){Apps = Apps, FileVersion = FileVersion, Global = GlobalApp});
+                    ser.Serialize(writer,new SerializeWrapper(){Apps = Apps, FileVersion = FileVersion, Global = GlobalApp, HotCornerCommands = HotCornerCommands});
                 }
             }
 
@@ -218,12 +220,13 @@ namespace WGestures.Core.Persistence.Impl
 
         public JsonGestureIntentStore Clone()
         {
+            //fixme: dummy impl
             var ret = new JsonGestureIntentStore();
             ret.GlobalApp = GlobalApp;
             ret.Apps = Apps;
             ret.FileVersion = FileVersion;
             ret.jsonPath = jsonPath;
-
+            ret.HotCornerCommands = HotCornerCommands;
             return ret;
         }
 
@@ -237,6 +240,8 @@ namespace WGestures.Core.Persistence.Impl
                 GlobalApp.IsGesturingEnabled = from.GlobalApp.IsGesturingEnabled;
                 Apps.Clear();
             }
+
+            HotCornerCommands = from.HotCornerCommands;
 
             GlobalApp.ImportGestures(from.GlobalApp);
             
@@ -268,15 +273,10 @@ namespace WGestures.Core.Persistence.Impl
 
         internal class SerializeWrapper
         {
-            //[JsonProperty("FileVersion")]
             public string FileVersion { get; set; }
-
-            //[JsonProperty("Apps")]
             public Dictionary<string, ExeApp> Apps { get; set; }
-            
-            //[JsonProperty("Global")]
             public GlobalApp Global { get; set; }
-
+            public AbstractCommand[] HotCornerCommands { get; set; } = new AbstractCommand[4];
         }
 
         internal class GestureIntentConverter : JsonConverter
