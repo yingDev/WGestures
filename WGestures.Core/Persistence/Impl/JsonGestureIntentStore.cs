@@ -161,7 +161,7 @@ namespace WGestures.Core.Persistence.Impl
 
         private void Deserialize()
         {
-            using (var file = new FileStream(jsonPath, FileMode.Open))
+            using (var file = new FileStream(jsonPath, FileMode.Open, FileAccess.Read))
             {
                 Deserialize(file, false);
             }
