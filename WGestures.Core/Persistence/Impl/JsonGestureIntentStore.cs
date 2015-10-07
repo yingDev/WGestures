@@ -239,10 +239,18 @@ namespace WGestures.Core.Persistence.Impl
                 GlobalApp.GestureIntents.Clear();
                 GlobalApp.IsGesturingEnabled = from.GlobalApp.IsGesturingEnabled;
                 Apps.Clear();
+                HotCornerCommands = from.HotCornerCommands;
+            }else
+            {
+                for(var i=0; i<from.HotCornerCommands.Length; i++)
+                {
+                    if(from.HotCornerCommands[i] != null)
+                    {
+                        HotCornerCommands[i] = from.HotCornerCommands[i];
+                    }
+                }
             }
-
-            HotCornerCommands = from.HotCornerCommands;
-
+            
             GlobalApp.ImportGestures(from.GlobalApp);
             
             foreach (var kv in from.Apps)
