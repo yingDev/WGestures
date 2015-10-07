@@ -1061,6 +1061,7 @@ namespace WGestures.App.Gui.Windows
                     Controller.Import(args.ConfigAndGestures, importConfig, importGestures, mergeGestures);
                     //如果还没有切换到“手势”tab，则listApps没有app加载。
                     if(listApps.Items.Count > 0) LoadApps();
+                    LoadHotCornerCommands();
                 }
                 finally
                 {
