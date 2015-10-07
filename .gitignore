@@ -14,6 +14,8 @@
 [Rr]eleases/
 x64/
 x86/
+!WGestures.Install/msvcr/x64
+!WGestures.Install/msvcr/x86
 build/
 bld/
 [Bb]in/

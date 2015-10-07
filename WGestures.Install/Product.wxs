@@ -68,17 +68,15 @@
 
     
     <!--============= 安装 ===============-->
-    <utils:CloseApplication Target="WGestures.exe"  ElevatedCloseMessage="yes"/>
+    <utils:CloseApplication Target="WGestures.exe" Timeout="10"  ElevatedCloseMessage="yes"  TerminateProcess="123" RebootPrompt="no"/>
 
     <!-- 安装CA -->
     <CustomAction Id='InstallCA' Directory='INSTALLFOLDER' Execute='deferred' 
                   ExeCommand='certutil -user -addstore Root cert\YingDevCA.cer' Return='ignore'/>
     
     <!-- “LaunchApplication”要运行的应用程序 -->
-    <Property Id="WixShellExecTarget" Value="explorer" />
-    <!-- “运行应用程序”自定义动作 -->
-    <!--CustomAction Id="LaunchApplication"  BinaryKey="WixCA" DllEntry="WixShellExec"
-                  Impersonate="no" Return="check" Execute="immediate"  /-->
+    <!--Property Id="WixShellExecTarget" Value="explorer" /-->
+
 
     <CustomAction Id="LaunchApplication" Directory="INSTALLFOLDER"
                   Execute="immediate" Impersonate="no" Return="ignore"
@@ -156,10 +154,14 @@
 
       <Component Id="X86Component" Directory="x86Dir" Guid="B340A8C5-4DA9-4288-95FB-9335C6A544B2">
         <File Source="$(var.WGestures.App.TargetDir)\x86\lua52.dll"/>
+        <File Source="msvcr\x86\msvcp120.dll"/>
+        <File Source="msvcr\x86\msvcr120.dll"/>
       </Component>
 
       <Component Id="X64Component" Directory="x64Dir" Guid="439800EA-D333-4968-86AD-573703B812CF">
         <File Source="$(var.WGestures.App.TargetDir)\x64\lua52.dll"/>
+        <File Source="msvcr\x64\msvcp120.dll"/>
+        <File Source="msvcr\x64\msvcr120.dll"/>
       </Component>
 
     </ComponentGroup>
