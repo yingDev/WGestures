@@ -501,10 +501,10 @@ namespace WGestures.App.Gui.Windows
             _config.Save();
             _intentStore.Save();
 
-            /*using (var proc = Process.GetCurrentProcess())
+            using (var proc = Process.GetCurrentProcess())
             {
                 Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
-            }*/
+            }
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             GC.WaitForPendingFinalizers();
 

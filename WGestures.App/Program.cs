@@ -223,7 +223,7 @@ namespace WGestures.App
 
         private static void SetWorkingSet(object sender, EventArgs e)
         {
-            using (var proc = Process.GetCurrentProcess())
+            /*using (var proc = Process.GetCurrentProcess())
             {
                 //工作集
                 var screenBounds = Screen.GetBounds(Point.Empty);
@@ -234,7 +234,7 @@ namespace WGestures.App
 
 
                 Native.SetProcessWorkingSetSize(new IntPtr(proc.Id), min, (int)max);//按屏幕大小来预留工作集
-            }
+            }*/
         }
 
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using WGestures.Common.OsSpecific.Windows;
 using WGestures.Core.Commands;
 
 namespace WGestures.Core
@@ -58,6 +60,10 @@ namespace WGestures.Core
                 {
                     context.ActivateTargetWindow();
                     Command.Execute();
+                    using (var proc = Process.GetCurrentProcess())
+                    {
+                        Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
+                    }
                 }
                 catch (Exception)
                 {
