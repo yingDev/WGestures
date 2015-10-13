@@ -22,6 +22,7 @@ namespace WGestures.Core.Commands.Impl
     {
         public string SearchEngineUrl { get; set; }
         public string SearchEngingName { get; set; }
+        public string UseBrowser { get; set; }
 
         public WebSearchCommand()
         {
@@ -83,25 +84,37 @@ namespace WGestures.Core.Commands.Impl
                     var text = "";
                     if (Clipboard.ContainsText() && (text = Clipboard.GetText().Trim()).Length > 0)
                     {
+                        var browser = "explorer.exe";
+                        if (UseBrowser != null && File.Exists(UseBrowser.Replace("\"", "")) )
+                        {
+                            browser = UseBrowser;
+                        }
+
+                        string urlToOpen;
                         //如果是URL则打开，否则搜索
                         if (Uri.IsWellFormedUriString(text, UriKind.Absolute))
                         {
-                            using(Process.Start("explorer.exe", "\"" + text + "\""));
+                            urlToOpen = text;
                         }
                         else
                         {
                             if (text.Length > 100) text = text.Substring(0, 100);
-                            var url = "\"" + PopulateSearchEngingUrl(text) + "\"";
-                            var startInfo = new ProcessStartInfo("explorer.exe", url);
-                            using (Process.Start(startInfo));
+                            urlToOpen = PopulateSearchEngingUrl(text);
+                        }
+                        //M$ Edge Hack
+                        if (browser.Contains("LaunchWinApp.exe"))
+                        {
+                            urlToOpen = "microsoft-edge:" + urlToOpen;
+                            Process.Start(urlToOpen);
+                        }else
+                        {
+                            var startInfo = new ProcessStartInfo(browser, "\"" + urlToOpen + "\"");
+                            using (Process.Start(startInfo)) ;
                         }
                     }
 
                     clipboardMonitor.StopMonitor();
                     clipboardMonitor.DestroyHandle();
-
-                    //GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-                    
 
                     Application.ExitThread();
                 };
@@ -122,8 +135,6 @@ namespace WGestures.Core.Commands.Impl
 
         private string PopulateSearchEngingUrl(string param)
         {
-
-            //todo:!
             return HttpUtility.UrlPathEncode(string.Format(SearchEngineUrl, param));
         }
 
@@ -131,5 +142,7 @@ namespace WGestures.Core.Commands.Impl
         {
             return ((SearchEngingName ?? "Web") + "搜索");
         }
+
+
     }
 }

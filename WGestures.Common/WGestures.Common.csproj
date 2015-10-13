@@ -67,6 +67,7 @@
     <Compile Include="OsSpecific\Windows\CanvasWindow.cs" />
     <Compile Include="OsSpecific\Windows\ClipboardMonitor.cs" />
     <Compile Include="OsSpecific\Windows\DiBitmap.cs" />
+    <Compile Include="OsSpecific\Windows\FileAssoc.cs" />
     <Compile Include="OsSpecific\Windows\GlobalKeyboardHook.cs" />
     <Compile Include="OsSpecific\Windows\Native.cs" />
     <Compile Include="OsSpecific\Windows\Screen.cs" />

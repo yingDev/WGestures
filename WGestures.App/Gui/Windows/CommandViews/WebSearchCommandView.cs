@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WGestures.Common.OsSpecific.Windows.FileAssoc;
 using WGestures.Core.Commands;
 using WGestures.Core.Commands.Impl;
 
@@ -20,6 +23,19 @@ namespace WGestures.App.Gui.Windows.CommandViews
             set
             {
                 _command = (WebSearchCommand) value;
+
+                var browsers = BrowserList;
+                var selectedBroser = 0;
+                for(int i = 0; i<browsers.Count; i++)
+                {
+                    var b = browsers[i];
+                    if(b.Path == _command.UseBrowser)
+                    {
+                        selectedBroser = i;
+                    }
+                }
+                combo_browsers.DataSource = browsers;
+                combo_browsers.SelectedIndex = selectedBroser;
 
                 foreach (var s in combo_searchEngines.Items)
                 {
@@ -55,8 +71,8 @@ namespace WGestures.App.Gui.Windows.CommandViews
         private static ComboBoxItem[] defaultSearchEngines =
         {
             new ComboBoxItem("Google", "https://www.google.com/search?q={0}"),
-            new ComboBoxItem("百度","http://www.baidu.com/#wd={0}"),
-            new ComboBoxItem("必应","http://bing.com/search?q={0}") 
+            new ComboBoxItem("百度","https://www.baidu.com/s?wd={0}"),
+            new ComboBoxItem("必应","https://bing.com/search?q={0}") 
         };
 
         private class ComboBoxItem
@@ -98,6 +114,50 @@ namespace WGestures.App.Gui.Windows.CommandViews
         private void tb_url_TextChanged(object sender, EventArgs e)
         {
             _command.SearchEngineUrl = tb_url.Text;
+        }
+
+        private List<Browser> BrowserList
+        {
+            get
+             {
+                var lst = new List<Browser>();
+                lst.Add(new Browser { Name = "(系统默认)" });
+
+                using (var assocs = new Associations<ProtocolAssociations>("http"))
+                {
+                    foreach (AssocHandler handler in assocs)
+                    {
+                        lst.Add(new Browser { Name = handler.GetUIName, Path = handler.GetName });
+                    }
+                }
+
+#if DEBUG
+                Console.WriteLine("Browsers:");
+                foreach(var b in lst)
+                {
+                    Console.WriteLine("{0}: {1}", b.Name, b.Path);
+                }
+#endif 
+
+                return lst;
+            }
+        }
+        public struct Browser
+        {
+            public string Name { get; set; }
+            public string Path { get; set; } //null == default
+            //public string IconPath { get; set; }
+
+            public override string ToString()
+            {
+                return Name;
+            }
+        }
+
+        private void combo_browsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var browser = (Browser) combo_browsers.SelectedValue;
+            _command.UseBrowser  = browser.Path;
         }
     }
 }
