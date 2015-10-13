@@ -46,6 +46,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\banner left.psd" />
     <Content Include="banner-left.jpg" />
     <Content Include="banner.png" />
     <Content Include="lic.rtf" />
@@ -72,6 +73,7 @@
     <Folder Include="msvcr" />
     <Folder Include="msvcr\x64" />
     <Folder Include="msvcr\x86" />
+    <Folder Include="Assets" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
