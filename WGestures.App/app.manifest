@@ -4,18 +4,7 @@
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
-        <!-- UAC 清单选项
-            如果要更改 Windows 用户帐户控制级别，请用以下节点之一替换 
-            requestedExecutionLevel 节点。
 
-        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
-        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
-        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
-
-            指定 requestedExecutionLevel 节点将会禁用文件和注册表虚拟化。
-            如果要利用文件和注册表虚拟化实现向后 
-            兼容性，则删除 requestedExecutionLevel 节点。
-        -->
         <requestedExecutionLevel level="asInvoker" uiAccess="true" />
       </requestedPrivileges>
       <applicationRequestMinimum>
