@@ -104,9 +104,7 @@ namespace WGestures.View.Impl.Windows
         int _pathMaxPointCount;
 
         CanvasWindow _canvasWindow;
-        DiBitmap _bitmap;
-
-        //private Label _label;
+        DiBitmap _canvasBuf;
 
         RectangleF _labelRect;
         RectangleF _lastLabelRect;
@@ -148,6 +146,8 @@ namespace WGestures.View.Impl.Windows
 
             waitCanvasWindow.WaitOne();
 
+            _canvasBuf = new DiBitmap(_screenBounds.Size);
+
             InitDefaultProperties();
             _fadeOuTimer.Elapsed += OnFadeOutTimerElapsed;
             SystemEvents.DisplaySettingsChanged += SystemDisplaySettingsChanged;
@@ -156,6 +156,7 @@ namespace WGestures.View.Impl.Windows
         private void SystemDisplaySettingsChanged(object sender, EventArgs e)
         {
             _screenBounds = Native.GetScreenBounds();
+            _canvasBuf = new DiBitmap(_screenBounds.Size);
             _dpiFactor = Native.GetScreenDpi() / 96.0f;
         }
 
@@ -404,7 +405,7 @@ namespace WGestures.View.Impl.Windows
             Debug.WriteLine("BeginView");
             StopFadeout();
 
-            _bitmap = new DiBitmap(_screenBounds.Size);
+            //_bitmap = new DiBitmap(_screenBounds.Size);
             _canvasOpacity = 255;
             _canvasWindow.Bounds = _screenBounds;
 
@@ -436,13 +437,13 @@ namespace WGestures.View.Impl.Windows
             pathDirty.Intersect(_screenBounds);
             pathDirty.Offset(-_screenBounds.X, -_screenBounds.Y); //挪回来变为基于窗口的坐标
 
-            if (ShowPath) _canvasWindow.SetDiBitmap(_bitmap, /*_pathDirtyRect*/pathDirty);
+            if (ShowPath) _canvasWindow.SetDiBitmap(_canvasBuf, /*_pathDirtyRect*/pathDirty);
 
             if (_labelChanged) //ShowCommandName)
             {
                 var labelDirtyRect = _labelRect.Width > _lastLabelRect.Width ? _labelRect : _lastLabelRect;
                 labelDirtyRect.Height = _labelRect.Height > _lastLabelRect.Height ? _labelRect.Height : _lastLabelRect.Height;
-                _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(labelDirtyRect));
+                _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(labelDirtyRect));
             }
             else if(_labelVisible)
             {
@@ -452,7 +453,7 @@ namespace WGestures.View.Impl.Windows
                 if (intercected && !pathDirty.Contains(labelDirty))
                 {
                     labelDirty.Intersect(pathDirty);
-                    _canvasWindow.SetDiBitmap(_bitmap, labelDirty);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, labelDirty);
                 }
             }
             #endregion
@@ -461,7 +462,7 @@ namespace WGestures.View.Impl.Windows
 
         private void Draw()
         {
-            var g = _bitmap.BeginDraw();
+            var g = _canvasBuf.BeginDraw();
 
             //如果是识别与未识别之间转换，则使用region而非dirtyRect来重绘
             if (_recognizeStateChanged)
@@ -545,7 +546,7 @@ namespace WGestures.View.Impl.Windows
             }
             #endregion
 
-            _bitmap.EndDraw();
+            _canvasBuf.EndDraw();
         }
 
         
@@ -553,23 +554,23 @@ namespace WGestures.View.Impl.Windows
         private void EndView()
         {
             Debug.WriteLine("EndView");
-            using (_bitmap)
+            //using (_canvasBuf)
             {                    
                 if (ShowPath)
                 {
-                    var g = _bitmap.BeginDraw();
+                    var g = _canvasBuf.BeginDraw();
 
                     _gPath.Widen(_dirtyMarkerPen);
                     g.SetClip(_gPath);
                     g.Clear(Color.Transparent);
-                    _bitmap.EndDraw();
+                    _canvasBuf.EndDraw();
 
                     var pathDirty = Rectangle.Ceiling(_gPath.GetBounds());
                     pathDirty.Offset(_screenBounds.X, _screenBounds.Y);
                     pathDirty.Intersect(_screenBounds);
                     pathDirty.Offset(-_screenBounds.X, -_screenBounds.Y); //挪回来变为基于窗口的坐标
 
-                    _canvasWindow.SetDiBitmap(_bitmap, pathDirty);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, pathDirty);
                     
                     _gPath.Reset();
                     _gPathDirty.Reset();
@@ -583,12 +584,12 @@ namespace WGestures.View.Impl.Windows
 
                 if (_labelVisible)//ShowCommandName)
                 {
-                    var g = _bitmap.BeginDraw();
+                    var g = _canvasBuf.BeginDraw();
                     g.SetClip(_labelRect);
                     g.Clear(Color.Transparent);
-                    _bitmap.EndDraw();
+                    _canvasBuf.EndDraw();
 
-                    _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(_labelRect));
+                    _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(_labelRect));
 
                     _labelPath.Reset();
                     
@@ -597,7 +598,7 @@ namespace WGestures.View.Impl.Windows
                 }                    
                 
             }
-            _bitmap = null;
+            //_canvasBuf = null;
 
             _canvasWindow.Visible = false;
 
@@ -645,8 +646,8 @@ namespace WGestures.View.Impl.Windows
                 }
                 else
                 {
-                    _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(_labelRect), _canvasOpacity);
-                    _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(_gPathDirty.GetBounds()), _canvasOpacity);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(_labelRect), _canvasOpacity);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(_gPathDirty.GetBounds()), _canvasOpacity);
                 }
             }
         }
@@ -768,10 +769,10 @@ namespace WGestures.View.Impl.Windows
             _dirtyMarkerPen.Dispose();
             #endregion
 
-            if (_bitmap != null)
+            if (_canvasBuf != null)
             {
-                _bitmap.Dispose();
-                _bitmap = null;
+                _canvasBuf.Dispose();
+                _canvasBuf = null;
             }
             if (_canvasWindow != null)
             {
