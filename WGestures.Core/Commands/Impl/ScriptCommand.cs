@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("执行脚本"), Serializable, JsonObject(MemberSerialization.OptIn)]
+    [Named("执行Lua脚本"), Serializable, JsonObject(MemberSerialization.OptIn)]
     public class ScriptCommand : AbstractCommand, IGestureModifiersAware, INeedInit
     {
         Lua _state;
