@@ -167,7 +167,7 @@ namespace WGestures.View.Impl.Windows
             ShowPath = true;
             ViewFadeOut = true;
 
-            _pathMaxPointCount = (int)(256 * _dpiFactor);
+            _pathMaxPointCount = (int)(512 * _dpiFactor);
 
             const float widthBase = 2f;
 
