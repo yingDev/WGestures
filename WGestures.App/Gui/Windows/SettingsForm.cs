@@ -1215,7 +1215,7 @@ namespace WGestures.App.Gui.Windows
 
         private void listGestureIntents_MouseEnter(object sender, EventArgs e)
         {
-            listGestureIntents.Focus();
+            //listGestureIntents.Focus();
         }
 
         private void menuItem_resetGestures_Click(object sender, EventArgs e)
