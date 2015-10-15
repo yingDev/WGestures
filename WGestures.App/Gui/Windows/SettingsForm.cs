@@ -64,7 +64,7 @@ namespace WGestures.App.Gui.Windows
 
             //pic_menuBtn.Size = new Size((int)(pic_menuBtn.Width * _dpiF), (int)(pic_menuBtn.Height * _dpiF));
             //listGestureIntents.TileSize = new Size((int)((listGestureIntents.TileSize.Width - 2) * _dpiF), (int)(listGestureIntents.TileSize.Height * _dpiF));
-
+            lineLabel2.Height = (int)(109 * _dpiF);
 
             //Height += tabControl.ItemSize.Height;
         }
@@ -1025,7 +1025,7 @@ namespace WGestures.App.Gui.Windows
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var startInfo = new ProcessStartInfo("explorer.exe", "http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=HiYnKS0sKCguJ15vbzB9cXM");
+            var startInfo = new ProcessStartInfo("explorer.exe", "\"http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=HiYnKS0sKCguJ15vbzB9cXM\"");
             using (Process.Start(startInfo)) { }
         }
 
