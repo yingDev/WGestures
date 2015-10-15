@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using WGestures.App.Gui.Windows;
 using WGestures.App.Migrate;
 using WGestures.App.Properties;
@@ -19,7 +18,6 @@ using WGestures.Core.Impl.Windows;
 using WGestures.Core.Persistence.Impl;
 using WGestures.Core.Persistence.Impl.Windows;
 using WGestures.View.Impl.Windows;
-using Screen = WGestures.Common.OsSpecific.Windows.Screen;
 using Timer = System.Windows.Forms.Timer;
 
 namespace WGestures.App
@@ -27,14 +25,12 @@ namespace WGestures.App
     static class Program
     {
         private static Mutex mutext;
-
         private static GestureParser gestureParser;
 
         private static PlistConfig config;
         private static CanvasWindowGestureView gestureView;
 
         private static readonly List<IDisposable> componentsToDispose = new List<IDisposable>();
-
         private static SettingsFormController settingsFormController;
 
         private static bool isFirstRun;
@@ -77,7 +73,6 @@ namespace WGestures.App
                 StartIpcPipe();
 
                 Application.Run();
-
             }
             catch (Exception e)
             {
@@ -114,7 +109,6 @@ namespace WGestures.App
                                 {
                                     Debug.WriteLine("Thread=" + Thread.CurrentThread.ManagedThreadId);
                                     ShowSettings();
-                                    //ToggleTrayIconVisibility();
                                 }, null);
                             }
                         }
@@ -133,7 +127,6 @@ namespace WGestures.App
                 {
                     writer.WriteLine(cmd);
                 }
-
             }
         }
 
@@ -141,10 +134,8 @@ namespace WGestures.App
         {
             new Thread(() =>
             {
-
 #if DEBUG
                 gestureParser.Start();
-
 #else
                 try
                 {
@@ -155,7 +146,6 @@ namespace WGestures.App
                     ShowFatalError(e);
                 }
 #endif
-                
             }) {Name = "Parser线程", IsBackground = false}.Start();
         }
 
@@ -213,34 +203,12 @@ namespace WGestures.App
                 //高优先级
                 proc.PriorityClass = ProcessPriorityClass.High;
             }
-
-
-            SetWorkingSet(null, null);
-            SystemEvents.DisplaySettingsChanged += SetWorkingSet;
         }
-
-        private static void SetWorkingSet(object sender, EventArgs e)
-        {
-            /*using (var proc = Process.GetCurrentProcess())
-            {
-                //工作集
-                var screenBounds = Screen.GetBounds(Point.Empty);
-                var screenArea = screenBounds.Width * screenBounds.Height;
-                var min = screenArea*4 + 1024 * 1024 * 5;
-                var max = min * 1.5f;
-                Debug.WriteLine("SetWorkingSet: min=" + min + "; max=" + (int)max);
-
-
-                Native.SetProcessWorkingSetSize(new IntPtr(proc.Id), min, (int)max);//按屏幕大小来预留工作集
-            }*/
-        }
-
-
+        
         private static void LoadFailSafeConfigFile()
         {
 #if Scafolding
             config = new PlistConfig(AppSettings.ConfigFilePath){FileVersion = AppSettings.ConfigFileVersion};
-
             intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
             return;
 #endif
@@ -253,10 +221,9 @@ namespace WGestures.App
             {
                 File.Copy(string.Format("{0}/defaults/gestures.wg", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
             }
-
-            //如果文件损坏，则替换。
+            
             try
-            {
+            { //如果文件损坏，则替换。
                 config = new PlistConfig(AppSettings.ConfigFilePath);
             }
             catch (Exception)
@@ -267,8 +234,7 @@ namespace WGestures.App
 
                 config = new PlistConfig(AppSettings.ConfigFilePath);
             }
-
-
+            
             try
             {
                 intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
@@ -288,7 +254,6 @@ namespace WGestures.App
 
                 intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
             }
-
         }
 
 
@@ -312,15 +277,11 @@ namespace WGestures.App
                 throw;
 #endif
             }
-
-
         }
 
         private static void ConfigureComponents()
         {
-
             #region Create Components
-
             intentFinder = new Win32GestrueIntentFinder(intentStore);
             var pathTracker = new Win32MousePathTracker2();
             gestureParser = new GestureParser(pathTracker, intentFinder);
@@ -341,10 +302,8 @@ namespace WGestures.App
             pathTracker.StayTimeoutMillis = config.Get(ConfigKeys.PathTrackerStayTimeoutMillis, 500);
             pathTracker.InitialStayTimeout = config.Get(ConfigKeys.PathTrackerInitialStayTimeout, true);
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
-
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
             pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
-
             #endregion
 
             #region gestureView
@@ -355,22 +314,17 @@ namespace WGestures.App
             gestureView.PathAlternativeColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewAlternativePathColor, gestureView.PathAlternativeColor.ToArgb()));
             gestureView.PathMiddleBtnMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMiddleBtnMainColor, gestureView.PathMiddleBtnMainColor.ToArgb()));
             #endregion
-
-
+            
             #region GestureParser
-
             gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
-
             #endregion
-
         }
 
         private static void ShowTrayIcon()
         {
-            trayIcon = CreateNotifyIcon();
-
-            EventHandler handleBalloon = (sender, args) =>
+                trayIcon = CreateNotifyIcon();
+                EventHandler handleBalloon = (sender, args) =>
                 {
                     var timer = new Timer { Interval = 1000 };
                     timer.Tick += (sender_1, args_1) =>
@@ -379,14 +333,12 @@ namespace WGestures.App
                         trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
                     };
                     timer.Start();
-                    
                 };
 
                 trayIcon.BalloonTipClosed += handleBalloon;
                 trayIcon.BalloonTipClicked += handleBalloon;
                 trayIcon.DoubleClick += (sender, args) => ShowSettings();
-
-
+            
                 if (isFirstRun)
                 {
                     trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单\n鼠标 左键+中键 随时暂停/继续手势", ToolTipIcon.Info);
@@ -398,12 +350,7 @@ namespace WGestures.App
                     {
                         trayIcon.ShowBalloonTip(3000, "WGestures后台运行中", "图标将自动隐藏。\n(按 Shift-左键-中键 切换显示/隐藏状态)", ToolTipIcon.Info);
                     }
-
-                    
                 }
-
-                //notifyIcon.Click += (sender, args) => menuItem_pause_Click(null, EventArgs.Empty);
-
                 //是否检查更新
                 if (!config.Get<bool?>(ConfigKeys.AutoCheckForUpdate).HasValue || config.Get<bool>(ConfigKeys.AutoCheckForUpdate))
                 {
@@ -448,18 +395,13 @@ namespace WGestures.App
         //仅在启动一段时间后检查一次更新，
         private static void ScheduledUpdateCheck(object sender, NotifyIcon tray)
         {
-
             if (!config.Get<bool>(ConfigKeys.AutoCheckForUpdate)) return;
-
-
+            
             var checker = new VersionChecker(AppSettings.CheckForUpdateUrl);
-
-
             checker.Finished += info =>
             {
                 var whatsNew = info.WhatsNew.Length > 50 ? info.WhatsNew.Substring(0, 50) : info.WhatsNew;
-
-
+                
                 if (info.Version != Application.ProductVersion)
                 {
                     tray.BalloonTipClicked += (o, args) =>
@@ -474,10 +416,6 @@ namespace WGestures.App
                     if (!tray.Visible)
                     {
                         tray.Visible = true;
-                        /*tray.BalloonTipClosed += (o, args) =>
-                        {
-                            tray.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
-                        };*/
                     }
                     
                     tray.ShowBalloonTip(1000 * 15, Application.ProductName + "新版本可用!", "版本:" + info.Version + "\n" + whatsNew, ToolTipIcon.Info);
@@ -488,8 +426,6 @@ namespace WGestures.App
 
                 GC.Collect();
             };
-
-
             checker.ErrorHappened += e =>
             {
                 Debug.WriteLine("Program.ScheduledUpdateCheck Error:" + e.Message);
@@ -514,12 +450,10 @@ namespace WGestures.App
             if(trayIcon.Visible)
             {
                 trayIcon.ShowBalloonTip(5000, "WGestures图标将隐藏", "(按 Shift + 左键 + 中键 恢复显示)",ToolTipIcon.Info);
-                //MessageBox.Show("WGestures图标已隐藏。\n您可按 Shift+左键+中键 恢复显示。", "WGestures", MessageBoxButtons.OK,MessageBoxIcon.Information);
-            }else
+             }else
             {
                 trayIcon.Visible = true;
             }
-
         }
 
         private static void ShowSettings()
@@ -537,13 +471,7 @@ namespace WGestures.App
                 settingsFormController.ShowDialog();
                 //using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.High;
             }
-
-            //settingsFormController.Dispose();
             settingsFormController = null;
-            //GC.Collect();
-
-            //Native.EmptyWorkingSet(Process.GetCurrentProcess().Handle);
-
         }
 
         //用配置信息去同步自启动
@@ -562,7 +490,6 @@ namespace WGestures.App
                 {
                     AutoStarter.Unregister(Constants.Identifier);
                 }
-
             }
             catch (Exception)
             {
@@ -570,23 +497,16 @@ namespace WGestures.App
                 throw;
 #endif
             }
-
         }
 
         private static void ShowQuickStartGuide()
         {
-
             var t = new Thread(() =>
             {
                 bool createdNew;
                 var mut = new Mutex(true, Constants.Identifier + "QuickStartGuideWindow", out createdNew);
                 if (!createdNew) return;
-
-                /*using (var proc = Process.GetCurrentProcess())
-                {
-                    //proc.PriorityClass = ProcessPriorityClass.Normal;
-                }*/
-
+                
                 using (var frm = new QuickStartGuideForm())
                 {
                     Application.Run(frm);
@@ -594,15 +514,10 @@ namespace WGestures.App
                 }
 
                 GC.Collect();
-
-                //using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.High;
-
             }) { IsBackground = true };
 
             t.SetApartmentState(ApartmentState.STA);
-
             t.Start();
-
         }
 
         private static NotifyIcon CreateNotifyIcon()
@@ -654,12 +569,10 @@ namespace WGestures.App
                 {
                     menuItem_pause.Text = string.Format("暂停 ({0}键 + 中键)", mouseSwapped ? "右" : "左");
                     notifyIcon.Icon = Resources.trayIcon;
-
                 }
             };
 
             return notifyIcon;
-
         }
 
         private static void Warning360Safe()
@@ -680,25 +593,19 @@ namespace WGestures.App
         {
             try
             {
-                SystemEvents.DisplaySettingsChanged -= SetWorkingSet;
-
                 foreach (var disposable in componentsToDispose)
                 {
                     if (disposable != null) disposable.Dispose();
                 }
 
                 componentsToDispose.Clear();
-
                 Resources.ResourceManager.ReleaseAllResources();
-
             }
             finally
             {
                 mutext.ReleaseMutex();
+                Environment.Exit(1);
             }
-
-
         }
     }
-
 }
