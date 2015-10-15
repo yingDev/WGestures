@@ -9,6 +9,8 @@ namespace WGestures.Core.Commands.Impl
     [Named("音量控制"),Serializable]
     public class ChangeAudioVolumeCommand : AbstractCommand, IGestureModifiersAware
     {
+        public int Delta { get; set; } = 1;
+
         public override void Execute()
         {
             try
@@ -41,17 +43,18 @@ namespace WGestures.Core.Commands.Impl
 
         public void ModifierTriggered(GestureModifier modifier)
         {
+            if (Delta < 1) Delta = 1;
             try
             {
                 switch (modifier)
                 {
                     case GestureModifier.WheelForward:
                         ReportStatus("+");
-                        5.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_UP));
+                        Delta.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_UP));
                         break;
                     case GestureModifier.WheelBackward:
                         ReportStatus("-");
-                        5.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_DOWN));
+                        Delta.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_DOWN));
                         break;
                     case GestureModifier.MiddleButtonDown:
                         ReportStatus("x");
