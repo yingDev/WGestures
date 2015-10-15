@@ -14,7 +14,7 @@ namespace WGestures.Core.Persistence.Impl.Windows
         {
         }
 
-        private Dictionary<uint, string> _procFileNameDict = new Dictionary<uint, string>(64);
+        //private Dictionary<uint, string> _procFileNameDict = new Dictionary<uint, string>(64);
 
         /// <summary>
         /// Native下以进程文件名为key查找。
@@ -33,11 +33,11 @@ namespace WGestures.Core.Persistence.Impl.Windows
             Debug.WriteLine("procId="+procId);
 
 
-            if (!_procFileNameDict.TryGetValue(procId, out str))
-            {
+            //if (!_procFileNameDict.TryGetValue(procId, out str))
+            //{
                 str = Native.GetProcessFile(procId);
-                _procFileNameDict[procId] = str;
-            }
+                //_procFileNameDict[procId] = str;
+           // }
 
             Debug.WriteLine("Image="+str);
             
