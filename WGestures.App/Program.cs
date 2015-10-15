@@ -46,9 +46,7 @@ namespace WGestures.App
         [STAThread]
         static void Main(string[] args)
         {
-#if DEBUG
             Debug.Listeners.Add(new DetailedConsoleListener());
-#endif
 
             if (IsDuplicateInstance())
             {
@@ -443,6 +441,7 @@ namespace WGestures.App
         {
             gestureParser.Stop();
             Application.ExitThread();
+            trayIcon.Dispose();
         }
         #endregion
 
