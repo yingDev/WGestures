@@ -116,8 +116,9 @@ namespace WGestures.App.Gui.Windows
             this.radio_corner_3 = new System.Windows.Forms.RadioButton();
             this.check_enableHotCorners = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.label12 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.picture_alipayCode = new System.Windows.Forms.PictureBox();
             this.tb_updateLog = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
@@ -171,6 +172,7 @@ namespace WGestures.App.Gui.Windows
             this.tab_hotCorners.SuspendLayout();
             this.panel_hotcornerSettings.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.flowLayoutPanel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture_alipayCode)).BeginInit();
             this.flowLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture_logo)).BeginInit();
@@ -193,7 +195,7 @@ namespace WGestures.App.Gui.Windows
             this.tabControl.HotTrack = true;
             this.tabControl.ItemSize = new System.Drawing.Size(250, 28);
             this.tabControl.Location = new System.Drawing.Point(10, 10);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(8);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.Padding = new System.Drawing.Point(20, 3);
@@ -239,10 +241,11 @@ namespace WGestures.App.Gui.Windows
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Location = new System.Drawing.Point(14, 132);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Size = new System.Drawing.Size(526, 290);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
@@ -254,7 +257,7 @@ namespace WGestures.App.Gui.Windows
             this.check_preferCursorWindow.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerPreferCursorWindow", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.check_preferCursorWindow.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_preferCursorWindow.Location = new System.Drawing.Point(298, 117);
-            this.check_preferCursorWindow.Margin = new System.Windows.Forms.Padding(2);
+            this.check_preferCursorWindow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_preferCursorWindow.Name = "check_preferCursorWindow";
             this.check_preferCursorWindow.Size = new System.Drawing.Size(177, 22);
             this.check_preferCursorWindow.TabIndex = 18;
@@ -268,7 +271,7 @@ namespace WGestures.App.Gui.Windows
             this.check_enable8DirGesture.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureParserEnable8DirGesture", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.check_enable8DirGesture.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_enable8DirGesture.Location = new System.Drawing.Point(298, 88);
-            this.check_enable8DirGesture.Margin = new System.Windows.Forms.Padding(2);
+            this.check_enable8DirGesture.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_enable8DirGesture.Name = "check_enable8DirGesture";
             this.check_enable8DirGesture.Size = new System.Drawing.Size(129, 22);
             this.check_enable8DirGesture.TabIndex = 17;
@@ -279,6 +282,7 @@ namespace WGestures.App.Gui.Windows
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label3.Location = new System.Drawing.Point(298, 59);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -298,7 +302,7 @@ namespace WGestures.App.Gui.Windows
             this.combo_GestureTriggerButton.FormattingEnabled = true;
             this.combo_GestureTriggerButton.ItemHeight = 17;
             this.combo_GestureTriggerButton.Location = new System.Drawing.Point(369, 57);
-            this.combo_GestureTriggerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.combo_GestureTriggerButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.combo_GestureTriggerButton.Name = "combo_GestureTriggerButton";
             this.combo_GestureTriggerButton.Size = new System.Drawing.Size(116, 25);
             this.combo_GestureTriggerButton.TabIndex = 15;
@@ -308,6 +312,7 @@ namespace WGestures.App.Gui.Windows
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label2.Location = new System.Drawing.Point(298, 32);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -324,7 +329,7 @@ namespace WGestures.App.Gui.Windows
             this.check_disableOnFullscreen.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_disableOnFullscreen.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_disableOnFullscreen.Location = new System.Drawing.Point(90, 117);
-            this.check_disableOnFullscreen.Margin = new System.Windows.Forms.Padding(2);
+            this.check_disableOnFullscreen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_disableOnFullscreen.Name = "check_disableOnFullscreen";
             this.check_disableOnFullscreen.Size = new System.Drawing.Size(141, 22);
             this.check_disableOnFullscreen.TabIndex = 12;
@@ -338,7 +343,7 @@ namespace WGestures.App.Gui.Windows
             this.check_pathTrackerInitialStayTimeout.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_pathTrackerInitialStayTimeout.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_pathTrackerInitialStayTimeout.Location = new System.Drawing.Point(90, 59);
-            this.check_pathTrackerInitialStayTimeout.Margin = new System.Windows.Forms.Padding(2);
+            this.check_pathTrackerInitialStayTimeout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_pathTrackerInitialStayTimeout.Name = "check_pathTrackerInitialStayTimeout";
             this.check_pathTrackerInitialStayTimeout.Size = new System.Drawing.Size(117, 22);
             this.check_pathTrackerInitialStayTimeout.TabIndex = 10;
@@ -349,6 +354,7 @@ namespace WGestures.App.Gui.Windows
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label9.Location = new System.Drawing.Point(90, 190);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -364,7 +370,7 @@ namespace WGestures.App.Gui.Windows
             this.checkGestureView_fadeOut.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkGestureView_fadeOut.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkGestureView_fadeOut.Location = new System.Drawing.Point(270, 162);
-            this.checkGestureView_fadeOut.Margin = new System.Windows.Forms.Padding(2);
+            this.checkGestureView_fadeOut.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkGestureView_fadeOut.Name = "checkGestureView_fadeOut";
             this.checkGestureView_fadeOut.Size = new System.Drawing.Size(93, 22);
             this.checkGestureView_fadeOut.TabIndex = 1;
@@ -379,7 +385,7 @@ namespace WGestures.App.Gui.Windows
             this.checkGestureViewShowCommandName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkGestureViewShowCommandName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkGestureViewShowCommandName.Location = new System.Drawing.Point(170, 162);
-            this.checkGestureViewShowCommandName.Margin = new System.Windows.Forms.Padding(2);
+            this.checkGestureViewShowCommandName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkGestureViewShowCommandName.Name = "checkGestureViewShowCommandName";
             this.checkGestureViewShowCommandName.Size = new System.Drawing.Size(81, 22);
             this.checkGestureViewShowCommandName.TabIndex = 1;
@@ -393,7 +399,7 @@ namespace WGestures.App.Gui.Windows
             this.checkPathTrackerStayTimeout.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkPathTrackerStayTimeout.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkPathTrackerStayTimeout.Location = new System.Drawing.Point(90, 88);
-            this.checkPathTrackerStayTimeout.Margin = new System.Windows.Forms.Padding(2);
+            this.checkPathTrackerStayTimeout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkPathTrackerStayTimeout.Name = "checkPathTrackerStayTimeout";
             this.checkPathTrackerStayTimeout.Size = new System.Drawing.Size(117, 22);
             this.checkPathTrackerStayTimeout.TabIndex = 0;
@@ -408,7 +414,7 @@ namespace WGestures.App.Gui.Windows
             this.checkGestureViewShowPath.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkGestureViewShowPath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkGestureViewShowPath.Location = new System.Drawing.Point(90, 162);
-            this.checkGestureViewShowPath.Margin = new System.Windows.Forms.Padding(2);
+            this.checkGestureViewShowPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkGestureViewShowPath.Name = "checkGestureViewShowPath";
             this.checkGestureViewShowPath.Size = new System.Drawing.Size(57, 22);
             this.checkGestureViewShowPath.TabIndex = 0;
@@ -431,6 +437,7 @@ namespace WGestures.App.Gui.Windows
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label5.Location = new System.Drawing.Point(26, 32);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -443,6 +450,7 @@ namespace WGestures.App.Gui.Windows
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label1.Location = new System.Drawing.Point(26, 162);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -458,10 +466,11 @@ namespace WGestures.App.Gui.Windows
             this.groupBox1.Controls.Add(this.check_autoStart);
             this.groupBox1.Controls.Add(this.btn_checkUpdateNow);
             this.groupBox1.Controls.Add(this.check_autoCheckUpdate);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox1.Location = new System.Drawing.Point(14, 20);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Size = new System.Drawing.Size(526, 94);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
@@ -472,7 +481,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel3.Controls.Add(this.label4);
             this.flowLayoutPanel3.Controls.Add(this.lb_Version);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(232, 54);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(278, 26);
             this.flowLayoutPanel3.TabIndex = 5;
@@ -480,6 +489,7 @@ namespace WGestures.App.Gui.Windows
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label4.ForeColor = System.Drawing.Color.DarkGray;
             this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label4.Location = new System.Drawing.Point(2, 6);
@@ -492,6 +502,7 @@ namespace WGestures.App.Gui.Windows
             // lb_Version
             // 
             this.lb_Version.AutoSize = true;
+            this.lb_Version.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lb_Version.ForeColor = System.Drawing.Color.DarkGray;
             this.lb_Version.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.lb_Version.Location = new System.Drawing.Point(65, 6);
@@ -508,7 +519,7 @@ namespace WGestures.App.Gui.Windows
             this.check_autoStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_autoStart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_autoStart.Location = new System.Drawing.Point(30, 30);
-            this.check_autoStart.Margin = new System.Windows.Forms.Padding(2);
+            this.check_autoStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_autoStart.Name = "check_autoStart";
             this.check_autoStart.Size = new System.Drawing.Size(105, 22);
             this.check_autoStart.TabIndex = 0;
@@ -521,7 +532,7 @@ namespace WGestures.App.Gui.Windows
             this.btn_checkUpdateNow.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btn_checkUpdateNow.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btn_checkUpdateNow.Location = new System.Drawing.Point(130, 54);
-            this.btn_checkUpdateNow.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_checkUpdateNow.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_checkUpdateNow.Name = "btn_checkUpdateNow";
             this.btn_checkUpdateNow.Size = new System.Drawing.Size(74, 26);
             this.btn_checkUpdateNow.TabIndex = 2;
@@ -536,7 +547,7 @@ namespace WGestures.App.Gui.Windows
             this.check_autoCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_autoCheckUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_autoCheckUpdate.Location = new System.Drawing.Point(30, 58);
-            this.check_autoCheckUpdate.Margin = new System.Windows.Forms.Padding(2);
+            this.check_autoCheckUpdate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_autoCheckUpdate.Name = "check_autoCheckUpdate";
             this.check_autoCheckUpdate.Size = new System.Drawing.Size(105, 22);
             this.check_autoCheckUpdate.TabIndex = 1;
@@ -569,7 +580,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel2.Controls.Add(this.group_Command);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(190, 18);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(359, 448);
             this.flowLayoutPanel2.TabIndex = 6;
@@ -613,7 +624,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(229, 26);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(219, 26);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // check_gesturingDisabled
@@ -649,14 +660,14 @@ namespace WGestures.App.Gui.Windows
             this.labelAppName.AutoEllipsis = true;
             this.labelAppName.AutoSize = true;
             this.labelAppName.BackColor = System.Drawing.Color.White;
-            this.labelAppName.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.labelAppName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelAppName.ForeColor = System.Drawing.Color.Black;
             this.labelAppName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelAppName.Location = new System.Drawing.Point(83, 2);
             this.labelAppName.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.labelAppName.MaximumSize = new System.Drawing.Size(90, 18);
             this.labelAppName.Name = "labelAppName";
-            this.labelAppName.Size = new System.Drawing.Size(90, 17);
+            this.labelAppName.Size = new System.Drawing.Size(80, 18);
             this.labelAppName.TabIndex = 1;
             this.labelAppName.Text = "文件管理器阿不都第三方斯蒂芬李双江的方式";
             this.labelAppName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -665,9 +676,10 @@ namespace WGestures.App.Gui.Windows
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.White;
+            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(173, 2);
+            this.label7.Location = new System.Drawing.Point(163, 2);
             this.label7.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(56, 17);
@@ -700,7 +712,7 @@ namespace WGestures.App.Gui.Windows
             this.group_Command.Location = new System.Drawing.Point(10, 228);
             this.group_Command.Margin = new System.Windows.Forms.Padding(10, 10, 2, 2);
             this.group_Command.Name = "group_Command";
-            this.group_Command.Padding = new System.Windows.Forms.Padding(2);
+            this.group_Command.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.group_Command.Size = new System.Drawing.Size(340, 218);
             this.group_Command.TabIndex = 10;
             this.group_Command.TabStop = false;
@@ -713,7 +725,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel6.Controls.Add(this.lineLabel1);
             this.flowLayoutPanel6.Controls.Add(this.panel_commandView);
             this.flowLayoutPanel6.Location = new System.Drawing.Point(4, 18);
-            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
             this.flowLayoutPanel6.Size = new System.Drawing.Size(332, 194);
             this.flowLayoutPanel6.TabIndex = 4;
@@ -731,6 +743,7 @@ namespace WGestures.App.Gui.Windows
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label8.Location = new System.Drawing.Point(2, 7);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -747,7 +760,7 @@ namespace WGestures.App.Gui.Windows
             this.combo_CommandTypes.FormattingEnabled = true;
             this.combo_CommandTypes.ItemHeight = 17;
             this.combo_CommandTypes.Location = new System.Drawing.Point(66, 4);
-            this.combo_CommandTypes.Margin = new System.Windows.Forms.Padding(2);
+            this.combo_CommandTypes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.combo_CommandTypes.Name = "combo_CommandTypes";
             this.combo_CommandTypes.Size = new System.Drawing.Size(260, 25);
             this.combo_CommandTypes.TabIndex = 0;
@@ -791,7 +804,7 @@ namespace WGestures.App.Gui.Windows
             this.tab_hotCorners.Controls.Add(this.panel_hotcornerSettings);
             this.tab_hotCorners.Controls.Add(this.check_enableHotCorners);
             this.tab_hotCorners.Location = new System.Drawing.Point(4, 32);
-            this.tab_hotCorners.Margin = new System.Windows.Forms.Padding(2);
+            this.tab_hotCorners.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tab_hotCorners.Name = "tab_hotCorners";
             this.tab_hotCorners.Size = new System.Drawing.Size(550, 468);
             this.tab_hotCorners.TabIndex = 3;
@@ -811,7 +824,7 @@ namespace WGestures.App.Gui.Windows
             this.panel_hotcornerSettings.Controls.Add(this.radio_corner_3);
             this.panel_hotcornerSettings.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.settingsFormControllerBindingSource, "GestureParserEnableHotCorners", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.panel_hotcornerSettings.Location = new System.Drawing.Point(14, 46);
-            this.panel_hotcornerSettings.Margin = new System.Windows.Forms.Padding(2);
+            this.panel_hotcornerSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel_hotcornerSettings.Name = "panel_hotcornerSettings";
             this.panel_hotcornerSettings.Size = new System.Drawing.Size(522, 418);
             this.panel_hotcornerSettings.TabIndex = 10;
@@ -825,7 +838,7 @@ namespace WGestures.App.Gui.Windows
             this.radio_corner_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.radio_corner_1.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.radio_corner_1.Location = new System.Drawing.Point(70, 14);
-            this.radio_corner_1.Margin = new System.Windows.Forms.Padding(2);
+            this.radio_corner_1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radio_corner_1.Name = "radio_corner_1";
             this.radio_corner_1.Size = new System.Drawing.Size(120, 26);
             this.radio_corner_1.TabIndex = 7;
@@ -839,6 +852,7 @@ namespace WGestures.App.Gui.Windows
             // label11
             // 
             this.label11.AutoSize = true;
+            this.label11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label11.Location = new System.Drawing.Point(70, 186);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
@@ -852,7 +866,7 @@ namespace WGestures.App.Gui.Windows
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.ForeColor = System.Drawing.Color.AliceBlue;
             this.panel2.Location = new System.Drawing.Point(196, 14);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(140, 132);
             this.panel2.TabIndex = 1;
@@ -863,7 +877,7 @@ namespace WGestures.App.Gui.Windows
             this.combo_hotcornerCmdTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.combo_hotcornerCmdTypes.FormattingEnabled = true;
             this.combo_hotcornerCmdTypes.Location = new System.Drawing.Point(130, 183);
-            this.combo_hotcornerCmdTypes.Margin = new System.Windows.Forms.Padding(2);
+            this.combo_hotcornerCmdTypes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.combo_hotcornerCmdTypes.Name = "combo_hotcornerCmdTypes";
             this.combo_hotcornerCmdTypes.Size = new System.Drawing.Size(122, 25);
             this.combo_hotcornerCmdTypes.TabIndex = 8;
@@ -875,7 +889,7 @@ namespace WGestures.App.Gui.Windows
             this.panel_cornorCmdView.BackColor = System.Drawing.Color.Transparent;
             this.panel_cornorCmdView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_cornorCmdView.Location = new System.Drawing.Point(70, 214);
-            this.panel_cornorCmdView.Margin = new System.Windows.Forms.Padding(2);
+            this.panel_cornorCmdView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel_cornorCmdView.Name = "panel_cornorCmdView";
             this.panel_cornorCmdView.Size = new System.Drawing.Size(392, 194);
             this.panel_cornorCmdView.TabIndex = 6;
@@ -889,7 +903,7 @@ namespace WGestures.App.Gui.Windows
             this.radio_corner_0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.radio_corner_0.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.radio_corner_0.Location = new System.Drawing.Point(70, 118);
-            this.radio_corner_0.Margin = new System.Windows.Forms.Padding(2);
+            this.radio_corner_0.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radio_corner_0.Name = "radio_corner_0";
             this.radio_corner_0.Size = new System.Drawing.Size(120, 26);
             this.radio_corner_0.TabIndex = 7;
@@ -909,7 +923,7 @@ namespace WGestures.App.Gui.Windows
             this.radio_corner_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.radio_corner_2.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.radio_corner_2.Location = new System.Drawing.Point(342, 14);
-            this.radio_corner_2.Margin = new System.Windows.Forms.Padding(2);
+            this.radio_corner_2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radio_corner_2.Name = "radio_corner_2";
             this.radio_corner_2.Size = new System.Drawing.Size(120, 26);
             this.radio_corner_2.TabIndex = 7;
@@ -929,7 +943,7 @@ namespace WGestures.App.Gui.Windows
             this.radio_corner_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.radio_corner_3.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.radio_corner_3.Location = new System.Drawing.Point(342, 118);
-            this.radio_corner_3.Margin = new System.Windows.Forms.Padding(2);
+            this.radio_corner_3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.radio_corner_3.Name = "radio_corner_3";
             this.radio_corner_3.Size = new System.Drawing.Size(120, 26);
             this.radio_corner_3.TabIndex = 7;
@@ -946,7 +960,7 @@ namespace WGestures.App.Gui.Windows
             this.check_enableHotCorners.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureParserEnableHotCorners", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.check_enableHotCorners.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_enableHotCorners.Location = new System.Drawing.Point(14, 20);
-            this.check_enableHotCorners.Margin = new System.Windows.Forms.Padding(2);
+            this.check_enableHotCorners.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.check_enableHotCorners.Name = "check_enableHotCorners";
             this.check_enableHotCorners.Size = new System.Drawing.Size(93, 22);
             this.check_enableHotCorners.TabIndex = 0;
@@ -955,14 +969,12 @@ namespace WGestures.App.Gui.Windows
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label10);
-            this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Controls.Add(this.picture_alipayCode);
+            this.tabPage1.Controls.Add(this.flowLayoutPanel7);
             this.tabPage1.Controls.Add(this.tb_updateLog);
             this.tabPage1.Controls.Add(this.flowLayoutPanel5);
             this.tabPage1.Controls.Add(this.picture_logo);
             this.tabPage1.Location = new System.Drawing.Point(4, 32);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(550, 468);
             this.tabPage1.TabIndex = 2;
@@ -970,37 +982,53 @@ namespace WGestures.App.Gui.Windows
             this.tabPage1.Text = "关 于";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // flowLayoutPanel7
             // 
-            this.label10.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label10.Location = new System.Drawing.Point(240, 214);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(186, 22);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "支付宝钱包扫码";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.flowLayoutPanel7.Controls.Add(this.label12);
+            this.flowLayoutPanel7.Controls.Add(this.label10);
+            this.flowLayoutPanel7.Controls.Add(this.picture_alipayCode);
+            this.flowLayoutPanel7.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(127, 186);
+            this.flowLayoutPanel7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel7.Name = "flowLayoutPanel7";
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(410, 294);
+            this.flowLayoutPanel7.TabIndex = 7;
             // 
             // label12
             // 
+            this.label12.AutoSize = true;
+            this.label12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(127, 182);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Location = new System.Drawing.Point(2, 2);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(410, 33);
+            this.label12.Size = new System.Drawing.Size(383, 17);
             this.label12.TabIndex = 6;
-            this.label12.Text = "若WGestures对您有用，请考虑捐助支持该项目，以帮助我做得更好";
+            this.label12.Text = "若WGestures对您有用，可以考虑捐助支持该项目，以帮助我做得更好";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label10.ForeColor = System.Drawing.Color.OrangeRed;
+            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label10.Location = new System.Drawing.Point(2, 23);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(92, 17);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "支付宝钱包扫码";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // picture_alipayCode
             // 
             this.picture_alipayCode.Image = global::WGestures.App.Properties.Resources.alipay;
             this.picture_alipayCode.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.picture_alipayCode.Location = new System.Drawing.Point(216, 244);
-            this.picture_alipayCode.Margin = new System.Windows.Forms.Padding(2);
+            this.picture_alipayCode.Location = new System.Drawing.Point(2, 44);
+            this.picture_alipayCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.picture_alipayCode.Name = "picture_alipayCode";
-            this.picture_alipayCode.Size = new System.Drawing.Size(232, 218);
+            this.picture_alipayCode.Size = new System.Drawing.Size(223, 218);
             this.picture_alipayCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picture_alipayCode.TabIndex = 4;
             this.picture_alipayCode.TabStop = false;
@@ -1009,7 +1037,7 @@ namespace WGestures.App.Gui.Windows
             // 
             this.tb_updateLog.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.tb_updateLog.Location = new System.Drawing.Point(127, 22);
-            this.tb_updateLog.Margin = new System.Windows.Forms.Padding(2);
+            this.tb_updateLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tb_updateLog.Multiline = true;
             this.tb_updateLog.Name = "tb_updateLog";
             this.tb_updateLog.ReadOnly = true;
@@ -1019,23 +1047,25 @@ namespace WGestures.App.Gui.Windows
             // 
             // flowLayoutPanel5
             // 
+            this.flowLayoutPanel5.AutoSize = true;
             this.flowLayoutPanel5.Controls.Add(this.linkLabel1);
             this.flowLayoutPanel5.Controls.Add(this.linkLabel2);
             this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel5.Location = new System.Drawing.Point(10, 126);
-            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(106, 82);
             this.flowLayoutPanel5.TabIndex = 2;
             // 
             // linkLabel1
             // 
+            this.linkLabel1.AutoSize = true;
             this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.linkLabel1.LinkColor = System.Drawing.Color.DodgerBlue;
             this.linkLabel1.Location = new System.Drawing.Point(2, 0);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 8);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(104, 18);
+            this.linkLabel1.Size = new System.Drawing.Size(56, 17);
             this.linkLabel1.TabIndex = 1;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "项目主页";
@@ -1044,12 +1074,13 @@ namespace WGestures.App.Gui.Windows
             // 
             // linkLabel2
             // 
+            this.linkLabel2.AutoSize = true;
             this.linkLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.linkLabel2.LinkColor = System.Drawing.Color.DodgerBlue;
-            this.linkLabel2.Location = new System.Drawing.Point(2, 26);
+            this.linkLabel2.Location = new System.Drawing.Point(2, 25);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 8);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(104, 18);
+            this.linkLabel2.Size = new System.Drawing.Size(56, 17);
             this.linkLabel2.TabIndex = 1;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "作者邮箱";
@@ -1061,7 +1092,7 @@ namespace WGestures.App.Gui.Windows
             this.picture_logo.Image = global::WGestures.App.Properties.Resources._128;
             this.picture_logo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.picture_logo.Location = new System.Drawing.Point(10, 22);
-            this.picture_logo.Margin = new System.Windows.Forms.Padding(2);
+            this.picture_logo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.picture_logo.Name = "picture_logo";
             this.picture_logo.Size = new System.Drawing.Size(106, 98);
             this.picture_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1103,7 +1134,7 @@ namespace WGestures.App.Gui.Windows
             this.pic_menuBtn.Image = global::WGestures.App.Properties.Resources.menuBtn;
             this.pic_menuBtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.pic_menuBtn.Location = new System.Drawing.Point(542, 10);
-            this.pic_menuBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.pic_menuBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pic_menuBtn.Name = "pic_menuBtn";
             this.pic_menuBtn.Size = new System.Drawing.Size(24, 24);
             this.pic_menuBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1489,13 +1520,13 @@ namespace WGestures.App.Gui.Windows
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(578, 478);
+            this.ClientSize = new System.Drawing.Size(578, 438);
             this.Controls.Add(this.pic_menuBtn);
             this.Controls.Add(this.flowLayoutPanel4);
             this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1531,8 +1562,11 @@ namespace WGestures.App.Gui.Windows
             this.panel_hotcornerSettings.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.flowLayoutPanel7.ResumeLayout(false);
+            this.flowLayoutPanel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture_alipayCode)).EndInit();
             this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picture_logo)).EndInit();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
@@ -1643,5 +1677,6 @@ namespace WGestures.App.Gui.Windows
         private ComboBox combo_hotcornerCmdTypes;
         private Label label11;
         private Panel panel_hotcornerSettings;
+        private FlowLayoutPanel flowLayoutPanel7;
     }
 }
