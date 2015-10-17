@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace WGestures.Core.Commands.Impl
 {
     [Named("Lua脚本"), Serializable, JsonObject(MemberSerialization.OptIn)]
-    public class ScriptCommand : AbstractCommand, IGestureModifiersAware, INeedInit
+    public class ScriptCommand : AbstractCommand, IGestureModifiersAware, INeedInit, IGestureContextAware
     {
         Lua _state;
         string _initScript;
@@ -48,6 +48,8 @@ namespace WGestures.Core.Commands.Impl
 
         //INeedInit
         public bool IsInitialized { get; private set; }
+
+        public GestureContext Context{set; get;}
 
         public void Init()
         {
@@ -130,6 +132,7 @@ namespace WGestures.Core.Commands.Impl
 
         private object[] DoString(string script, string name)
         {
+            _state["Context"] = this.Context;
             try
             {
                 return _state.DoString(script, name);
