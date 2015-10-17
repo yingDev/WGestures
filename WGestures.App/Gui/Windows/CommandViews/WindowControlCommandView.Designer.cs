@@ -35,10 +35,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(3);
+            this.label1.Location = new System.Drawing.Point(4, 6);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "窗口操作";
             // 
@@ -49,23 +49,24 @@
             this.combo_operation.Items.AddRange(new object[] {
             "最大化/复原",
             "最小化",
-            "关闭"});
-            this.combo_operation.Location = new System.Drawing.Point(62, 2);
-            this.combo_operation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            "关闭",
+            "置顶/取消置顶"});
+            this.combo_operation.Location = new System.Drawing.Point(83, 2);
+            this.combo_operation.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.combo_operation.Name = "combo_operation";
-            this.combo_operation.Size = new System.Drawing.Size(121, 20);
+            this.combo_operation.Size = new System.Drawing.Size(160, 23);
             this.combo_operation.TabIndex = 1;
             this.combo_operation.SelectedIndexChanged += new System.EventHandler(this.combo_operation_SelectedIndexChanged);
             // 
             // WindowControlCommandView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.combo_operation);
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "WindowControlCommandView";
-            this.Size = new System.Drawing.Size(186, 24);
+            this.Size = new System.Drawing.Size(247, 27);
             this.ResumeLayout(false);
             this.PerformLayout();
 

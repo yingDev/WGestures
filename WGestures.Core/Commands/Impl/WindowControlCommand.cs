@@ -18,7 +18,7 @@ namespace WGestures.Core.Commands.Impl
     {
         public enum WindowOperation
         {
-            MAXIMIZE_RESTORE = 0, MINIMIZE, CLOSE, DOCK_LEFT, DOCK_RIGHT
+            MAXIMIZE_RESTORE = 0, MINIMIZE, CLOSE, TOP_MOST, DOCK_LEFT, DOCK_RIGHT
         }
 
         public WindowOperation ChangeWindowStateTo { get; set; }
@@ -45,6 +45,7 @@ namespace WGestures.Core.Commands.Impl
                 Debug.WriteLine(string.Format("root    : {0:X}",rootWin.ToInt64()));
                 Debug.WriteLine(string.Format("topLevel: {0:X}", topLevelWin.ToInt64()));
 
+                var rootWinExStyle = User32.GetWindowLong(rootWin, User32.GWL.GWL_EXSTYLE);
                 var rootWinStyle = User32.GetWindowLong(rootWin, User32.GWL.GWL_STYLE);
                 var topLevelWinstyle = User32.GetWindowLong(topLevelWin, User32.GWL.GWL_STYLE);
 
@@ -98,6 +99,19 @@ namespace WGestures.Core.Commands.Impl
                     case WindowOperation.CLOSE:
                         User32.PostMessage(rootWin, User32.WM.WM_SYSCOMMAND, (int) User32.SysCommands.SC_CLOSE, 0);
                         goto end;
+
+                    case WindowOperation.TOP_MOST:
+
+                        if ((rootWinExStyle & (int)User32.WS_EX.WS_EX_TOPMOST) != 0)
+                        {
+                            User32.SetWindowPos(rootWin, new IntPtr(-2), 0, 0, 0, 0, User32.SWP.SWP_NOMOVE | User32.SWP.SWP_NOSIZE);
+                        }
+                        else
+                        {
+                            User32.SetWindowPos(rootWin, new IntPtr(-1), 0, 0, 0, 0, User32.SWP.SWP_NOMOVE | User32.SWP.SWP_NOSIZE);
+                        }
+                        
+                        goto end;
                 }
                 break;
             }
@@ -120,6 +134,8 @@ namespace WGestures.Core.Commands.Impl
                     return "左停靠";
                 case WindowOperation.DOCK_RIGHT:
                     return "右停靠";
+                case WindowOperation.TOP_MOST:
+                    return "窗口置顶";
                 default:
                     return "关闭窗口";
             }
