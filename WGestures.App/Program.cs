@@ -177,12 +177,16 @@ namespace WGestures.App
 
             if (isFirstRun)
             {
+                //默认值
+                config.Set(ConfigKeys.GestureParserEnableHotCorners, true);
+
                 ImportPrevousVersion();
 
+                //强制值
                 config.Set(ConfigKeys.IsFirstRun, false);
                 config.Set(ConfigKeys.AutoCheckForUpdate, true);
                 config.Set(ConfigKeys.AutoStart, true);
-                config.Set(ConfigKeys.GestureParserEnableHotCorners, true);
+                
                 config.Save();
             
                 ShowQuickStartGuide();
