@@ -201,7 +201,7 @@ namespace WGestures.Core.Impl.Windows
             
 
             EffectiveMove = (int)(10 * dpiFactor) * 2;//todo: 增加灵敏度调整
-            StepSize = (int) (2*dpiFactor);// EffectiveMove/8;
+            StepSize = EffectiveMove;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
