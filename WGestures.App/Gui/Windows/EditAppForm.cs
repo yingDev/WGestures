@@ -95,7 +95,7 @@ namespace WGestures.App.Gui.Windows
             var win = Native.GetHoveringWindow();
             var rootWin = Native.GetAncestor(win, Native.GetAncestorFlags.GetRoot);
 
-            var procId = Native.GetProcessIdByWindowHandle(rootWin);
+            var procId = Native.GetProcessIdByWindowHandle(win);
             Debug.WriteLine("Selected Proc: " + procId);
             
             //var parentPid = Native.GetParentProcess(procId);
