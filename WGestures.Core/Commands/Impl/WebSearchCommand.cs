@@ -14,6 +14,7 @@ using WindowsInput.Native;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using Timer = System.Windows.Forms.Timer;
+using Microsoft.Win32;
 
 namespace WGestures.Core.Commands.Impl
 {
@@ -84,7 +85,7 @@ namespace WGestures.Core.Commands.Impl
                     var text = "";
                     if (Clipboard.ContainsText() && (text = Clipboard.GetText().Trim()).Length > 0)
                     {
-                        var browser = "explorer.exe";
+                        var browser = GetDefaultBrowserPath();
                         if (UseBrowser != null && File.Exists(UseBrowser.Replace("\"", "")) )
                         {
                             browser = UseBrowser;
@@ -141,6 +142,45 @@ namespace WGestures.Core.Commands.Impl
         public override string Description()
         {
             return ((SearchEngingName ?? "Web") + "搜索");
+        }
+
+        private static string GetDefaultBrowserPath()
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice"))
+            {
+                var progId = key.GetValue("Progid", null);
+
+                if(progId != null)
+                {
+                    const string exeSuffix = ".exe";
+
+                    using (var pathKey = Registry.ClassesRoot.OpenSubKey(progId + @"\shell\open\command"))
+                    {
+                        if (pathKey != null)
+                        {
+                            // Trim parameters.
+                            try
+                            {
+                                var path = pathKey.GetValue(null).ToString().ToLower().Replace("\"", "");
+                                if (!path.EndsWith(exeSuffix))
+                                {
+                                    path = path.Substring(0, path.LastIndexOf(exeSuffix, StringComparison.Ordinal) + exeSuffix.Length);
+
+                                    return path;
+                                }
+                            }
+                            catch
+                            {
+                                // Assume the registry value is set incorrectly, or some funky browser is used which currently is unknown.
+                            }
+                        }
+
+                       
+                    }
+                }
+            }
+
+            return "explorer.exe";
         }
 
 
