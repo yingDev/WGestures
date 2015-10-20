@@ -10,7 +10,7 @@ namespace WGestures.Core.Commands.Impl
     [Named("命令行"),Serializable]
     public class CmdCommand : Commands.AbstractCommand
     {
-        private readonly static string explorerPath = Environment.GetEnvironmentVariable("windir") + Path.DirectorySeparatorChar + "explorer.exe";
+        private readonly static string explorerPath = Environment.GetEnvironmentVariable("windir").ToLower() + Path.DirectorySeparatorChar + "explorer.exe";
 
 
         public string Code { get; set; }
@@ -41,7 +41,7 @@ namespace WGestures.Core.Commands.Impl
                     {
                         var exe = Native.GetProcessFile(Native.GetActiveProcessId());
 
-                        if (exe == explorerPath)
+                        if (exe != null && exe.ToLower() == explorerPath)
                         {
                             workingDir = GetExplorerCurrentPath() ?? workingDir;
 
@@ -70,8 +70,7 @@ namespace WGestures.Core.Commands.Impl
         private static string GetExplorerCurrentPath()
         {
             string path = null;
-
-            //TODO: ReleaseCom
+            
             var shellWindows = new SHDocVw.ShellWindows();
 
             try
