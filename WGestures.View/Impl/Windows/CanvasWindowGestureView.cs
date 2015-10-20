@@ -181,7 +181,7 @@ namespace WGestures.View.Impl.Windows
             _shadowPens = new Pen[SHADOW_COUNT];
             for (var i=0; i< SHADOW_COUNT; i++)
             {
-                _shadowPens[i] = new Pen(Color.FromArgb((int)(6 * (SHADOW_COUNT - i)), 255, 255,255), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+                _shadowPens[i] = new Pen(Color.FromArgb((int)(1.5f*(SHADOW_COUNT - i)), 0, 0,0), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
 
             }
             
