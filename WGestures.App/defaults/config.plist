@@ -5,7 +5,7 @@
     <key>$$FileVersion</key>
     <string>1</string>
     <key>IsFirstRun</key>
-    <true />
+    <false />
     <key>AutoCheckForUpdate</key>
     <true />
     <key>AutoStart</key>
@@ -17,9 +17,9 @@
     <key>PathTrackerInitialStayTimoutMillis</key>
     <integer>200</integer>
     <key>GestureViewMainPathColor</key>
-    <integer>-14165512</integer>
+    <integer>-16265487</integer>
     <key>GestureViewMiddleBtnMainColor</key>
-    <integer>-13771520</integer>
+    <integer>-14103552</integer>
     <key>GestureViewAlternativePathColor</key>
     <integer>-60646</integer>
     <key>GestureViewShowPath</key>
@@ -29,6 +29,10 @@
     <key>GestureViewShowCommandName</key>
     <true />
     <key>TrayIconVisible</key>
+    <true />
+    <key>GestureParserEnableHotCorners</key>
+    <true />
+    <key>PathTrackerPreferCursorWindow</key>
     <true />
   </dict>
 </plist>
