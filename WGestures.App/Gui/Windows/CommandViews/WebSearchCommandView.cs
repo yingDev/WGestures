@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using WGestures.Common.OsSpecific.Windows.FileAssoc;
 using WGestures.Core.Commands;
 using WGestures.Core.Commands.Impl;
 
@@ -123,12 +122,25 @@ namespace WGestures.App.Gui.Windows.CommandViews
                 var lst = new List<Browser>();
                 lst.Add(new Browser { Name = "(系统默认)" });
 
-                using (var assocs = new Associations<ProtocolAssociations>("http"))
+
+                RegistryKey browserKeys;
+                //on 64bit the browsers are in a different location
+                browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Clients\StartMenuInternet");
+                if (browserKeys == null)
+                    browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet");
+
+                string[] browserNames = browserKeys.GetSubKeyNames();
+
+                for (int i = 0; i < browserNames.Length; i++)
                 {
-                    foreach (AssocHandler handler in assocs)
-                    {
-                        lst.Add(new Browser { Name = handler.GetUIName, Path = handler.GetName });
-                    }
+                    Browser browser = new Browser();
+                    RegistryKey browserKey = browserKeys.OpenSubKey(browserNames[i]);
+                    browser.Name = (string)browserKey.GetValue(null);
+                    RegistryKey browserKeyPath = browserKey.OpenSubKey(@"shell\open\command");
+                    browser.Path = (string)browserKeyPath.GetValue(null);
+                    RegistryKey browserIconPath = browserKey.OpenSubKey(@"DefaultIcon");
+                    //browser.IconPath = (string)browserIconPath.GetValue(null);
+                    lst.Add(browser);
                 }
 
 #if DEBUG
