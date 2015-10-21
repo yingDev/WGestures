@@ -13,17 +13,7 @@ namespace WGestures.View.Impl.Windows
 {
     public class CanvasWindowGestureView : IDisposable
     {
-        //TODO: 封装成通用的结构？
-        interface IDrawLayer
-        {
-            Region GetDirty();
-            
-            void Draw(Graphics g);
-            
-        }
-
         #region properties
-
         public Color PathMainColor
         {
             get { return _mainPen.Color; }
@@ -89,14 +79,11 @@ namespace WGestures.View.Impl.Windows
         Pen[] _shadowPens;
         Pen _dirtyMarkerPen;
         Point _prevPoint;
-        //Rectangle _pathDirtyRect;
-        //Region _pathDirtyRegion = new Region();
         private GraphicsPath _gPath = new GraphicsPath();
         private GraphicsPath _gPathDirty = new GraphicsPath();
         Pen _pathPen;
         bool _pathVisible;
-
-
+        
         readonly GestureParser _gestureParser;
 
         Rectangle _screenBounds = Native.GetScreenBounds();
@@ -181,8 +168,7 @@ namespace WGestures.View.Impl.Windows
             _shadowPens = new Pen[SHADOW_COUNT];
             for (var i=0; i< SHADOW_COUNT; i++)
             {
-                _shadowPens[i] = new Pen(Color.FromArgb((int)(6 * (SHADOW_COUNT - i)), 255, 255,255), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-
+                _shadowPens[i] = new Pen(Color.FromArgb((int)((SHADOW_COUNT - i)), 0, 0,0), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             }
             
             _shadowPenWidth = _shadowPens[SHADOW_COUNT -  1].Width;
@@ -196,7 +182,7 @@ namespace WGestures.View.Impl.Windows
         private void HandlePathStart(PathEventArgs args)
         {
             if (!ShowPath && !ShowCommandName) return;
-
+            
             Debug.WriteLine("WhenPathStart");
 
             _screenBounds = Screen.ScreenBoundsFromPoint(args.Location);//Screen.FromPoint(args.Location);
@@ -214,7 +200,6 @@ namespace WGestures.View.Impl.Windows
 
         private void HandlePathGrow(PathEventArgs args)
         {
-
             if (!ShowPath && !ShowCommandName) return;
             if (_pointCount > _pathMaxPointCount) return;
 
@@ -231,10 +216,10 @@ namespace WGestures.View.Impl.Windows
                 return;
             }
 
+            var curPos = args.Location;//ToUpLeftCoord(args.Location);
+
             if (ShowPath)
             {
-                var curPos = args.Location;//ToUpLeftCoord(args.Location);
-                
                 //需要将点换算为基于窗口的坐标
                 var pA = new Point(_prevPoint.X - _screenBounds.X, _prevPoint.Y - _screenBounds.Y);
                 var pB = new Point(curPos.X - _screenBounds.X, curPos.Y - _screenBounds.Y);
@@ -248,16 +233,14 @@ namespace WGestures.View.Impl.Windows
                     _gPathDirty.Widen(_dirtyMarkerPen);
                 }
 
-
-                //_pathDirtyRect = GetDirtyRect(_prevPoint, curPos);
-                //_pathDirtyRegion.Union(_pathDirtyRect);
+                curPos = new Point(pB.X + _screenBounds.X, pB.Y + _screenBounds.Y);
             }
 
             DrawAndUpdate();
 
             _recognizeStateChanged = false;
 
-            _prevPoint = args.Location;//ToUpLeftCoord(args.Location);
+            _prevPoint = curPos;//args.Location;//ToUpLeftCoord(args.Location);
         }
 
         private void HandleIntentRecognized(GestureIntent intent)
@@ -272,6 +255,7 @@ namespace WGestures.View.Impl.Windows
                 var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
                 ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
             }
+
 
             if (!_isCurrentRecognized && ShowPath)
             {
@@ -288,7 +272,8 @@ namespace WGestures.View.Impl.Windows
 
         }
 
-        private void HandleIntentInvalid()
+        //todo: 合并为IntentRecogChanged?
+        private void HandleIntentInvalid(Gesture gesture)
         {
             if (!ShowPath && !ShowCommandName) return;
 
@@ -413,7 +398,10 @@ namespace WGestures.View.Impl.Windows
             Debug.WriteLine("BeginView");
             StopFadeout();
 
-            //_bitmap = new DiBitmap(_screenBounds.Size);
+            if (_canvasBuf.Size != _screenBounds.Size)
+            {
+                _canvasBuf = new DiBitmap(_screenBounds.Size);
+            }
             _canvasOpacity = 255;
             _canvasWindow.Bounds = _screenBounds;
 
