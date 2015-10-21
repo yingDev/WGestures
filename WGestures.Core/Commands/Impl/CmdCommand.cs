@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -7,17 +8,21 @@ using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("命令行"),Serializable]
-    public class CmdCommand : Commands.AbstractCommand
+    [Named("命令行"),Serializable, JsonObject(MemberSerialization.OptIn)]
+    public class CmdCommand : Commands.AbstractCommand, IGestureContextAware
     {
         private readonly static string explorerPath = Environment.GetEnvironmentVariable("windir").ToLower() + Path.DirectorySeparatorChar + "explorer.exe";
 
-
+        [JsonProperty]
         public string Code { get; set; }
 
+        [JsonProperty]
         public bool ShowWindow { get; set; }
 
+        [JsonProperty]
         public bool AutoSetWorkingDir { get; set; }
+
+        public GestureContext Context { set; private get; }
 
         public CmdCommand()
         {
@@ -57,7 +62,17 @@ namespace WGestures.Core.Commands.Impl
                 }
 
                 process.StartInfo.WorkingDirectory = workingDir;
+                if ( Context != null)
+                {
+                    process.StartInfo.EnvironmentVariables.Add("WG_PROCID", Context.ProcId.ToString());
+                    process.StartInfo.EnvironmentVariables.Add("WG_WINID", Context.WinId.ToString());
+                    process.StartInfo.EnvironmentVariables.Add("WG_STARTPOINT_X", Context.StartPoint.X.ToString());
+                    process.StartInfo.EnvironmentVariables.Add("WG_STARTPOINT_Y", Context.StartPoint.Y.ToString());
+                    process.StartInfo.EnvironmentVariables.Add("WG_ENDPOINT_X", Context.EndPoint.X.ToString());
+                    process.StartInfo.EnvironmentVariables.Add("WG_ENDPOINT_Y", Context.EndPoint.X.ToString());
+                }
 
+                process.StartInfo.UseShellExecute = false;
                 process.StartInfo.WindowStyle = ShowWindow ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
                 process.Start();
 
