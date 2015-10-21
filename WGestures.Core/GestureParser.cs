@@ -62,7 +62,7 @@ namespace WGestures.Core
         public event GestureIntentEventHandler IntentRecognized;
         public event IntentExecutedEventHandler IntentExecuted;
         public event GestureIntentEventHandler IntentReadyToExecute;
-        public event Action IntentInvalid;
+        public event Action<Gesture> IntentInvalid;
         public event Action IntentOrPathCanceled;
         public event Action<GestureModifier> IntentReadyToExecuteOnModifier;
         public event Action<string,GestureIntent> CommandReportStatus;
@@ -278,7 +278,7 @@ namespace WGestures.Core
             }
             else if (lastEffectiveIntent != null)
             {
-                if (IntentInvalid != null) IntentInvalid();
+                if (IntentInvalid != null) IntentInvalid(_gesture);
             }
 
             Debug.WriteLine("Gesture:" + _gesture);
@@ -400,7 +400,7 @@ namespace WGestures.Core
             }
             else if (lastEffectiveIntent != null)
             {
-                if (IntentInvalid != null) IntentInvalid();
+                if (IntentInvalid != null) IntentInvalid(_gesture);
             }
 
         }

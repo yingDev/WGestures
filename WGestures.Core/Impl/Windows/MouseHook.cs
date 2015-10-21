@@ -100,7 +100,7 @@ namespace WGestures.Core.Impl.Windows
 
                 //GC.KeepAlive(hookProc);
 
-            }) { IsBackground = true, Priority = ThreadPriority.AboveNormal, Name = "MouseHook钩子线程" };
+            }) { IsBackground = true, Priority = ThreadPriority.Highest, Name = "MouseHook钩子线程" };
 
             _hookThread.Start();
         }

@@ -146,7 +146,7 @@ namespace WGestures.App
                     ShowFatalError(e);
                 }
 #endif
-            }) {Name = "Parser线程", IsBackground = false}.Start();
+            }) {Name = "Parser线程", Priority = ThreadPriority.Highest, IsBackground = false}.Start();
         }
 
         private static bool IsDuplicateInstance()
