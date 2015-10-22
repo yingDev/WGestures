@@ -655,7 +655,7 @@ namespace WGestures.Core.Impl.Windows
         {
             //hack: dunno how
             var dpiFactor = Native.GetScreenDpi() / 96.0f;
-            EffectiveMove = (int)(Common.OsSpecific.Windows.Screen.ScreenBoundsFromPoint(_curPos).Value.Width * 0.02f * dpiFactor);
+            EffectiveMove = (int)(Common.OsSpecific.Windows.Screen.ScreenBoundsFromPoint(_curPos).Value.Width * 0.02f);
             StepSize = (int)(EffectiveMove / 4.0f);
 
             _lastPoint = _curPos;
