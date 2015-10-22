@@ -328,14 +328,26 @@ namespace WGestures.Common.OsSpecific.Windows
         }
 
 
-        public static Rectangle ScreenBoundsFromPoint(Point point)
+        public static Rectangle? ScreenBoundsFromPoint(Point point)
         {
-            var pt = new User32.POINT() { X = point.X, Y = point.Y };
+            var screens = AllScreens;
+            var len = screens.Length;
+
+            for(var i=0; i< len; i++)
+            {
+                if (screens[i].HasValue && screens[i].Value.Bounds.Contains(point) )
+                {
+                    return screens[i].Value.Bounds;
+                }
+            }
+
+            return null;
+            /*var pt = new User32.POINT() { X = point.X, Y = point.Y };
 
             var info = new User32.MonitorInfoEx();//new User32.MONITORINFOEX();
             info.Init();
             User32.GetMonitorInfo(User32.MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST),ref info);
-            return Rectangle.FromLTRB(info.Monitor.Left, info.Monitor.Top, info.Monitor.Right, info.Monitor.Bottom);
+            return Rectangle.FromLTRB(info.Monitor.Left, info.Monitor.Top, info.Monitor.Right, info.Monitor.Bottom);*/
         }
 
  
