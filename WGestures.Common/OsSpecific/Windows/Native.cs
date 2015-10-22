@@ -253,31 +253,20 @@ namespace WGestures.Common.OsSpecific.Windows
 
         public static string GetProcessFile(uint proc)
         {
-            /*using (var p = Process.GetProcessById((int) proc))
-            {
-                return p.MainModule.FileName;
-            }*/
-
-            int pathLength = 256;
+            const int pathLength = 256;
             var procFullName = new StringBuilder(pathLength);
 
             var hProc = OpenProcess(Native.ProcessAccessFlags.QueryInformation | ProcessAccessFlags.VMRead, false, proc);
            // QueryFullProcessImageNameW(hProc, 0, procFullName, ref pathLength);
             if (GetModuleFileNameEx(hProc, IntPtr.Zero, procFullName, (uint) pathLength) == 0)
             {
+                CloseHandle(hProc);
+#if DEBUG
                 throw new Exception("GetModuleFileNameEx Failed:"+GetLastError());
+#endif
+                return null;
             }
             CloseHandle(hProc);
-            
-            
-            //toLower
-//            for(int i=0; i<procFullName.Length; i++)
-//            {
-//                if (Char.IsUpper(procFullName[i]))
-//                {
-//                    procFullName[i] = Char.ToLower(procFullName[i]);
-//                }
-//            }
             
             return procFullName.ToString();
         }
@@ -762,7 +751,7 @@ namespace WGestures.Common.OsSpecific.Windows
             VK_OEM_CLEAR = 0xFE
         }
 
-        #region Window
+#region Window
         [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern Bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize, IntPtr hdcSrc, ref Point pprSrc, Int32 crKey, ref BLENDFUNCTION pblend, Int32 dwFlags);
 
@@ -813,9 +802,9 @@ namespace WGestures.Common.OsSpecific.Windows
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PeekMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin,
            uint wMsgFilterMax, uint wRemoveMsg);
-        #endregion
+#endregion
 
-        #region Hooking
+#region Hooking
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UnhookWindowsHookEx(IntPtr hhk);
@@ -824,9 +813,9 @@ namespace WGestures.Common.OsSpecific.Windows
         public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
             IntPtr wParam, IntPtr lParam);
 
-        #endregion
+#endregion
 
-        #region GDI
+#region GDI
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref BITMAPINFO pbmi,
            uint pila, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
@@ -854,7 +843,7 @@ namespace WGestures.Common.OsSpecific.Windows
 
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern Bool DeleteObject(IntPtr hObject);
-        #endregion
+#endregion
 
 
         [DllImport("psapi.dll")]

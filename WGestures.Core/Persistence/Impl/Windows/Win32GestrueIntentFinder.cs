@@ -40,6 +40,7 @@ namespace WGestures.Core.Persistence.Impl.Windows
            // }
 
             Debug.WriteLine("Image="+str);
+            if (str == null) return null;
             
             IntentStore.TryGetExeApp(str, out found);
 
