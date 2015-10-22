@@ -253,7 +253,7 @@ namespace WGestures.View.Impl.Windows
             {
                 var modifierText = intent.Gesture.Modifier.ToMnemonic();
                 var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(100, 0, 0, 0));
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(80, 0, 0, 0));
             }
             
             if (!_isCurrentRecognized && ShowPath)
