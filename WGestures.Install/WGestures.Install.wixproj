@@ -27,6 +27,7 @@
     <LinkerAdditionalOptions>
     </LinkerAdditionalOptions>
     <SuppressValidation>False</SuppressValidation>
+    <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
