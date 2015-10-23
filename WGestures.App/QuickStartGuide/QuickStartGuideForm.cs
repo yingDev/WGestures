@@ -11,6 +11,7 @@ namespace WGestures.App.Gui.Windows
         public QuickStartGuideForm()
         {
             InitializeComponent();
+            ClientSize = new System.Drawing.Size(936, 525);
             Icon = Resources.icon;
 
         }

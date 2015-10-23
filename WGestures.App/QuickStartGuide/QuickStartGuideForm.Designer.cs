@@ -44,6 +44,7 @@ namespace WGestures.App.Gui.Windows
             // 
             this.web_container.AllowNavigation = false;
             this.web_container.AllowWebBrowserDrop = false;
+            this.web_container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.web_container.IsWebBrowserContextMenuEnabled = false;
             this.web_container.Location = new System.Drawing.Point(0, 0);
             this.web_container.Margin = new System.Windows.Forms.Padding(0);
@@ -51,7 +52,7 @@ namespace WGestures.App.Gui.Windows
             this.web_container.Name = "web_container";
             this.web_container.ScriptErrorsSuppressed = true;
             this.web_container.ScrollBarsEnabled = false;
-            this.web_container.Size = new System.Drawing.Size(936, 535);
+            this.web_container.Size = new System.Drawing.Size(920, 496);
             this.web_container.TabIndex = 0;
             this.web_container.WebBrowserShortcutsEnabled = false;
             this.web_container.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.web_container_PreviewKeyDown);
@@ -60,7 +61,6 @@ namespace WGestures.App.Gui.Windows
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(920, 496);
@@ -71,7 +71,6 @@ namespace WGestures.App.Gui.Windows
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "QuickStartGuideForm";
-            this.Padding = new System.Windows.Forms.Padding(0, 20, 0, 20);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WGestures快速入门";
             this.Load += new System.EventHandler(this.QuickStartGuidForm_Load);
