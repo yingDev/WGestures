@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using WGestures.App.Properties;
+using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.App.Gui.Windows
 {
@@ -11,7 +12,8 @@ namespace WGestures.App.Gui.Windows
         public QuickStartGuideForm()
         {
             InitializeComponent();
-            ClientSize = new System.Drawing.Size(936, 525);
+            var dpiScale = Native.GetScreenDpi() / 96;
+            ClientSize = new System.Drawing.Size(936 * dpiScale, 525 * dpiScale);
             Icon = Resources.icon;
 
         }
