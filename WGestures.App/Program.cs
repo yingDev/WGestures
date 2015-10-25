@@ -205,7 +205,7 @@ namespace WGestures.App
             using (var proc = Process.GetCurrentProcess())
             {
                 //高优先级
-                proc.PriorityClass = ProcessPriorityClass.RealTime;
+                proc.PriorityClass = ProcessPriorityClass.AboveNormal;
             }
         }
         
