@@ -74,6 +74,7 @@ namespace WGestures.Core.Commands.Impl
 
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.WindowStyle = ShowWindow ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
+                process.StartInfo.CreateNoWindow = !ShowWindow;
                 process.Start();
 
                 GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
