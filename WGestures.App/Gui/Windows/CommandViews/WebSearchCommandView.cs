@@ -125,23 +125,41 @@ namespace WGestures.App.Gui.Windows.CommandViews
 
                 RegistryKey browserKeys;
                 //on 64bit the browsers are in a different location
-                browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Clients\StartMenuInternet");
-                if (browserKeys == null)
-                    browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet");
-
-                string[] browserNames = browserKeys.GetSubKeyNames();
-
-                for (int i = 0; i < browserNames.Length; i++)
+                try
                 {
-                    Browser browser = new Browser();
-                    RegistryKey browserKey = browserKeys.OpenSubKey(browserNames[i]);
-                    browser.Name = (string)browserKey.GetValue(null);
-                    RegistryKey browserKeyPath = browserKey.OpenSubKey(@"shell\open\command");
-                    browser.Path = (string)browserKeyPath.GetValue(null);
-                    RegistryKey browserIconPath = browserKey.OpenSubKey(@"DefaultIcon");
-                    //browser.IconPath = (string)browserIconPath.GetValue(null);
-                    lst.Add(browser);
+                    browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Clients\StartMenuInternet");
+                    if (browserKeys == null)
+                     browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet");
+                }catch(Exception e)
+                {
+                    return lst;
                 }
+
+                if (browserKeys == null) return lst;
+                
+                var browserNames = browserKeys.GetSubKeyNames();
+
+                try
+                {
+                    for (int i = 0; i < browserNames.Length; i++)
+                    {
+                        var browser = new Browser();
+                        using (var browserKey = browserKeys.OpenSubKey(browserNames[i]))
+                        using (var browserKeyPath = browserKey.OpenSubKey(@"shell\open\command"))
+                        {
+                            browser.Name = (string)browserKey.GetValue(null);
+                            browser.Path = (string)browserKeyPath.GetValue(null);
+                        }
+                            
+                        //RegistryKey browserIconPath = browserKey.OpenSubKey(@"DefaultIcon");
+                        //browser.IconPath = (string)browserIconPath.GetValue(null);
+                        lst.Add(browser);
+                    }
+                }catch(Exception e)
+                {
+                    return lst;
+                }
+
 
 #if DEBUG
                 Console.WriteLine("Browsers:");
