@@ -39,7 +39,10 @@ namespace Win32
 
         [DllImport(User32Dll, SetLastError = true)]
         public extern static bool UnregisterClass(string lpClassName, IntPtr hInstance);
-//
+
+        [DllImport(User32Dll)]
+        public extern static int GetScrollPos(IntPtr hWnd, int nBar);
+        //
         [DllImport(User32Dll)]
         public extern static IntPtr DefWindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
 //

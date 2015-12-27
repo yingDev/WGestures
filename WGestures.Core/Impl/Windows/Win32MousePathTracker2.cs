@@ -269,6 +269,8 @@ namespace WGestures.Core.Impl.Windows
                             if (RequestShowHideTray != null) RequestShowHideTray();
                         }
                         break;
+                    //case WM.SIMULATE_MOUSE:
+
                     case WM.STOP:
                         OnStop();return;
                 }
@@ -319,7 +321,7 @@ namespace WGestures.Core.Impl.Windows
         private void HookProc(MouseHook.MouseHookEventArgs e)
         {
             //处理 左键 + 中键 用于 暂停继续的情形
-            if( HandleSpecialButtonCombination(e.Msg) ) return;
+            if( HandleSpecialButtonCombination(e) ) return;
 
             if (_isPaused) return;
 
@@ -568,27 +570,25 @@ namespace WGestures.Core.Impl.Windows
             return true;
         }
 
-        private bool HandleSpecialButtonCombination(MouseMsg msg)
+        private bool HandleSpecialButtonCombination(MouseHook.MouseHookEventArgs e)
         {
-            if (!_captured && msg == MouseMsg.WM_MBUTTONDOWN)
+           if(_captured) return false;
+           
+            var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
+            var lButtonPressed = Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0;
+            var shiftPressed = Native.GetAsyncKeyState(Keys.ShiftKey) < 0;
+
+            if (e.Msg == MouseMsg.WM_MBUTTONDOWN && lButtonPressed)
             {
-                var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
-                var lButtonPressed = Native.GetAsyncKeyState(mouseSwapped ? Keys.RButton : Keys.LButton) < 0;
-                var shiftPressed = Native.GetAsyncKeyState(Keys.ShiftKey) < 0;
-
-                if (lButtonPressed)
+                if (shiftPressed)
                 {
-                    if (shiftPressed)
-                    {
-                        Post(WM.GUI_REQUEST, (int)GUI_RequestType.ShowHideTray);
-                    }
-                    else
-                    {
-                        Post(WM.GUI_REQUEST, (int)GUI_RequestType.PauseResume);
-                    }
-
-                    return true;
+                    Post(WM.GUI_REQUEST, (int)GUI_RequestType.ShowHideTray);
                 }
+                else
+                {
+                    Post(WM.GUI_REQUEST, (int)GUI_RequestType.PauseResume);
+                }
+                return true;
             }
             return false;
         }
