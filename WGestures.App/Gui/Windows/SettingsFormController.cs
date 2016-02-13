@@ -77,9 +77,11 @@ namespace WGestures.App.Gui.Windows
             #region Hotcorner 
             SupportedHotCornerCommands.Add(NamedAttribute.GetNameOf(typeof(DoNothingCommand)), typeof(DoNothingCommand));
             SupportedHotCornerCommands.Add(NamedAttribute.GetNameOf(typeof(HotKeyCommand)), typeof(HotKeyCommand));
+            SupportedHotCornerCommands.Add(NamedAttribute.GetNameOf(typeof(CmdCommand)), typeof(CmdCommand));
 
             HotCornerCommandViewFactory.Register<DoNothingCommand, GeneralNoParameterCommandView>();
             HotCornerCommandViewFactory.Register<HotKeyCommand, HotKeyCommandView>();
+            HotCornerCommandViewFactory.Register<CmdCommand, CmdCommandView>();
             #endregion
 
             _form = new SettingsForm(this);
