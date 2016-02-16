@@ -114,7 +114,7 @@ namespace WGestures.App
                         }
                     }
                 }
-            }) { IsBackground = true };
+            }, maxStackSize: 1) { IsBackground = true };
             pipeThread.Start();
         }
 
@@ -146,7 +146,7 @@ namespace WGestures.App
                     ShowFatalError(e);
                 }
 #endif
-            }) {Name = "Parser线程", Priority = ThreadPriority.Highest, IsBackground = false}.Start();
+            }, maxStackSize: 1) {Name = "Parser线程", Priority = ThreadPriority.Highest, IsBackground = false}.Start();
         }
 
         private static bool IsDuplicateInstance()
@@ -307,7 +307,7 @@ namespace WGestures.App
             pathTracker.InitialStayTimeout = config.Get(ConfigKeys.PathTrackerInitialStayTimeout, true);
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
-            pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
+            //pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
             #endregion
 
             #region gestureView
@@ -322,6 +322,7 @@ namespace WGestures.App
             #region GestureParser
             gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
+            gestureParser.EnableRubEdge = config.Get(ConfigKeys.GestureParserEnableRubEdges, true);
             #endregion
         }
 
@@ -347,14 +348,14 @@ namespace WGestures.App
                 {
                     trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单\n鼠标 左键+中键 随时暂停/继续手势", ToolTipIcon.Info);
                 }
-                else
-                {
-                    var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
-                    if (showIcon.HasValue && !showIcon.Value) //隐藏
-                    {
-                        trayIcon.ShowBalloonTip(3000, "WGestures后台运行中", "图标将自动隐藏。\n(按 Shift-左键-中键 切换显示/隐藏状态)", ToolTipIcon.Info);
-                    }
-                }
+                //else
+                //{
+                    //var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
+                    //if (showIcon.HasValue && !showIcon.Value) //隐藏
+                    //{
+                    //   trayIcon.ShowBalloonTip(3000, "WGestures后台运行中", "图标将自动隐藏。\n(按 Shift-左键-中键 切换显示/隐藏状态)", ToolTipIcon.Info);
+                    //}
+                //}
                 //是否检查更新
                 if (!config.Get<bool?>(ConfigKeys.AutoCheckForUpdate).HasValue || config.Get<bool>(ConfigKeys.AutoCheckForUpdate))
                 {
@@ -542,13 +543,13 @@ namespace WGestures.App
             var menuItem_showQuickStart = new MenuItem() { Text = "快速入门" };
             menuItem_showQuickStart.Click += (sender, args) => ShowQuickStartGuide();
 
-            var menuItem_toggleTray = new MenuItem() { Text = "隐藏 (Shift + 左键 + 中键)" };
+            /*var menuItem_toggleTray = new MenuItem() { Text = "隐藏 (Shift + 左键 + 中键)" };
             menuItem_toggleTray.Click += (sender, args) =>
             {
                ToggleTrayIconVisibility();
-            };
+            };*/
 
-            contextMenu1.MenuItems.AddRange(new[] { menuItem_toggleTray, menuItem_pause, new MenuItem("-"), menuItem_settings,  menuItem_showQuickStart,new MenuItem("-"), menuItem_exit });
+            contextMenu1.MenuItems.AddRange(new[] { /*menuItem_toggleTray, */menuItem_pause, new MenuItem("-"), menuItem_settings,  menuItem_showQuickStart,new MenuItem("-"), menuItem_exit });
 
             notifyIcon.Icon = Resources.trayIcon;
             notifyIcon.Text = Application.ProductName;
@@ -563,11 +564,11 @@ namespace WGestures.App
                     menuItem_pause.Text = string.Format("继续 ({0}键 + 中键)",mouseSwapped ? "右" : "左");
                     notifyIcon.Icon = Resources.trayIcon_bw;
 
-                    if (!notifyIcon.Visible)
+                    /*if (!notifyIcon.Visible)
                     {
                         notifyIcon.Visible = true;
                         notifyIcon.ShowBalloonTip(500, "WGestures", "已暂停", ToolTipIcon.Info);
-                    }
+                    }*/
                 }
                 else
                 {

@@ -98,7 +98,8 @@ namespace WGestures.App.Gui.Windows
             imglistAppIcons.Images.Add("unknown", Resources.unknown);
             #endregion
 
-            _hotCornerRadioBtns = new[] { radio_corner_0, radio_corner_1, radio_corner_2, radio_corner_3 };
+            _hotCornerRadioBtns = new[] { radio_corner_0, radio_corner_1, radio_corner_2, radio_corner_3,
+                                          radio_edge_0, radio_edge_1, radio_edge_2, radio_edge_3};
 
             #region tab about
             tb_updateLog.Text = Application.ProductName + " " + Application.ProductVersion + Environment.NewLine + Environment.NewLine;
@@ -1231,6 +1232,7 @@ namespace WGestures.App.Gui.Windows
             }
         }
 
+        #region HotCorner & RubEdge
         private void radio_corner_1_CheckedChanged(object sender, EventArgs e)
         {
             if (!(sender as RadioButton).Checked) return;
@@ -1292,6 +1294,8 @@ namespace WGestures.App.Gui.Windows
             cornerBtn.Text = cmd.Description();
 
         }
+
+        #endregion
     }
 
 }

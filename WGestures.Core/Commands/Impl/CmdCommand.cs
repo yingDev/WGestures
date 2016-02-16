@@ -3,8 +3,10 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
+using System.Linq;
 
 namespace WGestures.Core.Commands.Impl
 {
@@ -35,7 +37,8 @@ namespace WGestures.Core.Commands.Impl
             using (var process = new Process())
             {
                 process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.Arguments = (ShowWindow ? "/k " : "/C ") + string.Join(" & ",Code.Split(new[]{"\r\n"},StringSplitOptions.RemoveEmptyEntries));
+                process.StartInfo.Arguments = (ShowWindow ? "/k " : "/C ") + NormalizedCode;
+                //string.Join(" & ",Code.Split(new[]{"\r\n"},StringSplitOptions.RemoveEmptyEntries));
 
                 var workingDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -80,6 +83,44 @@ namespace WGestures.Core.Commands.Impl
                 GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             }
 
+        }
+
+        private string NormalizedCode
+        {
+            get
+            {
+                var sb = new StringBuilder(Code.Length);
+                var lines = Code.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                foreach(var l in lines)
+                {
+
+                    var trimmed = l.Trim();
+                    
+                    if(trimmed.StartsWith("::") || trimmed.StartsWith("rem ", StringComparison.OrdinalIgnoreCase)
+                        || trimmed == "rem")
+                    {
+                        continue;
+                    }
+
+                    var indexOfRem = l.LastIndexOf("::");
+                    if(indexOfRem < 0)
+                    {
+                        indexOfRem = l.LastIndexOf(" rem ", StringComparison.OrdinalIgnoreCase);
+                    }
+                    if(indexOfRem > 0)
+                    {
+                        trimmed = l.Substring(0, indexOfRem);
+                    }
+
+                    sb.Append(trimmed);
+                    if(l != lines[lines.Length -1])
+                    {
+                        sb.Append(" & ");
+                    }
+                }
+
+                return sb.ToString();
+            }
         }
 
         //获得活动的explore窗口的路径

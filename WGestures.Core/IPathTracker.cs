@@ -60,6 +60,8 @@ namespace WGestures.Core
         event PathTrackEventHandler PathTimeout;
         event PathTrackEventHandler PathModifier;
 
+        //TODO: 按照接口隔离原则重构
         event Action<ScreenCorner> HotCornerTriggered;
+        event Action<ScreenEdge> EdgeRubbed;
     }
 }

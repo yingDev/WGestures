@@ -129,7 +129,7 @@ namespace WGestures.View.Impl.Windows
                 };
                 waitCanvasWindow.Set();
                 _canvasWindow.ShowDialog();
-            }) { Name = "CanvasWindow" }.Start();
+            }, maxStackSize: 1) { Name = "CanvasWindow" }.Start();
 
             waitCanvasWindow.WaitOne();
 

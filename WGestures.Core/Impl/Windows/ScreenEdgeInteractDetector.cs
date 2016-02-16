@@ -9,13 +9,11 @@ using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.Core.Impl.Windows
 {
-    public enum ScreenEdge
-    {
-        Left = 0, Top, Right, Bottom
-    }
 
     class EdgeInteractDetector : IDisposable
     {
+        public bool Paused { get; set; }
+
         MouseHook _hook;
         Rectangle _screenBounds;
         PointAndTime _hLastPtOutsideRedline;
@@ -29,11 +27,9 @@ namespace WGestures.Core.Impl.Windows
         int _rubPeakPos;
         int _lastRubDir;
         DateTime _lastRubTriggerTime;
-
-
+        
         float _dpiScale;
-
-        SynchronizationContext _syncCtxt;
+        
 
         //public ushort DoubleCollideThreshold { get; set; } = 250; //ms
 
@@ -50,7 +46,6 @@ namespace WGestures.Core.Impl.Windows
             _hook.MouseHookEvent += _hook_MouseHookEvent;
 
             _activeCollideEdge = null;
-            _syncCtxt = SynchronizationContext.Current;
 
         }
 
@@ -63,6 +58,8 @@ namespace WGestures.Core.Impl.Windows
         //Note: Hook runs on separate thread!
         private void _hook_MouseHookEvent(MouseHook.MouseHookEventArgs e)
         {
+            if (Paused) return;
+
             if (_activeCollideEdge != null && e.Msg == MouseMsg.WM_LBUTTONUP || e.Msg == MouseMsg.WM_RBUTTONUP)
             {
                 _activeCollideEdge = null;
@@ -345,18 +342,14 @@ namespace WGestures.Core.Impl.Windows
 
         private void OnCollide(ScreenEdge edge)
         {
-            _syncCtxt.Post((s) =>
-            {
-                if (Collide != null) Collide(edge);
-            }, null);
+            if (Collide != null) Collide(edge);
+            
         }
 
         private void OnRub(ScreenEdge e)
         {
-            _syncCtxt.Post((s) =>
-            {
-                if (Rub != null) Rub(e);
-            }, null);
+            if (Rub != null) Rub(e);
+            
         }
 
 

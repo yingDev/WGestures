@@ -46,8 +46,9 @@ namespace WGestures.Core
             }
         }
 
-        public bool EnableHotCorners { get; set; }
-        public bool Enable8DirGesture { get; set; }
+        public bool EnableHotCorners { get; set; } = true;
+        public bool Enable8DirGesture { get; set; } = false;
+        public bool EnableRubEdge { get; set; } = true;
 
         public int MaxGestureSteps { get; set; }
         public bool IsPaused { get { return _isPaused; } }
@@ -111,9 +112,8 @@ namespace WGestures.Core
             PathTracker.EffectivePathGrow += PathTrackerOnEffectivePathGrow;
             PathTracker.PathModifier += PathTrackerOnPathModifier;
             PathTracker.HotCornerTriggered += PathTracker_HotCornerTriggered;
+            PathTracker.EdgeRubbed += PathTracker_EdgeRubbed;
         }
-
-
 
         public virtual void Start()
         {
@@ -421,31 +421,28 @@ namespace WGestures.Core
                 }
                 cmd.Execute();
             }
-
-            //previous hard-coded impl
-            /*switch (corner)
-            {
-                case ScreenCorner.RightBottom:
-                    Sim.KeyDown(VirtualKeyCode.LWIN);
-                    Sim.KeyDown(VirtualKeyCode.VK_D);
-                    Sim.KeyUp(VirtualKeyCode.VK_D);
-                    Sim.KeyUp(VirtualKeyCode.LWIN);
-                    break;
-                case ScreenCorner.RightTop:
-                    Sim.KeyDown(VirtualKeyCode.LMENU);
-                    Sim.KeyDown(VirtualKeyCode.TAB);
-                    Thread.Sleep(100);
-                    Sim.KeyUp(VirtualKeyCode.TAB);
-                    Sim.KeyUp(VirtualKeyCode.LMENU);
-                    break;
-                case ScreenCorner.LeftTop:
-                    Sim.KeyPress(VirtualKeyCode.CANCEL);
-                    break;
-                case ScreenCorner.LeftBottom:
-                    Sim.KeyPress(VirtualKeyCode.LWIN);
-                    break;
-            }*/
         }
+
+        private void PathTracker_EdgeRubbed(ScreenEdge edge)
+        {
+            if (!EnableRubEdge) return;
+            Debug.WriteLine("RubEdge: " + edge);
+
+            //HACK: 似乎有必要重构此实现方式
+            // corners & edges 的command 依次存放在一个8元素数组中。
+            // 4 + edge == 实际对应的cmd
+            var cmd = IntentFinder.IntentStore.HotCornerCommands[4 + (int)edge];
+            if (cmd != null)
+            {
+                var shouldInit = cmd as INeedInit;
+                if (shouldInit != null && !shouldInit.IsInitialized)
+                {
+                    shouldInit.Init();
+                }
+                cmd.Execute();
+            }
+        }
+
         #endregion
 
         #region Event Publishing

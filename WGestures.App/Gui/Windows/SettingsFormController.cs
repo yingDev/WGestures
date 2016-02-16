@@ -477,7 +477,7 @@ namespace WGestures.App.Gui.Windows
 
         #endregion
 
-        #region hotcorners
+        #region hotcorners & edges
         public Dictionary<string, Type> SupportedHotCornerCommands { get; private set; } = new Dictionary<string, Type>();
         public ICommandViewFactory<CommandViewUserControl> HotCornerCommandViewFactory { get; private set; } = new CommandViewFactory<CommandViewUserControl>() { EnableCaching = false };
 
@@ -492,6 +492,19 @@ namespace WGestures.App.Gui.Windows
                 OnPropertyChanged("GestureParserEnableHotCorners");
             }
         }
+
+        public bool GestureParserEnableRubEdges
+        {
+            get { return _parser.EnableRubEdge; }
+            set
+            {
+                if (value == _parser.EnableRubEdge) return;
+                _parser.EnableRubEdge = value;
+                Config.Set(ConfigKeys.GestureParserEnableRubEdges, value);
+                OnPropertyChanged("GestureParserEnableRubEdges");
+            }
+        }
+
         #endregion
         /// <summary>
         /// 以Modal方式呈现主设置窗口

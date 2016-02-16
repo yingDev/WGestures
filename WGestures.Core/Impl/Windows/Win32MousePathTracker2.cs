@@ -217,7 +217,7 @@ namespace WGestures.Core.Impl.Windows
             _mouseHook.MouseHookEvent += HookProc;
 
             _edgeDetector = new EdgeInteractDetector(_mouseHook);
-            _edgeDetector.Rub += _edgeDetector_Rub;
+            _edgeDetector.Rub += EdgeDetector_Rub;
 
         }
 
@@ -234,6 +234,7 @@ namespace WGestures.Core.Impl.Windows
         public event PathTrackEventHandler PathTimeout;
         public event PathTrackEventHandler PathModifier;
         public event Action<ScreenCorner> HotCornerTriggered;
+        public event Action<ScreenEdge> EdgeRubbed;
         
         public void Start()
         {
@@ -257,6 +258,8 @@ namespace WGestures.Core.Impl.Windows
                         OnMouseMove();break;
                     case WM.HOT_CORNER:
                         OnHotCorner((ScreenCorner)msg.param);break;
+                    case WM.RUB_EDGE:
+                        OnRubEdge((ScreenEdge)msg.param); break;
                     case WM.GESTBTN_MODIFIER:
                         OnModifier((GestureModifier)msg.param);break;
                     case WM.GESTBTN_UP:
@@ -282,6 +285,7 @@ namespace WGestures.Core.Impl.Windows
                 }
             }
         }
+
 
         /// <summary>
         /// 停止鼠标钩子并退出runloop
@@ -470,9 +474,9 @@ namespace WGestures.Core.Impl.Windows
             }
         }
 
-        private void _edgeDetector_Rub(ScreenEdge obj)
+        private void EdgeDetector_Rub(ScreenEdge edge)
         {
-
+            Post(WM.RUB_EDGE, (int)edge);
         }
 
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
@@ -765,6 +769,16 @@ namespace WGestures.Core.Impl.Windows
             if (!mousePressed && HotCornerTriggered != null) HotCornerTriggered(corner);
         }
 
+        private void OnRubEdge(ScreenEdge edge)
+        {
+            if (DisableInFullscreen && IsInFullScreenMode()) return;
+
+            var mousePressed = Native.GetAsyncKeyState(Keys.LButton) < 0 ||
+                               Native.GetAsyncKeyState(Keys.RButton) < 0 ||
+                               Native.GetAsyncKeyState(Keys.MButton) < 0;
+            if (!mousePressed && EdgeRubbed != null) EdgeRubbed(edge);
+        }
+
         private void OnModifier(GestureModifier modifier)
         {
             Debug.WriteLine("OnModifier");
@@ -834,6 +848,12 @@ namespace WGestures.Core.Impl.Windows
             {
                 Debug.WriteLine("Resuming");
                 _isPaused = false;
+            }
+
+
+            if (_edgeDetector != null)
+            {
+                _edgeDetector.Paused = _isPaused;
             }
         }
 
@@ -983,7 +1003,8 @@ namespace WGestures.Core.Impl.Windows
             PAUSE_RESUME = WM_USER + 9,
 
             SIMULATE_MOUSE = WM_USER + 10,
-            GUI_REQUEST = WM_USER + 11
+            GUI_REQUEST = WM_USER + 11,
+            RUB_EDGE = WM_USER + 12
         }
 
 

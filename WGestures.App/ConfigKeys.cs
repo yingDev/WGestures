@@ -36,5 +36,6 @@ namespace WGestures.App
         public const string GestureParserEnableHotCorners = "GestureParserEnableHotCorners";
         public const string GestureParserEnable8DirGesture = "GestureParserEnable8DirGesture";
 
+        public const string GestureParserEnableRubEdges = "GestureParserEnableRubEdges";
     }
 }

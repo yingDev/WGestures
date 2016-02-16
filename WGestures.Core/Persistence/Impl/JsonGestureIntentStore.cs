@@ -17,7 +17,7 @@ namespace WGestures.Core.Persistence.Impl
         public string FileVersion { get; set; }
         public Dictionary<string, ExeApp> Apps { get; set; }
         public GlobalApp GlobalApp { get; set; }
-        public AbstractCommand[] HotCornerCommands{get;set;} //4 corners
+        public AbstractCommand[] HotCornerCommands{get;set;} //4 corners + 4 edges
 
         private string jsonPath;
         private JsonSerializer ser = new JsonSerializer();
@@ -38,7 +38,7 @@ namespace WGestures.Core.Persistence.Impl
             {
                 Apps = new Dictionary<string, ExeApp>();
                 GlobalApp = new GlobalApp();
-                HotCornerCommands = new AbstractCommand[4];
+                HotCornerCommands = new AbstractCommand[8]; //4 corners + 4 edges
             }
         }
 
@@ -86,7 +86,9 @@ namespace WGestures.Core.Persistence.Impl
                         Apps.Add(a.ExecutablePath, a);
                     }
 
-                    HotCornerCommands = result.HotCornerCommands;
+                    HotCornerCommands = new AbstractCommand[8];
+                    Array.Copy(result.HotCornerCommands, HotCornerCommands, result.HotCornerCommands.Length);
+                    //HotCornerCommands = result.HotCornerCommands;
                 }
             }
             finally
@@ -284,7 +286,7 @@ namespace WGestures.Core.Persistence.Impl
             public string FileVersion { get; set; }
             public Dictionary<string, ExeApp> Apps { get; set; }
             public GlobalApp Global { get; set; }
-            public AbstractCommand[] HotCornerCommands { get; set; } = new AbstractCommand[4];
+            public AbstractCommand[] HotCornerCommands { get; set; } = new AbstractCommand[8];
         }
 
         internal class GestureIntentConverter : JsonConverter

@@ -5,7 +5,7 @@
     <key>$$FileVersion</key>
     <string>1</string>
     <key>IsFirstRun</key>
-    <true />
+    <false />
     <key>AutoCheckForUpdate</key>
     <true />
     <key>AutoStart</key>
