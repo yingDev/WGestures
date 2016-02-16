@@ -207,7 +207,7 @@ namespace WGestures.Core.Impl.Windows
             InitialStayTimeoutMillis = 150;
             
             EffectiveMove = (int)(10 * dpiFactor) * 2;//todo: 增加灵敏度调整
-            StepSize = EffectiveMove/2;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
+            StepSize = 2;// EffectiveMove/4;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
@@ -656,7 +656,7 @@ namespace WGestures.Core.Impl.Windows
             //hack: dunno how
             var dpiFactor = Native.GetScreenDpi() / 96.0f;
             EffectiveMove = (int)(Common.OsSpecific.Windows.Screen.ScreenBoundsFromPoint(_curPos).Value.Width * 0.025f);
-            StepSize = (int)(EffectiveMove / 4.0f);
+            //StepSize = 1;// (int)(EffectiveMove / 4.0f);
 
             _lastPoint = _curPos;
             _lastEffectivePos = _curPos;

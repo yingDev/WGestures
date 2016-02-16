@@ -164,11 +164,11 @@ namespace WGestures.View.Impl.Windows
             _borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), (widthBase * 2.5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
 
-            const int SHADOW_COUNT = 4;
+            const int SHADOW_COUNT = 1;
             _shadowPens = new Pen[SHADOW_COUNT];
             for (var i=0; i< SHADOW_COUNT; i++)
             {
-                _shadowPens[i] = new Pen(Color.FromArgb((int)(1.5f*(SHADOW_COUNT - i)), 0, 0,0), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+                _shadowPens[i] = new Pen(Color.FromArgb((int)(10f*(SHADOW_COUNT - i)), 0, 0,0), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             }
             
             _shadowPenWidth = _shadowPens[SHADOW_COUNT -  1].Width;
