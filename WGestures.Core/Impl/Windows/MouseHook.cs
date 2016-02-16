@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using WGestures.Common.OsSpecific.Windows;
 using Win32;
@@ -20,6 +21,8 @@ namespace WGestures.Core.Impl.Windows
             public MouseMsg Msg { get; private set; }
             public int X { get; private set; }
             public int Y { get; private set; }
+
+            public Point Pos => new Point() { X = X, Y = Y };
 
             public IntPtr wParam { get; private set; }
             public IntPtr lParam { get; private set; }
