@@ -195,6 +195,8 @@ namespace WGestures.Core.Impl.Windows
         
         private bool _isHotCornerReset = true;
         private ScreenCorner _lastTriggeredCorner;
+
+        private EdgeInteractDetector _edgeDetector;
         #endregion
 
         public Win32MousePathTracker2()
@@ -213,8 +215,12 @@ namespace WGestures.Core.Impl.Windows
 
             _mouseHook = new MouseHook();
             _mouseHook.MouseHookEvent += HookProc;
-            
+
+            _edgeDetector = new EdgeInteractDetector(_mouseHook);
+            _edgeDetector.Rub += _edgeDetector_Rub;
+
         }
+
 
         public event Action<bool> RequestPauseResume;
         public event Action RequestShowHideTray;
@@ -463,7 +469,12 @@ namespace WGestures.Core.Impl.Windows
                 }
             }
         }
-        
+
+        private void _edgeDetector_Rub(ScreenEdge obj)
+        {
+
+        }
+
         private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
         {
             const int CLICK_PRESS_RELEASE_INTERVAL = 10;
@@ -909,6 +920,12 @@ namespace WGestures.Core.Impl.Windows
 
             if (disposing)
             {
+                if(_edgeDetector != null)
+                {
+                    _edgeDetector.Dispose();
+                    _edgeDetector = null;
+                }
+
                 _mouseHook.Dispose();
 
                 if (!_isStopped) Stop();
