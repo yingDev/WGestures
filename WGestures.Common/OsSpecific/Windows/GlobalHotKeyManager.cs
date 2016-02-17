@@ -33,6 +33,16 @@ namespace WGestures.Common.OsSpecific.Windows
                 return modifiers == other.modifiers && key == other.key;
             }
 
+            public override bool Equals(object obj)
+            {
+                var asThis = obj as HotKey?;
+
+                if (asThis == null) return false;
+
+                return Equals(asThis.Value);
+
+            }
+
             public byte[] ToBytes()
             {
                 return BitConverter.GetBytes( ((ulong)key) | ( ((ulong)modifiers) << 32 ) );
@@ -41,12 +51,16 @@ namespace WGestures.Common.OsSpecific.Windows
             public override string ToString()
             {
                 var sb = new StringBuilder();
-                if (0 != (modifiers & ModifierKeys.Control)) sb.Append("Ctrl ");
-                if (0 != (modifiers & ModifierKeys.Shift)) sb.Append("Shift ");
-                if (0 != (modifiers & ModifierKeys.Alt)) sb.Append("Alt ");
-                if (0 != (modifiers & ModifierKeys.Win)) sb.Append("Win ");
+                if (0 != (modifiers & ModifierKeys.Control)) sb.Append("Ctrl-");
+                if (0 != (modifiers & ModifierKeys.Shift)) sb.Append("Shift-");
+                if (0 != (modifiers & ModifierKeys.Alt)) sb.Append("Alt-");
+                if (0 != (modifiers & ModifierKeys.Win)) sb.Append("Win-");
 
-                if(sb.Length > 0) sb.Append("+ ");
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                    sb.Append(" + ");
+                }
                 sb.Append(key.ToString());
 
                 return sb.ToString();
@@ -173,9 +187,10 @@ namespace WGestures.Common.OsSpecific.Windows
 
         public bool RegisterHotKey(string id, HotKey hk, Action<HotKeyEventArgs> callback)
         {
-            if (_keyToAction.ContainsKey(hk))
+            Debug.WriteLine("RegisterHotKey: " + id + " " + hk.ToString());
+            if ( _idToHotKey.ContainsKey(id) )
             {
-                UnRegisterHotKey(hk);
+                UnRegisterHotKey(id);
             }
 
             // register the hot key.
@@ -194,29 +209,23 @@ namespace WGestures.Common.OsSpecific.Windows
             UnRegisterHotKey(new HotKey() { modifiers = modifiers, key = key });
         }
 
-        public void UnRegisterHotKey(HotKey hk)
+        private void UnRegisterHotKey(HotKey hk)
         {
             User32.UnregisterHotKey(_window.Handle, hk.GetHashCode());
             _keyToAction.Remove(hk);
-
-            foreach(var k in _idToHotKey.Keys)
-            {
-                if(_idToHotKey[k].Equals(hk))
-                {
-                    _idToHotKey.Remove(k);
-                }
-            }
         }
 
         public void UnRegisterHotKey(string id)
         {
-            HotKey outHk;
-            if( _idToHotKey.TryGetValue(id, out outHk) )
+            try
             {
-                UnRegisterHotKey(outHk);
-
+                UnRegisterHotKey(_idToHotKey[id]);
                 _idToHotKey.Remove(id);
+            }catch(KeyNotFoundException e)
+            {
+                throw new InvalidOperationException(id + " not registered!", e);
             }
+
         }
 
         public HotKey? GetRegisteredHotKeyById(string id)
