@@ -7,6 +7,7 @@ using System.Text;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace WGestures.Core.Commands.Impl
 {
@@ -30,6 +31,33 @@ namespace WGestures.Core.Commands.Impl
         {
             ShowWindow = true;
             AutoSetWorkingDir = true;
+        }
+
+        public override string Description()
+        {
+            if(Code != null)
+            {
+                var lines = Code.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+                if(lines.Length > 0)
+                {
+                    var regex = new Regex(@"^(::|rem )(.*)");
+                    var matches = regex.Matches(lines[0].Trim());
+                    if(matches.Count > 0)
+                    {
+                        var msg = matches[0].Groups[2].Value.Trim();
+                        if (msg.Length > 8) msg = msg.Substring(0, 8);
+                        if (msg.Length > 0)
+                        {
+                            return msg;
+                        }
+                    }
+                    
+                }
+
+            }
+
+            return base.Description();
         }
 
         public override void Execute()
