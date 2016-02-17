@@ -209,7 +209,7 @@ namespace WGestures.Core.Impl.Windows
             InitialStayTimeoutMillis = 150;
             
             EffectiveMove = (int)(10 * dpiFactor) * 2;//todo: 增加灵敏度调整
-            StepSize = 2;// EffectiveMove/4;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
+            StepSize = 1;// EffectiveMove/4;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
