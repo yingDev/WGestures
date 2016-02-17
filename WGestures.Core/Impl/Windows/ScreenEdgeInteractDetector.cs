@@ -38,9 +38,9 @@ namespace WGestures.Core.Impl.Windows
 
         public EdgeInteractDetector(MouseHook mouseHook)
         {
-            _dpiScale = (Native.GetScreenDpi() / 96.0f);
-            _screenBounds = Native.GetScreenBounds();
-            Microsoft.Win32.SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+            //_dpiScale = (Native.GetScreenDpi() / 96.0f);
+            //_screenBounds = Native.GetScreenBounds();
+            //Microsoft.Win32.SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
 
             _hook = mouseHook;
             _hook.MouseHookEvent += _hook_MouseHookEvent;
@@ -51,8 +51,8 @@ namespace WGestures.Core.Impl.Windows
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
-            _dpiScale = (Native.GetScreenDpi() / 96.0f);
-            _screenBounds = Native.GetScreenBounds();
+            //_dpiScale = (Native.GetScreenDpi() / 96.0f);
+            //_screenBounds = Native.GetScreenBounds();
         }
 
         //Note: Hook runs on separate thread!
@@ -78,11 +78,13 @@ namespace WGestures.Core.Impl.Windows
                 return;
             }
 
+            var screenBounds = Common.OsSpecific.Windows.Screen.ScreenBoundsFromPoint(e.Pos);
+            if (screenBounds == null) return;
+            _screenBounds = screenBounds.Value;
+            _dpiScale = (Native.GetScreenDpi() / 96.0f);
+
             DetectCollide(e);
-
             DetectRub(e);
-
-
         }
 
 
