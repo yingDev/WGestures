@@ -24,21 +24,24 @@ namespace WGestures.App
 {
     static class Program
     {
-        private static Mutex mutext;
-        private static GestureParser gestureParser;
+        static Mutex mutext;
+        static GestureParser gestureParser;
 
-        private static PlistConfig config;
-        private static CanvasWindowGestureView gestureView;
+        static PlistConfig config;
+        static CanvasWindowGestureView gestureView;
 
-        private static readonly IList<IDisposable> componentsToDispose = new List<IDisposable>();
-        private static SettingsFormController settingsFormController;
+        static readonly IList<IDisposable> componentsToDispose = new List<IDisposable>();
+        static SettingsFormController settingsFormController;
 
-        private static bool isFirstRun;
-        private static JsonGestureIntentStore intentStore;
-        private static Win32GestrueIntentFinder intentFinder;
+        static bool isFirstRun;
+        static JsonGestureIntentStore intentStore;
+        static Win32GestrueIntentFinder intentFinder;
 
-        private static NotifyIcon trayIcon;
-        private static GlobalHotKeyManager hotkeyMgr;
+        static NotifyIcon trayIcon;
+        static GlobalHotKeyManager hotkeyMgr;
+        
+        //for adding hotkey
+        static MenuItem menuItem_pause;
 
         [STAThread]
         static void Main(string[] args)
@@ -86,7 +89,7 @@ namespace WGestures.App
         }
 
         //TODO: refactor out
-        private static void StartIpcPipe()
+        static void StartIpcPipe()
         {
             //todo: impl a set of IPC APIs to perform some cmds. eg.Pause/Resume, Quit...
             //todo: Temporay IPC mechanism.
@@ -120,7 +123,7 @@ namespace WGestures.App
             pipeThread.Start();
         }
 
-        private static void PostIpcCmd(string cmd)
+        static void PostIpcCmd(string cmd)
         {
             using (var pipeClient = new System.IO.Pipes.NamedPipeClientStream("WGestures_IPC_API"))
             {
@@ -132,7 +135,7 @@ namespace WGestures.App
             }
         }
 
-        private static void StartParserThread()
+        static void StartParserThread()
         {
             new Thread(() =>
             {
@@ -151,7 +154,7 @@ namespace WGestures.App
             }, maxStackSize: 1) {Name = "Parser线程", Priority = ThreadPriority.Highest, IsBackground = false}.Start();
         }
 
-        private static bool IsDuplicateInstance()
+        static bool IsDuplicateInstance()
         {
             bool createdNew;
             mutext = new Mutex(true, Constants.Identifier, out createdNew);
@@ -163,7 +166,7 @@ namespace WGestures.App
             return false;
         }
 
-        private static void ShowFatalError(Exception e)
+        static void ShowFatalError(Exception e)
         {
             var frm = new ErrorForm() {Text = Application.ProductName};
             frm.ErrorText = e.ToString();
@@ -171,7 +174,7 @@ namespace WGestures.App
             Environment.Exit(1);
         }
 
-        private static void CheckAndDoFirstRunStuff()
+        static void CheckAndDoFirstRunStuff()
         {
             //是否是第一次运行
              var maybeFirstRun = config.Get<bool?>(ConfigKeys.IsFirstRun);
@@ -196,7 +199,7 @@ namespace WGestures.App
             }
         }
 
-        private static void AppWideInit()
+        static void AppWideInit()
         {
             Application.EnableVisualStyles();
             Native.SetProcessDPIAware();
@@ -213,7 +216,7 @@ namespace WGestures.App
             hotkeyMgr = new GlobalHotKeyManager();
         }
         
-        private static void LoadFailSafeConfigFile()
+        static void LoadFailSafeConfigFile()
         {
             if (!File.Exists(AppSettings.ConfigFilePath))
             {
@@ -260,7 +263,7 @@ namespace WGestures.App
         }
 
 
-        private static void ImportPrevousVersion()
+        static void ImportPrevousVersion()
         {
             try
             {
@@ -282,7 +285,7 @@ namespace WGestures.App
             }
         }
 
-        private static void ConfigureComponents()
+        static void ConfigureComponents()
         {
             #region Create Components
             intentFinder = new Win32GestrueIntentFinder(intentStore);
@@ -348,12 +351,13 @@ namespace WGestures.App
             }
         }
 
-        private static bool HotkeyMgr_HotKeyPreview(GlobalHotKeyManager mgr, string id, GlobalHotKeyManager.HotKey hk)
+        static bool HotkeyMgr_HotKeyPreview(GlobalHotKeyManager mgr, string id, GlobalHotKeyManager.HotKey hk)
         {
             if(id == ConfigKeys.PauseResumeHotKey)
             {
                 Debug.WriteLine("HotKey Pressed: " + hk);
                 TogglePause();
+                menuItem_pause.Text = string.Format("{0} ({1})", gestureParser.IsPaused ? "继续" : "暂停" ,hk.ToString());
 
                 return true; //Handled
             }
@@ -361,12 +365,12 @@ namespace WGestures.App
             return false;
         }
 
-        private static void TogglePause()
+        static void TogglePause()
         {
             gestureParser.TogglePause();
         }
 
-        private static void ShowTrayIcon()
+        static void ShowTrayIcon()
         {
                 trayIcon = CreateNotifyIcon();
                 EventHandler handleBalloon = (sender, args) =>
@@ -412,17 +416,17 @@ namespace WGestures.App
         }
 
         #region event handlers
-        private static void menuItem_settings_Click(object sender, EventArgs eventArgs)
+        static void menuItem_settings_Click(object sender, EventArgs eventArgs)
         {
             ShowSettings();
         }
 
-        private static void menuItem_pause_Click(object sender, EventArgs eventArgs)
+        static void menuItem_pause_Click(object sender, EventArgs eventArgs)
         {
             TogglePause();
         }
 
-        private static void menuItem_exit_Click(object sender, EventArgs e)
+        static void menuItem_exit_Click(object sender, EventArgs e)
         {
             gestureParser.Stop();
             Application.ExitThread();
@@ -433,7 +437,7 @@ namespace WGestures.App
         #endregion
 
         //仅在启动一段时间后检查一次更新，
-        private static void ScheduledUpdateCheck(object sender, NotifyIcon tray)
+        static void ScheduledUpdateCheck(object sender, NotifyIcon tray)
         {
             if (!config.Get<bool>(ConfigKeys.AutoCheckForUpdate)) return;
             
@@ -478,7 +482,8 @@ namespace WGestures.App
             checker.CheckAsync();
         }
 
-        private static void ToggleTrayIconVisibility()
+        [Obsolete]
+        static void ToggleTrayIconVisibility()
         {            
             //如果图标当前可见， 而config中设置的值是不可见， 则说明是临时显示; 如果不是临时显示， 才需要修改config
             if (!(trayIcon.Visible && !config.Get(ConfigKeys.TrayIconVisible, true)))
@@ -496,7 +501,7 @@ namespace WGestures.App
             }
         }
 
-        private static void ShowSettings()
+        static void ShowSettings()
         {
             if (settingsFormController != null)
             {
@@ -515,7 +520,7 @@ namespace WGestures.App
         }
 
         //用配置信息去同步自启动
-        private static void SyncAutoStartState()
+        static void SyncAutoStartState()
         {
             var fact = AutoStarter.IsRegistered(Constants.Identifier, Application.ExecutablePath);
             var conf = config.Get<bool>(ConfigKeys.AutoStart);
@@ -539,7 +544,7 @@ namespace WGestures.App
             }
         }
 
-        private static void ShowQuickStartGuide()
+        static void ShowQuickStartGuide()
         {
             var t = new Thread(() =>
             {
@@ -560,8 +565,18 @@ namespace WGestures.App
             t.Start();
         }
 
+        static string GetPauseResumeHotkeyStringFromConfig()
+        {
+            var bytes = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey);
+            if(bytes != null)
+            {
+                return GlobalHotKeyManager.HotKey.FromBytes(bytes).ToString();
+            }
 
-        private static NotifyIcon CreateNotifyIcon()
+            return "";
+        }
+
+        static NotifyIcon CreateNotifyIcon()
         {
             var notifyIcon = new NotifyIcon();
 
@@ -570,7 +585,7 @@ namespace WGestures.App
             var menuItem_exit = new MenuItem() { Text = "退出" };
             menuItem_exit.Click += menuItem_exit_Click;
 
-            var menuItem_pause = new MenuItem() { Text = "暂停 (TODO: 快捷键)" };//TODO: 快捷键
+            menuItem_pause = new MenuItem() { Text = string.Format("暂停 ({0})", GetPauseResumeHotkeyStringFromConfig()) };
             menuItem_pause.Click += menuItem_pause_Click;
 
             var menuItem_settings = new MenuItem() { Text = "设置" };
@@ -593,21 +608,15 @@ namespace WGestures.App
 
             gestureParser.StateChanged += state =>
             {
-                var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
+                //var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
                 if (state == GestureParser.State.PAUSED)
                 {
-                    menuItem_pause.Text = string.Format("继续 ({0}键 + 中键)",mouseSwapped ? "右" : "左");
+                    menuItem_pause.Text = string.Format("继续 ({0})", GetPauseResumeHotkeyStringFromConfig());
                     notifyIcon.Icon = Resources.trayIcon_bw;
-
-                    /*if (!notifyIcon.Visible)
-                    {
-                        notifyIcon.Visible = true;
-                        notifyIcon.ShowBalloonTip(500, "WGestures", "已暂停", ToolTipIcon.Info);
-                    }*/
                 }
                 else
                 {
-                    menuItem_pause.Text = string.Format("暂停 ({0}键 + 中键)", mouseSwapped ? "右" : "左");
+                    menuItem_pause = new MenuItem() { Text = string.Format("暂停 ({0})", GetPauseResumeHotkeyStringFromConfig()) };
                     notifyIcon.Icon = Resources.trayIcon;
                 }
             };
@@ -615,7 +624,7 @@ namespace WGestures.App
             return notifyIcon;
         }
 
-        private static void Warning360Safe()
+        static void Warning360Safe()
         {
             var proc360 = Process.GetProcessesByName("360Safe");
             var proc360Tray = Process.GetProcessesByName("360Tray");
@@ -629,7 +638,7 @@ namespace WGestures.App
             }
         }
 
-        private static void Dispose()
+        static void Dispose()
         {
             try
             {
