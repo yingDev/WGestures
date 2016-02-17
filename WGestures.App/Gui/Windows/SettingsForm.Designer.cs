@@ -103,7 +103,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.check_gesturingDisabled = new System.Windows.Forms.CheckBox();
             this.pictureSelectedApp = new System.Windows.Forms.PictureBox();
-            this.labelAppName = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.listGestureIntents = new WGestures.App.Gui.Windows.Controls.AlwaysSelectedListView();
             this.colGestureName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -252,7 +252,7 @@ namespace WGestures.App.Gui.Windows
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox2.Location = new System.Drawing.Point(14, 181);
+            this.groupBox2.Location = new System.Drawing.Point(14, 171);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -265,11 +265,10 @@ namespace WGestures.App.Gui.Windows
             // 
             this.check_preferCursorWindow.AutoSize = true;
             this.check_preferCursorWindow.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerPreferCursorWindow", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.check_preferCursorWindow.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_preferCursorWindow.Location = new System.Drawing.Point(300, 114);
             this.check_preferCursorWindow.Margin = new System.Windows.Forms.Padding(4);
             this.check_preferCursorWindow.Name = "check_preferCursorWindow";
-            this.check_preferCursorWindow.Size = new System.Drawing.Size(177, 22);
+            this.check_preferCursorWindow.Size = new System.Drawing.Size(171, 21);
             this.check_preferCursorWindow.TabIndex = 18;
             this.check_preferCursorWindow.Text = "总是作用于指针下方的窗口";
             this.tip.SetToolTip(this.check_preferCursorWindow, "使手势总是作用于鼠标指针下方窗口，而不是当前活动程序");
@@ -283,11 +282,10 @@ namespace WGestures.App.Gui.Windows
             // 
             this.check_enable8DirGesture.AutoSize = true;
             this.check_enable8DirGesture.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureParserEnable8DirGesture", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.check_enable8DirGesture.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_enable8DirGesture.Location = new System.Drawing.Point(300, 84);
             this.check_enable8DirGesture.Margin = new System.Windows.Forms.Padding(4);
             this.check_enable8DirGesture.Name = "check_enable8DirGesture";
-            this.check_enable8DirGesture.Size = new System.Drawing.Size(129, 22);
+            this.check_enable8DirGesture.Size = new System.Drawing.Size(123, 21);
             this.check_enable8DirGesture.TabIndex = 17;
             this.check_enable8DirGesture.Text = "允许使用斜线手势";
             this.tip.SetToolTip(this.check_enable8DirGesture, "是否允许使用”↖↙↗↘“手势");
@@ -353,12 +351,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.check_disableOnFullscreen.AutoSize = true;
             this.check_disableOnFullscreen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerDisableInFullScreen", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.check_disableOnFullscreen.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_disableOnFullscreen.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_disableOnFullscreen.Location = new System.Drawing.Point(90, 117);
             this.check_disableOnFullscreen.Margin = new System.Windows.Forms.Padding(4);
             this.check_disableOnFullscreen.Name = "check_disableOnFullscreen";
-            this.check_disableOnFullscreen.Size = new System.Drawing.Size(141, 22);
+            this.check_disableOnFullscreen.Size = new System.Drawing.Size(135, 21);
             this.check_disableOnFullscreen.TabIndex = 12;
             this.check_disableOnFullscreen.Text = "全屏时自动禁用手势";
             this.check_disableOnFullscreen.UseVisualStyleBackColor = true;
@@ -399,12 +396,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.check_pathTrackerInitialStayTimeout.AutoSize = true;
             this.check_pathTrackerInitialStayTimeout.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerInitialStayTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.check_pathTrackerInitialStayTimeout.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_pathTrackerInitialStayTimeout.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_pathTrackerInitialStayTimeout.Location = new System.Drawing.Point(90, 57);
             this.check_pathTrackerInitialStayTimeout.Margin = new System.Windows.Forms.Padding(4);
             this.check_pathTrackerInitialStayTimeout.Name = "check_pathTrackerInitialStayTimeout";
-            this.check_pathTrackerInitialStayTimeout.Size = new System.Drawing.Size(117, 22);
+            this.check_pathTrackerInitialStayTimeout.Size = new System.Drawing.Size(111, 21);
             this.check_pathTrackerInitialStayTimeout.TabIndex = 10;
             this.check_pathTrackerInitialStayTimeout.Text = "起始超时 (毫秒)";
             this.tip.SetToolTip(this.check_pathTrackerInitialStayTimeout, "若按下右键后超过此时间未移动，则执行正常右键拖拽操作");
@@ -525,12 +521,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.checkGestureView_fadeOut.AutoSize = true;
             this.checkGestureView_fadeOut.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureViewFadeOut", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkGestureView_fadeOut.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkGestureView_fadeOut.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkGestureView_fadeOut.Location = new System.Drawing.Point(270, 162);
             this.checkGestureView_fadeOut.Margin = new System.Windows.Forms.Padding(4);
             this.checkGestureView_fadeOut.Name = "checkGestureView_fadeOut";
-            this.checkGestureView_fadeOut.Size = new System.Drawing.Size(93, 22);
+            this.checkGestureView_fadeOut.Size = new System.Drawing.Size(87, 21);
             this.checkGestureView_fadeOut.TabIndex = 1;
             this.checkGestureView_fadeOut.Text = "执行后淡出";
             this.tip.SetToolTip(this.checkGestureView_fadeOut, "手势执行后图形逐渐消失(而非突然消失)");
@@ -540,12 +535,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.checkGestureViewShowCommandName.AutoSize = true;
             this.checkGestureViewShowCommandName.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureViewShowCommandName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkGestureViewShowCommandName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkGestureViewShowCommandName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkGestureViewShowCommandName.Location = new System.Drawing.Point(170, 162);
             this.checkGestureViewShowCommandName.Margin = new System.Windows.Forms.Padding(4);
             this.checkGestureViewShowCommandName.Name = "checkGestureViewShowCommandName";
-            this.checkGestureViewShowCommandName.Size = new System.Drawing.Size(81, 22);
+            this.checkGestureViewShowCommandName.Size = new System.Drawing.Size(75, 21);
             this.checkGestureViewShowCommandName.TabIndex = 1;
             this.checkGestureViewShowCommandName.Text = "手势名称";
             this.checkGestureViewShowCommandName.UseVisualStyleBackColor = true;
@@ -554,12 +548,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.checkPathTrackerStayTimeout.AutoSize = true;
             this.checkPathTrackerStayTimeout.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "PathTrackerStayTimeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkPathTrackerStayTimeout.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkPathTrackerStayTimeout.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkPathTrackerStayTimeout.Location = new System.Drawing.Point(90, 87);
             this.checkPathTrackerStayTimeout.Margin = new System.Windows.Forms.Padding(4);
             this.checkPathTrackerStayTimeout.Name = "checkPathTrackerStayTimeout";
-            this.checkPathTrackerStayTimeout.Size = new System.Drawing.Size(117, 22);
+            this.checkPathTrackerStayTimeout.Size = new System.Drawing.Size(111, 21);
             this.checkPathTrackerStayTimeout.TabIndex = 0;
             this.checkPathTrackerStayTimeout.Text = "停留超时 (毫秒)";
             this.tip.SetToolTip(this.checkPathTrackerStayTimeout, "若鼠标停止移动超过此时间，已画出的手势将被取消");
@@ -569,12 +562,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.checkGestureViewShowPath.AutoSize = true;
             this.checkGestureViewShowPath.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "GestureViewShowPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkGestureViewShowPath.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkGestureViewShowPath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkGestureViewShowPath.Location = new System.Drawing.Point(90, 162);
             this.checkGestureViewShowPath.Margin = new System.Windows.Forms.Padding(4);
             this.checkGestureViewShowPath.Name = "checkGestureViewShowPath";
-            this.checkGestureViewShowPath.Size = new System.Drawing.Size(57, 22);
+            this.checkGestureViewShowPath.Size = new System.Drawing.Size(51, 21);
             this.checkGestureViewShowPath.TabIndex = 0;
             this.checkGestureViewShowPath.Text = "轨迹";
             this.checkGestureViewShowPath.UseVisualStyleBackColor = true;
@@ -632,7 +624,7 @@ namespace WGestures.App.Gui.Windows
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(526, 146);
+            this.groupBox1.Size = new System.Drawing.Size(526, 127);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "通用";
@@ -688,12 +680,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.check_autoStart.AutoSize = true;
             this.check_autoStart.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "AutoStart", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.check_autoStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_autoStart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_autoStart.Location = new System.Drawing.Point(30, 30);
             this.check_autoStart.Margin = new System.Windows.Forms.Padding(4);
             this.check_autoStart.Name = "check_autoStart";
-            this.check_autoStart.Size = new System.Drawing.Size(105, 22);
+            this.check_autoStart.Size = new System.Drawing.Size(99, 21);
             this.check_autoStart.TabIndex = 0;
             this.check_autoStart.Text = "开机自动运行";
             this.check_autoStart.UseVisualStyleBackColor = true;
@@ -716,12 +707,11 @@ namespace WGestures.App.Gui.Windows
             // 
             this.check_autoCheckUpdate.AutoSize = true;
             this.check_autoCheckUpdate.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.settingsFormControllerBindingSource, "AutoCheckForUpdate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.check_autoCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_autoCheckUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_autoCheckUpdate.Location = new System.Drawing.Point(30, 60);
             this.check_autoCheckUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.check_autoCheckUpdate.Name = "check_autoCheckUpdate";
-            this.check_autoCheckUpdate.Size = new System.Drawing.Size(105, 22);
+            this.check_autoCheckUpdate.Size = new System.Drawing.Size(99, 21);
             this.check_autoCheckUpdate.TabIndex = 1;
             this.check_autoCheckUpdate.Text = "自动检查更新";
             this.check_autoCheckUpdate.UseVisualStyleBackColor = true;
@@ -778,7 +768,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel2.Location = new System.Drawing.Point(190, 18);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(359, 448);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(353, 447);
             this.flowLayoutPanel2.TabIndex = 6;
             // 
             // panel1
@@ -790,18 +780,17 @@ namespace WGestures.App.Gui.Windows
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(359, 26);
+            this.panel1.Size = new System.Drawing.Size(353, 25);
             this.panel1.TabIndex = 12;
             // 
             // checkInheritGlobal
             // 
             this.checkInheritGlobal.AutoSize = true;
-            this.checkInheritGlobal.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.checkInheritGlobal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.checkInheritGlobal.Location = new System.Drawing.Point(254, 2);
             this.checkInheritGlobal.Margin = new System.Windows.Forms.Padding(0);
             this.checkInheritGlobal.Name = "checkInheritGlobal";
-            this.checkInheritGlobal.Size = new System.Drawing.Size(105, 22);
+            this.checkInheritGlobal.Size = new System.Drawing.Size(99, 21);
             this.checkInheritGlobal.TabIndex = 3;
             this.checkInheritGlobal.Text = "继承全局手势";
             this.checkInheritGlobal.UseVisualStyleBackColor = true;
@@ -814,27 +803,26 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel1.Controls.Add(this.check_gesturingDisabled);
             this.flowLayoutPanel1.Controls.Add(this.pictureSelectedApp);
-            this.flowLayoutPanel1.Controls.Add(this.labelAppName);
+            this.flowLayoutPanel1.Controls.Add(this.label15);
             this.flowLayoutPanel1.Controls.Add(this.label7);
             this.flowLayoutPanel1.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(219, 26);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(235, 25);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // check_gesturingDisabled
             // 
             this.check_gesturingDisabled.AutoSize = true;
-            this.check_gesturingDisabled.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.check_gesturingDisabled.ForeColor = System.Drawing.Color.Black;
             this.check_gesturingDisabled.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.check_gesturingDisabled.Location = new System.Drawing.Point(10, 2);
             this.check_gesturingDisabled.Margin = new System.Windows.Forms.Padding(10, 2, 0, 2);
             this.check_gesturingDisabled.Name = "check_gesturingDisabled";
-            this.check_gesturingDisabled.Size = new System.Drawing.Size(57, 22);
+            this.check_gesturingDisabled.Size = new System.Drawing.Size(63, 21);
             this.check_gesturingDisabled.TabIndex = 5;
-            this.check_gesturingDisabled.Text = "禁止";
+            this.check_gesturingDisabled.Text = "不要在";
             this.tip.SetToolTip(this.check_gesturingDisabled, "在该程序上禁用手势（等同于双击应用程序条目）");
             this.check_gesturingDisabled.UseVisualStyleBackColor = true;
             this.check_gesturingDisabled.CheckedChanged += new System.EventHandler(this.check_gesturingEnabled_CheckedChanged);
@@ -843,45 +831,40 @@ namespace WGestures.App.Gui.Windows
             // 
             this.pictureSelectedApp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureSelectedApp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureSelectedApp.Location = new System.Drawing.Point(67, 4);
+            this.pictureSelectedApp.Location = new System.Drawing.Point(73, 2);
             this.pictureSelectedApp.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.pictureSelectedApp.Name = "pictureSelectedApp";
-            this.pictureSelectedApp.Size = new System.Drawing.Size(16, 16);
+            this.pictureSelectedApp.Size = new System.Drawing.Size(18, 18);
             this.pictureSelectedApp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureSelectedApp.TabIndex = 2;
             this.pictureSelectedApp.TabStop = false;
             // 
-            // labelAppName
+            // label15
             // 
-            this.labelAppName.AutoEllipsis = true;
-            this.labelAppName.AutoSize = true;
-            this.labelAppName.BackColor = System.Drawing.Color.White;
-            this.labelAppName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labelAppName.ForeColor = System.Drawing.Color.Black;
-            this.labelAppName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelAppName.Location = new System.Drawing.Point(83, 2);
-            this.labelAppName.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.labelAppName.MaximumSize = new System.Drawing.Size(90, 18);
-            this.labelAppName.Name = "labelAppName";
-            this.labelAppName.Size = new System.Drawing.Size(80, 18);
-            this.labelAppName.TabIndex = 1;
-            this.labelAppName.Text = "文件管理器阿不都第三方斯蒂芬李双江的方式";
-            this.labelAppName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.White;
+            this.label15.ForeColor = System.Drawing.Color.Black;
+            this.label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label15.Location = new System.Drawing.Point(91, 2);
+            this.label15.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(92, 17);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "上使用任何手势";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.White;
-            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(163, 2);
+            this.label7.Location = new System.Drawing.Point(183, 2);
             this.label7.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 17);
+            this.label7.Size = new System.Drawing.Size(52, 17);
             this.label7.TabIndex = 3;
-            this.label7.Text = "使用手势";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label7.Text = "(黑名单)";
             // 
             // listGestureIntents
             // 
@@ -898,7 +881,7 @@ namespace WGestures.App.Gui.Windows
             this.listGestureIntents.HideSelection = false;
             this.listGestureIntents.InsertionLineColor = System.Drawing.Color.DeepSkyBlue;
             this.listGestureIntents.LabelEdit = true;
-            this.listGestureIntents.Location = new System.Drawing.Point(10, 28);
+            this.listGestureIntents.Location = new System.Drawing.Point(10, 27);
             this.listGestureIntents.Margin = new System.Windows.Forms.Padding(10, 2, 2, 2);
             this.listGestureIntents.MultiSelect = false;
             this.listGestureIntents.Name = "listGestureIntents";
@@ -939,7 +922,7 @@ namespace WGestures.App.Gui.Windows
             this.panel_intentListOperations.Controls.Add(this.btn_RemoveGesture);
             this.panel_intentListOperations.Controls.Add(this.btn_modifyGesture);
             this.panel_intentListOperations.Controls.Add(this.btnAddGesture);
-            this.panel_intentListOperations.Location = new System.Drawing.Point(10, 196);
+            this.panel_intentListOperations.Location = new System.Drawing.Point(10, 195);
             this.panel_intentListOperations.Margin = new System.Windows.Forms.Padding(10, 2, 0, 0);
             this.panel_intentListOperations.Name = "panel_intentListOperations";
             this.panel_intentListOperations.Size = new System.Drawing.Size(340, 22);
@@ -996,7 +979,7 @@ namespace WGestures.App.Gui.Windows
             this.group_Command.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.group_Command.Controls.Add(this.flowLayoutPanel6);
             this.group_Command.Enabled = false;
-            this.group_Command.Location = new System.Drawing.Point(10, 228);
+            this.group_Command.Location = new System.Drawing.Point(10, 227);
             this.group_Command.Margin = new System.Windows.Forms.Padding(10, 10, 2, 2);
             this.group_Command.Name = "group_Command";
             this.group_Command.Padding = new System.Windows.Forms.Padding(2);
@@ -1653,27 +1636,27 @@ namespace WGestures.App.Gui.Windows
             this.menuItem_resetGestures});
             this.ctx_gesturesMenu.Name = "contextMenuStrip1";
             this.ctx_gesturesMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ctx_gesturesMenu.Size = new System.Drawing.Size(153, 92);
+            this.ctx_gesturesMenu.Size = new System.Drawing.Size(136, 70);
             this.ctx_gesturesMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.ctx_gesturesMenu_Closed);
             // 
             // menuItem_import
             // 
             this.menuItem_import.Name = "menuItem_import";
-            this.menuItem_import.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_import.Size = new System.Drawing.Size(135, 22);
             this.menuItem_import.Text = "导入...";
             this.menuItem_import.Click += new System.EventHandler(this.menuItem_imxport_Click);
             // 
             // menuItem_export
             // 
             this.menuItem_export.Name = "menuItem_export";
-            this.menuItem_export.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_export.Size = new System.Drawing.Size(135, 22);
             this.menuItem_export.Text = "导出...";
             this.menuItem_export.Click += new System.EventHandler(this.menuItem_export_Click);
             // 
             // menuItem_resetGestures
             // 
             this.menuItem_resetGestures.Name = "menuItem_resetGestures";
-            this.menuItem_resetGestures.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_resetGestures.Size = new System.Drawing.Size(135, 22);
             this.menuItem_resetGestures.Text = "恢复默认...";
             this.menuItem_resetGestures.Click += new System.EventHandler(this.menuItem_resetGestures_Click);
             // 
@@ -1777,7 +1760,6 @@ namespace WGestures.App.Gui.Windows
         private Label lb_Version;
         private ImageList imglistAppIcons;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Label labelAppName;
         private AlwaysSelectedListView listGestureIntents;
         private ColumnHeader colGestureName;
         private ColumnHeader colGestureDirs;
@@ -1859,5 +1841,6 @@ namespace WGestures.App.Gui.Windows
         private Label label14;
         private ShortcutRecordButton shortcutRec_pause;
         private Label lb_pause_shortcut;
+        private Label label15;
     }
 }

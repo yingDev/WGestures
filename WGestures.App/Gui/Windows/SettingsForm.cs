@@ -237,7 +237,7 @@ namespace WGestures.App.Gui.Windows
             
             Debug.WriteLine("listApps_ItemSelectionChanged");
 
-            labelAppName.Text = e.Item.Text.Trim();
+            //labelAppName.Text = e.Item.Text.Trim();
             var app = e.Item.Tag as AbstractApp;
 
             //if (app is GlobalApp) check_gesturingEnabled.Text = "启用全局手势";
@@ -636,7 +636,7 @@ namespace WGestures.App.Gui.Windows
 
                         if (!found.AppExists()) sel.Text += "(不存在)";
 
-                        labelAppName.Text = sel.Text;
+                        //labelAppName.Text = sel.Text;
                     }
                     else
                     {
