@@ -137,6 +137,12 @@ namespace WGestures.Core
             OnStateChanged(State.RUNNING);
         }
 
+        public void TogglePause()
+        {
+            if (IsPaused) Resume();
+            else Pause();
+        }
+
         public virtual void Stop()
         {
             PathTracker.Stop();

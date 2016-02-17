@@ -33,16 +33,18 @@ namespace WGestures.App.Gui.Windows
         private Win32MousePathTracker2 _pathTracker;
         private JsonGestureIntentStore _intentStore;
         private CanvasWindowGestureView _gestureView;
+        private GlobalHotKeyManager _hotkeyMgr;
 
         public SettingsFormController(IConfig config, GestureParser parser,
             Win32MousePathTracker2 pathTracker, JsonGestureIntentStore intentStore,
-            CanvasWindowGestureView gestureView)
+            CanvasWindowGestureView gestureView, GlobalHotKeyManager hotkeyMgr)
         {
             _config = config;
             _parser = parser;
             _pathTracker = pathTracker;
             _intentStore = intentStore;
             _gestureView = gestureView;
+            _hotkeyMgr = hotkeyMgr;
 
             #region 初始化支持的命令和命令视图
             //Add Command Types
@@ -89,8 +91,33 @@ namespace WGestures.App.Gui.Windows
 
 
         #region tab1 Config Items
-
+        
         public IConfig Config { get { return _config; } }
+
+        public GlobalHotKeyManager.HotKey? PauseResumeHotkey
+        {
+            get
+            {
+                return _hotkeyMgr.GetRegisteredHotKeyById(ConfigKeys.PauseResumeHotKey);
+            }
+
+            set
+            {
+                if(value != null)
+                {
+                    //use null action here cus we use _hotkeyMgr.HotKeyPreview event in Program class
+                    _hotkeyMgr.RegisterHotKey(ConfigKeys.PauseResumeHotKey, value.Value, null);
+                }else
+                {
+                    _hotkeyMgr.UnRegisterHotKey(ConfigKeys.PauseResumeHotKey);
+                }
+
+                _config.Set(ConfigKeys.PauseResumeHotKey, value == null ?  null : value.Value.ToBytes());
+
+                OnPropertyChanged("PauseResumeHotKey");
+            }
+        }
+
         /// <summary>
         /// 获取或设置是否开机自动运行
         /// </summary>

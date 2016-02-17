@@ -260,10 +260,11 @@ namespace WGestures.Core.Commands.Impl
                             str = k.ToString();
                             break;
                     }
-
+                    if(sb.Length > 0) sb.Append('-');
                     sb.Append(str);
-                    sb.Append(" + ");
                 }
+
+                if(sb.Length > 0) sb.Append(" + ");
 
                 foreach (var k in keys)
                 {

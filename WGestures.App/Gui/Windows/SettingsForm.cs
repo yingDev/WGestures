@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using WGestures.App.Gui.Model;
 using WGestures.App.Gui.Windows.CommandViews;
+using WGestures.App.Gui.Windows.Controls;
 using WGestures.App.Properties;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
@@ -34,8 +35,8 @@ namespace WGestures.App.Gui.Windows
         public SettingsForm(SettingsFormController controller)
         {
             Controller = controller;
-
             InitializeComponent();
+
             Icon = Resources.icon;
 
             SuspendDrawingControl.SuspendDrawing(this);
@@ -81,6 +82,8 @@ namespace WGestures.App.Gui.Windows
         private void InitControlValues()
         {
             #region tab options
+            lb_pause_shortcut.DataBindings.Add("Text", Controller, "PauseResumeHotKey", true, DataSourceUpdateMode.OnPropertyChanged, "无", "{}");
+
             lb_Version.Text = Application.ProductVersion;
 
             var rightButtonText = Native.IsMouseButtonSwapped() ? "左键" : "右键";
@@ -187,6 +190,52 @@ namespace WGestures.App.Gui.Windows
 
             _versionChecker.CheckAsync();
 
+        }
+
+
+        private void shortcutRec_pause_EndRecord(object sender, Controls.ShortcutRecordButton.ShortcutRecordEventArgs e)
+        {
+            if(e.Keys.Count > 0)
+            {
+                lb_pause_shortcut.Text = ShortcutRecordButton.HotKeyToString(e.Modifiers, e.Keys);
+
+                var hk = new GlobalHotKeyManager.HotKey();
+
+                foreach (var k in e.Modifiers)
+                {
+
+                    switch (k)
+                    {
+                        case WindowsInput.Native.VirtualKeyCode.CONTROL:
+                        case WindowsInput.Native.VirtualKeyCode.LCONTROL:
+                        case WindowsInput.Native.VirtualKeyCode.RCONTROL:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Control;
+                            break;
+                        case WindowsInput.Native.VirtualKeyCode.MENU:
+                        case WindowsInput.Native.VirtualKeyCode.LMENU:
+                        case WindowsInput.Native.VirtualKeyCode.RMENU:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Alt;
+                            break;
+                        case WindowsInput.Native.VirtualKeyCode.SHIFT:
+                        case WindowsInput.Native.VirtualKeyCode.LSHIFT:
+                        case WindowsInput.Native.VirtualKeyCode.RSHIFT:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Shift;
+                            break;
+
+                        case WindowsInput.Native.VirtualKeyCode.LWIN:
+                        case WindowsInput.Native.VirtualKeyCode.RWIN:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Win;
+                            break;
+                    }
+                }
+
+                hk.key = (Keys) e.Keys[0];
+
+                Controller.PauseResumeHotkey = hk;
+            } else
+            {
+                Controller.PauseResumeHotkey = null;
+            }
         }
 
         #endregion
@@ -1296,6 +1345,7 @@ namespace WGestures.App.Gui.Windows
         }
 
         #endregion
+
     }
 
 }

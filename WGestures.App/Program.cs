@@ -30,7 +30,7 @@ namespace WGestures.App
         private static PlistConfig config;
         private static CanvasWindowGestureView gestureView;
 
-        private static readonly List<IDisposable> componentsToDispose = new List<IDisposable>();
+        private static readonly IList<IDisposable> componentsToDispose = new List<IDisposable>();
         private static SettingsFormController settingsFormController;
 
         private static bool isFirstRun;
@@ -38,6 +38,7 @@ namespace WGestures.App
         private static Win32GestrueIntentFinder intentFinder;
 
         private static NotifyIcon trayIcon;
+        private static GlobalHotKeyManager hotkeyMgr;
 
         [STAThread]
         static void Main(string[] args)
@@ -84,6 +85,7 @@ namespace WGestures.App
             finally { Dispose(); }
         }
 
+        //TODO: refactor out
         private static void StartIpcPipe()
         {
             //todo: impl a set of IPC APIs to perform some cmds. eg.Pause/Resume, Quit...
@@ -205,18 +207,14 @@ namespace WGestures.App
             using (var proc = Process.GetCurrentProcess())
             {
                 //高优先级
-                proc.PriorityClass = ProcessPriorityClass.AboveNormal;
+                proc.PriorityClass = ProcessPriorityClass.High;
             }
+
+            hotkeyMgr = new GlobalHotKeyManager();
         }
         
         private static void LoadFailSafeConfigFile()
         {
-#if Scafolding
-            config = new PlistConfig(AppSettings.ConfigFilePath){FileVersion = AppSettings.ConfigFileVersion};
-            intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
-            return;
-#endif
-
             if (!File.Exists(AppSettings.ConfigFilePath))
             {
                 File.Copy(string.Format("{0}/defaults/config.plist", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.ConfigFilePath);
@@ -258,6 +256,7 @@ namespace WGestures.App
 
                 intentStore = new JsonGestureIntentStore(AppSettings.GesturesFilePath, AppSettings.GesturesFileVersion);
             }
+
         }
 
 
@@ -295,6 +294,7 @@ namespace WGestures.App
             componentsToDispose.Add(gestureParser);
             componentsToDispose.Add(gestureView);
             componentsToDispose.Add(pathTracker);
+            componentsToDispose.Add(hotkeyMgr);
             #endregion
 
             #region pathTracker
@@ -324,6 +324,46 @@ namespace WGestures.App
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
             gestureParser.EnableRubEdge = config.Get(ConfigKeys.GestureParserEnableRubEdges, true);
             #endregion
+
+
+
+            //HOt key
+            hotkeyMgr.HotKeyPreview += HotkeyMgr_HotKeyPreview;
+
+            var pauseHotKey = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey, null);
+            if (pauseHotKey != null)
+            {
+                var hotkey = GlobalHotKeyManager.HotKey.FromBytes(pauseHotKey);
+
+                try
+                {
+                    hotkeyMgr.RegisterHotKey(ConfigKeys.PauseResumeHotKey, hotkey, null);
+                }catch(InvalidOperationException e)
+                {
+                    Debug.WriteLine(e);
+
+                    //ignore for now ?
+                }
+                
+            }
+        }
+
+        private static bool HotkeyMgr_HotKeyPreview(GlobalHotKeyManager mgr, string id, GlobalHotKeyManager.HotKey hk)
+        {
+            if(id == ConfigKeys.PauseResumeHotKey)
+            {
+                Debug.WriteLine("HotKey Pressed: " + hk);
+                TogglePause();
+
+                return true; //Handled
+            }
+
+            return false;
+        }
+
+        private static void TogglePause()
+        {
+            gestureParser.TogglePause();
         }
 
         private static void ShowTrayIcon()
@@ -379,14 +419,7 @@ namespace WGestures.App
 
         private static void menuItem_pause_Click(object sender, EventArgs eventArgs)
         {
-            if (gestureParser.IsPaused)
-            {
-                gestureParser.Resume();
-            }
-            else
-            {
-                gestureParser.Pause();
-            }
+            TogglePause();
         }
 
         private static void menuItem_exit_Click(object sender, EventArgs e)
@@ -395,6 +428,8 @@ namespace WGestures.App
             Application.ExitThread();
             trayIcon.Dispose();
         }
+
+
         #endregion
 
         //仅在启动一段时间后检查一次更新，
@@ -469,7 +504,7 @@ namespace WGestures.App
                 return;
             }
             using (settingsFormController = new SettingsFormController(config, gestureParser,
-                (Win32MousePathTracker2)gestureParser.PathTracker, intentStore, gestureView))
+                (Win32MousePathTracker2)gestureParser.PathTracker, intentStore, gestureView, hotkeyMgr))
             {
                 //进程如果优先为Hight，设置窗口上执行手势会响应非常迟钝（原因不明）
                //using (var proc = Process.GetCurrentProcess()) proc.PriorityClass = ProcessPriorityClass.Normal;
@@ -525,6 +560,7 @@ namespace WGestures.App
             t.Start();
         }
 
+
         private static NotifyIcon CreateNotifyIcon()
         {
             var notifyIcon = new NotifyIcon();
@@ -534,7 +570,7 @@ namespace WGestures.App
             var menuItem_exit = new MenuItem() { Text = "退出" };
             menuItem_exit.Click += menuItem_exit_Click;
 
-            var menuItem_pause = new MenuItem() { Text = "暂停 (左键 + 中键)" };
+            var menuItem_pause = new MenuItem() { Text = "暂停 (TODO: 快捷键)" };//TODO: 快捷键
             menuItem_pause.Click += menuItem_pause_Click;
 
             var menuItem_settings = new MenuItem() { Text = "设置" };
@@ -550,7 +586,6 @@ namespace WGestures.App
             };*/
 
             contextMenu1.MenuItems.AddRange(new[] { /*menuItem_toggleTray, */menuItem_pause, new MenuItem("-"), menuItem_settings,  menuItem_showQuickStart,new MenuItem("-"), menuItem_exit });
-
             notifyIcon.Icon = Resources.trayIcon;
             notifyIcon.Text = Application.ProductName;
             notifyIcon.ContextMenu = contextMenu1;

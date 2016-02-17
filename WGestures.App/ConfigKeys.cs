@@ -37,5 +37,7 @@ namespace WGestures.App
         public const string GestureParserEnable8DirGesture = "GestureParserEnable8DirGesture";
 
         public const string GestureParserEnableRubEdges = "GestureParserEnableRubEdges";
+
+        public const string PauseResumeHotKey = "PauseResumeHotKey";
     }
 }

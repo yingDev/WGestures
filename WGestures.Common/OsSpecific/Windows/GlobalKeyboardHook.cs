@@ -8,7 +8,7 @@ namespace WGestures.Common.OsSpecific.Windows
     /// <summary>
     /// A class that manages a global low level keyboard hook
     /// </summary>
-    public class GlobalKeyboardHook
+    public class GlobalKeyboardHook : IDisposable
     {
         #region Constant, Structure and Delegate Definitions
         /// <summary>
@@ -67,7 +67,7 @@ namespace WGestures.Common.OsSpecific.Windows
         /// </summary>
         ~GlobalKeyboardHook()
         {
-            unhook();
+            Dispose(false);
         }
         #endregion
 
@@ -155,6 +155,17 @@ namespace WGestures.Common.OsSpecific.Windows
         /// <returns>A handle to the library</returns>
         [DllImport("kernel32.dll")]
         static extern IntPtr LoadLibrary(string lpFileName);
+
+        protected void Dispose(bool disposing)
+        {
+            //×ÜÊÇunhook
+            unhook();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
     }
 }
