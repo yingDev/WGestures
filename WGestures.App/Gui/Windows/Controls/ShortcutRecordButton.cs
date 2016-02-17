@@ -144,7 +144,7 @@ namespace WGestures.App.Gui.Windows.Controls
 
         }
 
-        public static string HotKeyToString(ICollection<VirtualKeyCode> modifiers, ICollection<VirtualKeyCode> keys)
+        public static string HotKeyToString(IList<VirtualKeyCode> modifiers, IList<VirtualKeyCode> keys)
         {
             if (keys.Count != 0 || modifiers.Count != 0)
             {

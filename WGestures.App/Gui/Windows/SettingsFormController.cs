@@ -103,12 +103,15 @@ namespace WGestures.App.Gui.Windows
 
             set
             {
+
                 if(value != null)
                 {
+                    if (PauseResumeHotkey != null && value.Value.Equals(PauseResumeHotkey.Value) ) return;
                     //use null action here cus we use _hotkeyMgr.HotKeyPreview event in Program class
                     _hotkeyMgr.RegisterHotKey(ConfigKeys.PauseResumeHotKey, value.Value, null);
                 }else
                 {
+                    if (PauseResumeHotkey == null) return;
                     _hotkeyMgr.UnRegisterHotKey(ConfigKeys.PauseResumeHotKey);
                 }
 

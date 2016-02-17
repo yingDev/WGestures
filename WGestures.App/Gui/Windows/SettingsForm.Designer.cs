@@ -1653,28 +1653,28 @@ namespace WGestures.App.Gui.Windows
             this.menuItem_resetGestures});
             this.ctx_gesturesMenu.Name = "contextMenuStrip1";
             this.ctx_gesturesMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ctx_gesturesMenu.Size = new System.Drawing.Size(188, 70);
+            this.ctx_gesturesMenu.Size = new System.Drawing.Size(153, 92);
             this.ctx_gesturesMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.ctx_gesturesMenu_Closed);
             // 
             // menuItem_import
             // 
             this.menuItem_import.Name = "menuItem_import";
-            this.menuItem_import.Size = new System.Drawing.Size(187, 22);
+            this.menuItem_import.Size = new System.Drawing.Size(152, 22);
             this.menuItem_import.Text = "导入...";
             this.menuItem_import.Click += new System.EventHandler(this.menuItem_imxport_Click);
             // 
             // menuItem_export
             // 
             this.menuItem_export.Name = "menuItem_export";
-            this.menuItem_export.Size = new System.Drawing.Size(187, 22);
+            this.menuItem_export.Size = new System.Drawing.Size(152, 22);
             this.menuItem_export.Text = "导出...";
             this.menuItem_export.Click += new System.EventHandler(this.menuItem_export_Click);
             // 
             // menuItem_resetGestures
             // 
             this.menuItem_resetGestures.Name = "menuItem_resetGestures";
-            this.menuItem_resetGestures.Size = new System.Drawing.Size(187, 22);
-            this.menuItem_resetGestures.Text = "重置手势和触发角...";
+            this.menuItem_resetGestures.Size = new System.Drawing.Size(152, 22);
+            this.menuItem_resetGestures.Text = "恢复默认...";
             this.menuItem_resetGestures.Click += new System.EventHandler(this.menuItem_resetGestures_Click);
             // 
             // errorProvider

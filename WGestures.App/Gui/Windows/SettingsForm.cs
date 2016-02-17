@@ -53,21 +53,11 @@ namespace WGestures.App.Gui.Windows
         private void DpiFix()
         {
             tabControl.ItemSize = new Size((int)(tabControl.ItemSize.Width * _dpiF), (int)(tabControl.ItemSize.Height * _dpiF));
-            //tabControl.Height -= tabControl.ItemSize.Height;
-
-            //listApps.TileSize = new Size((int)(listApps.TileSize.Width * _dpiF), (int)(listApps.TileSize.Height * _dpiF));
-            //listApps.Width = (int) (listApps.Width*_dpiF);
-
-            //listApps.Padding = new Padding(0,0,SystemInformation.VerticalScrollBarWidth+100,0);
-
+      
             imglistAppIcons.ImageSize = new Size((int)(imglistAppIcons.ImageSize.Width * _dpiF), (int)(imglistAppIcons.ImageSize.Height * _dpiF));
             dummyImgLstForLstViewHeightFix.ImageSize = new Size(1, (int)(dummyImgLstForLstViewHeightFix.ImageSize.Height * _dpiF));
 
-            //pic_menuBtn.Size = new Size((int)(pic_menuBtn.Width * _dpiF), (int)(pic_menuBtn.Height * _dpiF));
-            //listGestureIntents.TileSize = new Size((int)((listGestureIntents.TileSize.Width - 2) * _dpiF), (int)(listGestureIntents.TileSize.Height * _dpiF));
             lineLabel2.Height = (int)(109 * _dpiF);
-
-            //Height += tabControl.ItemSize.Height;
         }
 
         private void ControlFixes()
@@ -82,7 +72,7 @@ namespace WGestures.App.Gui.Windows
         private void InitControlValues()
         {
             #region tab options
-            lb_pause_shortcut.DataBindings.Add("Text", Controller, "PauseResumeHotKey", true, DataSourceUpdateMode.OnPropertyChanged, "无", "{}");
+            lb_pause_shortcut.DataBindings.Add("Text", Controller, "PauseResumeHotKey", false, DataSourceUpdateMode.OnPropertyChanged, "无");
 
             lb_Version.Text = Application.ProductVersion;
 
@@ -197,7 +187,7 @@ namespace WGestures.App.Gui.Windows
         {
             if(e.Keys.Count > 0)
             {
-                lb_pause_shortcut.Text = ShortcutRecordButton.HotKeyToString(e.Modifiers, e.Keys);
+                //lb_pause_shortcut.Text = ShortcutRecordButton.HotKeyToString(e.Modifiers, e.Keys);
 
                 var hk = new GlobalHotKeyManager.HotKey();
 
@@ -1270,7 +1260,7 @@ namespace WGestures.App.Gui.Windows
 
         private void menuItem_resetGestures_Click(object sender, EventArgs e)
         {
-            var confirm = MessageBox.Show(this, "是否将所有手势和触发角恢复为默认值? \n这将使您自定义设置丢失。", "重置手势和触发角", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var confirm = MessageBox.Show(this, "是否将所有手势、触发角和摩擦边恢复为默认值? \n这将使您自定义设置丢失。", "恢复默认", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if(confirm == DialogResult.Yes)
             {
