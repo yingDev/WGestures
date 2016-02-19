@@ -57,7 +57,7 @@ namespace WGestures.Core.Persistence.Impl
                 using (var txtReader = new StreamReader(stream))
                 using (var jsonReader = new JsonTextReader(txtReader))
                 {
-                    var ser = new JsonSerializer();
+                    /*var ser = new JsonSerializer();
                     ser.Formatting = Formatting.None;
                     ser.TypeNameHandling = TypeNameHandling.Auto;
 
@@ -66,11 +66,11 @@ namespace WGestures.Core.Persistence.Impl
                         ser.Converters.Add(new GestureIntentConverter_V1());
 
                     }
-                    else if (FileVersion.Equals("2"))
+                    else// if (FileVersion.Equals("2"))
                     {
                         ser.Converters.Add(new GestureIntentConverter());
 
-                    }
+                    }*/
                     var result = ser.Deserialize<SerializeWrapper>(jsonReader);
 
                     FileVersion = result.FileVersion;
@@ -84,6 +84,31 @@ namespace WGestures.Core.Persistence.Impl
                     {
                         a.ExecutablePath = a.ExecutablePath.ToLower();
                         Apps.Add(a.ExecutablePath, a);
+                    }
+
+                    //convert old version GestureButton Value ( 0->1, 1->2)
+                    if(FileVersion == "1" || FileVersion == "2")
+                    {
+                        var globalIntents = GlobalApp.GestureIntents.Values.ToArray();
+                        GlobalApp.GestureIntents.Clear();
+
+                        foreach(var gestIntent in globalIntents)
+                        {
+                            gestIntent.Gesture.GestureButton += 1;
+                            GlobalApp.GestureIntents.Add(gestIntent);
+                        }
+
+                        foreach(var app in Apps.Values)
+                        {
+                            var intents = app.GestureIntents.Values.ToArray();
+                            app.GestureIntents.Clear();
+                     
+                            foreach (var gestIntent in intents)
+                            {
+                                gestIntent.Gesture.GestureButton += 1;
+                                app.GestureIntents.Add(gestIntent);
+                            }
+                        }
                     }
 
                     HotCornerCommands = new AbstractCommand[8];
@@ -179,7 +204,7 @@ namespace WGestures.Core.Persistence.Impl
             {
                 ser.Converters.Add(new GestureIntentConverter_V1());
 
-            }else if (FileVersion.Equals("2"))
+            }else //if (FileVersion.Equals("2"))
             {
                 ser.Converters.Add(new GestureIntentConverter());
 

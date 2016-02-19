@@ -60,7 +60,7 @@ namespace WGestures.App
 
         public static string GesturesFileVersion
         {
-            get { return "2"; }
+            get { return "3"; }
         }
         
     }

@@ -57,8 +57,10 @@ namespace WGestures.App
 
             AppWideInit();
 
+#if !DEBUG
             try
             {
+#endif
                 //加载配置文件，如果文件不存在或损坏，则加载默认配置文件
                 LoadFailSafeConfigFile();
                 CheckAndDoFirstRunStuff();
@@ -77,15 +79,14 @@ namespace WGestures.App
                 StartIpcPipe();
 
                 Application.Run();
+#if !DEBUG
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw e;
-#endif
                 ShowFatalError(e);
             }
             finally { Dispose(); }
+#endif
         }
 
         //TODO: refactor out
@@ -287,7 +288,7 @@ namespace WGestures.App
 
         static void ConfigureComponents()
         {
-            #region Create Components
+#region Create Components
             intentFinder = new Win32GestrueIntentFinder(intentStore);
             var pathTracker = new Win32MousePathTracker2();
             gestureParser = new GestureParser(pathTracker, intentFinder);
@@ -298,9 +299,9 @@ namespace WGestures.App
             componentsToDispose.Add(gestureView);
             componentsToDispose.Add(pathTracker);
             componentsToDispose.Add(hotkeyMgr);
-            #endregion
+#endregion
 
-            #region pathTracker
+#region pathTracker
             pathTracker.DisableInFullscreen = config.Get(ConfigKeys.PathTrackerDisableInFullScreen, true);
             pathTracker.PreferWindowUnderCursorAsTarget = config.Get(ConfigKeys.PathTrackerPreferCursorWindow, false);
             pathTracker.TriggerButton = (GestureTriggerButton)config.Get(ConfigKeys.PathTrackerTriggerButton, GestureTriggerButton.Right);
@@ -311,22 +312,22 @@ namespace WGestures.App
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
             //pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
-            #endregion
+#endregion
 
-            #region gestureView
+#region gestureView
             gestureView.ShowPath = config.Get(ConfigKeys.GestureViewShowPath, true);
             gestureView.ShowCommandName = config.Get(ConfigKeys.GestureViewShowCommandName, true);
             gestureView.ViewFadeOut = config.Get(ConfigKeys.GestureViewFadeOut, true);
             gestureView.PathMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMainPathColor, gestureView.PathMainColor.ToArgb()));
             gestureView.PathAlternativeColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewAlternativePathColor, gestureView.PathAlternativeColor.ToArgb()));
             gestureView.PathMiddleBtnMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMiddleBtnMainColor, gestureView.PathMiddleBtnMainColor.ToArgb()));
-            #endregion
+#endregion
             
-            #region GestureParser
+#region GestureParser
             gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
             gestureParser.EnableRubEdge = config.Get(ConfigKeys.GestureParserEnableRubEdges, true);
-            #endregion
+#endregion
 
 
 
@@ -415,7 +416,7 @@ namespace WGestures.App
                 }
         }
 
-        #region event handlers
+#region event handlers
         static void menuItem_settings_Click(object sender, EventArgs eventArgs)
         {
             ShowSettings();
@@ -434,7 +435,7 @@ namespace WGestures.App
         }
 
 
-        #endregion
+#endregion
 
         //仅在启动一段时间后检查一次更新，
         static void ScheduledUpdateCheck(object sender, NotifyIcon tray)

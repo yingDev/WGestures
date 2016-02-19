@@ -11,15 +11,15 @@
     <key>AutoStart</key>
     <true />
     <key>PathTrackerTriggerButton</key>
-    <integer>3</integer>
+    <integer>15</integer>
     <key>PathTrackerStayTimeout</key>
     <false />
     <key>PathTrackerInitialStayTimoutMillis</key>
-    <integer>200</integer>
+    <integer>250</integer>
     <key>GestureViewMainPathColor</key>
-    <integer>-16265487</integer>
+    <integer>-14165512</integer>
     <key>GestureViewMiddleBtnMainColor</key>
-    <integer>-14103552</integer>
+    <integer>-13771520</integer>
     <key>GestureViewAlternativePathColor</key>
     <integer>-60646</integer>
     <key>GestureViewShowPath</key>
@@ -34,5 +34,15 @@
     <true />
     <key>PathTrackerPreferCursorWindow</key>
     <true />
+    <key>GestureParserEnableRubEdges</key>
+    <true />
+    <key>GestureParserEnable8DirGesture</key>
+    <false />
+    <key>PathTrackerInitialStayTimeout</key>
+    <false />
+    <key>GestureParserDisableInFullScreenMode</key>
+    <false />
+    <key>PauseResumeHotKey</key>
+    <data>VwAAAAsAAAA=</data>
   </dict>
 </plist>
