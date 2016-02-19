@@ -261,7 +261,7 @@ namespace WGestures.View.Impl.Windows
             {
                 var modifierText = intent.Gesture.Modifier.ToMnemonic();
                 var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(80, 0, 0, 0));
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
             }
             
             if (!_isCurrentRecognized && ShowPath)
@@ -328,7 +328,7 @@ namespace WGestures.View.Impl.Windows
             Debug.WriteLine("WhenIntentReadyToExecute");
             if (ShowCommandName)
             {
-                ShowLabel(Color.White, _labelText, Color.FromArgb(120, 0, 0, 0));
+                ShowLabel(Color.White, _labelText, _systemColor);////Color.FromArgb(120, 0, 80, 0));
             }
 
             //draw
@@ -372,7 +372,7 @@ namespace WGestures.View.Impl.Windows
 
                 _labelText = newLabelText;
 
-                ShowLabel(Color.Black, newLabelText, Color.FromArgb(70, 0, 0, 0));
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
                 
                 DrawAndUpdate();
 
@@ -499,7 +499,7 @@ namespace WGestures.View.Impl.Windows
             {
                 Debug.WriteLine("Label Redraw");
                 using (var pen = new Pen(Color.White, 1.5f * _dpiFactor))
-                using (var shadow = new Pen(Color.FromArgb(40, 0, 0, 0), 3f * _dpiFactor))
+                //using (var shadow = new Pen(Color.FromArgb(40, 0, 0, 0), 3f * _dpiFactor))
                 {
                     
                     /*DrawRoundedRectangle(g, RectangleF.Inflate(_labelRect,

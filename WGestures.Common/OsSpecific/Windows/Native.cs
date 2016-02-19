@@ -43,7 +43,7 @@ namespace WGestures.Common.OsSpecific.Windows
             try
             {
                 var argbColor = (int)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM",
-                "ColorizationAfterglow", 0);
+                "ColorizationColor", 0);
                 return Color.FromArgb(argbColor);
 
             }
