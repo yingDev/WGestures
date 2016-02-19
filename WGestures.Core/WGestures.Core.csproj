@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WGestures.Core</RootNamespace>
     <AssemblyName>WGestures.Core</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -92,6 +92,7 @@
     <Compile Include="GestureContext.cs" />
     <Compile Include="GestureModifier.cs" />
     <Compile Include="Impl\Windows\ScreenEdgeInteractDetector.cs" />
+    <Compile Include="Impl\Windows\TouchHook.cs" />
     <Compile Include="ScreenCornerAndEdge.cs" />
     <Compile Include="Impl\Windows\MouseHook.cs" />
     <Compile Include="Impl\Windows\Win32GestureContext.cs" />

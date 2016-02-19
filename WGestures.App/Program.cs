@@ -567,7 +567,7 @@ namespace WGestures.App
 
         static string GetPauseResumeHotkeyStringFromConfig()
         {
-            var bytes = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey);
+            var bytes = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey, null);
             if(bytes != null)
             {
                 return GlobalHotKeyManager.HotKey.FromBytes(bytes).ToString();

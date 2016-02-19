@@ -154,6 +154,8 @@ namespace WGestures.Core.Impl.Windows
         
         #region fields
         private readonly MouseHook _mouseHook;
+        private TouchHook _touchHook;
+
         private Queue<MSG> _msgQueue = new Queue<MSG>(16);
         
         //表明是否是“performNormal”的情况下自己模拟的鼠标事件。
@@ -197,6 +199,7 @@ namespace WGestures.Core.Impl.Windows
         private ScreenCorner _lastTriggeredCorner;
 
         private EdgeInteractDetector _edgeDetector;
+        
         #endregion
 
         public Win32MousePathTracker2()
@@ -215,6 +218,9 @@ namespace WGestures.Core.Impl.Windows
 
             _mouseHook = new MouseHook();
             _mouseHook.MouseHookEvent += HookProc;
+
+            _touchHook = new TouchHook();
+
 
             _edgeDetector = new EdgeInteractDetector(_mouseHook);
             _edgeDetector.Rub += EdgeDetector_Rub;
@@ -239,6 +245,7 @@ namespace WGestures.Core.Impl.Windows
         public void Start()
         {
             _mouseHook.Install();
+            //_touchHook.Install();
 
             while (true)
             {            
@@ -357,10 +364,12 @@ namespace WGestures.Core.Impl.Windows
                 //必须在这里立即决定是否应该捕获
                 case MouseMsg.WM_RBUTTONDOWN:
                 case MouseMsg.WM_MBUTTONDOWN:
+                case MouseMsg.WM_XBUTTONDOWN:
                     if (!_captured)
                     {
-                        if (m == MouseMsg.WM_MBUTTONDOWN && (TriggerButton & GestureTriggerButton.Middle) != GestureTriggerButton.Middle
-                            || m == MouseMsg.WM_RBUTTONDOWN && (TriggerButton & GestureTriggerButton.Right) != GestureTriggerButton.Right)
+                        if (m == MouseMsg.WM_MBUTTONDOWN && (TriggerButton & GestureTriggerButton.Middle) == 0
+                            || m == MouseMsg.WM_RBUTTONDOWN && (TriggerButton & GestureTriggerButton.Right) == 0
+                            || m == MouseMsg.WM_XBUTTONDOWN && (TriggerButton & GestureTriggerButton.X1) == 0 && (TriggerButton & GestureTriggerButton.X2) == 0)
                         {
                             return;
                         }
@@ -380,7 +389,23 @@ namespace WGestures.Core.Impl.Windows
                         
                         if (_captured)
                         {
-                            _gestureBtn = (m == MouseMsg.WM_RBUTTONDOWN ? GestureButtons.RightButton : GestureButtons.MiddleButton);
+                            //_gestureBtn = (m == MouseMsg.WM_RBUTTONDOWN ? GestureButtons.RightButton : GestureButtons.MiddleButton);
+                            switch(m) //TODO: extract function
+                            {
+                                case MouseMsg.WM_RBUTTONDOWN:
+                                    _gestureBtn = GestureButtons.RightButton;
+                                    break;
+                                case MouseMsg.WM_MBUTTONDOWN:
+                                    _gestureBtn = GestureButtons.MiddleButton;
+                                    break;
+                                case MouseMsg.WM_XBUTTONDOWN:
+                                    _gestureBtn = GestureButtons.XButton;
+                                    break;
+                                default:
+                                    Debug.Assert(false, "WTF! shouldn't happen");
+                                    break;
+                            }
+                            
 
                             _modifierEventHappendPrevTime = new DateTime(0);
                             e.Handled = true;
@@ -389,7 +414,26 @@ namespace WGestures.Core.Impl.Windows
                     }
                     else //另一个键作为手势键的时候，作为修饰键
                     {
-                        var gestMod = m == MouseMsg.WM_RBUTTONDOWN ? GestureModifier.RightButtonDown : GestureModifier.MiddleButtonDown;
+                        GestureModifier gestMod;// = m == MouseMsg.WM_RBUTTONDOWN ? GestureModifier.RightButtonDown : GestureModifier.MiddleButtonDown;
+
+                        switch(m) //TODO: extract function
+                        {
+                            case MouseMsg.WM_RBUTTONDOWN:
+                                gestMod = GestureModifier.RightButtonDown;
+                                break;
+                            case MouseMsg.WM_MBUTTONDOWN:
+                                gestMod = GestureModifier.MiddleButtonDown;
+                                break;
+                            case MouseMsg.WM_XBUTTONDOWN:
+                                var x = MouseHook.GetXButtonNumber(e.wParam);
+                                gestMod = x == XButtonNumber.One ? GestureModifier.X1 : GestureModifier.X2;
+                                break;
+                            default:
+                                gestMod = GestureModifier.LeftButtonDown;
+                                break;
+
+                        }
+
                         e.Handled = HandleModifier(gestMod);
                     }
                     break;
@@ -430,10 +474,29 @@ namespace WGestures.Core.Impl.Windows
 
                 case MouseMsg.WM_RBUTTONUP:
                 case MouseMsg.WM_MBUTTONUP:
+                case MouseMsg.WM_XBUTTONUP:
                     if (_captured)
                     {
+                        var gestBtn_as_MouseMsg = (MouseMsg)(-1);
+                        switch(_gestureBtn)
+                        {
+                            case GestureButtons.LeftButton:
+                                gestBtn_as_MouseMsg = MouseMsg.WM_LBUTTONUP;
+                                break;
+                            case GestureButtons.MiddleButton:
+                                gestBtn_as_MouseMsg = MouseMsg.WM_MBUTTONUP;
+                                break;
+                            case GestureButtons.RightButton:
+                                gestBtn_as_MouseMsg = MouseMsg.WM_RBUTTONUP;
+                                break;
+                            case GestureButtons.XButton:
+                                gestBtn_as_MouseMsg = MouseMsg.WM_XBUTTONUP;
+                                break;
+  
+                        }
+
                         //是手势键up
-                        if (m == (_gestureBtn == GestureButtons.RightButton ? MouseMsg.WM_RBUTTONUP : MouseMsg.WM_MBUTTONUP))
+                        if (m == gestBtn_as_MouseMsg)
                         {
                               _captured = false;
                                e.Handled = true;
@@ -1016,7 +1079,7 @@ namespace WGestures.Core.Impl.Windows
         [Flags]
         public enum GestureTriggerButton
         {
-            Right = 1, Middle = 2
+            Right = 1, Middle = 2, X1 = 4, X2 = 8
         }
 
 

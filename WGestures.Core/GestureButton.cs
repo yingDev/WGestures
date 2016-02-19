@@ -8,7 +8,7 @@ namespace WGestures.Core
     public enum GestureButtons : short
     {
         MiddleButton = 1, RightButton = 0,
-        LeftButton = 2
+        LeftButton = 2, XButton = 3
     }
 
     public static class GestureButtonsHelper

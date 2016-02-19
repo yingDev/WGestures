@@ -15,6 +15,8 @@ namespace WGestures.Core
         MiddleButtonDown = 4, 
         LeftButtonDown = 8,
         RightButtonDown = 16,
+        X1 = 32,
+        X2 = 64,
 
         Scroll = WheelBackward | WheelForward,
         All = WheelForward | WheelBackward | MiddleButtonDown | LeftButtonDown | RightButtonDown
@@ -36,6 +38,10 @@ namespace WGestures.Core
                     return "◐";
                 case GestureModifier.RightButtonDown:
                     return "◑";
+                case GestureModifier.X1:
+                    return "X1";
+                case GestureModifier.X2:
+                    return "X2";
                 default:
 
                     return String.Empty;

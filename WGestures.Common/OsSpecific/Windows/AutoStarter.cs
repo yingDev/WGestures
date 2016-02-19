@@ -89,7 +89,7 @@ namespace WGestures.Common.OsSpecific.Windows
             try
             {
                 WshShell shell = new WshShell();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+                IWshShortcut shortcut = shell.CreateShortcut(shortcutPath);
 
                 shortcut.TargetPath = targetFileLocation;                 // The path of the file that will launch when the shortcut is run
                 shortcut.Save();
