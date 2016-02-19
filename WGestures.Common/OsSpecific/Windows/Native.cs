@@ -38,6 +38,25 @@ namespace WGestures.Common.OsSpecific.Windows
             }
         }
 
+        public static Color GetWindowColorization()
+        {
+            try
+            {
+                var argbColor = (int)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM",
+                "ColorizationAfterglow", 0);
+                return Color.FromArgb(argbColor);
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("WindowsUtil.GetWindowColorization: " + e);
+                return Color.Gray;
+            }
+
+
+
+        }
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);

@@ -76,7 +76,7 @@ namespace WGestures.View.Impl.Windows
         Pen _mainPen;
         Pen _alternativePen;
         Pen _borderPen;
-        Pen[] _shadowPens;
+        Pen _shadowPen;
         Pen _dirtyMarkerPen;
         Point _prevPoint;
         private GraphicsPath _gPath = new GraphicsPath();
@@ -98,6 +98,7 @@ namespace WGestures.View.Impl.Windows
         bool _labelVisible;
         string _labelText;
         Color _labelColor;
+        Color _systemColor;
         Color _labelBgColor;
         bool _labelChanged;
         GraphicsPath _labelPath = new GraphicsPath();
@@ -138,6 +139,12 @@ namespace WGestures.View.Impl.Windows
             InitDefaultProperties();
             _fadeOuTimer.Elapsed += OnFadeOutTimerElapsed;
             SystemEvents.DisplaySettingsChanged += SystemDisplaySettingsChanged;
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            _systemColor = Native.GetWindowColorization();
         }
 
         private void SystemDisplaySettingsChanged(object sender, EventArgs e)
@@ -145,6 +152,8 @@ namespace WGestures.View.Impl.Windows
             _screenBounds = Native.GetScreenBounds();
             _canvasBuf = new DiBitmap(_screenBounds.Size);
             _dpiFactor = Native.GetScreenDpi() / 96.0f;
+
+            
         }
 
         private void InitDefaultProperties()
@@ -156,24 +165,23 @@ namespace WGestures.View.Impl.Windows
 
             _pathMaxPointCount = (int)(512 * _dpiFactor);
 
-            const float widthBase = 2f;
+            var widthBase = 2 * _dpiFactor;
 
             #region init pens
-            _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), (widthBase * 2.5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _borderPen = new Pen(Color.FromArgb(230, 255, 255, 255), widthBase * 2.5f) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
 
-            const int SHADOW_COUNT = 1;
-            _shadowPens = new Pen[SHADOW_COUNT];
-            for (var i=0; i< SHADOW_COUNT; i++)
-            {
-                _shadowPens[i] = new Pen(Color.FromArgb((int)(10f*(SHADOW_COUNT - i)), 0, 0,0), (widthBase * 4 + i*4) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            }
+
+            _shadowPen = new Pen(Color.FromArgb(25, Color.Black), widthBase * 3) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             
-            _shadowPenWidth = _shadowPens[SHADOW_COUNT -  1].Width;
-            _dirtyMarkerPen = (Pen)_shadowPens[SHADOW_COUNT - 1].Clone();
+            
+            _shadowPenWidth = _shadowPen.Width;
+            _dirtyMarkerPen = (Pen)_shadowPen.Clone();
             _dirtyMarkerPen.Width *= 1.5f;
+
+            _systemColor = Native.GetWindowColorization();
 
             #endregion
         }
@@ -364,7 +372,7 @@ namespace WGestures.View.Impl.Windows
 
                 _labelText = newLabelText;
 
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
+                ShowLabel(Color.Black, newLabelText, Color.FromArgb(70, 0, 0, 0));
                 
                 DrawAndUpdate();
 
@@ -480,11 +488,7 @@ namespace WGestures.View.Impl.Windows
             #region 1) 绘制路径
             if (ShowPath && _pathVisible)
             {
-                foreach (var p in _shadowPens)
-                {
-                    g.DrawPath(p, _gPath);
-                }
-
+                g.DrawPath(_shadowPen, _gPath);
                 g.DrawPath(_borderPen, _gPath);
                 g.DrawPath(_pathPen, _gPath);
             }
@@ -498,16 +502,16 @@ namespace WGestures.View.Impl.Windows
                 using (var shadow = new Pen(Color.FromArgb(40, 0, 0, 0), 3f * _dpiFactor))
                 {
                     
-                    DrawRoundedRectangle(g, RectangleF.Inflate(_labelRect,
+                    /*DrawRoundedRectangle(g, RectangleF.Inflate(_labelRect,
                         -1f * _dpiFactor, -1f * _dpiFactor),
-                        (int)(12 * _dpiFactor), shadow, Color.Transparent);
+                        (int)(12 * _dpiFactor), shadow, Color.Transparent);*/
                     DrawRoundedRectangle(g, RectangleF.Inflate(_labelRect,
                         -2.6f * _dpiFactor, -2.6f * _dpiFactor),
-                        (int)(12 * _dpiFactor), pen, _labelBgColor);
+                        0, pen, _labelBgColor);
 
-                    if (_labelColor != Color.White)
-                        using (var stroke = new Pen(Color.White, 1.5f * _dpiFactor))
-                            g.DrawPath(stroke, _labelPath);
+                    //if (_labelColor != Color.White)
+                        //using (var stroke = new Pen(Color.Black, 1.5f * _dpiFactor))
+                        //    g.DrawPath(stroke, _labelPath);
 
                     using (Brush brush = new SolidBrush(_labelColor)) g.FillPath(brush, _labelPath);
                 }
@@ -653,20 +657,32 @@ namespace WGestures.View.Impl.Windows
 
 
         #region Util
-        private static void AddRoundedRectangle(GraphicsPath path, RectangleF bounds, int cornerRadius)
+       /* private static void AddRoundedRectangle(GraphicsPath path, RectangleF bounds, int cornerRadius)
         {
             path.AddArc(bounds.X, bounds.Y, cornerRadius, cornerRadius, 180, 90);
             path.AddArc(bounds.X + bounds.Width - cornerRadius, bounds.Y, cornerRadius, cornerRadius, 270, 90);
             path.AddArc(bounds.X + bounds.Width - cornerRadius, bounds.Y + bounds.Height - cornerRadius, cornerRadius, cornerRadius, 0, 90);
             path.AddArc(bounds.X, bounds.Y + bounds.Height - cornerRadius, cornerRadius, cornerRadius, 90, 90);
-        }
+        }*/
 
         private void DrawRoundedRectangle(Graphics gfx, RectangleF Bounds, int CornerRadius, Pen DrawPen, Color FillColor)
         {
             int strokeOffset = Convert.ToInt32(Math.Ceiling(DrawPen.Width));
-            Bounds = RectangleF.Inflate(Bounds, -strokeOffset, -strokeOffset);
+            
+            var rect = Rectangle.Truncate(Bounds);
 
-            using (var gfxPath = new GraphicsPath())
+            rect.Inflate(-strokeOffset, -strokeOffset);
+
+            using (var brush = new SolidBrush(FillColor))
+            {
+                //gfx.DrawRectangle(_shadowPen, Rectangle.Truncate(Bounds));
+
+                gfx.FillRectangle(brush, rect);
+                gfx.DrawRectangle(DrawPen, rect);
+            }
+                
+
+            /*using (var gfxPath = new GraphicsPath())
             {
                 gfxPath.AddArc(Bounds.X, Bounds.Y, CornerRadius, CornerRadius, 180, 90);
                 gfxPath.AddArc(Bounds.X + Bounds.Width - CornerRadius, Bounds.Y, CornerRadius, CornerRadius, 270, 90);
@@ -676,7 +692,7 @@ namespace WGestures.View.Impl.Windows
 
                 using (var sb = new SolidBrush(FillColor)) gfx.FillPath(sb, gfxPath);
                 gfx.DrawPath(DrawPen, gfxPath);
-            }
+            }*/
         }
         #endregion
 
@@ -707,11 +723,9 @@ namespace WGestures.View.Impl.Windows
             _borderPen.Dispose();
             _alternativePen.Dispose();
 
-            foreach (var p in _shadowPens)
-            {
-                p.Dispose();
-            }
-            _shadowPens = null;
+            _shadowPen.Dispose();
+            
+            _shadowPen = null;
            
 
             _dirtyMarkerPen.Dispose();
