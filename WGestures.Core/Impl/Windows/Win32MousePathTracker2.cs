@@ -369,7 +369,7 @@ namespace WGestures.Core.Impl.Windows
                     {
                         if (m == MouseMsg.WM_MBUTTONDOWN && (TriggerButton & GestureTriggerButton.Middle) == 0
                             || m == MouseMsg.WM_RBUTTONDOWN && (TriggerButton & GestureTriggerButton.Right) == 0
-                            || m == MouseMsg.WM_XBUTTONDOWN && (TriggerButton & GestureTriggerButton.X1) == 0 && (TriggerButton & GestureTriggerButton.X2) == 0)
+                            || m == MouseMsg.WM_XBUTTONDOWN && (TriggerButton & GestureTriggerButton.X) == 0)
                         {
                             return;
                         }
@@ -400,7 +400,6 @@ namespace WGestures.Core.Impl.Windows
                                     break;
                                 case MouseMsg.WM_XBUTTONDOWN:
                                     var x = (XButtonNumber)(mouseData.mouseData >> 16); //which X Button
-                                    Debug.WriteLine("Shit " + x);
                                     _gestureBtn = x == XButtonNumber.One ? GestureTriggerButton.X1 : GestureTriggerButton.X2;
                                     break;
                                 default:
@@ -494,14 +493,15 @@ namespace WGestures.Core.Impl.Windows
                                 break;
   
                         }
-
+                        
                         //是手势键up
                         if (m == gestBtn_as_MouseMsg)
                         {
-                              _captured = false;
-                               e.Handled = true;
+                              _captured = false;       
                                Post(WM.GESTBTN_UP);
                         }
+
+                        e.Handled = true;
                     }
                     break;
                 default:
@@ -844,10 +844,10 @@ namespace WGestures.Core.Impl.Windows
 
         private void OnModifier(GestureModifier modifier)
         {
-            Debug.WriteLine("OnModifier");
+            Debug.WriteLine("OnModifier: " + modifier);
             if (_isTimeout) return;
             
-            //lParam代表滚动的角度,0表click
+
             _currentEventArgs.Modifier = modifier;
             if (!_initialMoveValid && PathStart != null)
             {
