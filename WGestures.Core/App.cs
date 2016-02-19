@@ -27,14 +27,14 @@ namespace WGestures.Core
         {
            // Console.WriteLine("Find("+key.ToString()+")");
             GestureIntent val;
-            GestureIntents.TryGetValue(key.GetHashCode(),out val);
+            GestureIntents.TryGetValue(key,out val);
             //if(val!=null)Console.WriteLine("Found? "+val.ToString());
             return val;
         }
 
         public virtual void Add(GestureIntent intent)
         {
-            GestureIntents.Add(intent.Gesture.GetHashCode(),intent);
+            GestureIntents.Add(intent.Gesture,intent);
         }
 
         public virtual void Remove(GestureIntent intent)
@@ -59,7 +59,7 @@ namespace WGestures.Core
     }
 
     [/*JsonArray, */Serializable]
-    public class GestureIntentDict : Dictionary<int, GestureIntent>
+    public class GestureIntentDict : Dictionary<Gesture, GestureIntent>
     {
 
         public GestureIntentDict(SerializationInfo info, StreamingContext context)
@@ -72,17 +72,17 @@ namespace WGestures.Core
 
         public void Add(GestureIntent intent)
         {
-            Add(intent.Gesture.GetHashCode(),intent);
+            Add(intent.Gesture,intent);
         }
 
         public void Remove(GestureIntent intent)
         {
-            Remove(intent.Gesture.GetHashCode());
+            Remove(intent.Gesture);
         }
 
         public void AddOrReplace(GestureIntent intent)
         {
-            this[intent.Gesture.GetHashCode()] = intent;
+            this[intent.Gesture] = intent;
         }
 
         public void Import(GestureIntentDict from)
@@ -99,7 +99,7 @@ namespace WGestures.Core
 
             foreach (var i in from)
             {
-                this[i.Gesture.GetHashCode()] = i;
+                this[i.Gesture] = i;
             }
         }
     }
