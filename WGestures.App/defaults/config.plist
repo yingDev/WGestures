@@ -44,5 +44,7 @@
     <false />
     <key>PauseResumeHotKey</key>
     <data>VwAAAAsAAAA=</data>
+    <key>GestureViewXBtnPathColor</key>
+    <integer>-32768</integer>
   </dict>
 </plist>

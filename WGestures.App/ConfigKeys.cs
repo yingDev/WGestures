@@ -27,6 +27,8 @@ namespace WGestures.App
         public const string GestureViewMainPathColor = "GestureViewMainPathColor";
         public const string GestureViewMiddleBtnMainColor = "GestureViewMiddleBtnMainColor";
         public const string GestureViewAlternativePathColor = "GestureViewAlternativePathColor";
+        public const string GestureViewXBtnPathColor = "GestureViewXBtnPathColor";
+
 
         public const string IsFirstRun = "IsFirstRun";
         public const string Is360EverDected = "Is360EverDected";

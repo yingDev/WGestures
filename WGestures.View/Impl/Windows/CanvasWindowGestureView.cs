@@ -34,6 +34,13 @@ namespace WGestures.View.Impl.Windows
             get { return _middleBtnPen.Color; }
             set { _middleBtnPen.Color = value; }
         }
+
+        public Color PathXBtnMainColor
+        {
+            get { return _xBtnPen.Color; }
+            set { _xBtnPen.Color = value; }
+        }
+
         public float PathWidth
         {
             get
@@ -73,6 +80,7 @@ namespace WGestures.View.Impl.Windows
         #region fields
         Pen _tempMainPen;
         Pen _middleBtnPen;
+        Pen _xBtnPen;
         Pen _mainPen;
         Pen _alternativePen;
         Pen _borderPen;
@@ -170,6 +178,7 @@ namespace WGestures.View.Impl.Windows
             #region init pens
             _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _xBtnPen = new Pen(Color.FromArgb(255, 20, 100, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _borderPen = new Pen(Color.FromArgb(230, 255, 255, 255), widthBase * 2.5f) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
 
@@ -198,8 +207,11 @@ namespace WGestures.View.Impl.Windows
             _prevPoint = args.Location;//ToUpLeftCoord(args.Location);
             _pointCount = 1;
 
-            _tempMainPen = args.Button == GestureTriggerButton.Right ? _mainPen : _middleBtnPen;
-
+            //_tempMainPen = args.Button == GestureTriggerButton.Right ? _mainPen : _middleBtnPen;
+            if ((args.Button & GestureTriggerButton.Right) != 0) _tempMainPen = _mainPen;
+            else if ((args.Button & GestureTriggerButton.X) != 0) _tempMainPen = _xBtnPen;
+            else _tempMainPen = _middleBtnPen;
+            
             _isCurrentRecognized = false;
             _recognizeStateChanged = false;
 

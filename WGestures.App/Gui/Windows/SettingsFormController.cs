@@ -402,6 +402,20 @@ namespace WGestures.App.Gui.Windows
                 OnPropertyChanged("GestureViewMiddleBtnMainColor");
             }
         }
+
+        public Color GestureVieXBtnMainColor
+        {
+            get { return _gestureView.PathXBtnMainColor; }
+            set
+            {
+                if (value == GestureVieXBtnMainColor) return;
+
+                _gestureView.PathXBtnMainColor = value;
+                _config.Set(ConfigKeys.GestureViewXBtnPathColor, value.ToArgb());
+
+                OnPropertyChanged("GestureVieXBtnMainColor");
+            }
+        }
         #endregion
 
         #region migrate methods
