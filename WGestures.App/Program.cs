@@ -321,9 +321,10 @@ namespace WGestures.App
             gestureView.PathMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMainPathColor, gestureView.PathMainColor.ToArgb()));
             gestureView.PathAlternativeColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewAlternativePathColor, gestureView.PathAlternativeColor.ToArgb()));
             gestureView.PathMiddleBtnMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewMiddleBtnMainColor, gestureView.PathMiddleBtnMainColor.ToArgb()));
-#endregion
-            
-#region GestureParser
+            gestureView.PathXBtnMainColor = Color.FromArgb(config.Get(ConfigKeys.GestureViewXBtnPathColor, gestureView.PathXBtnMainColor.ToArgb()));
+            #endregion
+
+            #region GestureParser
             gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
             gestureParser.EnableRubEdge = config.Get(ConfigKeys.GestureParserEnableRubEdges, true);
