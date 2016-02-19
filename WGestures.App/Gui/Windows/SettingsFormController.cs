@@ -171,37 +171,17 @@ namespace WGestures.App.Gui.Windows
         /// <summary>
         /// 获取或设置哪一个鼠标按键作为手势键
         /// </summary>
-        public string PathTrackerTriggerButton
+        public GestureTriggerButton PathTrackerTriggerButton
         {
             get
             {
-                switch (_pathTracker.TriggerButton)
-                {
-                    case Win32MousePathTracker2.GestureTriggerButton.Middle:
-                        return "中键";
-                    case Win32MousePathTracker2.GestureTriggerButton.Right:
-                        return Native.IsMouseButtonSwapped() ? "左键" : "右键";
-                    case Win32MousePathTracker2.GestureTriggerButton.Middle | Win32MousePathTracker2.GestureTriggerButton.Right:
-                        return (Native.IsMouseButtonSwapped() ? "左键" : "右键") + "和中键";
-                }
-                throw new InvalidOperationException("wtf？ 怎么会到这里?");
+                return _pathTracker.TriggerButton;
             }
 
             set
             {
                 if (value == PathTrackerTriggerButton) return;
-                if (value.Contains("左键") || value.Contains("右键"))
-                {
-                    _pathTracker.TriggerButton = Win32MousePathTracker2.GestureTriggerButton.Right;
-                    if (value.Contains("中键"))
-                    {
-                        _pathTracker.TriggerButton |= Win32MousePathTracker2.GestureTriggerButton.Middle;
-                    }
-                }
-                else
-                {
-                    _pathTracker.TriggerButton = Win32MousePathTracker2.GestureTriggerButton.Middle;
-                }
+                _pathTracker.TriggerButton = value;
 
                 _config.Set(ConfigKeys.PathTrackerTriggerButton, (int)_pathTracker.TriggerButton);
 

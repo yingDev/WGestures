@@ -192,7 +192,7 @@ namespace WGestures.Core.Impl.Windows
         //note: 由于360等可能导致dwExtraInfo丢失，因此使用这个变量作为备份方案
         private bool _simulatingMouse;
         private bool _captured;
-        private GestureButtons _gestureBtn;
+        private GestureTriggerButton _gestureBtn;
         private DateTime _mouseDownTime = DateTime.UtcNow;
         
         private bool _isHotCornerReset = true;
@@ -393,13 +393,15 @@ namespace WGestures.Core.Impl.Windows
                             switch(m) //TODO: extract function
                             {
                                 case MouseMsg.WM_RBUTTONDOWN:
-                                    _gestureBtn = GestureButtons.RightButton;
+                                    _gestureBtn = GestureTriggerButton.Right;
                                     break;
                                 case MouseMsg.WM_MBUTTONDOWN:
-                                    _gestureBtn = GestureButtons.MiddleButton;
+                                    _gestureBtn = GestureTriggerButton.Middle;
                                     break;
                                 case MouseMsg.WM_XBUTTONDOWN:
-                                    _gestureBtn = GestureButtons.XButton;
+                                    var x = (XButtonNumber)(mouseData.mouseData >> 16); //which X Button
+                                    Debug.WriteLine("Shit " + x);
+                                    _gestureBtn = x == XButtonNumber.One ? GestureTriggerButton.X1 : GestureTriggerButton.X2;
                                     break;
                                 default:
                                     Debug.Assert(false, "WTF! shouldn't happen");
@@ -425,7 +427,7 @@ namespace WGestures.Core.Impl.Windows
                                 gestMod = GestureModifier.MiddleButtonDown;
                                 break;
                             case MouseMsg.WM_XBUTTONDOWN:
-                                var x = MouseHook.GetXButtonNumber(e.wParam);
+                                var x = (XButtonNumber)(mouseData.mouseData >> 16); //which X Button
                                 gestMod = x == XButtonNumber.One ? GestureModifier.X1 : GestureModifier.X2;
                                 break;
                             default:
@@ -480,16 +482,14 @@ namespace WGestures.Core.Impl.Windows
                         var gestBtn_as_MouseMsg = (MouseMsg)(-1);
                         switch(_gestureBtn)
                         {
-                            case GestureButtons.LeftButton:
-                                gestBtn_as_MouseMsg = MouseMsg.WM_LBUTTONUP;
-                                break;
-                            case GestureButtons.MiddleButton:
+                            case GestureTriggerButton.Middle:
                                 gestBtn_as_MouseMsg = MouseMsg.WM_MBUTTONUP;
                                 break;
-                            case GestureButtons.RightButton:
+                            case GestureTriggerButton.Right:
                                 gestBtn_as_MouseMsg = MouseMsg.WM_RBUTTONUP;
                                 break;
-                            case GestureButtons.XButton:
+                            case GestureTriggerButton.X1:
+                            case GestureTriggerButton.X2:
                                 gestBtn_as_MouseMsg = MouseMsg.WM_XBUTTONUP;
                                 break;
   
@@ -555,7 +555,7 @@ namespace WGestures.Core.Impl.Windows
 
             switch (_gestureBtn)
             {
-                case GestureButtons.RightButton:
+                case GestureTriggerButton.Right:
                     if (mouseSwapped)
                     {
                         switch (eventType)
@@ -591,7 +591,7 @@ namespace WGestures.Core.Impl.Windows
                         }
                     }
                     break;
-                case GestureButtons.MiddleButton:
+                case GestureTriggerButton.Middle:
                     switch (eventType)
                     {
                         case GestureBtnEventType.UP:
@@ -1076,11 +1076,7 @@ namespace WGestures.Core.Impl.Windows
             PauseResume, ShowHideTray
         }
 
-        [Flags]
-        public enum GestureTriggerButton
-        {
-            Right = 1, Middle = 2, X1 = 4, X2 = 8
-        }
+
 
 
 

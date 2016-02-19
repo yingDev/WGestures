@@ -67,7 +67,6 @@ namespace WGestures.App.Gui.Windows
             this.settingsFormControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.check_enable8DirGesture = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.combo_GestureTriggerButton = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lineLabel2 = new WGestures.App.Gui.Windows.Controls.LineLabel();
             this.check_disableOnFullscreen = new System.Windows.Forms.CheckBox();
@@ -76,12 +75,16 @@ namespace WGestures.App.Gui.Windows
             this.label9 = new System.Windows.Forms.Label();
             this.colorMiddle = new WGestures.App.Gui.Windows.Controls.ColorButton();
             this.colorBtn_recogonized = new WGestures.App.Gui.Windows.Controls.ColorButton();
+            this.colorButton1 = new WGestures.App.Gui.Windows.Controls.ColorButton();
             this.colorBtn_unrecogonized = new WGestures.App.Gui.Windows.Controls.ColorButton();
             this.numPathTrackerStayTimeoutMillis = new WGestures.App.Gui.Windows.Controls.InstantNumericUpDown();
             this.numPathTrackerInitialValidMove = new WGestures.App.Gui.Windows.Controls.InstantNumericUpDown();
+            this.check_gestBtn_X = new System.Windows.Forms.CheckBox();
             this.checkGestureView_fadeOut = new System.Windows.Forms.CheckBox();
+            this.check_gestBtn_Middle = new System.Windows.Forms.CheckBox();
             this.checkGestureViewShowCommandName = new System.Windows.Forms.CheckBox();
             this.checkPathTrackerStayTimeout = new System.Windows.Forms.CheckBox();
+            this.check_gestBtn_Right = new System.Windows.Forms.CheckBox();
             this.checkGestureViewShowPath = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -232,7 +235,6 @@ namespace WGestures.App.Gui.Windows
             this.groupBox2.Controls.Add(this.check_preferCursorWindow);
             this.groupBox2.Controls.Add(this.check_enable8DirGesture);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.combo_GestureTriggerButton);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.lineLabel2);
             this.groupBox2.Controls.Add(this.check_disableOnFullscreen);
@@ -241,12 +243,16 @@ namespace WGestures.App.Gui.Windows
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.colorMiddle);
             this.groupBox2.Controls.Add(this.colorBtn_recogonized);
+            this.groupBox2.Controls.Add(this.colorButton1);
             this.groupBox2.Controls.Add(this.colorBtn_unrecogonized);
             this.groupBox2.Controls.Add(this.numPathTrackerStayTimeoutMillis);
             this.groupBox2.Controls.Add(this.numPathTrackerInitialValidMove);
+            this.groupBox2.Controls.Add(this.check_gestBtn_X);
             this.groupBox2.Controls.Add(this.checkGestureView_fadeOut);
+            this.groupBox2.Controls.Add(this.check_gestBtn_Middle);
             this.groupBox2.Controls.Add(this.checkGestureViewShowCommandName);
             this.groupBox2.Controls.Add(this.checkPathTrackerStayTimeout);
+            this.groupBox2.Controls.Add(this.check_gestBtn_Right);
             this.groupBox2.Controls.Add(this.checkGestureViewShowPath);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
@@ -299,27 +305,11 @@ namespace WGestures.App.Gui.Windows
             this.label3.Location = new System.Drawing.Point(297, 59);
             this.label3.Margin = new System.Windows.Forms.Padding(4);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 17);
+            this.label3.Size = new System.Drawing.Size(47, 17);
             this.label3.TabIndex = 16;
-            this.label3.Text = "手势触发键";
+            this.label3.Text = "手势键:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tip.SetToolTip(this.label3, "允许哪个鼠标按钮触发手势？");
-            // 
-            // combo_GestureTriggerButton
-            // 
-            this.combo_GestureTriggerButton.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.settingsFormControllerBindingSource, "PathTrackerTriggerButton", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.combo_GestureTriggerButton.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combo_GestureTriggerButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.combo_GestureTriggerButton.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
-            this.combo_GestureTriggerButton.FormattingEnabled = true;
-            this.combo_GestureTriggerButton.ItemHeight = 17;
-            this.combo_GestureTriggerButton.Location = new System.Drawing.Point(373, 56);
-            this.combo_GestureTriggerButton.Margin = new System.Windows.Forms.Padding(4);
-            this.combo_GestureTriggerButton.Name = "combo_GestureTriggerButton";
-            this.combo_GestureTriggerButton.Size = new System.Drawing.Size(116, 25);
-            this.combo_GestureTriggerButton.TabIndex = 15;
-            this.tip.SetToolTip(this.combo_GestureTriggerButton, "允许哪个鼠标按钮触发手势？");
-            this.combo_GestureTriggerButton.SelectedIndexChanged += new System.EventHandler(this.combo_GestureTriggerButton_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -425,14 +415,13 @@ namespace WGestures.App.Gui.Windows
             this.colorMiddle.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewMiddleBtnMainColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.colorMiddle.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.colorMiddle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.colorMiddle.Font = new System.Drawing.Font("SimSun", 8.25F);
             this.colorMiddle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.colorMiddle.Location = new System.Drawing.Point(185, 217);
+            this.colorMiddle.Location = new System.Drawing.Point(158, 218);
             this.colorMiddle.Margin = new System.Windows.Forms.Padding(4);
             this.colorMiddle.Name = "colorMiddle";
-            this.colorMiddle.Size = new System.Drawing.Size(87, 38);
+            this.colorMiddle.Size = new System.Drawing.Size(60, 26);
             this.colorMiddle.TabIndex = 8;
-            this.colorMiddle.Text = "已识别\r\n(中键)";
+            this.colorMiddle.Text = "中键";
             this.colorMiddle.UseVisualStyleBackColor = false;
             // 
             // colorBtn_recogonized
@@ -443,27 +432,42 @@ namespace WGestures.App.Gui.Windows
             this.colorBtn_recogonized.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.colorBtn_recogonized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.colorBtn_recogonized.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.colorBtn_recogonized.Location = new System.Drawing.Point(90, 217);
+            this.colorBtn_recogonized.Location = new System.Drawing.Point(90, 218);
             this.colorBtn_recogonized.Margin = new System.Windows.Forms.Padding(4);
             this.colorBtn_recogonized.Name = "colorBtn_recogonized";
-            this.colorBtn_recogonized.Size = new System.Drawing.Size(87, 38);
+            this.colorBtn_recogonized.Size = new System.Drawing.Size(60, 26);
             this.colorBtn_recogonized.TabIndex = 8;
-            this.colorBtn_recogonized.Text = "已识别";
+            this.colorBtn_recogonized.Text = "右键";
             this.tip.SetToolTip(this.colorBtn_recogonized, "手势被识别时，轨迹的颜色");
             this.colorBtn_recogonized.UseVisualStyleBackColor = false;
+            // 
+            // colorButton1
+            // 
+            this.colorButton1.BackColor = System.Drawing.Color.White;
+            this.colorButton1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.colorButton1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.colorButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.colorButton1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.colorButton1.Location = new System.Drawing.Point(226, 218);
+            this.colorButton1.Margin = new System.Windows.Forms.Padding(4);
+            this.colorButton1.Name = "colorButton1";
+            this.colorButton1.Size = new System.Drawing.Size(60, 26);
+            this.colorButton1.TabIndex = 8;
+            this.colorButton1.Text = "X键";
+            this.colorButton1.UseVisualStyleBackColor = false;
             // 
             // colorBtn_unrecogonized
             // 
             this.colorBtn_unrecogonized.BackColor = System.Drawing.Color.White;
-            this.colorBtn_unrecogonized.Color = System.Drawing.Color.DeepPink;
+            this.colorBtn_unrecogonized.Color = System.Drawing.Color.Gray;
             this.colorBtn_unrecogonized.DataBindings.Add(new System.Windows.Forms.Binding("Color", this.settingsFormControllerBindingSource, "GestureViewAlternativePathColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.colorBtn_unrecogonized.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.colorBtn_unrecogonized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.colorBtn_unrecogonized.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.colorBtn_unrecogonized.Location = new System.Drawing.Point(280, 217);
+            this.colorBtn_unrecogonized.Location = new System.Drawing.Point(294, 218);
             this.colorBtn_unrecogonized.Margin = new System.Windows.Forms.Padding(4);
             this.colorBtn_unrecogonized.Name = "colorBtn_unrecogonized";
-            this.colorBtn_unrecogonized.Size = new System.Drawing.Size(87, 38);
+            this.colorBtn_unrecogonized.Size = new System.Drawing.Size(60, 26);
             this.colorBtn_unrecogonized.TabIndex = 8;
             this.colorBtn_unrecogonized.Text = "未识别";
             this.tip.SetToolTip(this.colorBtn_unrecogonized, "手势未被识别时，轨迹的颜色");
@@ -517,6 +521,20 @@ namespace WGestures.App.Gui.Windows
             0,
             0});
             // 
+            // check_gestBtn_X
+            // 
+            this.check_gestBtn_X.AutoSize = true;
+            this.check_gestBtn_X.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_gestBtn_X.Location = new System.Drawing.Point(467, 57);
+            this.check_gestBtn_X.Margin = new System.Windows.Forms.Padding(4);
+            this.check_gestBtn_X.Name = "check_gestBtn_X";
+            this.check_gestBtn_X.Size = new System.Drawing.Size(47, 21);
+            this.check_gestBtn_X.TabIndex = 1;
+            this.check_gestBtn_X.Tag = "12";
+            this.check_gestBtn_X.Text = "X键";
+            this.check_gestBtn_X.UseVisualStyleBackColor = true;
+            this.check_gestBtn_X.CheckedChanged += new System.EventHandler(this.check_gestBtns_checkedChanged);
+            // 
             // checkGestureView_fadeOut
             // 
             this.checkGestureView_fadeOut.AutoSize = true;
@@ -530,6 +548,20 @@ namespace WGestures.App.Gui.Windows
             this.checkGestureView_fadeOut.Text = "执行后淡出";
             this.tip.SetToolTip(this.checkGestureView_fadeOut, "手势执行后图形逐渐消失(而非突然消失)");
             this.checkGestureView_fadeOut.UseVisualStyleBackColor = true;
+            // 
+            // check_gestBtn_Middle
+            // 
+            this.check_gestBtn_Middle.AutoSize = true;
+            this.check_gestBtn_Middle.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_gestBtn_Middle.Location = new System.Drawing.Point(408, 57);
+            this.check_gestBtn_Middle.Margin = new System.Windows.Forms.Padding(4);
+            this.check_gestBtn_Middle.Name = "check_gestBtn_Middle";
+            this.check_gestBtn_Middle.Size = new System.Drawing.Size(51, 21);
+            this.check_gestBtn_Middle.TabIndex = 1;
+            this.check_gestBtn_Middle.Tag = "2";
+            this.check_gestBtn_Middle.Text = "中键";
+            this.check_gestBtn_Middle.UseVisualStyleBackColor = true;
+            this.check_gestBtn_Middle.CheckedChanged += new System.EventHandler(this.check_gestBtns_checkedChanged);
             // 
             // checkGestureViewShowCommandName
             // 
@@ -557,6 +589,20 @@ namespace WGestures.App.Gui.Windows
             this.checkPathTrackerStayTimeout.Text = "停留超时 (毫秒)";
             this.tip.SetToolTip(this.checkPathTrackerStayTimeout, "若鼠标停止移动超过此时间，已画出的手势将被取消");
             this.checkPathTrackerStayTimeout.UseVisualStyleBackColor = true;
+            // 
+            // check_gestBtn_Right
+            // 
+            this.check_gestBtn_Right.AutoSize = true;
+            this.check_gestBtn_Right.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.check_gestBtn_Right.Location = new System.Drawing.Point(349, 57);
+            this.check_gestBtn_Right.Margin = new System.Windows.Forms.Padding(4);
+            this.check_gestBtn_Right.Name = "check_gestBtn_Right";
+            this.check_gestBtn_Right.Size = new System.Drawing.Size(51, 21);
+            this.check_gestBtn_Right.TabIndex = 0;
+            this.check_gestBtn_Right.Tag = "1";
+            this.check_gestBtn_Right.Text = "右键";
+            this.check_gestBtn_Right.UseVisualStyleBackColor = true;
+            this.check_gestBtn_Right.CheckedChanged += new System.EventHandler(this.check_gestBtns_checkedChanged);
             // 
             // checkGestureViewShowPath
             // 
@@ -735,9 +781,9 @@ namespace WGestures.App.Gui.Windows
             this.label14.Location = new System.Drawing.Point(27, 90);
             this.label14.Margin = new System.Windows.Forms.Padding(4);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(104, 17);
+            this.label14.Size = new System.Drawing.Size(100, 17);
             this.label14.TabIndex = 2;
-            this.label14.Text = "暂停/继续 快捷键:";
+            this.label14.Text = "暂停/继续快捷键:";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabPage2
@@ -1816,7 +1862,6 @@ namespace WGestures.App.Gui.Windows
         private LineLabel lineLabel2;
         private Label label2;
         private Label label3;
-        private ComboBox combo_GestureTriggerButton;
         private TabPage tab_hotCorners;
         private CheckBox check_enableHotCorners;
         private Panel panel2;
@@ -1842,5 +1887,9 @@ namespace WGestures.App.Gui.Windows
         private ShortcutRecordButton shortcutRec_pause;
         private Label lb_pause_shortcut;
         private Label label15;
+        private CheckBox check_gestBtn_X;
+        private CheckBox check_gestBtn_Middle;
+        private CheckBox check_gestBtn_Right;
+        private ColorButton colorButton1;
     }
 }

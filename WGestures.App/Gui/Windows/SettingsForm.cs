@@ -76,13 +76,20 @@ namespace WGestures.App.Gui.Windows
 
             lb_Version.Text = Application.ProductVersion;
 
-            var rightButtonText = Native.IsMouseButtonSwapped() ? "左键" : "右键";
-            var middleButtonText = "中键";
-            combo_GestureTriggerButton.Items.AddRange(new object[]
+            var gestBtns = Controller.PathTrackerTriggerButton;
+            if((gestBtns & GestureTriggerButton.Right) != 0)
             {
-                rightButtonText,middleButtonText, rightButtonText + "和" + middleButtonText
-            
-            });
+                check_gestBtn_Right.Checked = true;
+            }
+            if ((gestBtns & GestureTriggerButton.Middle) != 0)
+            {
+                check_gestBtn_Middle.Checked = true;
+            }
+            if ((gestBtns & GestureTriggerButton.X) != 0)
+            {
+                check_gestBtn_X.Checked = true;
+            }
+
             #endregion
 
             #region tab gestures
@@ -1222,9 +1229,22 @@ namespace WGestures.App.Gui.Windows
         }
         #endregion
 
-        private void combo_GestureTriggerButton_SelectedIndexChanged(object sender, EventArgs e)
+        private void check_gestBtns_checkedChanged(object sender, EventArgs e)
         {
-            combo_GestureTriggerButton.DataBindings[0].WriteValue();
+            var gestBtns = Controller.PathTrackerTriggerButton;
+            var checkbox = sender as CheckBox;
+
+            var tag = (GestureTriggerButton)int.Parse((string)checkbox.Tag);
+            if (checkbox.Checked)
+            {
+                gestBtns |= tag;
+            }
+            else
+            {
+                gestBtns &= ~tag;
+            }
+
+            Controller.PathTrackerTriggerButton = gestBtns;
         }
 
         private void listGestureIntents_DoubleClick(object sender, EventArgs e)

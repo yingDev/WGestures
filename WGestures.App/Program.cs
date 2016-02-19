@@ -303,7 +303,7 @@ namespace WGestures.App
             #region pathTracker
             pathTracker.DisableInFullscreen = config.Get(ConfigKeys.PathTrackerDisableInFullScreen, true);
             pathTracker.PreferWindowUnderCursorAsTarget = config.Get(ConfigKeys.PathTrackerPreferCursorWindow, false);
-            pathTracker.TriggerButton = (Win32MousePathTracker2.GestureTriggerButton)config.Get(ConfigKeys.PathTrackerTriggerButton, Win32MousePathTracker2.GestureTriggerButton.Right);
+            pathTracker.TriggerButton = (GestureTriggerButton)config.Get(ConfigKeys.PathTrackerTriggerButton, GestureTriggerButton.Right);
             pathTracker.InitialValidMove = config.Get(ConfigKeys.PathTrackerInitialValidMove, 4);
             pathTracker.StayTimeout = config.Get(ConfigKeys.PathTrackerStayTimeout, true);
             pathTracker.StayTimeoutMillis = config.Get(ConfigKeys.PathTrackerStayTimeoutMillis, 500);

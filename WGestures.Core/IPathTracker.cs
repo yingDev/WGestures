@@ -7,7 +7,7 @@ namespace WGestures.Core
     public class PathEventArgs : EventArgs
     {
         public Point Location{get; set;}
-        public GestureButtons Button;
+        public GestureTriggerButton Button;
         public GestureModifier Modifier { get; set; }
         public GestureContext Context { get; set; }
 

@@ -160,7 +160,7 @@ namespace WGestures.Core.Impl.Windows
             //注意：用这个API来过的鼠标位置，不会出现在迅雷上坐标值变为一半的问题。
             Native.POINT curPos;
             Native.GetCursorPos(out curPos);
-            Debug.WriteLine(wParam);
+            //Debug.WriteLine(wParam);
             var args = new MouseHookEventArgs((MouseMsg)wParam, curPos.x, curPos.y,wParam,lParam);
 
             try
@@ -177,11 +177,6 @@ namespace WGestures.Core.Impl.Windows
             }
 
             return args.Handled ?  new IntPtr(-1) : Native.CallNextHookEx(_hookId, nCode, wParam, lParam);
-        }
-
-        public static XButtonNumber GetXButtonNumber(IntPtr wParam)
-        {
-            return (XButtonNumber) ((HiLoWord)((uint)wParam.ToInt32())).High;
         }
 
         #region dispose

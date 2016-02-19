@@ -14,13 +14,13 @@ namespace WGestures.Core
     {
         private static readonly char[] dirs = { '↑', '↗', '→', '↘', '↓', '↙', '←', '↖' };
 
-        public GestureButtons GestureButton { get; set; }
+        public GestureTriggerButton GestureButton { get; set; }
         
         public List<GestureDir> Dirs { get; set; }
         public GestureModifier Modifier { get; set; }
 
 
-        public Gesture(GestureButtons gestureBtn=GestureButtons.RightButton, int defaultCapacity=16)
+        public Gesture(GestureTriggerButton gestureBtn = GestureTriggerButton.Right, int defaultCapacity=16)
         {
             GestureButton = gestureBtn;
             Dirs = new List<GestureDir>(defaultCapacity);

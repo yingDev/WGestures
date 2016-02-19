@@ -5,24 +5,28 @@ using System.Text;
 
 namespace WGestures.Core
 {
-    public enum GestureButtons : short
+    [Flags]
+    public enum GestureTriggerButton
     {
-        MiddleButton = 1, RightButton = 0,
-        LeftButton = 2, XButton = 3
+        None =0, Right = 1, Middle = 2, X1 = 4, X2 = 8,
+        X = X1 | X2
     }
 
-    public static class GestureButtonsHelper
+    public static class GestureTriggerButtonExtension
     {
-        public static string ToMnemonic(this GestureButtons gestureBtn)
+        public static string ToMnemonic(this GestureTriggerButton gestureBtn)
         {
             switch (gestureBtn)
             {
-                case GestureButtons.MiddleButton:
+                case GestureTriggerButton.Middle:
                     return "●";
-                case GestureButtons.RightButton:
+                case GestureTriggerButton.Right:
                     return string.Empty;
-                case GestureButtons.LeftButton:
-                    return "◐";
+                case GestureTriggerButton.X1:
+                    return "X1";
+                case GestureTriggerButton.X2:
+                    return "X2";
+
                 default:
                     return string.Empty;
             }

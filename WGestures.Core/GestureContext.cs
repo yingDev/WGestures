@@ -11,7 +11,7 @@ namespace WGestures.Core
         public uint ProcId;
         public IntPtr WinId;
 
-        public GestureButtons GestureButton;
+        public GestureTriggerButton GestureButton;
 
         public abstract void ActivateTargetWindow();
 

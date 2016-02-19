@@ -190,7 +190,7 @@ namespace WGestures.View.Impl.Windows
             _prevPoint = args.Location;//ToUpLeftCoord(args.Location);
             _pointCount = 1;
 
-            _tempMainPen = args.Button == GestureButtons.RightButton ? _mainPen : _middleBtnPen;
+            _tempMainPen = args.Button == GestureTriggerButton.Right ? _mainPen : _middleBtnPen;
 
             _isCurrentRecognized = false;
             _recognizeStateChanged = false;
