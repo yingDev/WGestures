@@ -542,7 +542,7 @@ namespace WGestures.Core.Impl.Windows
             Post(WM.RUB_EDGE, (int)edge);
         }
 
-        private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
+        /*private void SimulateGestureBtnEvent(GestureBtnEventType eventType, int x, int y)
         {
             const int CLICK_PRESS_RELEASE_INTERVAL = 10;
 
@@ -609,8 +609,48 @@ namespace WGestures.Core.Impl.Windows
                             break;
                     }
                     break;
+
+                case GestureTriggerButton.X1:
+                case GestureTriggerButton.X2:
+                    DoMouseEvent(eventType, User32.MOUSEEVENTF.MOUSEEVENTF_XUP)
+                    break;
             }
             _simulatingMouse = false;
+        }*/
+
+        private void SimulateMouseEvent(User32.MOUSEEVENTF e, int x, int y, uint data=0)
+        {
+            Debug.WriteLine("SimulateMouseEvent: " + e);
+            _simulatingMouse = true;
+
+            User32.SetCursorPos(x, y);
+
+            User32.mouse_event(e, x, y, data, MOUSE_EVENT_EXTRA_SIMULATED);
+
+            _simulatingMouse = false;
+        }
+
+        private User32.MOUSEEVENTF MakeGestureBtnEvent(GestureTriggerButton btn, bool isUp, out uint data)
+        {
+            data = 0;
+            switch(btn)
+            {
+                case GestureTriggerButton.Right:
+                    return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP : User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN;
+                case GestureTriggerButton.Middle:
+                    return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP : User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN;
+                case GestureTriggerButton.X1:
+                    data = 1;
+                    return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_XUP : User32.MOUSEEVENTF.MOUSEEVENTF_XDOWN;
+                case GestureTriggerButton.X2:
+                    data = 2;
+                    return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_XUP : User32.MOUSEEVENTF.MOUSEEVENTF_XDOWN;
+
+                default:
+                    Debug.Assert(false, "WTF");
+                    return User32.MOUSEEVENTF.MOUSEEVENTF_ABSOLUTE;
+            }
+            
         }
 
         private void Post(WM msg, int param = 0)
@@ -781,7 +821,9 @@ namespace WGestures.Core.Impl.Windows
                         if (_isInitialTimeout)
                         {
                             Debug.WriteLine("Begin Drag");
-                            SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _startPoint.X, _startPoint.Y);
+                            //SimulateGestureBtnEvent(GestureBtnEventType.DOWN, _startPoint.X, _startPoint.Y);
+                            uint data;
+                            SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, false, out data), _startPoint.X, _startPoint.Y, data);
                             return; 
                         }
                     }
@@ -876,7 +918,10 @@ namespace WGestures.Core.Impl.Windows
             //如果手势初始时没有移动足够的距离，则模拟发送相应事件
             if (!_initialMoveValid)
             {
-                SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
+                //SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
+                uint data;
+                SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, false, out data), _curPos.X, _curPos.Y, data);
+                SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, true, out data), _curPos.X, _curPos.Y, data);
                 return;
             }
 
@@ -895,7 +940,12 @@ namespace WGestures.Core.Impl.Windows
         {
             Debug.WriteLine("OnTimeout");
 
-            if (PerformNormalWhenTimeout) SimulateGestureBtnEvent(GestureBtnEventType.UP, _curPos.X, _curPos.Y);
+            if (PerformNormalWhenTimeout)
+            {
+                //SimulateGestureBtnEvent(GestureBtnEventType.UP, _curPos.X, _curPos.Y);
+                uint data;
+                SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, true, out data), _curPos.X, _curPos.Y, data);
+            }
 
             if (PathTimeout != null) PathTimeout(_currentEventArgs);
         }
