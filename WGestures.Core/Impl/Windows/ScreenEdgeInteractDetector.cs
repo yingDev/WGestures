@@ -81,10 +81,15 @@ namespace WGestures.Core.Impl.Windows
             var screenBounds = Common.OsSpecific.Windows.Screen.ScreenBoundsFromPoint(e.Pos);
             if (screenBounds == null) return;
             _screenBounds = screenBounds.Value;
+          
             _dpiScale = (Native.GetScreenDpi() / 96.0f);
 
-            DetectCollide(e);
-            DetectRub(e);
+            //convert pos to cursor screen coord
+            var posOnCursorScreen = new Point(e.X - _screenBounds.X, e.Y - _screenBounds.Y);
+
+
+            //DetectCollide(e);
+            DetectRub(posOnCursorScreen);
         }
 
 
@@ -206,7 +211,7 @@ namespace WGestures.Core.Impl.Windows
             }
         }
 
-        private void DetectRub(MouseHook.MouseHookEventArgs e)
+        private void DetectRub(Point p)
         {
             //todo: should be cofigurable
             var MIN_MOVE = 80;
@@ -217,11 +222,11 @@ namespace WGestures.Core.Impl.Windows
 
             if (_activeRubEdge == null)
             {
-                _activeRubEdge = GetActiveEdge(e.Pos, EDGE_THICK);
+                _activeRubEdge = GetActiveEdge(p, EDGE_THICK);
                 if (_activeRubEdge == null) return;
 
                 _lastRubTriggerTime = DateTime.UtcNow;
-                _rubPeakPos = GetPosOnEdge(_activeRubEdge.Value, e.Pos);
+                _rubPeakPos = GetPosOnEdge(_activeRubEdge.Value, p);
                 _rubTimes = 0;
                 _lastRubDir = 0;
             }
@@ -229,7 +234,7 @@ namespace WGestures.Core.Impl.Windows
             {
                 if (_rubTimes >= MOVES_REQUIERED)
                 {
-                    if (GetDistToEdge(_activeRubEdge.Value, e.Pos) >= RED_LINE_DIST || DateTime.UtcNow - _lastRubTriggerTime > TimeSpan.FromMilliseconds(TRIGGER_INTERVAL))
+                    if (GetDistToEdge(_activeRubEdge.Value, p) >= RED_LINE_DIST || DateTime.UtcNow - _lastRubTriggerTime > TimeSpan.FromMilliseconds(TRIGGER_INTERVAL))
                     {
                         _activeRubEdge = null;
                     }
@@ -237,13 +242,13 @@ namespace WGestures.Core.Impl.Windows
                     return;
                 }
 
-                if (GetActiveEdge(e.Pos, EDGE_THICK) != _activeRubEdge)
+                if (GetActiveEdge(p, EDGE_THICK) != _activeRubEdge)
                 {
                     _activeRubEdge = null;
                     return;
                 }
 
-                var pos = GetPosOnEdge(_activeRubEdge.Value, e.Pos);
+                var pos = GetPosOnEdge(_activeRubEdge.Value, p);
 
                 var dist = pos - _rubPeakPos;
                 if (Math.Sign(dist) == Math.Sign(_lastRubDir) && _lastRubDir != 0)
