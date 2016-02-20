@@ -14,7 +14,7 @@ namespace WGestures.Core.Impl.Windows
     {
         public bool Paused { get; set; }
 
-        MouseHook _hook;
+        MouseKeyboardHook _hook;
         Rectangle _screenBounds;
         PointAndTime _hLastPtOutsideRedline;
         PointAndTime _vLastPtOutsideRedline;
@@ -36,7 +36,7 @@ namespace WGestures.Core.Impl.Windows
         public event Action<ScreenEdge> Collide;
         public event Action<ScreenEdge> Rub;
 
-        public EdgeInteractDetector(MouseHook mouseHook)
+        public EdgeInteractDetector(MouseKeyboardHook mouseHook)
         {
             //_dpiScale = (Native.GetScreenDpi() / 96.0f);
             //_screenBounds = Native.GetScreenBounds();
@@ -56,7 +56,7 @@ namespace WGestures.Core.Impl.Windows
         }
 
         //Note: Hook runs on separate thread!
-        private void _hook_MouseHookEvent(MouseHook.MouseHookEventArgs e)
+        private void _hook_MouseHookEvent(MouseKeyboardHook.MouseHookEventArgs e)
         {
             if (Paused) return;
 
@@ -93,7 +93,7 @@ namespace WGestures.Core.Impl.Windows
         }
 
 
-        private void DetectCollide(MouseHook.MouseHookEventArgs e)
+        private void DetectCollide(MouseKeyboardHook.MouseHookEventArgs e)
         {
             //TODO: make configurable
             var redLineDist = 100 * _dpiScale;

@@ -5,17 +5,20 @@ using System.Threading;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common;
 using Win32;
+using System.Windows.Forms;
 
 namespace WGestures.Core.Impl.Windows
 {
-    internal class MouseHook : IDisposable
+    internal class MouseKeyboardHook : IDisposable
     {
         public bool IsDisposed { get; private set; }
         private IntPtr _hookId;
+        private IntPtr _kbdHookId;
         private uint _hookThreadNativeId;
         private Thread _hookThread;
 
-        private Native.LowLevelMouseProc _hookProc;
+        private Native.LowLevelMouseHookProc _mouseHookProc;
+        private Native.LowLevelkeyboardHookProc _kbdHookProc;
 
         public class MouseHookEventArgs : EventArgs
         {
@@ -25,8 +28,8 @@ namespace WGestures.Core.Impl.Windows
 
             public Point Pos => new Point() { X = X, Y = Y };
 
-            public IntPtr wParam { get; private set; }
-            public IntPtr lParam { get; private set; }
+            public IntPtr wParam;
+            public IntPtr lParam;
 
             public bool Handled { get; set; }
 
@@ -41,15 +44,35 @@ namespace WGestures.Core.Impl.Windows
             }
         }
 
+        public class KeyboardHookEventArgs : EventArgs
+        {
+            public KeyboardEventType Type;
+            public int wParam;
+            public Native.keyboardHookStruct lParam;
+            public Keys key;
+            public bool Handled;
+
+            public KeyboardHookEventArgs(KeyboardEventType type, Keys key, int wParam, Native.keyboardHookStruct lParam)
+            {
+                Type = type;
+                this.wParam = wParam;
+                this.lParam = lParam;
+                this.key = key;
+            }
+        }
+
         public delegate void MouseHookEventHandler(MouseHookEventArgs e);
+        public delegate void KeyboardHookEventHandler(KeyboardHookEventArgs e);
 
         public event MouseHookEventHandler MouseHookEvent;
+        public event KeyboardHookEventHandler KeyboardHookEvent;
         public event Func<Native.MSG,bool> GotMessage;
 
 
-        public MouseHook()
+        public MouseKeyboardHook()
         {
-            _hookProc = MouseHookProc;
+            _mouseHookProc = MouseHookProc;
+            _kbdHookProc = KeyboardHookProc;
         }
 
         public void Install()
@@ -62,9 +85,10 @@ namespace WGestures.Core.Impl.Windows
 
                 try
                 {
-                    _hookId = Native.SetMouseHook(_hookProc);
+                    _hookId = Native.SetMouseHook(_mouseHookProc);
+                    _kbdHookId = Native.SetKeyboardHook(_kbdHookProc);
 
-                    if (_hookId == IntPtr.Zero)
+                    if (_hookId == IntPtr.Zero || _kbdHookId == IntPtr.Zero)
                     {
                         Debug.WriteLine("安装钩子失败");
                         _hookThreadNativeId = 0;
@@ -98,6 +122,7 @@ namespace WGestures.Core.Impl.Windows
                 finally
                 {
                     if (_hookId != IntPtr.Zero) Native.UnhookWindowsHookEx(_hookId);
+                    if (_kbdHookId != IntPtr.Zero) Native.UnhookWindowsHookEx(_kbdHookId);
                 }
 
                 Debug.WriteLine("钩子线程结束");
@@ -114,10 +139,10 @@ namespace WGestures.Core.Impl.Windows
 
         public void Uninstall()
         {
-            if (_hookId == IntPtr.Zero || _hookThreadNativeId == 0) return;
+            if (_hookId == IntPtr.Zero || _kbdHookId == IntPtr.Zero || _hookThreadNativeId == 0) return;
             try
             {
-                if (Native.UnhookWindowsHookEx(_hookId))
+                if (Native.UnhookWindowsHookEx(_hookId) || Native.UnhookWindowsHookEx(_kbdHookId))
                 {
                     Debug.WriteLine("钩子已卸载");
                 }
@@ -144,7 +169,9 @@ namespace WGestures.Core.Impl.Windows
 
                 _hookThreadNativeId = 0;
                 _hookId = IntPtr.Zero;
+                _kbdHookId = IntPtr.Zero;
                 _hookThread = null;
+                
             }
 
         }
@@ -179,11 +206,37 @@ namespace WGestures.Core.Impl.Windows
             return args.Handled ?  new IntPtr(-1) : Native.CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
+        protected virtual int KeyboardHookProc(int code, int wParam, ref Native.keyboardHookStruct lParam)
+        {
+            if (code >= 0 && KeyboardHookEvent != null)
+            {
+                var key = (Keys)lParam.vkCode;
+                KeyboardEventType type;
+
+                if ((wParam == (int)User32.WM.WM_KEYDOWN || wParam == (int) User32.WM.WM_SYSKEYDOWN))
+                {
+                    type = KeyboardEventType.KeyDown;
+                }
+                else if ((wParam == (int)User32.WM.WM_KEYUP || wParam == (int)User32.WM.WM_SYSKEYUP))
+                {
+                    type = KeyboardEventType.KeyUp;
+                }else return Native.CallNextHookEx(_hookId, code, wParam, ref lParam);
+                
+                var args = new KeyboardHookEventArgs(type, key, wParam, lParam);
+                KeyboardHookEvent(args);
+
+                if (args.Handled) return 1;
+
+            }  
+                  
+            return Native.CallNextHookEx(_hookId, code, wParam, ref lParam);
+        }
+
         #region dispose
-        //If the method is invoked from the finalizer (disposing is false), 
-        //other objects should not be accessed. 
-        //The reason is that objects are finalized in an unpredictable order and so they,
-        //or any of their dependencies, might already have been finalized.
+            //If the method is invoked from the finalizer (disposing is false), 
+            //other objects should not be accessed. 
+            //The reason is that objects are finalized in an unpredictable order and so they,
+            //or any of their dependencies, might already have been finalized.
         protected virtual void Dispose(bool disposing)
         {
             if (IsDisposed) return;
@@ -206,7 +259,7 @@ namespace WGestures.Core.Impl.Windows
             GC.SuppressFinalize(this);
         }
 
-        ~MouseHook()
+        ~MouseKeyboardHook()
         {
             Dispose(false);
         }
@@ -228,6 +281,11 @@ namespace WGestures.Core.Impl.Windows
 
         WM_XBUTTONDOWN = 0x020B,
         WM_XBUTTONUP = 0x020C
+    }
+
+    public enum KeyboardEventType
+    {
+        KeyDown, KeyUp
     }
 
     public enum XButtonNumber

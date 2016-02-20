@@ -9,7 +9,7 @@ namespace WGestures.Core.Commands.Impl
 {
     static internal class Sim
     {
-        public static InputSimulator Simulator = new InputSimulator();
+        public static InputSimulator Simulator = new InputSimulator() { ExtraInfo = new IntPtr(19900620) };
 
         public static void KeyDown(VirtualKeyCode k)
         {

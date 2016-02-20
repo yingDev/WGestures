@@ -13,12 +13,13 @@ using Win32;
 using Timer = System.Timers.Timer;
 using System.Text;
 using Microsoft.Win32;
+using WindowsInput.Native;
 
 namespace WGestures.Core.Impl.Windows
 {
     public class Win32MousePathTracker2 : IPathTracker
     {
-        private const int MOUSE_EVENT_EXTRA_SIMULATED = 19900620;
+        private const int SIMULATED_EVENT_TAG = 19900620;
 
         #region properties
         /// <summary>
@@ -153,7 +154,7 @@ namespace WGestures.Core.Impl.Windows
 
         
         #region fields
-        private readonly MouseHook _mouseHook;
+        private readonly MouseKeyboardHook _mouseKbdHook;
         private TouchHook _touchHook;
 
         private Queue<MSG> _msgQueue = new Queue<MSG>(16);
@@ -190,7 +191,7 @@ namespace WGestures.Core.Impl.Windows
         private DateTime _modifierEventHappendPrevTime;
 
         //note: 由于360等可能导致dwExtraInfo丢失，因此使用这个变量作为备份方案
-        private bool _simulatingMouse;
+        private bool _simulatingInput;
         private bool _captured;
         private GestureTriggerButton _gestureBtn;
         private DateTime _mouseDownTime = DateTime.UtcNow;
@@ -199,6 +200,9 @@ namespace WGestures.Core.Impl.Windows
         private ScreenCorner _lastTriggeredCorner;
 
         private EdgeInteractDetector _edgeDetector;
+
+        //Virtual Gesturing
+        private bool _isVirtualGesturing;
         
         #endregion
 
@@ -216,14 +220,17 @@ namespace WGestures.Core.Impl.Windows
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
-            _mouseHook = new MouseHook();
-            _mouseHook.MouseHookEvent += HookProc;
+            _mouseKbdHook = new MouseKeyboardHook();
+            _mouseKbdHook.MouseHookEvent += MouseHookProc;
+            _mouseKbdHook.KeyboardHookEvent += KeyboardHookProc;
+
 
             _touchHook = new TouchHook();
-
-
-            _edgeDetector = new EdgeInteractDetector(_mouseHook);
+            
+            _edgeDetector = new EdgeInteractDetector(_mouseKbdHook);
             _edgeDetector.Rub += EdgeDetector_Rub;
+
+            //virtual gesturing
 
         }
 
@@ -244,7 +251,7 @@ namespace WGestures.Core.Impl.Windows
         
         public void Start()
         {
-            _mouseHook.Install();
+            _mouseKbdHook.Install();
             //_touchHook.Install();
 
             while (true)
@@ -270,7 +277,7 @@ namespace WGestures.Core.Impl.Windows
                     case WM.GESTBTN_MODIFIER:
                         OnModifier((GestureModifier)msg.param);break;
                     case WM.GESTBTN_UP:
-                        OnMouseUp();break;
+                        OnMouseUp(msg.param != 0);break;
                     case WM.STAY_TIMEOUT:
                         OnTimeout();break;
                     case WM.PAUSE_RESUME:
@@ -335,16 +342,17 @@ namespace WGestures.Core.Impl.Windows
 
 
         #region internal
-        private void HookProc(MouseHook.MouseHookEventArgs e)
+        //NOTE: hook procs run in a separate thread.
+        private void MouseHookProc(MouseKeyboardHook.MouseHookEventArgs e)
         {
             //处理 左键 + 中键 用于 暂停继续的情形
-            if( HandleSpecialButtonCombination(e) ) return;
+            //if( HandleSpecialButtonCombination(e) ) return;
 
             if (_isPaused) return;
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));
             //fixme: 判断是否在模拟事件， 为什么不一定可靠？
-            if (_simulatingMouse || mouseData.dwExtraInfo.ToInt64() == MOUSE_EVENT_EXTRA_SIMULATED)
+            if (_simulatingInput || mouseData.dwExtraInfo.ToInt64() == SIMULATED_EVENT_TAG)
             {
                 Debug.WriteLine("Simulated:" + e.Msg);
                 if (InitialStayTimeout && _isInitialTimeout)
@@ -407,7 +415,6 @@ namespace WGestures.Core.Impl.Windows
                                     break;
                             }
                             
-
                             _modifierEventHappendPrevTime = new DateTime(0);
                             e.Handled = true;
                             Post(WM.GESTBTN_DOWN);
@@ -432,7 +439,6 @@ namespace WGestures.Core.Impl.Windows
                             default:
                                 gestMod = GestureModifier.LeftButtonDown;
                                 break;
-
                         }
 
                         e.Handled = HandleModifier(gestMod);
@@ -445,8 +451,15 @@ namespace WGestures.Core.Impl.Windows
                         //永远不拦截move消息，所以不设置e.Handled = true
                         Post(WM.GESTBTN_MOVE);
                     }
-                    else //未捕获的情况下才允许hotcorner
+                    else 
                     {
+                       if(_isVirtualGesturing)
+                        {
+                            _captured = true;
+                            _gestureBtn = GestureTriggerButton.Right;
+                            Post(WM.GESTBTN_DOWN, 1);
+                        }
+                        //未捕获的情况下才允许hotcorner
                         HotCornerHitTest();
                     }
                     break;
@@ -508,6 +521,76 @@ namespace WGestures.Core.Impl.Windows
                     //其他消息不处理
                     break;
             }
+        }
+        
+        private void KeyboardHookProc(MouseKeyboardHook.KeyboardHookEventArgs e)
+        {
+            Debug.WriteLine(e.lParam.dwExtraInfo);
+
+            if (_isPaused || _simulatingInput || e.lParam.dwExtraInfo == SIMULATED_EVENT_TAG)
+            {
+                Debug.WriteLine("paused or simulating");
+                return;
+            }
+            
+            if(e.key == Keys.LWin)
+            {
+                e.Handled = true;
+
+               if (e.Type == KeyboardEventType.KeyDown)
+               {
+                    if (!_captured && !_isVirtualGesturing)
+                    {
+                        Debug.WriteLine("Begin Virtual Gesturing");
+                        _isVirtualGesturing = true;
+                        return;
+                    }
+                    
+
+               }else 
+
+               if(e.Type == KeyboardEventType.KeyUp)
+                {
+                    if (_isVirtualGesturing) // && _isVirtualGesturing)
+                    {
+                        Debug.WriteLine("End Virtual Gesturing!");
+                        _isVirtualGesturing = false;
+
+                        if(_captured)
+                        {
+                            _captured = false;
+                            Post(WM.GESTBTN_UP, 1); //isVirtual
+                        }else
+                        {
+                            new Thread(() =>
+                            {
+                                _simulatingInput = true;
+                                var sim = new InputSimulator() { ExtraInfo = new IntPtr(SIMULATED_EVENT_TAG) };
+                                sim.Keyboard.ModifiedKeyStroke(new[] { VirtualKeyCode.LWIN }, new[] { (VirtualKeyCode)e.key });
+                                _simulatingInput = false;
+                            }).Start();
+                        }
+                    }/*else
+                    {
+                        e.Handled = false;
+                    }*/
+
+                }
+            }else if(_isVirtualGesturing && e.Type == KeyboardEventType.KeyDown)
+            {
+                _isVirtualGesturing = false;
+                new Thread(() =>
+                {
+                    _simulatingInput = true;
+                    var sim = new InputSimulator() { ExtraInfo = new IntPtr(SIMULATED_EVENT_TAG) };
+                    sim.Keyboard.ModifiedKeyStroke(new[] { VirtualKeyCode.LWIN }, new[] {(VirtualKeyCode) e.key });
+                    _simulatingInput = false;
+                }).Start();
+
+                e.Handled = true;
+            }
+
+
         }
 
         private void HotCornerHitTest()
@@ -621,13 +704,13 @@ namespace WGestures.Core.Impl.Windows
         private void SimulateMouseEvent(User32.MOUSEEVENTF e, int x, int y, uint data=0)
         {
             Debug.WriteLine("SimulateMouseEvent: " + e);
-            _simulatingMouse = true;
+            _simulatingInput = true;
 
             User32.SetCursorPos(x, y);
 
-            User32.mouse_event(e, x, y, data, MOUSE_EVENT_EXTRA_SIMULATED);
+            User32.mouse_event(e, x, y, data, SIMULATED_EVENT_TAG);
 
-            _simulatingMouse = false;
+            _simulatingInput = false;
         }
 
         private User32.MOUSEEVENTF MakeGestureBtnEvent(GestureTriggerButton btn, bool isUp, out uint data)
@@ -688,7 +771,7 @@ namespace WGestures.Core.Impl.Windows
             return true;
         }
 
-        private bool HandleSpecialButtonCombination(MouseHook.MouseHookEventArgs e)
+        private bool HandleSpecialButtonCombination(MouseKeyboardHook.MouseHookEventArgs e)
         {
            if(_captured) return false;
            
@@ -912,16 +995,29 @@ namespace WGestures.Core.Impl.Windows
             _modifierEventHappendPrevTime = DateTime.UtcNow;
         }
 
-        private void OnMouseUp()
+        private void OnMouseUp(bool isVirtual=false)
         {
             Debug.WriteLine("OnMouseUp");
             //如果手势初始时没有移动足够的距离，则模拟发送相应事件
             if (!_initialMoveValid)
             {
-                //SimulateGestureBtnEvent(GestureBtnEventType.CLICK, _curPos.X, _curPos.Y);
-                uint data;
-                SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, false, out data), _curPos.X, _curPos.Y, data);
-                SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, true, out data), _curPos.X, _curPos.Y, data);
+                Debug.WriteLine("Shit");
+                if(isVirtual)
+                {
+                    _simulatingInput = true;
+                    Debug.WriteLine("Simulating...Win Press");
+                    var sim = new InputSimulator() { ExtraInfo = new IntPtr(SIMULATED_EVENT_TAG) };
+                    sim.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.LWIN);
+                    Debug.WriteLine("End Simulating...Win Press");
+                    _simulatingInput = false;
+                    
+                }else
+                {
+                    uint data;
+                    SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, false, out data), _curPos.X, _curPos.Y, data);
+                    SimulateMouseEvent(MakeGestureBtnEvent(_gestureBtn, true, out data), _curPos.X, _curPos.Y, data);
+                }
+
                 return;
             }
 
@@ -973,7 +1069,7 @@ namespace WGestures.Core.Impl.Windows
         private void OnStop()
         {
             Debug.WriteLine("Stopping");
-            _mouseHook.Uninstall();
+            _mouseKbdHook.Uninstall();
             _isPaused = false;
             _isStopped = true;
         }
@@ -1059,7 +1155,7 @@ namespace WGestures.Core.Impl.Windows
                     _edgeDetector = null;
                 }
 
-                _mouseHook.Dispose();
+                _mouseKbdHook.Dispose();
 
                 if (!_isStopped) Stop();
                 if (_stayTimer != null) _stayTimer.Dispose();
