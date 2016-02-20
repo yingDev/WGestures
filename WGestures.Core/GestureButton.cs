@@ -21,7 +21,7 @@ namespace WGestures.Core
                 case GestureTriggerButton.Middle:
                     return "●";
                 case GestureTriggerButton.Right:
-                    return string.Empty;
+                    return "◑";
                 case GestureTriggerButton.X1:
                     return "X1";
                 case GestureTriggerButton.X2:
