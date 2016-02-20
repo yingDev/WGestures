@@ -1,4 +1,6 @@
-﻿namespace WindowsInput
+﻿using System;
+
+namespace WindowsInput
 {
     /// <summary>
     /// The contract for a service that simulates Keyboard and Mouse input and Hardware Input Device state detection for the Windows Platform.
@@ -22,5 +24,10 @@
         /// </summary>
         /// <value>The <see cref="IInputDeviceStateAdaptor"/> instance.</value>
         IInputDeviceStateAdaptor InputDeviceState { get; }
+
+        /// <summary>
+        /// ExtraInfo
+        /// </summary>
+        IntPtr ExtraInfo { get; set; }
     }
 }

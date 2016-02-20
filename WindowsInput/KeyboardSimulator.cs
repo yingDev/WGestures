@@ -90,11 +90,11 @@ namespace WindowsInput
         /// <param name="keyCode">The <see cref="VirtualKeyCode"/> to press</param>
         public IKeyboardSimulator KeyDown(VirtualKeyCode keyCode)
         {
-            //var inputList = new InputBuilder().AddKeyDown(keyCode).ToArray();
+            //var inputList = new InputBuilder(){ ExtraInfo = _inputSimulator.ExtraInfo }.AddKeyDown(keyCode).ToArray();
             unsafe
             {
                 var input = stackalloc INPUT[1];
-                input[0] = InputBuilder.MakeKeyDown(keyCode);
+                input[0] = InputBuilder.MakeKeyDown(keyCode, _inputSimulator.ExtraInfo);
                 _messageDispatcher.DispatchInput(input, 1);
 
             }
@@ -111,7 +111,7 @@ namespace WindowsInput
             unsafe
             {
                 var input = stackalloc INPUT[1];
-                input[0] = InputBuilder.MakeKeyUp(keyCode);
+                input[0] = InputBuilder.MakeKeyUp(keyCode, _inputSimulator.ExtraInfo);
                 _messageDispatcher.DispatchInput(input, 1);
 
             }
@@ -127,14 +127,14 @@ namespace WindowsInput
             unsafe
             {
                 var input = stackalloc INPUT[2];
-                input[0] = InputBuilder.MakeKeyDown(keyCode);
-                input[1] = InputBuilder.MakeKeyUp(keyCode);
+                input[0] = InputBuilder.MakeKeyDown(keyCode, _inputSimulator.ExtraInfo);
+                input[1] = InputBuilder.MakeKeyUp(keyCode, _inputSimulator.ExtraInfo);
                 
                 _messageDispatcher.DispatchInput(input, 2);
 
             }
 
-            //var inputList = new InputBuilder().AddKeyPress(keyCode).ToArray();
+            //var inputList = new InputBuilder(){ ExtraInfo = _inputSimulator.ExtraInfo }.AddKeyPress(keyCode).ToArray();
             //SendSimulatedInput(inputList);
             return this;
         }
@@ -145,7 +145,7 @@ namespace WindowsInput
         /// <param name="keyCodes"></param>
         public IKeyboardSimulator KeyPress(params VirtualKeyCode[] keyCodes)
         {
-            var builder = new InputBuilder();
+            var builder = new InputBuilder(){ ExtraInfo = _inputSimulator.ExtraInfo };
             KeysPress(builder, keyCodes);
             SendSimulatedInput(builder.ToArray());
             return this;
@@ -195,7 +195,7 @@ namespace WindowsInput
         /// <param name="keyCodes">The list of keys to simulate</param>
         public IKeyboardSimulator ModifiedKeyStroke(IEnumerable<VirtualKeyCode> modifierKeyCodes, IEnumerable<VirtualKeyCode> keyCodes)
         {
-            var builder = new InputBuilder();
+            var builder = new InputBuilder(){ ExtraInfo = _inputSimulator.ExtraInfo };
             ModifiersDown(builder, modifierKeyCodes);
             KeysPress(builder, keyCodes);
             ModifiersUp(builder, modifierKeyCodes);
@@ -211,7 +211,7 @@ namespace WindowsInput
         public IKeyboardSimulator TextEntry(string text)
         {
             if (text.Length > UInt32.MaxValue / 2) throw new ArgumentException(string.Format("The text parameter is too long. It must be less than {0} characters.", UInt32.MaxValue / 2), "text");
-            var inputList = new InputBuilder().AddCharacters(text).ToArray();
+            var inputList = new InputBuilder(){ ExtraInfo = _inputSimulator.ExtraInfo }.AddCharacters(text).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }
@@ -222,7 +222,7 @@ namespace WindowsInput
         /// <param name="character">The unicode character to be simulated.</param>
         public IKeyboardSimulator TextEntry(char character)
         {
-            var inputList = new InputBuilder().AddCharacter(character).ToArray();
+            var inputList = new InputBuilder(){ ExtraInfo = _inputSimulator.ExtraInfo }.AddCharacter(character).ToArray();
             SendSimulatedInput(inputList);
             return this;
         }

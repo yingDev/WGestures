@@ -8,6 +8,13 @@ namespace WindowsInput
     public class InputSimulator : IInputSimulator
     {
         /// <summary>
+        /// Tag to mark events
+        /// </summary>
+        public IntPtr ExtraInfo
+        {
+            get; set;
+        }
+        /// <summary>
         /// The <see cref="IKeyboardSimulator"/> instance to use for simulating keyboard input.
         /// </summary>
         private readonly IKeyboardSimulator _keyboardSimulator;

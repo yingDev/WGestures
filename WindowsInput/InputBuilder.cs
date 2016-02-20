@@ -10,6 +10,11 @@ namespace WindowsInput
     /// </summary>
     internal class InputBuilder : IEnumerable<INPUT>
     {
+         /// <summary>
+        /// extraInfo
+        /// </summary>
+        public IntPtr ExtraInfo{get;set;}
+
         /// <summary>
         /// The public list of <see cref="INPUT"/> messages being built by this instance.
         /// </summary>
@@ -130,7 +135,7 @@ namespace WindowsInput
                                             Scan = (ushort)(VirtualScanCode),
                                             Flags = IsExtendedKey(keyCode) ? (UInt32) KeyboardFlag.ExtendedKey : 0,
                                             Time = 0,
-                                            ExtraInfo = IntPtr.Zero
+                                            ExtraInfo = ExtraInfo
                                         }
                             }
                     };
@@ -139,7 +144,7 @@ namespace WindowsInput
             return this;
         }
 
-        public static INPUT MakeKeyDown(VirtualKeyCode keyCode)
+        public static INPUT MakeKeyDown(VirtualKeyCode keyCode, IntPtr extraInfo)
         {
             uint VirtualScanCode = Native.NativeMethods.MapVirtualKey((uint)(keyCode), (uint)(Native.NativeMethods.MAPVK.MAPVK_VK_TO_VSC));
 
@@ -156,7 +161,7 @@ namespace WindowsInput
                                 Scan = (ushort)(VirtualScanCode),
                                 Flags = IsExtendedKey(keyCode) ? (UInt32)KeyboardFlag.ExtendedKey : 0,
                                 Time = 0,
-                                ExtraInfo = IntPtr.Zero
+                                ExtraInfo = extraInfo
                             }
                     }
                 };
@@ -164,7 +169,7 @@ namespace WindowsInput
             return down;
         }
 
-        public static INPUT MakeKeyUp(VirtualKeyCode keyCode)
+        public static INPUT MakeKeyUp(VirtualKeyCode keyCode, IntPtr extraInfo)
         {
             uint VirtualScanCode = Native.NativeMethods.MapVirtualKey((uint)(keyCode), (uint)(Native.NativeMethods.MAPVK.MAPVK_VK_TO_VSC));
             var up =
@@ -182,7 +187,7 @@ namespace WindowsInput
                                                       ? KeyboardFlag.KeyUp | KeyboardFlag.ExtendedKey
                                                       : KeyboardFlag.KeyUp),
                                 Time = 0,
-                                ExtraInfo = IntPtr.Zero
+                                ExtraInfo = extraInfo
                             }
                     }
                 };
@@ -213,7 +218,7 @@ namespace WindowsInput
                                                                   ? KeyboardFlag.KeyUp | KeyboardFlag.ExtendedKey
                                                                   : KeyboardFlag.KeyUp),
                                             Time = 0,
-                                            ExtraInfo = IntPtr.Zero
+                                            ExtraInfo = ExtraInfo
                                         }
                             }
                     };
@@ -255,7 +260,7 @@ namespace WindowsInput
                                                    Scan = scanCode,
                                                    Flags = (UInt32)KeyboardFlag.Unicode,
                                                    Time = 0,
-                                                   ExtraInfo = IntPtr.Zero
+                                                   ExtraInfo = ExtraInfo
                                                }
                                    }
                            };
@@ -273,7 +278,7 @@ namespace WindowsInput
                                                  Flags =
                                                      (UInt32)(KeyboardFlag.KeyUp | KeyboardFlag.Unicode),
                                                  Time = 0,
-                                                 ExtraInfo = IntPtr.Zero
+                                                 ExtraInfo = ExtraInfo
                                              }
                                  }
                          };
@@ -326,6 +331,7 @@ namespace WindowsInput
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
             movement.Data.Mouse.Flags = (UInt32)MouseFlag.Move;
+            movement.Data.Mouse.ExtraInfo = ExtraInfo;
             movement.Data.Mouse.X = x;
             movement.Data.Mouse.Y = y;
 
@@ -344,6 +350,7 @@ namespace WindowsInput
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
             movement.Data.Mouse.Flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute);
+            movement.Data.Mouse.ExtraInfo = ExtraInfo;
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
 
@@ -362,6 +369,7 @@ namespace WindowsInput
         {
             var movement = new INPUT { Type = (UInt32)InputType.Mouse };
             movement.Data.Mouse.Flags = (UInt32)(MouseFlag.Move | MouseFlag.Absolute | MouseFlag.VirtualDesk);
+            movement.Data.Mouse.ExtraInfo = ExtraInfo;
             movement.Data.Mouse.X = absoluteX;
             movement.Data.Mouse.Y = absoluteY;
 
@@ -379,6 +387,7 @@ namespace WindowsInput
         {
             var buttonDown = new INPUT { Type = (UInt32)InputType.Mouse };
             buttonDown.Data.Mouse.Flags = (UInt32)ToMouseButtonDownFlag(button);
+            buttonDown.Data.Mouse.ExtraInfo = ExtraInfo;
 
             _inputList.Add(buttonDown);
 
@@ -394,6 +403,7 @@ namespace WindowsInput
         {
             var buttonDown = new INPUT { Type = (UInt32)InputType.Mouse };
             buttonDown.Data.Mouse.Flags = (UInt32)MouseFlag.XDown;
+            buttonDown.Data.Mouse.ExtraInfo = ExtraInfo;
             buttonDown.Data.Mouse.MouseData = (UInt32)xButtonId;
             _inputList.Add(buttonDown);
 
@@ -409,6 +419,7 @@ namespace WindowsInput
         {
             var buttonUp = new INPUT { Type = (UInt32)InputType.Mouse };
             buttonUp.Data.Mouse.Flags = (UInt32)ToMouseButtonUpFlag(button);
+            buttonUp.Data.Mouse.ExtraInfo = ExtraInfo;
             _inputList.Add(buttonUp);
 
             return this;
@@ -423,6 +434,7 @@ namespace WindowsInput
         {
             var buttonUp = new INPUT { Type = (UInt32)InputType.Mouse };
             buttonUp.Data.Mouse.Flags = (UInt32)MouseFlag.XUp;
+            buttonUp.Data.Mouse.ExtraInfo = ExtraInfo;
             buttonUp.Data.Mouse.MouseData = (UInt32)xButtonId;
             _inputList.Add(buttonUp);
 
@@ -478,6 +490,7 @@ namespace WindowsInput
         {
             var scroll = new INPUT { Type = (UInt32)InputType.Mouse };
             scroll.Data.Mouse.Flags = (UInt32)MouseFlag.VerticalWheel;
+            scroll.Data.Mouse.ExtraInfo = ExtraInfo;
             scroll.Data.Mouse.MouseData = (UInt32)scrollAmount;
 
             _inputList.Add(scroll);
@@ -494,6 +507,7 @@ namespace WindowsInput
         {
             var scroll = new INPUT { Type = (UInt32)InputType.Mouse };
             scroll.Data.Mouse.Flags = (UInt32)MouseFlag.HorizontalWheel;
+            scroll.Data.Mouse.ExtraInfo = ExtraInfo;
             scroll.Data.Mouse.MouseData = (UInt32)scrollAmount;
 
             _inputList.Add(scroll);
