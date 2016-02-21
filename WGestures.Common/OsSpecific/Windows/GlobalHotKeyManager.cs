@@ -124,7 +124,7 @@ namespace WGestures.Common.OsSpecific.Windows
             /// <param name="m"></param>
             protected override void WndProc(ref Message m)
             {
-                base.WndProc(ref m);
+                //base.WndProc(ref m);
 
                 // check if we got a hot key pressed.
                 if (m.Msg == WM_HOTKEY)
@@ -136,6 +136,10 @@ namespace WGestures.Common.OsSpecific.Windows
                     // invoke the event to notify the parent.
                     if (KeyPressed != null)
                         KeyPressed(this, new HotKeyEventArgs(new HotKey(modifier, key)));
+                    
+                }else
+                {
+                    base.WndProc(ref m);
                 }
             }
 

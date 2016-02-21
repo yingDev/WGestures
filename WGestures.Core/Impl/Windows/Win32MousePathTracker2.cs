@@ -538,6 +538,7 @@ namespace WGestures.Core.Impl.Windows
                 Debug.WriteLine("paused or simulating");
                 return;
             }
+            Debug.WriteLine("WTF " + e.key + " " + e.Type);
             
             if(e.key == Keys.LWin)
             {
@@ -553,9 +554,7 @@ namespace WGestures.Core.Impl.Windows
                         return;
                     }
                }else 
-
-               if(e.Type == KeyboardEventType.KeyUp)
-                {
+               {
                     if (_isVirtualGesturing) // && _isVirtualGesturing)
                     {
                         Debug.WriteLine("End Virtual Gesturing!");
@@ -575,6 +574,9 @@ namespace WGestures.Core.Impl.Windows
                                 _simulatingInput = false;
                             }).Start();
                         }
+                    }else
+                    {
+                        e.Handled = false;
                     }
 
                 }
