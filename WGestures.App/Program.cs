@@ -576,13 +576,11 @@ namespace WGestures.App
             t.Start();
         }
 
-        static string GetPauseResumeHotkeyStringFromConfig()
+        static string GetPauseResumeHotkeyString()
         {
-            var bytes = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey, null);
-            if(bytes != null)
-            {
-                return GlobalHotKeyManager.HotKey.FromBytes(bytes).ToString();
-            }
+            var hk = hotkeyMgr.GetRegisteredHotKeyById(ConfigKeys.PauseResumeHotKey);
+
+            if (hk != null) return hk.Value.ToString();
 
             return "";
         }
@@ -596,7 +594,7 @@ namespace WGestures.App
             var menuItem_exit = new MenuItem() { Text = "退出" };
             menuItem_exit.Click += menuItem_exit_Click;
 
-            menuItem_pause = new MenuItem() { Text = string.Format("暂停 ({0})", GetPauseResumeHotkeyStringFromConfig()) };
+            menuItem_pause = new MenuItem() { Text = string.Format("暂停 ({0})", GetPauseResumeHotkeyString()) };
             menuItem_pause.Click += menuItem_pause_Click;
 
             var menuItem_settings = new MenuItem() { Text = "设置" };
@@ -617,23 +615,35 @@ namespace WGestures.App
             notifyIcon.ContextMenu = contextMenu1;
             notifyIcon.Visible = true;
 
-            gestureParser.StateChanged += state =>
-            {
-                var hotKeyStr = GetPauseResumeHotkeyStringFromConfig();
-                hotKeyStr = string.IsNullOrEmpty(hotKeyStr) ? "" : string.Format("({0})", hotKeyStr);
-                if (state == GestureParser.State.PAUSED)
-                {
-                    menuItem_pause.Text = "继续 " + hotKeyStr;
-                    
-                    notifyIcon.Icon = Resources.trayIcon_bw;
-                } else
-                {
-                    menuItem_pause.Text = "暂停 " + hotKeyStr;
-                    notifyIcon.Icon = Resources.trayIcon;
-                }
-            };
+            notifyIcon.MouseUp += NotifyIcon_MouseUp;
+            gestureParser.StateChanged += GestureParser_StateChanged;
+
 
             return notifyIcon;
+        }
+
+        private static void GestureParser_StateChanged(GestureParser.State s)
+        {
+            if (s == GestureParser.State.PAUSED)
+                trayIcon.Icon = Resources.trayIcon_bw;
+            else trayIcon.Icon = Resources.trayIcon;
+        }
+
+        private static void NotifyIcon_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                var hotKeyStr = GetPauseResumeHotkeyString();
+                hotKeyStr = string.IsNullOrEmpty(hotKeyStr) ? "" : string.Format("({0})", hotKeyStr);
+                if (gestureParser.IsPaused)
+                {
+                    menuItem_pause.Text = "继续 " + hotKeyStr;
+                }
+                else
+                {
+                    menuItem_pause.Text = "暂停 " + hotKeyStr;
+                }
+            }
         }
 
         static void Warning360Safe()
