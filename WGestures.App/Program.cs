@@ -566,7 +566,7 @@ namespace WGestures.App
                 if(isFirstRun)
                 {
                     //Open again to show settings
-                    Process.Start(Application.ExecutablePath);
+                    //Process.Start(Application.ExecutablePath);
                 }
 
                 GC.Collect();

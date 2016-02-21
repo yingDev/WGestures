@@ -72,7 +72,7 @@ namespace WGestures.Common.OsSpecific.Windows
             catch (Exception e)
             {
                 Debug.WriteLine("WindowsUtil.GetWindowColorization: " + e);
-                return Color.Gray;
+                return Color.FromArgb(120, 0,0,0);
             }
 
 
