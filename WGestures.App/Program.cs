@@ -79,13 +79,15 @@ namespace WGestures.App
                 CheckAndDoFirstRunStuff();
                 Application.Run();
 
-            }finally { Dispose(); }
+            }
 #if !DEBUG
             catch (Exception e)
             {
                 ShowFatalError(e);
             }
 #endif
+            finally { Dispose(); }
+
             
 
         }
@@ -617,15 +619,16 @@ namespace WGestures.App
 
             gestureParser.StateChanged += state =>
             {
-                //var mouseSwapped = Native.GetSystemMetrics(Native.SystemMetric.SM_SWAPBUTTON) != 0;
+                var hotKeyStr = GetPauseResumeHotkeyStringFromConfig();
+                hotKeyStr = string.IsNullOrEmpty(hotKeyStr) ? "" : string.Format("({0})", hotKeyStr);
                 if (state == GestureParser.State.PAUSED)
                 {
-                    menuItem_pause.Text = string.Format("继续 ({0})", GetPauseResumeHotkeyStringFromConfig());
+                    menuItem_pause.Text = "继续 " + hotKeyStr;
+                    
                     notifyIcon.Icon = Resources.trayIcon_bw;
-                }
-                else
+                } else
                 {
-                    menuItem_pause = new MenuItem() { Text = string.Format("暂停 ({0})", GetPauseResumeHotkeyStringFromConfig()) };
+                    menuItem_pause.Text = "暂停 " + hotKeyStr;
                     notifyIcon.Icon = Resources.trayIcon;
                 }
             };
