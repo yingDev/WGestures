@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WGestures.App</RootNamespace>
     <AssemblyName>WGestures</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -366,7 +366,7 @@
     <None Include="defaults\config.plist">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="defaults\gestures.wg">
+    <None Include="defaults\gestures.wg2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="externalResource\Icon\convertToIco.bat" />

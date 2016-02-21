@@ -144,7 +144,7 @@
       <Component Id="DefaultsComponent" Directory="DefaultsDir"  
                  Guid="A7C22554-1C22-4C70-8D5C-0FD0F9150019">
         <File Source="$(var.WGestures.App.TargetDir)\defaults\config.plist"/>
-        <File Source="$(var.WGestures.App.TargetDir)\defaults\gestures.wg"/>
+        <File Source="$(var.WGestures.App.TargetDir)\defaults\gestures.wg2"/>
       </Component>
 
       <Component Id="CertComponent" Directory="CertDir"

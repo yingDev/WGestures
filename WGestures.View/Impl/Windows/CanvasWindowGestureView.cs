@@ -273,7 +273,7 @@ namespace WGestures.View.Impl.Windows
             {
                 var modifierText = intent.Gesture.Modifier.ToMnemonic();
                 var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(120, 0, 0, 0));
             }
             
             if (!_isCurrentRecognized && ShowPath)
@@ -384,7 +384,7 @@ namespace WGestures.View.Impl.Windows
 
                 _labelText = newLabelText;
 
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(120, 0, 0, 0));
                 
                 DrawAndUpdate();
 

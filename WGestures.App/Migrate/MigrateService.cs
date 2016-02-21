@@ -173,7 +173,7 @@ namespace WGestures.App.Migrate
                     }
                     else
                     {
-                        var version = "1";
+                        var version = AppSettings.GesturesFileVersion;
                         if (fileName.EndsWith(".json"))
                         {
                             version = "1";

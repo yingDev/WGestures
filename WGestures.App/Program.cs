@@ -225,7 +225,7 @@ namespace WGestures.App
             }
             if (!File.Exists(AppSettings.GesturesFilePath))
             {
-                File.Copy(string.Format("{0}/defaults/gestures.wg", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
+                File.Copy(string.Format("{0}/defaults/gestures.wg2", Path.GetDirectoryName(Application.ExecutablePath)), AppSettings.GesturesFilePath);
             }
             
             try

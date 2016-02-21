@@ -216,7 +216,7 @@ namespace WGestures.Core.Impl.Windows
             InitialStayTimeoutMillis = 150;
             
             EffectiveMove = (int)(10 * dpiFactor) * 2;//todo: 增加灵敏度调整
-            StepSize = 1;// EffectiveMove/4;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
+            StepSize = 3;// EffectiveMove/4;// (int) (EffectiveMove * 0.8 * dpiFactor);// EffectiveMove/8;
             StayTimeout = false;
             PerformNormalWhenTimeout = false;
 
@@ -455,9 +455,12 @@ namespace WGestures.Core.Impl.Windows
                     {
                        if(_isVirtualGesturing)
                         {
+                            //忽略禁用列表
+                            OnBeforePathStart();
                             _captured = true;
                             _gestureBtn = GestureTriggerButton.Right;
                             Post(WM.GESTBTN_DOWN, 1);
+
                         }
                         //未捕获的情况下才允许hotcorner
                         HotCornerHitTest();
@@ -525,8 +528,6 @@ namespace WGestures.Core.Impl.Windows
         
         private void KeyboardHookProc(MouseKeyboardHook.KeyboardHookEventArgs e)
         {
-            Debug.WriteLine(e.lParam.dwExtraInfo);
-
             if (_isPaused || _simulatingInput || e.lParam.dwExtraInfo == SIMULATED_EVENT_TAG)
             {
                 Debug.WriteLine("paused or simulating");
@@ -543,10 +544,9 @@ namespace WGestures.Core.Impl.Windows
                     {
                         Debug.WriteLine("Begin Virtual Gesturing");
                         _isVirtualGesturing = true;
+
                         return;
                     }
-                    
-
                }else 
 
                if(e.Type == KeyboardEventType.KeyUp)
@@ -570,10 +570,7 @@ namespace WGestures.Core.Impl.Windows
                                 _simulatingInput = false;
                             }).Start();
                         }
-                    }/*else
-                    {
-                        e.Handled = false;
-                    }*/
+                    }
 
                 }
             }else if(_isVirtualGesturing && e.Type == KeyboardEventType.KeyDown)
@@ -589,8 +586,6 @@ namespace WGestures.Core.Impl.Windows
 
                 e.Handled = true;
             }
-
-
         }
 
         private void HotCornerHitTest()
