@@ -12,110 +12,13 @@ using Win32;
 using WindowsInput;
 using static Win32.User32;
 using System.ComponentModel;
+using System.Reflection;
+using TCD.System.TouchInjection;
 
 namespace WGestures.Core.Impl.Windows
 {
     class TouchHook : IDisposable
     {
-        enum POINTER_INPUT_TYPE
-        {
-            PT_POINTER = 0x00000001,
-            PT_TOUCH = 0x00000002,
-            PT_PEN = 0x00000003,
-            PT_MOUSE = 0x00000004,
-            PT_TOUCHPAD = 0x00000005
-        }
-
-        [Flags]
-        private enum POINTER_FLAGS
-        {
-            NONE = 0x00000000,
-            NEW = 0x00000001,
-            INRANGE = 0x00000002,
-            INCONTACT = 0x00000004,
-            FIRSTBUTTON = 0x00000010,
-            SECONDBUTTON = 0x00000020,
-            THIRDBUTTON = 0x00000040,
-            FOURTHBUTTON = 0x00000080,
-            FIFTHBUTTON = 0x00000100,
-            PRIMARY = 0x00002000,
-            CONFIDENCE = 0x00004000,
-            CANCELED = 0x00008000,
-            DOWN = 0x00010000,
-            UPDATE = 0x00020000,
-            UP = 0x00040000,
-            WHEEL = 0x00080000,
-            HWHEEL = 0x00100000,
-            CAPTURECHANGED = 0x00200000,
-        }
-
-
-        [Flags]
-        private enum VIRTUAL_KEY_STATES
-        {
-            NONE = 0x0000,
-            LBUTTON = 0x0001,
-            RBUTTON = 0x0002,
-            SHIFT = 0x0004,
-            CTRL = 0x0008,
-            MBUTTON = 0x0010,
-            XBUTTON1 = 0x0020,
-            XBUTTON2 = 0x0040
-        }
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct POINTER_INFO
-        {
-            public POINTER_INPUT_TYPE pointerType;
-            public int PointerID;
-            public int FrameID;
-            public POINTER_FLAGS PointerFlags;
-            public IntPtr SourceDevice;
-            public IntPtr WindowTarget;
-
-            [MarshalAs(UnmanagedType.Struct)]
-            public POINT PtPixelLocation;
-
-            [MarshalAs(UnmanagedType.Struct)]
-            public POINT PtPixelLocationRaw;
-
-            [MarshalAs(UnmanagedType.Struct)]
-            public POINT PtHimetricLocation;
-
-            [MarshalAs(UnmanagedType.Struct)]
-            public POINT PtHimetricLocationRaw;
-
-            public uint Time;
-            public uint HistoryCount;
-            public uint InputData;
-            public VIRTUAL_KEY_STATES KeyStates;
-            public long PerformanceCount;
-            public int ButtonChangeType;
-        }
-
-        [DllImport("User32")]
-        static extern bool RegisterPointerInputTarget(IntPtr hwnd, POINTER_INPUT_TYPE  pointerType);
-
-        [DllImport("User32")]
-        static extern bool GetPointerInfo(UInt32 pointerId, ref POINTER_INFO pointerInfo);
-
-        static uint GET_POINTERID_WPARAM(uint wParam) { return ((HiLoWord)wParam).Low; }
-
-        public static POINT GetTouchPoint(uint pointerId)
-        {
-            POINTER_INFO pi = new POINTER_INFO();
-            if (!GetPointerInfo(pointerId, ref pi))
-            {
-                int errCode = Marshal.GetLastWin32Error();
-                if (errCode != 0)
-                {
-                    throw new Win32Exception(errCode);
-                }
-            }
-            return pi.PtPixelLocation;
-        }
-
         class InputTargetWindow : NativeWindow, IDisposable
         {
             static IntPtr HWND_MESSAGE = new IntPtr(-3);
@@ -157,13 +60,20 @@ namespace WGestures.Core.Impl.Windows
         const int WM_POINTERHWHEEL = 0x024F;
         const int DM_POINTERHITTEST = 0x0250;
 
+
+        [DllImport("User32")]
+        static extern bool RegisterPointerInputTarget(IntPtr hwnd, PointerInputType pointerType);
+        [DllImport("User32")]
+        static extern bool GetPointerFrameTouchInfo(UInt32 pointerId, ref UInt32 pointerCount, [Out] PointerTouchInfo[] touchInfo);
+        static uint GET_POINTERID_WPARAM(uint wParam) { return ((HiLoWord)wParam).Low; }
+
         public void Install()
         {
             var thread = new Thread(() => 
             {
                 _win = new InputTargetWindow();
 
-                var ok = RegisterPointerInputTarget(_win.Handle, POINTER_INPUT_TYPE.PT_TOUCH);
+                var ok = RegisterPointerInputTarget(_win.Handle, PointerInputType.TOUCH);
                 if(!ok)
                 {
                     Debug.WriteLine("失败 RegisterPointerInputTarget: " + Native.GetLastError());
@@ -180,48 +90,48 @@ namespace WGestures.Core.Impl.Windows
                 var sim = new InputSimulator();
                 uint lastPointerId = 0;
 
+                TouchInjector.InitializeTouchInjection(feedbackMode: TouchFeedback.NONE);
+
+                var contacts = new PointerTouchInfo[10];
+                uint contactCount = 10;
+                
                 while ((ret = Native.GetMessage(out msg, IntPtr.Zero, 0, 0)) != 0)
-                {              
-                    switch(msg.message)
+                {
+                    var pointerId = GET_POINTERID_WPARAM((uint)msg.wParam.ToInt32());
+
+                    if (! GetPointerFrameTouchInfo(pointerId, ref contactCount, contacts))
+                    {
+                        Debug.WriteLine("GetPointerFrameTouchInfo Error: " + Native.GetLastError());
+                        continue;
+                    }
+
+                    switch (msg.message)
                     {
                         case WM_POINTERDOWN:
-                            touchCount += 1;
-                            Debug.WriteLine("Pointer Down: " + touchCount);
-                            if(touchCount == 3)
-                            {
-                                
-                                lastPointerId = GET_POINTERID_WPARAM((uint) msg.wParam.ToInt32());
+                            Debug.WriteLine("Touch Down: " + contactCount);
+                            ConvertToNewTouchInfo(contacts, PointerFlags.DOWN | PointerFlags.INRANGE | PointerFlags.INCONTACT);
 
-                                var p = GetTouchPoint(lastPointerId);
-                                sim.Mouse.MoveMouseTo(p.X * (65535.0f/2736), p.Y * (65535.0f/1824));
-                                sim.Mouse.RightButtonDown();
-                            }
-                            
                             break;
                         case WM_POINTERUP:
-                            Debug.WriteLine("Pointer Up");
-                            //sim.Mouse.RightButtonUp();
-                            if(touchCount == 3)
-                            {
-                                sim.Mouse.RightButtonUp();
-                            }
-                            touchCount -= 1;
-
+                            Debug.WriteLine("Touch Up");
+                            ConvertToNewTouchInfo(contacts, PointerFlags.UP);
                             break;
+
                         case WM_POINTERUPDATE:
-                            Debug.WriteLine(GET_POINTERID_WPARAM((uint) msg.wParam.ToInt32()));
-                            if(touchCount == 3)
-                            {
-                                var p = GetTouchPoint(lastPointerId);
-                                Debug.WriteLine("POS = " + (System.Drawing.Point)p);
-                                sim.Mouse.MoveMouseTo(p.X * (65535.0f / 2736), p.Y * (65535.0f / 1824));
-                            }
+                            Debug.Write('.');
+                            ConvertToNewTouchInfo(contacts, PointerFlags.UPDATE | PointerFlags.INRANGE | PointerFlags.INCONTACT);
                             break;
 
                         default:
-                           // Debug.WriteLine("msg=" + msg.message);
-                            break;
+                            Debug.WriteLine("Unhandled Msg: " + msg.message);
+                            continue;
                     }
+
+                    if (!TouchInjector.InjectTouchInput((int)contactCount, contacts))
+                    {
+                        Debug.WriteLine("Error InjectTouchInput: " + Native.GetLastError());
+                    }
+
                     var MSG = new Message() { HWnd = msg.hwnd, LParam = msg.lParam, WParam = msg.wParam, Msg = (int)msg.message, Result = IntPtr.Zero };
                     _win.DefWndProc(ref MSG);
                 }
@@ -229,8 +139,80 @@ namespace WGestures.Core.Impl.Windows
             });
 
             thread.Start();
+        }
+
+        private void ConvertToNewTouchInfo(PointerTouchInfo[] contacts, PointerFlags flags)
+        {
+            for(var i=0; i< contacts.Length; i++)
+            {
+                var oldPointerInfo = contacts[i].PointerInfo;
+                contacts[i].PointerInfo = new PointerInfo()
+                {
+                    pointerType = PointerInputType.TOUCH,
+                    PointerFlags = flags,
+                    PointerId = (uint)i + 1,// oldPointerInfo.PointerId,
+                    PtPixelLocation = oldPointerInfo.PtPixelLocation
+                };
+                contacts[i].ContactAreaRaw = new ContactArea();
+            }
+        }
+
+        private List<String> DumpPointerTouchInfo(PointerTouchInfo contact)
+        {
+            var lst = new List<String>();
+
+            lst.Add("PointerInfo.pointerType = " + contact.PointerInfo.pointerType);
+            lst.Add("TouchFlags = " + contact.TouchFlags);
+            lst.Add("Orientation = " + contact.Orientation);
+            lst.Add("Pressure = " + contact.Pressure);
+            lst.Add("PointerInfo.PointerFlags = " + contact.PointerInfo.PointerFlags);
+            lst.Add("TouchMasks = " + contact.TouchMasks);
+            lst.Add("PointerInfo.PtPixelLocation.X = " + contact.PointerInfo.PtPixelLocation.X);
+            lst.Add("PointerInfo.PtPixelLocation.Y = " + contact.PointerInfo.PtPixelLocation.Y);
+            lst.Add("PointerInfo.PointerId = " + contact.PointerInfo.PointerId);
+            lst.Add("ContactArea.left = " + contact.ContactArea.left);
+            lst.Add("ContactArea.right = " + contact.ContactArea.right);
+            lst.Add("ContactArea.top = " + contact.ContactArea.top);
+            lst.Add("ContactArea.bottom = " + contact.ContactArea.bottom);
 
 
+            lst.Add("pointerType = " + contact.PointerInfo.pointerType);
+            lst.Add("PointerId = " + contact.PointerInfo.PointerId);
+            lst.Add("FrameId = " + contact.PointerInfo.FrameId);
+            lst.Add("PointerFlags = " + contact.PointerInfo.PointerFlags);
+            lst.Add("SourceDevice = " + contact.PointerInfo.SourceDevice);
+            lst.Add("WindowTarget = " + contact.PointerInfo.WindowTarget);
+            lst.Add("PtPixelLocation = " + contact.PointerInfo.PtPixelLocation);
+            lst.Add("PtPixelLocationRaw = " + contact.PointerInfo.PtPixelLocationRaw);
+            lst.Add("PtHimetricLocation = " + contact.PointerInfo.PtHimetricLocation);
+            lst.Add("PtHimetricLocationRaw = " + contact.PointerInfo.PtHimetricLocationRaw);
+            lst.Add("Time = " + contact.PointerInfo.Time);
+            lst.Add("HistoryCount = " + contact.PointerInfo.HistoryCount);
+            lst.Add("InputData = " + contact.PointerInfo.InputData);
+            lst.Add("KeyStates = " + contact.PointerInfo.KeyStates);
+            lst.Add("PerformanceCount = " + contact.PointerInfo.PerformanceCount);
+            lst.Add("ButtonChangeType = " + contact.PointerInfo.ButtonChangeType);
+
+            return lst;
+        }
+
+        private PointerTouchInfo MakePointerTouchInfo(int x, int y, int radius, uint id, uint orientation = 90, uint pressure = 32000)
+        {
+            PointerTouchInfo contact = new PointerTouchInfo();
+            contact.PointerInfo.pointerType = PointerInputType.TOUCH;
+            contact.TouchFlags = TouchFlags.NONE;
+            contact.Orientation = orientation;
+            contact.Pressure = pressure;
+            contact.PointerInfo.PointerFlags = PointerFlags.DOWN | PointerFlags.INRANGE | PointerFlags.INCONTACT;
+            contact.TouchMasks = TouchMask.CONTACTAREA | TouchMask.ORIENTATION | TouchMask.PRESSURE;
+            contact.PointerInfo.PtPixelLocation.X = x;
+            contact.PointerInfo.PtPixelLocation.Y = y;
+            contact.PointerInfo.PointerId = id;
+            contact.ContactArea.left = x - radius;
+            contact.ContactArea.right = x + radius;
+            contact.ContactArea.top = y - radius;
+            contact.ContactArea.bottom = y + radius;
+            return contact;
         }
 
         public void Dispose()

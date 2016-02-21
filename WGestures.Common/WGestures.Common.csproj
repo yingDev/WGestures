@@ -73,6 +73,7 @@
     <Compile Include="OsSpecific\Windows\GlobalKeyboardHook.cs" />
     <Compile Include="OsSpecific\Windows\Native.cs" />
     <Compile Include="OsSpecific\Windows\Screen.cs" />
+    <Compile Include="OsSpecific\Windows\TCDTouchInjection.cs" />
     <Compile Include="OsSpecific\Windows\Win32\GDI32.cs" />
     <Compile Include="OsSpecific\Windows\Win32\Kernel32.cs" />
     <Compile Include="OsSpecific\Windows\Win32\Kernel32Desktop.cs" />
