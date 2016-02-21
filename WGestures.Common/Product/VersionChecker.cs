@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace WGestures.Common.Product
 {
@@ -14,6 +15,7 @@ namespace WGestures.Common.Product
         {
             _url = url;
             _client = new TimeOutWebClient(){TimeOutSecs = timeOutSeconds};
+            _client.Proxy = null;
             _client.Encoding = System.Text.Encoding.UTF8;
 
             _client.DownloadStringCompleted += (sender, args) =>
@@ -89,7 +91,11 @@ namespace WGestures.Common.Product
 
         public void CheckAsync()
         {
+            var now = DateTime.Now;
             _client.DownloadStringAsync(new Uri(_url));
+            var then = DateTime.Now;
+
+            Debug.WriteLine("CheckAsync Time used: " + (then - now).TotalSeconds);
         }
 
         public void Cancel()
