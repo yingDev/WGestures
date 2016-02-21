@@ -15,7 +15,7 @@ using System.ComponentModel;
 
 namespace WGestures.Core.Impl.Windows
 {
-    class TouchHook
+    class TouchHook : IDisposable
     {
         enum POINTER_INPUT_TYPE
         {
@@ -231,6 +231,11 @@ namespace WGestures.Core.Impl.Windows
             thread.Start();
 
 
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

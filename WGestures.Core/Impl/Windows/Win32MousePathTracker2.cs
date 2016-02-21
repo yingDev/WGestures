@@ -20,6 +20,7 @@ namespace WGestures.Core.Impl.Windows
     public class Win32MousePathTracker2 : IPathTracker
     {
         private const int SIMULATED_EVENT_TAG = 19900620;
+        static readonly Version OSVersion = Environment.OSVersion.Version;
 
         #region properties
         /// <summary>
@@ -224,8 +225,11 @@ namespace WGestures.Core.Impl.Windows
             _mouseKbdHook.MouseHookEvent += MouseHookProc;
             _mouseKbdHook.KeyboardHookEvent += KeyboardHookProc;
 
-
-            _touchHook = new TouchHook();
+            //Touch Only Support Win8+
+            if (OSVersion.Major >= 6 && OSVersion.Minor > 1)
+            {
+                _touchHook = new TouchHook();
+            }
             
             _edgeDetector = new EdgeInteractDetector(_mouseKbdHook);
             _edgeDetector.Rub += EdgeDetector_Rub;
@@ -252,8 +256,10 @@ namespace WGestures.Core.Impl.Windows
         public void Start()
         {
             _mouseKbdHook.Install();
-            //_touchHook.Install();
-
+            //Touch Only Support Win8+
+            if (OSVersion.Major >= 6 && OSVersion.Minor > 1) _touchHook.Install();
+            
+            
             while (true)
             {            
                 MSG msg;
@@ -347,7 +353,6 @@ namespace WGestures.Core.Impl.Windows
         {
             //处理 左键 + 中键 用于 暂停继续的情形
             //if( HandleSpecialButtonCombination(e) ) return;
-
             if (_isPaused) return;
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));
@@ -1148,6 +1153,12 @@ namespace WGestures.Core.Impl.Windows
                 {
                     _edgeDetector.Dispose();
                     _edgeDetector = null;
+                }
+
+                if(_touchHook != null)
+                {
+                    _touchHook.Dispose();
+                    _touchHook = null;
                 }
 
                 _mouseKbdHook.Dispose();
