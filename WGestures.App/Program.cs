@@ -63,7 +63,7 @@ namespace WGestures.App
 #endif
                 //加载配置文件，如果文件不存在或损坏，则加载默认配置文件
                 LoadFailSafeConfigFile();
-                CheckAndDoFirstRunStuff();
+                
                 SyncAutoStartState();
 
                 ConfigureComponents();
@@ -78,6 +78,7 @@ namespace WGestures.App
                 //监听IPC消息
                 StartIpcPipe();
 
+                CheckAndDoFirstRunStuff();
                 Application.Run();
 #if !DEBUG
             }
@@ -195,7 +196,7 @@ namespace WGestures.App
                 
                 config.Save();
             
-                ShowQuickStartGuide();
+                ShowQuickStartGuide(isFirstRun: true);
                 Warning360Safe();
             }
         }
@@ -546,7 +547,7 @@ namespace WGestures.App
             }
         }
 
-        static void ShowQuickStartGuide()
+        static void ShowQuickStartGuide(bool isFirstRun=false)
         {
             var t = new Thread(() =>
             {
@@ -558,6 +559,12 @@ namespace WGestures.App
                 {
                     Application.Run(frm);
                     mut.Close();
+                }
+
+                if(isFirstRun)
+                {
+                    //Open again to show settings
+                    Process.Start(Application.ExecutablePath);
                 }
 
                 GC.Collect();
