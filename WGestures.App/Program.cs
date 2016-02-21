@@ -57,10 +57,8 @@ namespace WGestures.App
 
             AppWideInit();
 
-#if !DEBUG
             try
             {
-#endif
                 //加载配置文件，如果文件不存在或损坏，则加载默认配置文件
                 LoadFailSafeConfigFile();
                 
@@ -80,14 +78,16 @@ namespace WGestures.App
 
                 CheckAndDoFirstRunStuff();
                 Application.Run();
+
+            }finally { Dispose(); }
 #if !DEBUG
-            }
             catch (Exception e)
             {
                 ShowFatalError(e);
             }
-            finally { Dispose(); }
 #endif
+            
+
         }
 
         //TODO: refactor out
