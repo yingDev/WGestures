@@ -14,6 +14,7 @@ using static Win32.User32;
 using System.ComponentModel;
 using System.Reflection;
 using TCD.System.TouchInjection;
+using System.Drawing;
 
 namespace WGestures.Core.Impl.Windows
 {
@@ -85,18 +86,23 @@ namespace WGestures.Core.Impl.Windows
 
                 Native.MSG msg;
                 int ret;
-
-                int touchCount = 0;
+                
                 var sim = new InputSimulator();
-                uint lastPointerId = 0;
 
-                TouchInjector.InitializeTouchInjection(feedbackMode: TouchFeedback.NONE);
+                TouchInjector.InitializeTouchInjection();
+                var screenBounds = Rectangle.Empty;
 
                 var contacts = new PointerTouchInfo[10];
                 uint contactCount = 10;
+                uint startingPointId = 0;
                 
                 while ((ret = Native.GetMessage(out msg, IntPtr.Zero, 0, 0)) != 0)
                 {
+                    if(ret == -1)
+                    {
+                        Debug.WriteLine("Error!");
+                        continue;
+                    }
                     var pointerId = GET_POINTERID_WPARAM((uint)msg.wParam.ToInt32());
 
                     if (! GetPointerFrameTouchInfo(pointerId, ref contactCount, contacts))
@@ -105,32 +111,93 @@ namespace WGestures.Core.Impl.Windows
                         continue;
                     }
 
+                    //TODO: refactor... just hacking...
                     switch (msg.message)
                     {
                         case WM_POINTERDOWN:
                             Debug.WriteLine("Touch Down: " + contactCount);
+                            
+                            if(contactCount == 3)
+                            {
+                                startingPointId = contacts[0].PointerInfo.PointerId;
+                                if (screenBounds.Width > 0 && screenBounds.Height > 0)
+                                {
+                                    var pos = contacts[0].PointerInfo.PtPixelLocation;
+                                    User32.SetCursorPos(pos.X, pos.Y);
+                                }
+                                screenBounds = Native.GetScreenBounds();
+                                sim.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.LWIN);
+                                continue;
+                            }
                             ConvertToNewTouchInfo(contacts, PointerFlags.DOWN | PointerFlags.INRANGE | PointerFlags.INCONTACT);
-
-                            break;
-                        case WM_POINTERUP:
-                            Debug.WriteLine("Touch Up");
-                            ConvertToNewTouchInfo(contacts, PointerFlags.UP);
+                            if (!TouchInjector.InjectTouchInput(1, contacts))
+                            {
+                                Debug.WriteLine("Error InjectTouchInput: " + Native.GetLastError());
+                            }
                             break;
 
                         case WM_POINTERUPDATE:
                             Debug.Write('.');
+
+                            if(contactCount == 3)
+                            {
+                                TouchPoint? pos = null;
+                                foreach(var contact in contacts)
+                                {
+                                    if(contact.PointerInfo.PointerId == startingPointId)
+                                    {
+                                        pos = contact.PointerInfo.PtPixelLocation;
+                                    }
+                                }
+
+                                if(pos != null && screenBounds.Width > 0 && screenBounds.Height > 0)
+                                {
+                                    var absX = pos.Value.X * (65535.0 / screenBounds.Width);
+                                    var absY = pos.Value.Y * (65535.0 / screenBounds.Height);
+                                    sim.Mouse.MoveMouseTo(absX, absY);
+                                }
+                                continue;
+                            }
+
                             ConvertToNewTouchInfo(contacts, PointerFlags.UPDATE | PointerFlags.INRANGE | PointerFlags.INCONTACT);
+                            if (!TouchInjector.InjectTouchInput((int)contactCount, contacts))
+                            {
+                                Debug.WriteLine("Error InjectTouchInput: " + Native.GetLastError());
+                            }
+
                             break;
+
+
+                        case WM_POINTERUP:
+                            Debug.WriteLine("Touch Up");
+                            if (contactCount == 3)
+                            {
+                                sim.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.LWIN);
+                                continue;
+                            }
+                            ConvertToNewTouchInfo(contacts, PointerFlags.UP);
+                            if (!TouchInjector.InjectTouchInput(1, contacts))
+                            {
+                                Debug.WriteLine("Error InjectTouchInput: " + Native.GetLastError());
+                            }
+                            break;
+
+                        case WM_POINTERENTER:
+                            Debug.WriteLine("Touch Enter");
+                            //ConvertToNewTouchInfo(contacts, PointerFlags.DOWN | PointerFlags.INRANGE | PointerFlags.INCONTACT);
+                            continue;
+
+                        case WM_POINTERLEAVE:
+                            Debug.WriteLine("Touch Leave");
+                            //ConvertToNewTouchInfo(contacts, PointerFlags.UP | PointerFlags.INRANGE | PointerFlags.INCONTACT);
+                            continue;
 
                         default:
                             Debug.WriteLine("Unhandled Msg: " + msg.message);
                             continue;
                     }
 
-                    if (!TouchInjector.InjectTouchInput((int)contactCount, contacts))
-                    {
-                        Debug.WriteLine("Error InjectTouchInput: " + Native.GetLastError());
-                    }
+
 
                     var MSG = new Message() { HWnd = msg.hwnd, LParam = msg.lParam, WParam = msg.wParam, Msg = (int)msg.message, Result = IntPtr.Zero };
                     _win.DefWndProc(ref MSG);
@@ -153,6 +220,7 @@ namespace WGestures.Core.Impl.Windows
                     PointerId = (uint)i + 1,// oldPointerInfo.PointerId,
                     PtPixelLocation = oldPointerInfo.PtPixelLocation
                 };
+                contacts[i].TouchMasks = TouchMask.CONTACTAREA | TouchMask.ORIENTATION | TouchMask.PRESSURE;
                 contacts[i].ContactAreaRaw = new ContactArea();
             }
         }

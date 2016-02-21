@@ -156,7 +156,7 @@ namespace WGestures.Core.Impl.Windows
         
         #region fields
         private readonly MouseKeyboardHook _mouseKbdHook;
-        private TouchHook _touchHook;
+        //private TouchHook _touchHook;
 
         private Queue<MSG> _msgQueue = new Queue<MSG>(16);
         
@@ -228,7 +228,8 @@ namespace WGestures.Core.Impl.Windows
             //Touch Only Support Win8+
             if (OSVersion.Major >= 6 && OSVersion.Minor > 1)
             {
-                _touchHook = new TouchHook();
+                //太难弄，暂时屏蔽
+                //_touchHook = new TouchHook();
             }
             
             _edgeDetector = new EdgeInteractDetector(_mouseKbdHook);
@@ -257,7 +258,7 @@ namespace WGestures.Core.Impl.Windows
         {
             _mouseKbdHook.Install();
             //Touch Only Support Win8+
-            if (OSVersion.Major >= 6 && OSVersion.Minor > 1) _touchHook.Install();
+            //if (OSVersion.Major >= 6 && OSVersion.Minor > 1) _touchHook.Install();
             
             
             while (true)
@@ -538,7 +539,7 @@ namespace WGestures.Core.Impl.Windows
                 Debug.WriteLine("paused or simulating");
                 return;
             }
-            Debug.WriteLine("WTF " + e.key + " " + e.Type);
+            //Debug.WriteLine("WTF " + e.key + " " + e.Type);
             
             if(e.key == Keys.LWin)
             {
@@ -1157,11 +1158,11 @@ namespace WGestures.Core.Impl.Windows
                     _edgeDetector = null;
                 }
 
-                if(_touchHook != null)
+                /*if(_touchHook != null)
                 {
                     _touchHook.Dispose();
                     _touchHook = null;
-                }
+                }*/
 
                 _mouseKbdHook.Dispose();
 
