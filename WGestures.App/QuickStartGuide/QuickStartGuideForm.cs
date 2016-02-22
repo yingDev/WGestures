@@ -25,7 +25,7 @@ namespace WGestures.App.Gui.Windows
             ClientSize = new System.Drawing.Size(936 * dpiScale, 525 * dpiScale);
             Icon = Resources.icon;
 
-            TopMost = true;
+            //TopMost = true;
 
         }
 
