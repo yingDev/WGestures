@@ -5,13 +5,13 @@
     <key>$$FileVersion</key>
     <string>1</string>
     <key>IsFirstRun</key>
-    <true />
+    <false />
     <key>AutoCheckForUpdate</key>
     <true />
     <key>AutoStart</key>
     <true />
     <key>PathTrackerTriggerButton</key>
-    <integer>3</integer>
+    <integer>15</integer>
     <key>PathTrackerStayTimeout</key>
     <false />
     <key>PathTrackerInitialStayTimoutMillis</key>
@@ -21,7 +21,7 @@
     <key>GestureViewMiddleBtnMainColor</key>
     <integer>-13771520</integer>
     <key>GestureViewAlternativePathColor</key>
-    <integer>-60646</integer>
+    <integer>-10061415</integer>
     <key>GestureViewShowPath</key>
     <true />
     <key>GestureViewFadeOut</key>
