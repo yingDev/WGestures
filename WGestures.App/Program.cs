@@ -63,6 +63,7 @@ namespace WGestures.App
                 LoadFailSafeConfigFile();
                 
                 SyncAutoStartState();
+                CheckAndDoFirstRunStuff();
 
                 ConfigureComponents();
                 StartParserThread();
@@ -76,7 +77,7 @@ namespace WGestures.App
                 //监听IPC消息
                 StartIpcPipe();
 
-                CheckAndDoFirstRunStuff();
+
                 Application.Run();
 
             }
@@ -195,6 +196,7 @@ namespace WGestures.App
                 config.Set(ConfigKeys.IsFirstRun, false);
                 config.Set(ConfigKeys.AutoCheckForUpdate, true);
                 config.Set(ConfigKeys.AutoStart, true);
+                config.Set(ConfigKeys.PathTrackerTriggerButton, (int)(GestureTriggerButton.Right | GestureTriggerButton.Middle | GestureTriggerButton.X));
                 
                 config.Save();
             
@@ -315,6 +317,7 @@ namespace WGestures.App
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
             //pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
+            
 #endregion
 
 #region gestureView
@@ -331,6 +334,7 @@ namespace WGestures.App
             gestureParser.EnableHotCorners = config.Get(ConfigKeys.GestureParserEnableHotCorners, true);
             gestureParser.Enable8DirGesture = config.Get(ConfigKeys.GestureParserEnable8DirGesture, true);
             gestureParser.EnableRubEdge = config.Get(ConfigKeys.GestureParserEnableRubEdges, true);
+            
 #endregion
 
 
