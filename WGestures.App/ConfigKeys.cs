@@ -41,5 +41,6 @@ namespace WGestures.App
         public const string GestureParserEnableRubEdges = "GestureParserEnableRubEdges";
 
         public const string PauseResumeHotKey = "PauseResumeHotKey";
+        public const string EnableWindowsKeyGesturing = "EnableWindowsKeyGesturing";
     }
 }

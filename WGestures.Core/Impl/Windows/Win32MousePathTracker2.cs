@@ -151,6 +151,25 @@ namespace WGestures.Core.Impl.Windows
                 _stepSize = value;
             } 
         }
+
+        private bool _enableWinKeyGesturing;
+        public bool EnableWindowsKeyGesturing
+        {
+            get { return _enableWinKeyGesturing; }
+            set
+            {
+                if(value)
+                {
+                     if(!_enableWinKeyGesturing)
+                        _mouseKbdHook.KeyboardHookEvent += KeyboardHookProc;
+                }else
+                {
+                    _mouseKbdHook.KeyboardHookEvent -= KeyboardHookProc;
+                }
+
+                _enableWinKeyGesturing = value;
+            }
+        }
         #endregion
 
         
@@ -223,7 +242,8 @@ namespace WGestures.Core.Impl.Windows
 
             _mouseKbdHook = new MouseKeyboardHook();
             _mouseKbdHook.MouseHookEvent += MouseHookProc;
-            _mouseKbdHook.KeyboardHookEvent += KeyboardHookProc;
+
+            //_mouseKbdHook.KeyboardHookEvent += KeyboardHookProc;
 
             //Touch Only Support Win8+
             if (OSVersion.Major >= 6 && OSVersion.Minor > 1)

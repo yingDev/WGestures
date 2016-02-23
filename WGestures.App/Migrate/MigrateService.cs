@@ -53,6 +53,7 @@ namespace WGestures.App.Migrate
 
             var gesturesFileV1 = recent + @"\gestures.json";
             var gestureFileV2 = recent + @"\gestures.wg";
+            var gestureFileV3 = recent + @"\gestures.wg2";
             var configFile = recent + @"\config.plist";
 
             try
@@ -63,6 +64,9 @@ namespace WGestures.App.Migrate
                 }else if (File.Exists(gestureFileV2))
                 {
                     gestures = new JsonGestureIntentStore(gestureFileV2, "2");
+                }else if(File.Exists(gestureFileV3))
+                {
+                    gestures = new JsonGestureIntentStore(gestureFileV3, "3");
                 }
 
                 if (File.Exists(configFile))
@@ -96,6 +100,9 @@ namespace WGestures.App.Migrate
             {
                 return ImportJsonGestures(from, "1");
             }else if (from.EndsWith(".wg") || from.EndsWith(".WG"))
+            {
+                return ImportJsonGestures(from, "2");
+            }else if(from.EndsWith(".wg2"))
             {
                 return ImportJsonGestures(from, "2");
             }

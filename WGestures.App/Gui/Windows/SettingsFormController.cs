@@ -189,6 +189,20 @@ namespace WGestures.App.Gui.Windows
             }
         }
 
+        public bool PathTrackerEnableWinKeyGesturing
+        {
+            get { return _pathTracker.EnableWindowsKeyGesturing; }
+            set
+            {
+                Debug.WriteLine("Win: " + value);
+                if (value == PathTrackerEnableWinKeyGesturing) return;
+                _pathTracker.EnableWindowsKeyGesturing = value;
+
+                _config.Set(ConfigKeys.EnableWindowsKeyGesturing, value);
+                OnPropertyChanged("PathTrackerEnableWinKeyGesturing");
+            }
+        }
+
         public bool GestureParserEnable8DirGesture
         {
             get { return _parser.Enable8DirGesture; }

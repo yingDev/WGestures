@@ -316,6 +316,7 @@ namespace WGestures.App
             pathTracker.InitialStayTimeout = config.Get(ConfigKeys.PathTrackerInitialStayTimeout, true);
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
+            pathTracker.EnableWindowsKeyGesturing = config.Get(ConfigKeys.EnableWindowsKeyGesturing, false);
             //pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
             
 #endregion
