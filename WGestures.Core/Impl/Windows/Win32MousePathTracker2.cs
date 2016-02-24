@@ -742,7 +742,15 @@ namespace WGestures.Core.Impl.Windows
             switch(btn)
             {
                 case GestureTriggerButton.Right:
-                    return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP : User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN;
+                    var isMouseSwapped = Native.IsMouseButtonSwapped();
+                    if(!isMouseSwapped)
+                    {
+                        return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTUP : User32.MOUSEEVENTF.MOUSEEVENTF_RIGHTDOWN;
+                    }else
+                    {
+                        return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_LEFTUP : User32.MOUSEEVENTF.MOUSEEVENTF_LEFTDOWN;
+                    }
+                    
                 case GestureTriggerButton.Middle:
                     return isUp ? User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEUP : User32.MOUSEEVENTF.MOUSEEVENTF_MIDDLEDOWN;
                 case GestureTriggerButton.X1:
