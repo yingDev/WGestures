@@ -411,6 +411,7 @@ namespace WGestures.Core.Impl.Windows
                         {
                             //notice: 这个方法在钩子线程中运行，因此必须足够快，而且不能失败
                             _captured = OnBeforePathStart();
+                            
                         }
                         catch (Exception ex)
                         {

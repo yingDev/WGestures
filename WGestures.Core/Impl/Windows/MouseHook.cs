@@ -6,11 +6,14 @@ using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common;
 using Win32;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace WGestures.Core.Impl.Windows
 {
     internal class MouseKeyboardHook : IDisposable
     {
+        const int WM_HOOK_TIMEOUT = (int)User32.WM.WM_USER + 1;
+
         public bool IsDisposed { get; private set; }
         private IntPtr _hookId;
         private IntPtr _kbdHookId;
@@ -67,12 +70,41 @@ namespace WGestures.Core.Impl.Windows
         public event MouseHookEventHandler MouseHookEvent;
         public event KeyboardHookEventHandler KeyboardHookEvent;
         public event Func<Native.MSG,bool> GotMessage;
-
+        
 
         public MouseKeyboardHook()
         {
             _mouseHookProc = MouseHookProc;
             _kbdHookProc = KeyboardHookProc;
+        }
+
+        private void _install()
+        {
+            _hookId = Native.SetMouseHook(_mouseHookProc);
+            _kbdHookId = Native.SetKeyboardHook(_kbdHookProc);
+
+            if(_hookId==IntPtr.Zero || _kbdHookId == IntPtr.Zero)
+            {
+                throw new Win32Exception("Fail to install mouse hook:" + Native.GetLastError());
+            }
+        }
+
+        private void _uinstall()
+        {
+            var hookId = _hookId;
+            var kbdHookId = _kbdHookId;
+            _hookId = IntPtr.Zero;
+            _kbdHookId = IntPtr.Zero;
+
+
+            if (Native.UnhookWindowsHookEx(hookId) && Native.UnhookWindowsHookEx(kbdHookId))
+            {
+                Debug.WriteLine("钩子已卸载");
+            }
+            else
+            {
+                throw new Win32Exception("Fail to uinstall mouse hook: " + Native.GetLastError());
+            }
         }
 
         public void Install()
@@ -81,40 +113,46 @@ namespace WGestures.Core.Impl.Windows
 
             _hookThread = new Thread(() =>
             {
+                _install();
+                Debug.WriteLine("钩子安装成功");
+
                 _hookThreadNativeId = Native.GetCurrentThreadId();
 
                 try
                 {
-                    _hookId = Native.SetMouseHook(_mouseHookProc);
-                    _kbdHookId = Native.SetKeyboardHook(_kbdHookProc);
-
-                    if (_hookId == IntPtr.Zero || _kbdHookId == IntPtr.Zero)
-                    {
-                        Debug.WriteLine("安装钩子失败");
-                        _hookThreadNativeId = 0;
-                        return;
-                    }
-
-                    Debug.WriteLine("钩子安装成功");
-
                     var @continue = true;
                     do
                     {
                         Native.MSG msg;
-                        Native.GetMessage(out msg, IntPtr.Zero, 0, 0);
+                        if (Native.GetMessage(out msg, IntPtr.Zero, 0, 0) <= 0) break;
 
-                        if (msg.message == (uint)User32.WM.WM_CLOSE)
+                        switch(msg.message)
                         {
-                            @continue = false;
+                            case WM_HOOK_TIMEOUT:
+                                Debug.WriteLine("Reinstalling Mouse Hook");
+                                try
+                                {
+                                    _uinstall();
+                                }catch(Win32Exception e)
+                                {
+                                    Debug.WriteLine(e); //ignore
+                                }
+                                _install();
+                                break;
+                                
+                            case (uint)User32.WM.WM_CLOSE:
+                                @continue = false;
+                                _uinstall();
+                                _hookThreadNativeId = 0;
+                                break;
                         }
-                        else if (GotMessage != null)
+
+                        if (GotMessage != null)
                         {
                             @continue = GotMessage(msg);
                         }
-                        else
-                        {
-                            @continue = true;
-                        }
+                        else @continue = true;
+                        
 
                     } while (@continue);
 
@@ -140,40 +178,18 @@ namespace WGestures.Core.Impl.Windows
         public void Uninstall()
         {
             if (_hookId == IntPtr.Zero || _kbdHookId == IntPtr.Zero || _hookThreadNativeId == 0) return;
-            try
+            //发送一个消息给钩子线程,使其GetMessage退出
+            if (_hookThread != null && _hookThread.IsAlive)
             {
-                if (Native.UnhookWindowsHookEx(_hookId) || Native.UnhookWindowsHookEx(_kbdHookId))
+                Native.PostThreadMessage(_hookThreadNativeId, (uint)User32.WM.WM_CLOSE, UIntPtr.Zero, IntPtr.Zero);
+
+                if (!_hookThread.Join(1000 * 3))
                 {
-                    Debug.WriteLine("钩子已卸载");
-                }
-                else
-                {
-                    Debug.WriteLine("卸载钩子失败");
+                    throw new TimeoutException("等待钩子线程结束超时");
                 }
 
-
-                //发送一个消息给钩子线程,使其GetMessage退出
-                if (_hookThread != null && _hookThread.IsAlive)
-                {
-                    Native.PostThreadMessage(_hookThreadNativeId, (uint)User32.WM.WM_CLOSE, UIntPtr.Zero, IntPtr.Zero);
-
-                    if (!_hookThread.Join(1000 * 3))
-                    {
-                        throw new TimeoutException("等待钩子线程结束超时");
-                    }
-                }
-
-            }
-            finally
-            {
-
-                _hookThreadNativeId = 0;
-                _hookId = IntPtr.Zero;
-                _kbdHookId = IntPtr.Zero;
                 _hookThread = null;
-                
             }
-
         }
 
         protected virtual IntPtr MouseHookProc(int nCode, IntPtr wParam, IntPtr lParam)
@@ -194,8 +210,20 @@ namespace WGestures.Core.Impl.Windows
             {
                 if (MouseHookEvent != null)
                 {
-                   
+                    var timeBefore = DateTime.Now;
+
                     MouseHookEvent(args);
+
+                    var timeElapsed = DateTime.Now - timeBefore;
+                    Debug.WriteLine("MouseHookEvent used time: " + timeElapsed.TotalMilliseconds);
+
+                    //如果用了太长时间，则假定卡住了，重新安装
+                    if(timeElapsed.TotalMilliseconds > 1000)
+                    {
+                        Debug.WriteLine("MouseHookEvent消耗了太多时间，假定hook已失效；重新安装ing...");
+                        Native.PostThreadMessage(_hookThreadNativeId, WM_HOOK_TIMEOUT, UIntPtr.Zero, IntPtr.Zero);
+                    }
+
                 }
             }
             catch(Exception e)
