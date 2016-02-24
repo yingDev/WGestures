@@ -373,7 +373,7 @@ namespace WGestures.Core.Impl.Windows
         private void MouseHookProc(MouseKeyboardHook.MouseHookEventArgs e)
         {
             //处理 左键 + 中键 用于 暂停继续的情形
-            //if( HandleSpecialButtonCombination(e) ) return;
+            if( HandleSpecialButtonCombination(e) ) return;
             if (_isPaused) return;
 
             var mouseData = (Native.MSLLHOOKSTRUCT)Marshal.PtrToStructure(e.lParam, typeof(Native.MSLLHOOKSTRUCT));

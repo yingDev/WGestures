@@ -317,7 +317,7 @@ namespace WGestures.App
             pathTracker.InitialStayTimeoutMillis = config.Get(ConfigKeys.PathTrackerInitialStayTimoutMillis, 150);
             pathTracker.RequestPauseResume += paused => menuItem_pause_Click(null,EventArgs.Empty);
             pathTracker.EnableWindowsKeyGesturing = config.Get(ConfigKeys.EnableWindowsKeyGesturing, false);
-            //pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
+            pathTracker.RequestShowHideTray += ToggleTrayIconVisibility ;
             
 #endregion
 
@@ -337,14 +337,17 @@ namespace WGestures.App
             gestureParser.EnableRubEdge = config.Get(ConfigKeys.GestureParserEnableRubEdges, true);
             
 #endregion
-
-
-
             //HOt key
             hotkeyMgr.HotKeyPreview += HotkeyMgr_HotKeyPreview;
+            byte[] pauseHotKey = null;
 
-            var pauseHotKey = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey, null);
-            if (pauseHotKey != null)
+            //workaround for bug introduced last version
+            try { pauseHotKey = config.Get<byte[]>(ConfigKeys.PauseResumeHotKey, null); } catch(InvalidCastException e)
+            {
+                Debug.WriteLine(e);
+            }
+            
+            if (pauseHotKey != null && pauseHotKey.Length > 0)
             {
                 var hotkey = GlobalHotKeyManager.HotKey.FromBytes(pauseHotKey);
 
@@ -367,7 +370,7 @@ namespace WGestures.App
             {
                 Debug.WriteLine("HotKey Pressed: " + hk);
                 TogglePause();
-                menuItem_pause.Text = string.Format("{0} ({1})", gestureParser.IsPaused ? "继续" : "暂停" ,hk.ToString());
+                //menuItem_pause.Text = string.Format("{0} ({1})", gestureParser.IsPaused ? "继续" : "暂停" ,hk.ToString());
 
                 return true; //Handled
             }
@@ -400,16 +403,17 @@ namespace WGestures.App
             
                 if (isFirstRun)
                 {
-                    trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单\n鼠标 左键+中键 随时暂停/继续手势", ToolTipIcon.Info);
+                    trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单", ToolTipIcon.Info);
                 }
-                //else
-                //{
-                    //var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
-                    //if (showIcon.HasValue && !showIcon.Value) //隐藏
-                    //{
-                    //   trayIcon.ShowBalloonTip(3000, "WGestures后台运行中", "图标将自动隐藏。\n(按 Shift-左键-中键 切换显示/隐藏状态)", ToolTipIcon.Info);
-                    //}
-                //}
+                else
+                {
+                    var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
+                    if (showIcon.HasValue && !showIcon.Value) //隐藏
+                    {
+                        ToggleTrayIconVisibility();
+                       //trayIcon.ShowBalloonTip(10* 1000, "WGestures图标将隐藏", "按 Shift+左键+中键 恢复\n再次运行WGestures可打开设置界面", ToolTipIcon.Info);
+                    }
+                }
                 //是否检查更新
                 if (!config.Get<bool?>(ConfigKeys.AutoCheckForUpdate).HasValue || config.Get<bool>(ConfigKeys.AutoCheckForUpdate))
                 {
@@ -504,7 +508,7 @@ namespace WGestures.App
 
             if(trayIcon.Visible)
             {
-                trayIcon.ShowBalloonTip(5000, "WGestures图标将隐藏", "(按 Shift + 左键 + 中键 恢复显示)",ToolTipIcon.Info);
+                trayIcon.ShowBalloonTip(10*1000, "WGestures图标将隐藏", "按 Shift+左键+中键 恢复显示\n再次运行程序可打开设置界面", ToolTipIcon.Info);
              }else
             {
                 trayIcon.Visible = true;
@@ -593,6 +597,7 @@ namespace WGestures.App
         static NotifyIcon CreateNotifyIcon()
         {
             var notifyIcon = new NotifyIcon();
+            notifyIcon.Text = Application.ProductName +" "+ Application.ProductVersion + " by YingDev.com";
 
             var contextMenu1 = new ContextMenu();
 
@@ -616,7 +621,7 @@ namespace WGestures.App
 
             contextMenu1.MenuItems.AddRange(new[] { /*menuItem_toggleTray, */menuItem_pause, new MenuItem("-"), menuItem_settings,  menuItem_showQuickStart,new MenuItem("-"), menuItem_exit });
             notifyIcon.Icon = Resources.trayIcon;
-            notifyIcon.Text = Application.ProductName;
+            //notifyIcon.Text = Application.ProductName;
             notifyIcon.ContextMenu = contextMenu1;
             notifyIcon.Visible = true;
 
