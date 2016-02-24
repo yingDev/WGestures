@@ -210,12 +210,12 @@ namespace WGestures.Core.Impl.Windows
             {
                 if (MouseHookEvent != null)
                 {
-                    var timeBefore = DateTime.Now;
+                    var timeBefore = DateTime.UtcNow;
 
                     MouseHookEvent(args);
 
-                    var timeElapsed = DateTime.Now - timeBefore;
-                    Debug.WriteLine("MouseHookEvent used time: " + timeElapsed.TotalMilliseconds);
+                    var timeElapsed = DateTime.UtcNow - timeBefore;
+                    //Debug.WriteLine("MouseHookEvent used time: " + timeElapsed.TotalMilliseconds);
 
                     //如果用了太长时间，则假定卡住了，重新安装
                     if(timeElapsed.TotalMilliseconds > 1000)
