@@ -339,6 +339,8 @@ namespace WGestures.App
 #endregion
             //HOt key
             hotkeyMgr.HotKeyPreview += HotkeyMgr_HotKeyPreview;
+            hotkeyMgr.HotKeyRegistered += HotkeyMgr_Updated;
+            hotkeyMgr.HotKeyUnRegistered += HotkeyMgr_Updated;
             byte[] pauseHotKey = null;
 
             //workaround for bug introduced last version
@@ -364,6 +366,11 @@ namespace WGestures.App
             }
         }
 
+        private static void HotkeyMgr_Updated(string arg1, GlobalHotKeyManager.HotKey arg2)
+        {
+            UpdateTray();
+        }
+
         static bool HotkeyMgr_HotKeyPreview(GlobalHotKeyManager mgr, string id, GlobalHotKeyManager.HotKey hk)
         {
             if(id == ConfigKeys.PauseResumeHotKey)
@@ -385,48 +392,50 @@ namespace WGestures.App
 
         static void ShowTrayIcon()
         {
-                trayIcon = CreateNotifyIcon();
-                EventHandler handleBalloon = (sender, args) =>
+            trayIcon = CreateNotifyIcon();
+            EventHandler handleBalloon = (sender, args) =>
+            {
+                var timer = new Timer { Interval = 1000 };
+                timer.Tick += (sender_1, args_1) =>
                 {
-                    var timer = new Timer { Interval = 1000 };
-                    timer.Tick += (sender_1, args_1) =>
-                    {
-                        timer.Stop();
-                        trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
-                    };
-                    timer.Start();
+                    timer.Stop();
+                    trayIcon.Visible = config.Get(ConfigKeys.TrayIconVisible, true);
                 };
+                timer.Start();
+            };
 
-                trayIcon.BalloonTipClosed += handleBalloon;
-                trayIcon.BalloonTipClicked += handleBalloon;
-                trayIcon.DoubleClick += (sender, args) => ShowSettings();
+            trayIcon.BalloonTipClosed += handleBalloon;
+            trayIcon.BalloonTipClicked += handleBalloon;
+            trayIcon.DoubleClick += (sender, args) => ShowSettings();
             
-                if (isFirstRun)
+            if (isFirstRun)
+            {
+                trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单", ToolTipIcon.Info);
+            }
+            else
+            {
+                var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
+                if (showIcon.HasValue && !showIcon.Value) //隐藏
                 {
-                    trayIcon.ShowBalloonTip(1000 * 10, "WGstures在这里", "双击图标打开设置，右击查看菜单", ToolTipIcon.Info);
+                    ToggleTrayIconVisibility();
+                    //trayIcon.ShowBalloonTip(10* 1000, "WGestures图标将隐藏", "按 Shift+左键+中键 恢复\n再次运行WGestures可打开设置界面", ToolTipIcon.Info);
                 }
-                else
-                {
-                    var showIcon = config.Get<bool?>(ConfigKeys.TrayIconVisible);
-                    if (showIcon.HasValue && !showIcon.Value) //隐藏
-                    {
-                        ToggleTrayIconVisibility();
-                       //trayIcon.ShowBalloonTip(10* 1000, "WGestures图标将隐藏", "按 Shift+左键+中键 恢复\n再次运行WGestures可打开设置界面", ToolTipIcon.Info);
-                    }
-                }
-                //是否检查更新
-                if (!config.Get<bool?>(ConfigKeys.AutoCheckForUpdate).HasValue || config.Get<bool>(ConfigKeys.AutoCheckForUpdate))
-                {
-                    var checkForUpdateTimer = new Timer { Interval = Constants.AutoCheckForUpdateInterval };
+            }
+            //是否检查更新
+            if (!config.Get<bool?>(ConfigKeys.AutoCheckForUpdate).HasValue || config.Get<bool>(ConfigKeys.AutoCheckForUpdate))
+            {
+                var checkForUpdateTimer = new Timer { Interval = Constants.AutoCheckForUpdateInterval };
 
-                    checkForUpdateTimer.Tick += (sender, args) =>
-                    {
-                        checkForUpdateTimer.Stop();
-                        ScheduledUpdateCheck(sender, trayIcon);
+                checkForUpdateTimer.Tick += (sender, args) =>
+                {
+                    checkForUpdateTimer.Stop();
+                    ScheduledUpdateCheck(sender, trayIcon);
 
-                    };
-                    checkForUpdateTimer.Start();
-                }
+                };
+                checkForUpdateTimer.Start();
+            }
+
+            UpdateTray();
         }
 
 #region event handlers
@@ -604,7 +613,7 @@ namespace WGestures.App
             var menuItem_exit = new MenuItem() { Text = "退出" };
             menuItem_exit.Click += menuItem_exit_Click;
 
-            menuItem_pause = new MenuItem() { Text = string.Format("暂停 ({0})", GetPauseResumeHotkeyString()) };
+            menuItem_pause = new MenuItem() { Text = "暂停" };
             menuItem_pause.Click += menuItem_pause_Click;
 
             var menuItem_settings = new MenuItem() { Text = "设置" };
@@ -624,8 +633,8 @@ namespace WGestures.App
             //notifyIcon.Text = Application.ProductName;
             notifyIcon.ContextMenu = contextMenu1;
             notifyIcon.Visible = true;
-
-            notifyIcon.MouseUp += NotifyIcon_MouseUp;
+            
+            //todo: move out
             gestureParser.StateChanged += GestureParser_StateChanged;
 
 
@@ -634,25 +643,24 @@ namespace WGestures.App
 
         private static void GestureParser_StateChanged(GestureParser.State s)
         {
-            if (s == GestureParser.State.PAUSED)
-                trayIcon.Icon = Resources.trayIcon_bw;
-            else trayIcon.Icon = Resources.trayIcon;
+            UpdateTray();
         }
 
-        private static void NotifyIcon_MouseUp(object sender, MouseEventArgs e)
+        private static void UpdateTray()
         {
-            if(e.Button == MouseButtons.Right)
+            if (trayIcon == null) return;
+
+            var hotKeyStr = GetPauseResumeHotkeyString();
+            hotKeyStr = string.IsNullOrEmpty(hotKeyStr) ? "" : string.Format("({0})", hotKeyStr);
+            if (gestureParser.IsPaused)
             {
-                var hotKeyStr = GetPauseResumeHotkeyString();
-                hotKeyStr = string.IsNullOrEmpty(hotKeyStr) ? "" : string.Format("({0})", hotKeyStr);
-                if (gestureParser.IsPaused)
-                {
-                    menuItem_pause.Text = "继续 " + hotKeyStr;
-                }
-                else
-                {
-                    menuItem_pause.Text = "暂停 " + hotKeyStr;
-                }
+                menuItem_pause.Text = "继续 " + hotKeyStr;
+                trayIcon.Icon = Resources.trayIcon_bw;
+            }
+            else
+            {
+                menuItem_pause.Text = "暂停 " + hotKeyStr;
+                trayIcon.Icon = Resources.trayIcon;
             }
         }
 

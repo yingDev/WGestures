@@ -194,7 +194,7 @@ namespace WGestures.Common.OsSpecific.Windows
             Debug.WriteLine("RegisterHotKey: " + id + " " + hk.ToString());
             if ( _idToHotKey.ContainsKey(id) )
             {
-                UnRegisterHotKey(id);
+                UnRegisterHotKeyById_internal(id);
             }
 
             // register the hot key.
@@ -202,16 +202,18 @@ namespace WGestures.Common.OsSpecific.Windows
             {
                 _keyToAction.Add(hk, callback);
                 _idToHotKey.Add(id, hk);
+
+                if (HotKeyRegistered != null) HotKeyRegistered(id, hk);
                 return true;
             }
 
             return false;
         }
 
-        public void UnRegisterHotKey(ModifierKeys modifiers, Keys key)
+        /*public void UnRegisterHotKey(ModifierKeys modifiers, Keys key)
         {
             UnRegisterHotKey(new HotKey() { modifiers = modifiers, key = key });
-        }
+        }*/
 
         private void UnRegisterHotKey(HotKey hk)
         {
@@ -219,17 +221,27 @@ namespace WGestures.Common.OsSpecific.Windows
             _keyToAction.Remove(hk);
         }
 
-        public void UnRegisterHotKey(string id)
+        private void UnRegisterHotKeyById_internal(string id, bool publishEvent=false)
         {
             try
             {
-                UnRegisterHotKey(_idToHotKey[id]);
+                var hk = _idToHotKey[id];
+                UnRegisterHotKey(hk);
                 _idToHotKey.Remove(id);
+
+                if(HotKeyUnRegistered != null) HotKeyUnRegistered(id, hk);
+
             }catch(KeyNotFoundException e)
             {
                 throw new InvalidOperationException(id + " not registered!", e);
             }
 
+        }
+
+        public void UnRegisterHotKey(string id)
+        {
+            Debug.WriteLine("Unregister Hotkey by Id: " + id);
+            UnRegisterHotKeyById_internal(id, publishEvent: true);
         }
 
         public HotKey? GetRegisteredHotKeyById(string id)
@@ -259,6 +271,8 @@ namespace WGestures.Common.OsSpecific.Windows
         /// A hot key has been pressed. return 'Handled'.
         /// </summary>
         public event Func<GlobalHotKeyManager, string, HotKey, bool> HotKeyPreview;
+        public event Action<string, HotKey> HotKeyRegistered;
+        public event Action<string, HotKey> HotKeyUnRegistered;
 
         #region IDisposable Members
 
