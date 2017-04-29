@@ -84,7 +84,7 @@ namespace WGestures.View.Impl.Windows
         Pen _mainPen;
         Pen _alternativePen;
         Pen _borderPen;
-        Pen _shadowPen;
+        //Pen _shadowPen;
         Pen _dirtyMarkerPen;
         Point _prevPoint;
         private GraphicsPath _gPath = new GraphicsPath();
@@ -179,15 +179,17 @@ namespace WGestures.View.Impl.Windows
             _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _xBtnPen = new Pen(Color.FromArgb(255, 20, 100, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _borderPen = new Pen(Color.FromArgb(230, 255, 255, 255), widthBase * 2.5f) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), widthBase + 4) { EndCap = LineCap.Round, StartCap = LineCap.Round };
             _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
 
 
-            _shadowPen = new Pen(Color.FromArgb(25, Color.Black), widthBase * 3) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            
-            
-            _shadowPenWidth = _shadowPen.Width;
-            _dirtyMarkerPen = (Pen)_shadowPen.Clone();
+            //_shadowPen = new Pen(Color.FromArgb(25, Color.Black), widthBase * 3) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+
+
+            //_shadowPenWidth = _shadowPen.Width;
+            //_dirtyMarkerPen = (Pen)_shadowPen.Clone();
+
+            _dirtyMarkerPen = (Pen) _borderPen.Clone();
             _dirtyMarkerPen.Width *= 1.5f;
 
             _systemColor = Native.GetWindowColorization();
@@ -500,7 +502,7 @@ namespace WGestures.View.Impl.Windows
             #region 1) 绘制路径
             if (ShowPath && _pathVisible)
             {
-                g.DrawPath(_shadowPen, _gPath);
+                //g.DrawPath(_shadowPen, _gPath);
                 g.DrawPath(_borderPen, _gPath);
                 g.DrawPath(_pathPen, _gPath);
             }
@@ -735,9 +737,9 @@ namespace WGestures.View.Impl.Windows
             _borderPen.Dispose();
             _alternativePen.Dispose();
 
-            _shadowPen.Dispose();
+            //_shadowPen.Dispose();
             
-            _shadowPen = null;
+            //_shadowPen = null;
            
 
             _dirtyMarkerPen.Dispose();

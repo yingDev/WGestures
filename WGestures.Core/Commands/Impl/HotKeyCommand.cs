@@ -49,7 +49,7 @@ namespace WGestures.Core.Commands.Impl
             Debug.WriteLine(string.Format("FGWindow: {0:X}", fgWindow.ToInt64()));
 
             //如果没有前台窗口，或者前台窗口是任务栏，则使用鼠标指针下方的窗口？
-            var useCursorWindow = false;
+            /*var useCursorWindow = false;
             if (fgWindow != IntPtr.Zero)
             {
                 var className = new StringBuilder(32);
@@ -77,28 +77,31 @@ namespace WGestures.Core.Commands.Impl
             else
             {
                 useCursorWindow = true;
-            }
+            }*/
 
 
-            if (useCursorWindow)
+            //if (useCursorWindow)
             {
-                Debug.WriteLine("* * Why Is fgWindow NULL?");
+                //Debug.WriteLine("* * Why Is fgWindow NULL?");
 
                 if(Context != null) //触发角将不会注入此字段
                 {
-                        fgWindow = Native.WindowFromPoint(new Native.POINT(){x = Context.StartPoint.X, y = Context.StartPoint.Y});
-                        if (fgWindow == IntPtr.Zero) return;
+                    fgWindow = Native.WindowFromPoint(new Native.POINT(){x = Context.StartPoint.X, y = Context.StartPoint.Y});
+                    Debug.WriteLine(string.Format("WinforFromPoint={0:x}", fgWindow.ToInt64()));
+                    if (fgWindow == IntPtr.Zero)
+                        return;
                 }
                 
             }
 
-            if (rootWindow == IntPtr.Zero) rootWindow = Native.GetAncestor(fgWindow, Native.GetAncestorFlags.GetRoot);
+            if (rootWindow == IntPtr.Zero)
+                rootWindow = Native.GetAncestor(fgWindow, Native.GetAncestorFlags.GetRoot);
 
-            User32.SetForegroundWindow(fgWindow);
-
+            //User32.SetForegroundWindow(fgWindow);
+            //ForceWindowIntoForeground(fgWindow);
             uint pid;
-            var fgThread = Native.GetWindowThreadProcessId(rootWindow, out pid);
-
+            var fgThread = Native.GetWindowThreadProcessId(fgWindow, out pid);
+            Debug.WriteLine("pid=" + pid);
 
             //失败可能原因之一：被杀毒软件或系统拦截
 
@@ -218,6 +221,7 @@ namespace WGestures.Core.Commands.Impl
 
             User32.SetForegroundWindow(window);
             User32.ShowWindow(window, User32.SW.SW_RESTORE);
+            User32.SetFocus(window);
 
             User32.SystemParametersInfo(User32.SPI_SETFOREGROUNDLOCKTIMEOUT, 0, ref oldTimeout, 0);
 

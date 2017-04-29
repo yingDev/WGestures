@@ -25,10 +25,15 @@ namespace WGestures.Core.Impl.Windows
             return (info.dwExStyle & TOP_MOST) == TOP_MOST;
         }
 
+
+
         public override void ActivateTargetWindow()
         {
-            var rootWindow = Native.GetAncestor(WinId, Native.GetAncestorFlags.GetRoot);
-            User32.SetForegroundWindow(rootWindow);
+            var rootWindow =  Native.GetAncestor(WinId, Native.GetAncestorFlags.GetRoot);
+
+            var fgWin = User32.GetForegroundWindow();
+            if(fgWin != rootWindow)
+                User32.SetForegroundWindow(rootWindow);
         }
     }
 }

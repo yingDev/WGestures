@@ -722,6 +722,9 @@ namespace Win32
         [DllImport(User32Dll)]
         public static extern IntPtr SetFocus(IntPtr hWnd);
 
+        [DllImport(User32Dll)]
+        public static extern IntPtr GetFocus();
+
         [DllImport(User32Dll, SetLastError = true)]
         public static extern IntPtr GetDesktopWindow();
 
