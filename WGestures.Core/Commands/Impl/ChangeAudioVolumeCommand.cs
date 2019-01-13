@@ -6,16 +6,16 @@ using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("音量控制")]
+    [Named("音量控制"),Serializable]
     public class ChangeAudioVolumeCommand : AbstractCommand, IGestureModifiersAware
     {
-        private InputSimulator _sim = new InputSimulator();
+        public int Delta { get; set; } = 1;
 
         public override void Execute()
         {
             try
             {
-                _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
+                Sim.KeyPress(VirtualKeyCode.VOLUME_MUTE);
 
             }
             catch (Exception)
@@ -28,8 +28,8 @@ namespace WGestures.Core.Commands.Impl
         {
             try
             {
-                _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
-                _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN);
+                Sim.KeyPress(VirtualKeyCode.VOLUME_UP);
+                Sim.KeyPress(VirtualKeyCode.VOLUME_DOWN);
             }
             catch (Exception)
             {
@@ -43,18 +43,22 @@ namespace WGestures.Core.Commands.Impl
 
         public void ModifierTriggered(GestureModifier modifier)
         {
+            if (Delta < 1) Delta = 1;
             try
             {
                 switch (modifier)
                 {
                     case GestureModifier.WheelForward:
-                        5.Times(() => _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP));
+                        ReportStatus("+");
+                        Delta.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_UP));
                         break;
                     case GestureModifier.WheelBackward:
-                        5.Times(() => _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN));
+                        ReportStatus("-");
+                        Delta.Times(() => Sim.KeyPress(VirtualKeyCode.VOLUME_DOWN));
                         break;
                     case GestureModifier.MiddleButtonDown:
-                        _sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
+                        ReportStatus("x");
+                        Sim.KeyPress(VirtualKeyCode.VOLUME_MUTE);
                         break;
 
                 }
@@ -64,8 +68,6 @@ namespace WGestures.Core.Commands.Impl
                 Native.TryResetKeys(new[] { VirtualKeyCode.VOLUME_UP, VirtualKeyCode.VOLUME_DOWN, VirtualKeyCode.VOLUME_MUTE });
             }
 
-
-
         }
 
         public void GestureEnded()
@@ -74,6 +76,8 @@ namespace WGestures.Core.Commands.Impl
 
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
+
+        public event Action<string> ReportStatus;
     }
 
     static class IntExtension

@@ -3,14 +3,17 @@ using System.Drawing;
 
 namespace WGestures.Core
 {
-    public abstract class GestureContext
+    public abstract class GestureContext// : MarshalByRefObject
     {
         public Point StartPoint;
         public Point EndPoint;
 
-        public GestureButtons GestureButton;
+        public uint ProcId;
+        public IntPtr WinId;
 
-        public virtual bool IsInFullScreenMode { get{return false;} }
+        public GestureTriggerButton GestureButton;
+
+        public abstract void ActivateTargetWindow();
 
     }
 }

@@ -4,35 +4,45 @@
   <dict>
     <key>$$FileVersion</key>
     <string>1</string>
-    <key>AutoStart</key>
-    <true />
     <key>IsFirstRun</key>
     <true />
-    <key>PathTrackerInitialValidMove</key>
-    <integer>6</integer>
+    <key>AutoCheckForUpdate</key>
+    <true />
+    <key>AutoStart</key>
+    <true />
+    <key>PathTrackerTriggerButton</key>
+    <integer>15</integer>
     <key>PathTrackerStayTimeout</key>
     <false />
-    <key>PathTrackerStayTimeoutMillis</key>
-    <integer>500</integer>
+    <key>PathTrackerInitialStayTimoutMillis</key>
+    <integer>200</integer>
+    <key>GestureViewMainPathColor</key>
+    <integer>-14165512</integer>
+    <key>GestureViewMiddleBtnMainColor</key>
+    <integer>-13771520</integer>
+    <key>GestureViewAlternativePathColor</key>
+    <integer>-10061415</integer>
     <key>GestureViewShowPath</key>
-    <true />
-    <key>GestureViewShowCommandName</key>
     <true />
     <key>GestureViewFadeOut</key>
     <true />
-    <key>GestureViewMainPathColor</key>
-    <integer>-12337922</integer>
-    <key>GestureViewAlternativePathColor</key>
-    <integer>-65408</integer>
-    <key>AutoCheckForUpdate</key>
+    <key>GestureViewShowCommandName</key>
     <true />
-    <key>PathTrackerInitialStayTimeout</key>
+    <key>TrayIconVisible</key>
     <true />
-    <key>PathTrackerInitialStayTimoutMillis</key>
-    <integer>150</integer>
+    <key>GestureParserEnableHotCorners</key>
+    <true />
+    <key>PathTrackerPreferCursorWindow</key>
+    <true />
     <key>GestureParserDisableInFullScreenMode</key>
+    <false />
+    <key>PauseResumeHotKey</key>
+    <data>VwAAAAcAAAA=</data>
+    <key>PathTrackerInitialStayTimeout</key>
+    <false />
+    <key>GestureViewXBtnPathColor</key>
+    <integer>-32704</integer>
+    <key>GestureParserEnableRubEdges</key>
     <true />
-    <key>GestureViewMiddleBtnMainColor</key>
-    <integer>-16729278</integer>
   </dict>
 </plist>

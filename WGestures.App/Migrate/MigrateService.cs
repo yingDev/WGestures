@@ -51,14 +51,22 @@ namespace WGestures.App.Migrate
             var gestures = null as JsonGestureIntentStore;
             var config = null as PlistConfig;
 
-            var gesturesFile = recent + @"\gestures.json";
+            var gesturesFileV1 = recent + @"\gestures.json";
+            var gestureFileV2 = recent + @"\gestures.wg";
+            var gestureFileV3 = recent + @"\gestures.wg2";
             var configFile = recent + @"\config.plist";
 
             try
             {
-                if (File.Exists(gesturesFile))
+                if (File.Exists(gesturesFileV1))
                 {
-                    gestures = new JsonGestureIntentStore(gesturesFile);
+                    gestures = new JsonGestureIntentStore(gesturesFileV1, "1");
+                }else if (File.Exists(gestureFileV2))
+                {
+                    gestures = new JsonGestureIntentStore(gestureFileV2, "2");
+                }else if(File.Exists(gestureFileV3))
+                {
+                    gestures = new JsonGestureIntentStore(gestureFileV3, "3");
                 }
 
                 if (File.Exists(configFile))
@@ -90,19 +98,23 @@ namespace WGestures.App.Migrate
             }
             else if (from.EndsWith(".json") || from.EndsWith(".JSON"))
             {
-                return ImportJsonGestures(from);
+                return ImportJsonGestures(from, "1");
+            }else if (from.EndsWith(".wg") || from.EndsWith(".WG"))
+            {
+                return ImportJsonGestures(from, "2");
+            }else if(from.EndsWith(".wg2"))
+            {
+                return ImportJsonGestures(from, "2");
             }
 
             throw new MigrateException("未识别的文件类型");
         }
 
-        public static ConfigAndGestures ImportJsonGestures(string jsonPath)
+        public static ConfigAndGestures ImportJsonGestures(string jsonPath, string version)
         {
             if (!File.Exists(jsonPath)) throw new MigrateException("文件不存在:" + jsonPath);
 
-
-
-            var intentStore = new JsonGestureIntentStore(jsonPath);
+            var intentStore = new JsonGestureIntentStore(jsonPath, version);
             return new ConfigAndGestures(null, intentStore);
         }
 
@@ -141,13 +153,12 @@ namespace WGestures.App.Migrate
             var cofnigFileName = Path.GetFileName(AppSettings.ConfigFilePath);
             var gesturesFileName = Path.GetFileName(AppSettings.GesturesFilePath);
 
-
             var arcFile = new StreamingArchiveFile(wgbFilePath);
             var files = arcFile.FileIndex.IndexedFileNames.ToArray();
 
-            var fileShortNames = (from f in files select Path.GetFileName(f)).ToArray();
+            /*var fileShortNames = (from f in files select Path.GetFileName(f)).ToArray();
             if (!fileShortNames.Contains(cofnigFileName) || !fileShortNames.Contains(gesturesFileName))
-                throw new MigrateException("文件内容不正确（未找到需要的部分）: " + wgbFilePath);
+                throw new MigrateException("文件内容不正确（未找到需要的部分）: " + wgbFilePath);*/
 
             try
             {
@@ -167,21 +178,33 @@ namespace WGestures.App.Migrate
                         config = new PlistConfig(file.GetStream(), closeStream: true);
 
                     }
-                    else if (Path.GetFileName(fileName) == gesturesFileName)
+                    else
                     {
-                        gestures = new JsonGestureIntentStore(file.GetStream(), closeStream: true);
+                        var version = AppSettings.GesturesFileVersion;
+                        if (fileName.EndsWith(".json"))
+                        {
+                            version = "1";
+                        }
+                        else if (fileName.EndsWith(".wg"))
+                        {
+                            version = "2";
+                        }
+                        gestures = new JsonGestureIntentStore(file.GetStream(), true, version);
                     }
 
                 }
-
-
-                return new ConfigAndGestures(config, gestures);
             }
             catch (Exception e)
             {
                 if (e is SystemException) throw;
-                throw new MigrateException("导入错误", e);
+                throw new MigrateException("文件内容错误");
             }
+            
+
+            if(config == null || gestures == null) throw new MigrateException("文件内容错误");
+
+            return new ConfigAndGestures(config, gestures);
+            
 
         }
 

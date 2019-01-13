@@ -11,12 +11,13 @@ using WindowsInput.Native;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using Win32;
+using Screen = WGestures.Common.OsSpecific.Windows.Screen;
 using ThreadState = System.Diagnostics.ThreadState;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("执行快捷键")]
-    public class HotKeyCommand : AbstractCommand
+    [Named("执行快捷键"), Serializable]
+    public class HotKeyCommand : AbstractCommand, IGestureContextAware
     {
         public HotKeyCommand()
         {
@@ -27,7 +28,6 @@ namespace WGestures.Core.Commands.Impl
         public List<VirtualKeyCode> Modifiers { get; set; }
 
         public List<VirtualKeyCode> Keys { get; set; }
-        private readonly InputSimulator _sim = new InputSimulator();
 
 
         public override void Execute()
@@ -46,10 +46,10 @@ namespace WGestures.Core.Commands.Impl
             var fgWindow = Native.GetForegroundWindow();
             var rootWindow = IntPtr.Zero;
 
-            Debug.WriteLine(string.Format("FGWindow: {0:X}", fgWindow.ToInt32()));
+            Debug.WriteLine(string.Format("FGWindow: {0:X}", fgWindow.ToInt64()));
 
             //如果没有前台窗口，或者前台窗口是任务栏，则使用鼠标指针下方的窗口？
-            var useCursorWindow = false;
+            /*var useCursorWindow = false;
             if (fgWindow != IntPtr.Zero)
             {
                 var className = new StringBuilder(32);
@@ -77,27 +77,31 @@ namespace WGestures.Core.Commands.Impl
             else
             {
                 useCursorWindow = true;
-            }
+            }*/
 
 
-            if (useCursorWindow)
+            //if (useCursorWindow)
             {
-                Debug.WriteLine("* * Why Is fgWindow NULL?");
+                //Debug.WriteLine("* * Why Is fgWindow NULL?");
 
-                Native.POINT pt;
-                Native.GetCursorPos(out pt);
-                fgWindow = Native.WindowFromPoint(pt);
-
-                if (fgWindow == IntPtr.Zero) return;
+                if(Context != null) //触发角将不会注入此字段
+                {
+                    fgWindow = Native.WindowFromPoint(new Native.POINT(){x = Context.StartPoint.X, y = Context.StartPoint.Y});
+                    Debug.WriteLine(string.Format("WinforFromPoint={0:x}", fgWindow.ToInt64()));
+                    if (fgWindow == IntPtr.Zero)
+                        return;
+                }
+                
             }
 
-            if (rootWindow == IntPtr.Zero) rootWindow = Native.GetAncestor(fgWindow, Native.GetAncestorFlags.GetRoot);
+            if (rootWindow == IntPtr.Zero)
+                rootWindow = Native.GetAncestor(fgWindow, Native.GetAncestorFlags.GetRoot);
 
-            User32.SetForegroundWindow(fgWindow);
-
+            //User32.SetForegroundWindow(fgWindow);
+            //ForceWindowIntoForeground(fgWindow);
             uint pid;
-            var fgThread = Native.GetWindowThreadProcessId(rootWindow, out pid);
-
+            var fgThread = Native.GetWindowThreadProcessId(fgWindow, out pid);
+            Debug.WriteLine("pid=" + pid);
 
             //失败可能原因之一：被杀毒软件或系统拦截
 
@@ -155,19 +159,19 @@ namespace WGestures.Core.Commands.Impl
         private void PerformKey(uint pid, uint tid, VirtualKeyCode key, bool isUp = false)
         {
 
-            Native.WaitForInputIdle(pid, tid, 100);
-
+            //Native.WaitForInputIdle(pid, tid, 100);
+            Thread.Sleep(10);
             if (!isUp)
             {
-                _sim.Keyboard.KeyDown(key);
+                Sim.KeyDown(key);
 
             }
             else
             {
-                _sim.Keyboard.KeyUp(key);
+                Sim.KeyUp(key);
             }
 
-            Native.WaitForInputIdle(pid, tid, 20);
+            //Native.WaitForInputIdle(pid, tid, 20);
 
         }
 
@@ -217,6 +221,7 @@ namespace WGestures.Core.Commands.Impl
 
             User32.SetForegroundWindow(window);
             User32.ShowWindow(window, User32.SW.SW_RESTORE);
+            User32.SetFocus(window);
 
             User32.SystemParametersInfo(User32.SPI_SETFOREGROUNDLOCKTIMEOUT, 0, ref oldTimeout, 0);
 
@@ -259,10 +264,11 @@ namespace WGestures.Core.Commands.Impl
                             str = k.ToString();
                             break;
                     }
-
+                    if(sb.Length > 0) sb.Append('-');
                     sb.Append(str);
-                    sb.Append(" + ");
                 }
+
+                if(sb.Length > 0) sb.Append(" + ");
 
                 foreach (var k in keys)
                 {
@@ -282,5 +288,6 @@ namespace WGestures.Core.Commands.Impl
         }
 
 
+        public GestureContext Context { set; private get; }
     }
 }

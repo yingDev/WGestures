@@ -5,12 +5,12 @@ using WindowsInput.Native;
 namespace WindowsInput
 {
     /// <summary>
-    /// Implements the <see cref="IInputMessageDispatcher"/> by calling <see cref="NativeMethods.SendInput"/>.
+    /// Implements the <see cref="IInputMessageDispatcher"/>.
     /// </summary>
     internal class WindowsInputMessageDispatcher : IInputMessageDispatcher
     {
         /// <summary>
-        /// Dispatches the specified list of <see cref="INPUT"/> messages in their specified order by issuing a single called to <see cref="NativeMethods.SendInput"/>.
+        /// Dispatches the specified list of <see cref="INPUT"/> messages.
         /// </summary>
         /// <param name="inputs">The list of <see cref="INPUT"/> messages to be dispatched.</param>
         /// <exception cref="ArgumentException">If the <paramref name="inputs"/> array is empty.</exception>
@@ -24,5 +24,14 @@ namespace WindowsInput
             if (successful != inputs.Length)
                 throw new Exception("Some simulated input commands were not sent successfully. The most common reason for this happening are the security features of Windows including User Interface Privacy Isolation (UIPI). Your application can only send commands to applications of the same or lower elevation. Similarly certain commands are restricted to Accessibility/UIAutomation applications. Refer to the project home page and the code samples for more information.");
         }
+
+        public unsafe void DispatchInput(INPUT* inputs, uint count)
+        {
+            var successful = NativeMethods.SendInput(count, inputs, Marshal.SizeOf(typeof(INPUT)));
+            if (successful != count)
+                throw new Exception("Some simulated input commands were not sent successfully. The most common reason for this happening are the security features of Windows including User Interface Privacy Isolation (UIPI). Your application can only send commands to applications of the same or lower elevation. Similarly certain commands are restricted to Accessibility/UIAutomation applications. Refer to the project home page and the code samples for more information.");
+        
+        }
+
     }
 }

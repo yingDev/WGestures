@@ -14,16 +14,16 @@ using WindowsInput.Native;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using Timer = System.Windows.Forms.Timer;
+using Microsoft.Win32;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("Web搜索")]
+    [Named("Web搜索"), Serializable]
     public class WebSearchCommand : AbstractCommand, IGestureContextAware
     {
         public string SearchEngineUrl { get; set; }
         public string SearchEngingName { get; set; }
-
-        private InputSimulator _sim = new InputSimulator();
+        public string UseBrowser { get; set; }
 
         public WebSearchCommand()
         {
@@ -60,7 +60,12 @@ namespace WGestures.Core.Commands.Impl
 
                     try
                     {
-                        _sim.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, new[] { VirtualKeyCode.VK_C });
+                        Sim.KeyDown(VirtualKeyCode.CONTROL);
+                        Sim.KeyDown(VirtualKeyCode.VK_C);
+                        
+                        Sim.KeyUp(VirtualKeyCode.VK_C);
+                        Sim.KeyUp(VirtualKeyCode.CONTROL);
+                        //_sim.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, new[] { VirtualKeyCode.VK_C });
                     }
                     catch (Exception ex)
                     {
@@ -80,23 +85,37 @@ namespace WGestures.Core.Commands.Impl
                     var text = "";
                     if (Clipboard.ContainsText() && (text = Clipboard.GetText().Trim()).Length > 0)
                     {
+                        var browser = GetDefaultBrowserPath();
+                        if (UseBrowser != null && File.Exists(UseBrowser.Replace("\"", "")) )
+                        {
+                            browser = UseBrowser;
+                        }
+
+                        string urlToOpen;
                         //如果是URL则打开，否则搜索
                         if (Uri.IsWellFormedUriString(text, UriKind.Absolute))
                         {
-                            using(Process.Start(text));
+                            urlToOpen = text;
                         }
                         else
                         {
                             if (text.Length > 100) text = text.Substring(0, 100);
-                            using (Process.Start(PopulateSearchEngingUrl(text))) ;
+                            urlToOpen = PopulateSearchEngingUrl(text);
+                        }
+                        //M$ Edge Hack
+                        if (browser.Contains("LaunchWinApp.exe"))
+                        {
+                            urlToOpen = "microsoft-edge:" + urlToOpen;
+                            Process.Start(urlToOpen);
+                        }else
+                        {
+                            var startInfo = new ProcessStartInfo(browser, "\"" + urlToOpen + "\"");
+                            using (Process.Start(startInfo)) ;
                         }
                     }
 
                     clipboardMonitor.StopMonitor();
                     clipboardMonitor.DestroyHandle();
-
-                    //GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-                    
 
                     Application.ExitThread();
                 };
@@ -117,7 +136,6 @@ namespace WGestures.Core.Commands.Impl
 
         private string PopulateSearchEngingUrl(string param)
         {
-
             return HttpUtility.UrlPathEncode(string.Format(SearchEngineUrl, param));
         }
 
@@ -125,5 +143,46 @@ namespace WGestures.Core.Commands.Impl
         {
             return ((SearchEngingName ?? "Web") + "搜索");
         }
+
+        private static string GetDefaultBrowserPath()
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice"))
+            {
+                var progId = key.GetValue("Progid", null);
+
+                if(progId != null)
+                {
+                    const string exeSuffix = ".exe";
+
+                    using (var pathKey = Registry.ClassesRoot.OpenSubKey(progId + @"\shell\open\command"))
+                    {
+                        if (pathKey != null)
+                        {
+                            // Trim parameters.
+                            try
+                            {
+                                var path = pathKey.GetValue(null).ToString().ToLower().Replace("\"", "");
+                                if (!path.EndsWith(exeSuffix))
+                                {
+                                    path = path.Substring(0, path.LastIndexOf(exeSuffix, StringComparison.Ordinal) + exeSuffix.Length);
+
+                                    return path;
+                                }
+                            }
+                            catch
+                            {
+                                // Assume the registry value is set incorrectly, or some funky browser is used which currently is unknown.
+                            }
+                        }
+
+                       
+                    }
+                }
+            }
+
+            return "explorer.exe";
+        }
+
+
     }
 }

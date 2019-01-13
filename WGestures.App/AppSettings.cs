@@ -16,7 +16,7 @@ namespace WGestures.App
             {
 
 #if DEBUG
-                return "http://localhost:1226/projects/latestVersion?product=WGestures";
+                return ConfigurationManager.AppSettings.Get(Constants.CheckForUpdateUrlAppSettingKey);// "http://localhost:1226/projects/latestVersion?product=WGestures";
 
 #else
                 return ConfigurationManager.AppSettings.Get(Constants.CheckForUpdateUrlAppSettingKey);
@@ -44,9 +44,13 @@ namespace WGestures.App
 
         public static string GesturesFilePath
         {
-            get { return UserDataDirectory + @"\gestures.json"; }
+            get { return UserDataDirectory + @"\gestures.wg2"; }
         }
 
+        public static string DefaultGesturesFilePath
+        {
+            get { return Application.StartupPath + @"\defaults\gestures.wg2"; }
+        }
 
 
         public static string ConfigFileVersion
@@ -56,7 +60,7 @@ namespace WGestures.App
 
         public static string GesturesFileVersion
         {
-            get { return "1"; }
+            get { return "3"; }
         }
         
     }

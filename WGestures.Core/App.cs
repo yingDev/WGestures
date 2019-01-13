@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace WGestures.Core
 {
+    [Serializable]
     public abstract class AbstractApp
     {
         public string Name { get; set; }
@@ -57,9 +58,18 @@ namespace WGestures.Core
         }
     }
 
-    [JsonArray]
+    [/*JsonArray, */Serializable]
     public class GestureIntentDict : Dictionary<Gesture, GestureIntent>
     {
+
+        public GestureIntentDict(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
+        public GestureIntentDict() { }
+
+
         public void Add(GestureIntent intent)
         {
             Add(intent.Gesture,intent);
@@ -82,11 +92,23 @@ namespace WGestures.Core
                 this[kv.Key] = kv.Value;
             }
         }
+
+        public void Import(IEnumerable<GestureIntent> from, bool replace=false)
+        {
+            if(replace) Clear();
+
+            foreach (var i in from)
+            {
+                this[i.Gesture] = i;
+            }
+        }
     }
 
     /// <summary>
     /// 用可执行文件路径来代表的应用程序
     /// </summary>
+    /// 
+    [Serializable]
     public class ExeApp : AbstractApp
     {
         public bool InheritGlobalGestures { get; set; }
@@ -113,6 +135,7 @@ namespace WGestures.Core
     /// <summary>
     /// 表示全局有效的特殊应用
     /// </summary>
+    [Serializable]
     public class GlobalApp : AbstractApp
     {
         public GlobalApp()

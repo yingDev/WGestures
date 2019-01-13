@@ -41,6 +41,8 @@ namespace WGestures.App.Gui.Windows.CommandViews
         private void txt_CmdLine_TextChanged(object sender, System.EventArgs e)
         {
             _command.Code = txt_CmdLine.Text;
+
+            OnCommandValueChanged();
         }
 
 

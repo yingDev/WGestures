@@ -111,7 +111,7 @@ namespace WGestures.App.Gui.Windows
             this.groupSelectedApp.Margin = new System.Windows.Forms.Padding(8);
             this.groupSelectedApp.Name = "groupSelectedApp";
             this.groupSelectedApp.Padding = new System.Windows.Forms.Padding(2);
-            this.groupSelectedApp.Size = new System.Drawing.Size(416, 127);
+            this.groupSelectedApp.Size = new System.Drawing.Size(416, 133);
             this.groupSelectedApp.TabIndex = 1;
             this.groupSelectedApp.TabStop = false;
             this.groupSelectedApp.Text = "选中";
@@ -128,7 +128,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel6.Location = new System.Drawing.Point(63, 24);
             this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(349, 85);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(349, 91);
             this.flowLayoutPanel6.TabIndex = 8;
             // 
             // flowLayoutPanel7
@@ -139,7 +139,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel7.Controls.Add(this.lnkSelectedAppPath);
             this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel7.Name = "flowLayoutPanel7";
-            this.flowLayoutPanel7.Size = new System.Drawing.Size(342, 18);
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(342, 24);
             this.flowLayoutPanel7.TabIndex = 8;
             // 
             // label10
@@ -159,7 +159,7 @@ namespace WGestures.App.Gui.Windows
             this.lnkSelectedAppPath.Location = new System.Drawing.Point(44, 3);
             this.lnkSelectedAppPath.Margin = new System.Windows.Forms.Padding(3);
             this.lnkSelectedAppPath.Name = "lnkSelectedAppPath";
-            this.lnkSelectedAppPath.Size = new System.Drawing.Size(295, 12);
+            this.lnkSelectedAppPath.Size = new System.Drawing.Size(295, 18);
             this.lnkSelectedAppPath.TabIndex = 1;
             this.lnkSelectedAppPath.TabStop = true;
             this.lnkSelectedAppPath.Text = "linkLabel1";
@@ -172,7 +172,7 @@ namespace WGestures.App.Gui.Windows
             this.flowLayoutPanel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel8.Controls.Add(this.label11);
             this.flowLayoutPanel8.Controls.Add(this.txtSelectedAppNae);
-            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 27);
+            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 33);
             this.flowLayoutPanel8.Name = "flowLayoutPanel8";
             this.flowLayoutPanel8.Size = new System.Drawing.Size(342, 27);
             this.flowLayoutPanel8.TabIndex = 9;
@@ -203,7 +203,7 @@ namespace WGestures.App.Gui.Windows
             // 
             this.flowAlert.Controls.Add(this.pictureBox1);
             this.flowAlert.Controls.Add(this.lb_errMsg);
-            this.flowAlert.Location = new System.Drawing.Point(3, 60);
+            this.flowAlert.Location = new System.Drawing.Point(3, 66);
             this.flowAlert.Name = "flowAlert";
             this.flowAlert.Size = new System.Drawing.Size(343, 22);
             this.flowAlert.TabIndex = 7;

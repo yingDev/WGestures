@@ -17,7 +17,7 @@ namespace WGestures.App.Gui.Windows
             InitializeComponent();
 
 
-            tb_Detail.MouseEnter += (sender, args) =>
+            /*tb_Detail.MouseEnter += (sender, args) =>
             {
                 tb_Detail.Focus();
                 tb_Detail.SelectAll();
@@ -27,7 +27,7 @@ namespace WGestures.App.Gui.Windows
             {
                 tb_mail.Focus();
                 tb_mail.SelectAll();
-            };
+            };*/
         }
 
         private void btn_close_Click(object sender, System.EventArgs e)

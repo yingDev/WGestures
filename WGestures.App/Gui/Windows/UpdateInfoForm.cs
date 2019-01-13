@@ -32,7 +32,9 @@ namespace WGestures.App.Gui.Windows
 
         private void lnk_gotoUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            using(Process.Start(_gotoUrl));
+            var startInfo = new ProcessStartInfo("explorer.exe", _gotoUrl);
+            using (Process.Start(startInfo)) { } ;
+
             Close();
         }
 

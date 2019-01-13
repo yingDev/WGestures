@@ -14,7 +14,7 @@ namespace WGestures.Core.Persistence.Impl.Windows
         {
         }
 
-        private Dictionary<uint, string> _procFileNameDict = new Dictionary<uint, string>(64);
+        //private Dictionary<uint, string> _procFileNameDict = new Dictionary<uint, string>(64);
 
         /// <summary>
         /// Native下以进程文件名为key查找。
@@ -28,14 +28,19 @@ namespace WGestures.Core.Persistence.Impl.Windows
             string str;
             ExeApp found = null;
 
-            var procId = Native.GetActiveProcessId();
+            var procId = context.ProcId;//Native.GetActiveProcessId();
+
+            Debug.WriteLine("procId="+procId);
 
 
-            if (!_procFileNameDict.TryGetValue(procId, out str))
-            {
+            //if (!_procFileNameDict.TryGetValue(procId, out str))
+            //{
                 str = Native.GetProcessFile(procId);
-                _procFileNameDict[procId] = str;
-            }
+                //_procFileNameDict[procId] = str;
+           // }
+
+            Debug.WriteLine("Image="+str);
+            if (str == null) return null;
             
             IntentStore.TryGetExeApp(str, out found);
 

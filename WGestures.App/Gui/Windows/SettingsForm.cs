@@ -11,7 +11,9 @@ using System.Threading;
 using System.Windows.Forms;
 using WGestures.App.Gui.Model;
 using WGestures.App.Gui.Windows.CommandViews;
+using WGestures.App.Gui.Windows.Controls;
 using WGestures.App.Properties;
+using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Common.Product;
 using WGestures.Core;
@@ -26,14 +28,15 @@ namespace WGestures.App.Gui.Windows
         private readonly float _dpiF = Native.GetScreenDpi() / 96f;
 
         private VersionChecker _versionChecker;
+        private RadioButton[] _hotCornerRadioBtns;
 
         public SettingsFormController Controller { get; set; }
 
         public SettingsForm(SettingsFormController controller)
         {
             Controller = controller;
-
             InitializeComponent();
+
             Icon = Resources.icon;
 
             SuspendDrawingControl.SuspendDrawing(this);
@@ -50,20 +53,11 @@ namespace WGestures.App.Gui.Windows
         private void DpiFix()
         {
             tabControl.ItemSize = new Size((int)(tabControl.ItemSize.Width * _dpiF), (int)(tabControl.ItemSize.Height * _dpiF));
-            //tabControl.Height -= tabControl.ItemSize.Height;
-
-            //listApps.TileSize = new Size((int)(listApps.TileSize.Width * _dpiF), (int)(listApps.TileSize.Height * _dpiF));
-            //listApps.Width = (int) (listApps.Width*_dpiF);
-
-            //listApps.Padding = new Padding(0,0,SystemInformation.VerticalScrollBarWidth+100,0);
-
+      
             imglistAppIcons.ImageSize = new Size((int)(imglistAppIcons.ImageSize.Width * _dpiF), (int)(imglistAppIcons.ImageSize.Height * _dpiF));
             dummyImgLstForLstViewHeightFix.ImageSize = new Size(1, (int)(dummyImgLstForLstViewHeightFix.ImageSize.Height * _dpiF));
 
-            //listGestureIntents.TileSize = new Size((int)((listGestureIntents.TileSize.Width - 2) * _dpiF), (int)(listGestureIntents.TileSize.Height * _dpiF));
-
-
-            //Height += tabControl.ItemSize.Height;
+            lineLabel2.Height = (int)(109 * _dpiF);
         }
 
         private void ControlFixes()
@@ -77,16 +71,35 @@ namespace WGestures.App.Gui.Windows
 
         private void InitControlValues()
         {
-            #region tab1
+            #region tab options
+            lb_pause_shortcut.DataBindings.Add("Text", Controller, "PauseResumeHotKey", false, DataSourceUpdateMode.OnPropertyChanged, "无");
+
             lb_Version.Text = Application.ProductVersion;
+
+            var gestBtns = Controller.PathTrackerTriggerButton;
+            if((gestBtns & GestureTriggerButton.Right) != 0)
+            {
+                check_gestBtn_Right.Checked = true;
+            }
+            if ((gestBtns & GestureTriggerButton.Middle) != 0)
+            {
+                check_gestBtn_Middle.Checked = true;
+            }
+            if ((gestBtns & GestureTriggerButton.X) != 0)
+            {
+                check_gestBtn_X.Checked = true;
+            }
+
             #endregion
 
-            #region tab2
+            #region tab gestures
             imglistAppIcons.Images.Add("icon", Resources.icon);
             imglistAppIcons.Images.Add("icon_bw", Resources.icon_bw);
             imglistAppIcons.Images.Add("unknown", Resources.unknown);
-
             #endregion
+
+            _hotCornerRadioBtns = new[] { radio_corner_0, radio_corner_1, radio_corner_2, radio_corner_3,
+                                          radio_edge_0, radio_edge_1, radio_edge_2, radio_edge_3};
 
             #region tab about
             tb_updateLog.Text = Application.ProductName + " " + Application.ProductVersion + Environment.NewLine + Environment.NewLine;
@@ -176,6 +189,52 @@ namespace WGestures.App.Gui.Windows
 
         }
 
+
+        private void shortcutRec_pause_EndRecord(object sender, Controls.ShortcutRecordButton.ShortcutRecordEventArgs e)
+        {
+            if(e.Keys.Count > 0)
+            {
+                //lb_pause_shortcut.Text = ShortcutRecordButton.HotKeyToString(e.Modifiers, e.Keys);
+
+                var hk = new GlobalHotKeyManager.HotKey();
+
+                foreach (var k in e.Modifiers)
+                {
+
+                    switch (k)
+                    {
+                        case WindowsInput.Native.VirtualKeyCode.CONTROL:
+                        case WindowsInput.Native.VirtualKeyCode.LCONTROL:
+                        case WindowsInput.Native.VirtualKeyCode.RCONTROL:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Control;
+                            break;
+                        case WindowsInput.Native.VirtualKeyCode.MENU:
+                        case WindowsInput.Native.VirtualKeyCode.LMENU:
+                        case WindowsInput.Native.VirtualKeyCode.RMENU:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Alt;
+                            break;
+                        case WindowsInput.Native.VirtualKeyCode.SHIFT:
+                        case WindowsInput.Native.VirtualKeyCode.LSHIFT:
+                        case WindowsInput.Native.VirtualKeyCode.RSHIFT:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Shift;
+                            break;
+
+                        case WindowsInput.Native.VirtualKeyCode.LWIN:
+                        case WindowsInput.Native.VirtualKeyCode.RWIN:
+                            hk.modifiers |= GlobalHotKeyManager.ModifierKeys.Win;
+                            break;
+                    }
+                }
+
+                hk.key = (Keys) e.Keys[0];
+
+                Controller.PauseResumeHotkey = hk;
+            } else
+            {
+                Controller.PauseResumeHotkey = null;
+            }
+        }
+
         #endregion
 
         #region tab "Gestures" event handlers
@@ -185,7 +244,7 @@ namespace WGestures.App.Gui.Windows
             
             Debug.WriteLine("listApps_ItemSelectionChanged");
 
-            labelAppName.Text = e.Item.Text.Trim();
+            //labelAppName.Text = e.Item.Text.Trim();
             var app = e.Item.Tag as AbstractApp;
 
             //if (app is GlobalApp) check_gesturingEnabled.Text = "启用全局手势";
@@ -331,7 +390,7 @@ namespace WGestures.App.Gui.Windows
             var app = GetSelectedAppOrGlobal();
             if (app == null) return;
 
-            using (var addGestureForm = new AddGestureForm(Controller.GestureParser))
+            using (var addGestureForm = new EditGestureForm(Controller.GestureParser,app))
             {
 
                 var ok = addGestureForm.ShowDialog();
@@ -340,7 +399,7 @@ namespace WGestures.App.Gui.Windows
                     var gesture = addGestureForm.CapturedGesture;
                     var name = addGestureForm.GestureName;
 
-                    var gestureIntent = new GestureIntent() { Command = new HotKeyCommand(), Gesture = gesture, Name = name };
+                    var gestureIntent = new OrderableIntent(new GestureIntent() { Command = new HotKeyCommand(), Gesture = gesture, Name = name });
                     AddOrReplaceGestureIntent(gestureIntent);
 
                     AdjustListGestureIntentsColumnSize();
@@ -381,7 +440,6 @@ namespace WGestures.App.Gui.Windows
 
         private void listGestureIntents_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-
             var sel = listGestureIntents.SelectedItems;
             if (sel.Count == 0)
             {
@@ -434,7 +492,42 @@ namespace WGestures.App.Gui.Windows
 
         private void btn_modifyGesture_Click(object sender, EventArgs e)
         {
-            listGestureIntents.SelectedItems[0].BeginEdit();
+            var app = GetSelectedAppOrGlobal();
+            var intent = GetSelectedGestureIntent();
+
+            using (var editFrm = new EditGestureForm(Controller.GestureParser, app, intent))
+            {
+                var result = editFrm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    var found = app.Find(editFrm.CapturedGesture);
+                    if (found != null && found != intent)
+                    {
+                        foreach (ListViewItem item in listGestureIntents.Items)
+                        {
+                            if (item.Tag == found)
+                            {
+                                item.Remove();
+                            }
+                        }
+                        app.Remove(found);
+                    }
+
+                    app.Remove(intent); //因为app内部是按gesture为key存储的， 无法单独修改key
+
+                    intent.Gesture = editFrm.CapturedGesture;
+                    intent.Name = editFrm.GestureName;
+                    app.Add(intent);
+
+                    var editingItem = listGestureIntents.SelectedItem;
+                    editingItem.Text = intent.Name;
+                    editingItem.SubItems[1].Text = intent.Gesture.ToString();
+                    editingItem.EnsureVisible();
+                    listGestureIntents.Focus();
+                }
+            }
+
+            //listGestureIntents.SelectedItems[0].BeginEdit();
         }
 
         private void check_executeOnMouseWheeling_CheckedChanged(object sender, EventArgs e)
@@ -550,7 +643,7 @@ namespace WGestures.App.Gui.Windows
 
                         if (!found.AppExists()) sel.Text += "(不存在)";
 
-                        labelAppName.Text = sel.Text;
+                        //labelAppName.Text = sel.Text;
                     }
                     else
                     {
@@ -670,7 +763,6 @@ namespace WGestures.App.Gui.Windows
             listApps.EndUpdate();
         }
 
-
         private void LoadGestureIntents(AbstractApp app)
         {
             //禁用删除和修改按钮
@@ -679,18 +771,23 @@ namespace WGestures.App.Gui.Windows
 
             listGestureIntents.BeginUpdate();
 
+            //每次加载新的列表，则保存原列表元素的顺序
+            ApplyListIntentsOrder();
+
             listGestureIntents.Items.Clear();
 
             if (app.GestureIntents.Count == 0)
             {
-
                 AdjustListGestureIntentsColumnSize();
 
                 listGestureIntents.EndUpdate();
                 return;
             }
 
-            foreach (var gest in app.GestureIntents)
+            var orderedIntents = (from i in app.GestureIntents select new OrderableIntent(i.Value)).OrderBy((o)=>o.Order).ToArray();
+            app.GestureIntents.Import(orderedIntents, true);
+
+            foreach (var gest in app.GestureIntents)//app.GestureIntents)
             {
                 AddGestureIntent(gest.Value);
             }
@@ -782,8 +879,6 @@ namespace WGestures.App.Gui.Windows
             SuspendDrawingControl.ResumeDrawing(listGestureIntents);
         }
 
-
-
         private void LoadCommand(GestureIntent intent)
         {
             //SuspendDrawingControl.SuspendDrawing(group_Command);
@@ -849,8 +944,7 @@ namespace WGestures.App.Gui.Windows
         private void LoadCommandView(GestureIntent intent)
         {
             var cmdView = Controller.CommandViewFactory.GetCommandView(intent.Command);
-
-
+            
             if (cmdView != null)
             {
                 //如果目标视图实现了该接口，则注入选中的app
@@ -872,11 +966,35 @@ namespace WGestures.App.Gui.Windows
             }
         }
 
+        private void LoadHotCornerCommands()
+        {
+            for(var i=0; i<Controller.IntentStore.HotCornerCommands.Length; i++)
+            {
+                var cmd = Controller.IntentStore.HotCornerCommands[i];
+                if (cmd == null)
+                {
+                    cmd = new DoNothingCommand();
+                    Controller.IntentStore.HotCornerCommands[i] = cmd;
+                }
+
+                _hotCornerRadioBtns[i].Text = cmd.Description();
+            }
+
+            _hotCornerRadioBtns[0].Checked = false;
+            _hotCornerRadioBtns[0].Checked = true;
+        }
+
+        private void LoadHotCornerCommandTypes()
+        {
+            var cmdTypes = Controller.SupportedHotCornerCommands;
+
+            combo_hotcornerCmdTypes.Items.AddRange(cmdTypes.Keys.ToArray());
+        }
+
         #endregion
 
         #region utils
-
-
+        
         private static ScrollBars GetVisibleScrollbars(Control ctl)
         {
             var wndStyle = Native.GetWindowLong(ctl.Handle, Native.GWL_STYLE);
@@ -888,7 +1006,6 @@ namespace WGestures.App.Gui.Windows
             else
                 return vsVisible ? ScrollBars.Vertical : ScrollBars.None;
         }
-
        
         #endregion
 
@@ -915,23 +1032,27 @@ namespace WGestures.App.Gui.Windows
         {
             lb_info.Text = Equals(tabControl.SelectedTab.Tag, "about") ? "Copyright (c) " + DateTime.Now.Year+" 应元东" : "*改动将自动保存并立即生效";
 
-            //初次选中“手势”tab的时候，选中app
-            var isGesturesTab = object.Equals(tabControl.SelectedTab.Tag, "gestures");
-
-            if (isGesturesTab && listApps.SelectedItems.Count == 0)
+            if (object.Equals(tabControl.SelectedTab.Tag, "gestures"))
             {
-                //第0个项目，必须是(全局)
-                var globalAppItem = new ListViewItem("(全局)");//listApps.Items[0];
-                globalAppItem.ImageKey = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? "icon" : "icon_bw";
-                globalAppItem.ForeColor = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? Color.DodgerBlue : Color.Firebrick;
-                globalAppItem.Tag = Controller.IntentStore.GlobalApp;
-                listApps.Items.Add(globalAppItem);
+                if (listApps.SelectedItems.Count == 0)
+                {
+                    //第0个项目，必须是(全局)
+                    var globalAppItem = new ListViewItem("(全局)");//listApps.Items[0];
+                    globalAppItem.ImageKey = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? "icon" : "icon_bw";
+                    globalAppItem.ForeColor = Controller.IntentStore.GlobalApp.IsGesturingEnabled ? Color.DodgerBlue : Color.Firebrick;
+                    globalAppItem.Tag = Controller.IntentStore.GlobalApp;
+                    listApps.Items.Add(globalAppItem);
 
-                LoadApps();
+                    LoadApps();
+                    LoadCommandTypes();
+                }
 
-                LoadCommandTypes();
+            }else if(object.Equals(tabControl.SelectedTab.Tag, "corners") && combo_hotcornerCmdTypes.Items.Count == 0) //lazy load
+            {
+                LoadHotCornerCommandTypes();
+                LoadHotCornerCommands();
+               
             }
-
         }
 
         private void SettingsForm_Shown(object sender, EventArgs e)
@@ -941,17 +1062,18 @@ namespace WGestures.App.Gui.Windows
         }
 
 
-        #region Tab3
+        #region Tab about
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(AppSettings.ProductHomePage);
+            var startInfo = new ProcessStartInfo("explorer.exe", AppSettings.ProductHomePage);
+            using (Process.Start(startInfo)) { }
         }
-
         #endregion
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=HiYnKS0sKCguJ15vbzB9cXM");
+            var startInfo = new ProcessStartInfo("explorer.exe", "\"http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=HiYnKS0sKCguJ15vbzB9cXM\"");
+            using (Process.Start(startInfo)) { }
         }
 
         #region Gesture tab Menu button
@@ -986,6 +1108,7 @@ namespace WGestures.App.Gui.Windows
                     Controller.Import(args.ConfigAndGestures, importConfig, importGestures, mergeGestures);
                     //如果还没有切换到“手势”tab，则listApps没有app加载。
                     if(listApps.Items.Count > 0) LoadApps();
+                    LoadHotCornerCommands();
                 }
                 finally
                 {
@@ -1069,6 +1192,7 @@ namespace WGestures.App.Gui.Windows
         private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ApplyListAppsOrder();
+            ApplyListIntentsOrder();
         }
 
         private void ApplyListAppsOrder()
@@ -1079,6 +1203,15 @@ namespace WGestures.App.Gui.Windows
 
                 var app = (OrderableExeApp)item.Tag;
                 app.Order = item.Index;
+            }
+        }
+
+        private void ApplyListIntentsOrder()
+        {
+            foreach (ListViewItem item in listGestureIntents.Items)
+            {
+                var intent = (OrderableIntent)item.Tag;
+                intent.Order = item.Index;
             }
         }
 
@@ -1096,10 +1229,132 @@ namespace WGestures.App.Gui.Windows
         }
         #endregion
 
+        private void check_gestBtns_checkedChanged(object sender, EventArgs e)
+        {
+            var gestBtns = Controller.PathTrackerTriggerButton;
+            var checkbox = sender as CheckBox;
+
+            var tag = (GestureTriggerButton)int.Parse((string)checkbox.Tag);
+            if (checkbox.Checked)
+            {
+                gestBtns |= tag;
+            }
+            else
+            {
+                gestBtns &= ~tag;
+            }
+
+            Controller.PathTrackerTriggerButton = gestBtns;
+        }
+
+        private void listGestureIntents_DoubleClick(object sender, EventArgs e)
+        {
+            btn_modifyGesture.PerformClick();
+        }
+
+        private void listGestureIntents_MouseHover(object sender, EventArgs e)
+        {
+            /*Console.WriteLine("xx");
+            tip.Hide(listGestureIntents);
+
+            var cursorPos = listGestureIntents.PointToClient(Cursor.Position);
+            var hoverItem = listGestureIntents.GetItemAt(cursorPos.X, cursorPos.Y);
 
 
+            if (hoverItem != null)
+            {
+                var subItem = hoverItem.GetSubItemAt(cursorPos.X, cursorPos.Y);
+                if (subItem == hoverItem.SubItems[1]) //mnemonic item
+                {
+                    tip.Show("xxx" + Cursor.Position, listGestureIntents, cursorPos);
+                }
 
+                //hoverItem.BackColor = Color.AliceBlue;
+            }*/
+        }
 
+        private void listGestureIntents_MouseEnter(object sender, EventArgs e)
+        {
+            //listGestureIntents.Focus();
+        }
+
+        private void menuItem_resetGestures_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show(this, "是否将所有手势、触发角和摩擦边恢复为默认值? \n这将使您自定义设置丢失。", "恢复默认", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if(confirm == DialogResult.Yes)
+            {
+                Controller.RestoreDefaultGestures();
+                if (listApps.Items.Count > 0) LoadApps();
+
+                LoadHotCornerCommands();
+            }
+        }
+
+        #region HotCorner & RubEdge
+        private void radio_corner_1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!(sender as RadioButton).Checked) return;
+
+            var tag = int.Parse((string)(sender as RadioButton).Tag);
+            var cmd = Controller.IntentStore.HotCornerCommands[tag];
+
+            combo_hotcornerCmdTypes.SelectedItem = NamedAttribute.GetNameOf(cmd.GetType());
+
+            LoadHotCornerCmdView(cmd);
+        }
+
+        private void LoadHotCornerCmdView(AbstractCommand cmd)
+        {
+            var cmdView = Controller.HotCornerCommandViewFactory.GetCommandView(cmd);
+            panel_cornorCmdView.Controls.Clear();
+            panel_cornorCmdView.Controls.Add(cmdView);
+
+            cmdView.CommandValueChanged -= HotcornerComandValueChangedHandler;
+            cmdView.CommandValueChanged += HotcornerComandValueChangedHandler;
+        }
+
+        private void combo_hotcornerCmdTypes_SelectedValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HotcornerComandValueChangedHandler(AbstractCommand cmd)
+        {
+            var selectedRadioBtn = (from btn in _hotCornerRadioBtns where btn.Checked select btn).Single();
+            selectedRadioBtn.Text = cmd.Description();
+        }
+
+        private void check_enableHotCorners_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void combo_hotcornerCmdTypes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (combo_hotcornerCmdTypes.SelectedItem == null) return; 
+
+            var cornerBtn = (from btn in _hotCornerRadioBtns where btn.Checked select btn).Single();
+            var corner = int.Parse((string) cornerBtn.Tag);
+
+            var currentCmd = Controller.IntentStore.HotCornerCommands[corner];
+            var cmdType = Controller.SupportedHotCornerCommands[(string) combo_hotcornerCmdTypes.SelectedItem];
+
+            AbstractCommand cmd;
+            if (currentCmd.GetType() != cmdType)
+            {
+                cmd = (AbstractCommand) Activator.CreateInstance(cmdType);
+            }else
+            {
+                cmd = currentCmd;
+            }
+            
+            Controller.IntentStore.HotCornerCommands[corner] = cmd;
+            LoadHotCornerCmdView(cmd);
+            cornerBtn.Text = cmd.Description();
+
+        }
+
+        #endregion
 
     }
 

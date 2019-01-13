@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,19 @@ namespace WGestures.App.Gui.Windows.CommandViews
             set
             {
                 _command = (WebSearchCommand) value;
+
+                var browsers = BrowserList;
+                var selectedBroser = 0;
+                for(int i = 0; i<browsers.Count; i++)
+                {
+                    var b = browsers[i];
+                    if(b.Path == _command.UseBrowser)
+                    {
+                        selectedBroser = i;
+                    }
+                }
+                combo_browsers.DataSource = browsers;
+                combo_browsers.SelectedIndex = selectedBroser;
 
                 foreach (var s in combo_searchEngines.Items)
                 {
@@ -55,8 +70,8 @@ namespace WGestures.App.Gui.Windows.CommandViews
         private static ComboBoxItem[] defaultSearchEngines =
         {
             new ComboBoxItem("Google", "https://www.google.com/search?q={0}"),
-            new ComboBoxItem("百度","http://www.baidu.com/#wd={0}"),
-            new ComboBoxItem("必应","http://bing.com/search?q={0}") 
+            new ComboBoxItem("百度","https://www.baidu.com/s?wd={0}"),
+            new ComboBoxItem("必应","https://bing.com/search?q={0}") 
         };
 
         private class ComboBoxItem
@@ -98,6 +113,81 @@ namespace WGestures.App.Gui.Windows.CommandViews
         private void tb_url_TextChanged(object sender, EventArgs e)
         {
             _command.SearchEngineUrl = tb_url.Text;
+        }
+
+        private List<Browser> BrowserList
+        {
+            get
+             {
+                var lst = new List<Browser>();
+                lst.Add(new Browser { Name = "(系统默认)" });
+
+
+                RegistryKey browserKeys;
+                //on 64bit the browsers are in a different location
+                try
+                {
+                    browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Clients\StartMenuInternet");
+                    if (browserKeys == null)
+                     browserKeys = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet");
+                }catch(Exception e)
+                {
+                    return lst;
+                }
+
+                if (browserKeys == null) return lst;
+                
+                var browserNames = browserKeys.GetSubKeyNames();
+
+                try
+                {
+                    for (int i = 0; i < browserNames.Length; i++)
+                    {
+                        var browser = new Browser();
+                        using (var browserKey = browserKeys.OpenSubKey(browserNames[i]))
+                        using (var browserKeyPath = browserKey.OpenSubKey(@"shell\open\command"))
+                        {
+                            browser.Name = (string)browserKey.GetValue(null);
+                            browser.Path = (string)browserKeyPath.GetValue(null);
+                        }
+                            
+                        //RegistryKey browserIconPath = browserKey.OpenSubKey(@"DefaultIcon");
+                        //browser.IconPath = (string)browserIconPath.GetValue(null);
+                        lst.Add(browser);
+                    }
+                }catch(Exception e)
+                {
+                    return lst;
+                }
+
+
+#if DEBUG
+                Console.WriteLine("Browsers:");
+                foreach(var b in lst)
+                {
+                    Console.WriteLine("{0}: {1}", b.Name, b.Path);
+                }
+#endif 
+
+                return lst;
+            }
+        }
+        public struct Browser
+        {
+            public string Name { get; set; }
+            public string Path { get; set; } //null == default
+            //public string IconPath { get; set; }
+
+            public override string ToString()
+            {
+                return Name;
+            }
+        }
+
+        private void combo_browsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var browser = (Browser) combo_browsers.SelectedValue;
+            _command.UseBrowser  = browser.Path;
         }
     }
 }

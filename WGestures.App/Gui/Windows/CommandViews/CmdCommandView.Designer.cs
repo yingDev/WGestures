@@ -36,7 +36,7 @@
             // check_setWorkingDir
             // 
             this.check_setWorkingDir.AutoSize = true;
-            this.check_setWorkingDir.Location = new System.Drawing.Point(131, 62);
+            this.check_setWorkingDir.Location = new System.Drawing.Point(3, 84);
             this.check_setWorkingDir.Name = "check_setWorkingDir";
             this.check_setWorkingDir.Size = new System.Drawing.Size(156, 16);
             this.check_setWorkingDir.TabIndex = 2;
@@ -50,7 +50,7 @@
             this.txt_CmdLine.Multiline = true;
             this.txt_CmdLine.Name = "txt_CmdLine";
             this.txt_CmdLine.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_CmdLine.Size = new System.Drawing.Size(294, 51);
+            this.txt_CmdLine.Size = new System.Drawing.Size(254, 51);
             this.txt_CmdLine.TabIndex = 1;
             this.txt_CmdLine.TextChanged += new System.EventHandler(this.txt_CmdLine_TextChanged);
             // 
@@ -74,7 +74,7 @@
             this.Controls.Add(this.check_ShowWindow);
             this.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.Name = "CmdCommandView";
-            this.Size = new System.Drawing.Size(300, 81);
+            this.Size = new System.Drawing.Size(260, 103);
             this.ResumeLayout(false);
             this.PerformLayout();
 

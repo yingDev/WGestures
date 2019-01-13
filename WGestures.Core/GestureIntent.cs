@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Threading;
+using System.Diagnostics;
+using WGestures.Common.OsSpecific.Windows;
 using WGestures.Core.Commands;
 
 namespace WGestures.Core
@@ -7,6 +8,7 @@ namespace WGestures.Core
     /// <summary>
     /// Gesture + Command + Context
     /// </summary>
+    [Serializable]
     public class GestureIntent
     {
         public class ExecutionResult
@@ -31,6 +33,7 @@ namespace WGestures.Core
             return Gesture.Modifier != GestureModifier.None && ExecuteOnModifier;
         }
 
+
         public string Name { get; set; }
 
         public ExecutionResult Execute(GestureContext context, GestureParser gestureParser)
@@ -42,7 +45,12 @@ namespace WGestures.Core
             var parserAware = this.Command as IGestureParserAware;
             if (parserAware != null) parserAware.Parser = gestureParser;
 
-
+            var shouldInit = this.Command as INeedInit;
+            if (shouldInit != null && !shouldInit.IsInitialized)
+            {
+                shouldInit.Init();
+            }
+            
             //在独立线程中运行
             //new Thread似乎反应快一点，ThreadPool似乎有延迟
             //ThreadPool.QueueUserWorkItem((s) =>
@@ -50,7 +58,12 @@ namespace WGestures.Core
             {
                 try
                 {
+                    context.ActivateTargetWindow();
                     Command.Execute();
+                    using (var proc = Process.GetCurrentProcess())
+                    {
+                        Native.SetProcessWorkingSetSize(proc.Handle, -1, -1);
+                    }
                 }
                 catch (Exception)
                 {

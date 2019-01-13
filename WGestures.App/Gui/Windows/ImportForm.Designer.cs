@@ -152,12 +152,13 @@
             // 
             // flowAlert
             // 
+            this.flowAlert.AutoSize = true;
             this.flowAlert.Controls.Add(this.pictureBox1);
             this.flowAlert.Controls.Add(this.lb_errMsg);
             this.flowAlert.Location = new System.Drawing.Point(11, 158);
             this.flowAlert.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.flowAlert.Name = "flowAlert";
-            this.flowAlert.Size = new System.Drawing.Size(274, 22);
+            this.flowAlert.Size = new System.Drawing.Size(57, 21);
             this.flowAlert.TabIndex = 8;
             this.flowAlert.Visible = false;
             // 
@@ -230,8 +231,8 @@
             // 
             // ImportForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;

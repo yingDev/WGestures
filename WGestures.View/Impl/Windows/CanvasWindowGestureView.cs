@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Timers;
-using System.Windows.Forms;
 using Microsoft.Win32;
 using WGestures.Common.OsSpecific.Windows;
 using WGestures.Core;
@@ -14,9 +13,7 @@ namespace WGestures.View.Impl.Windows
 {
     public class CanvasWindowGestureView : IDisposable
     {
-
         #region properties
-
         public Color PathMainColor
         {
             get { return _mainPen.Color; }
@@ -32,11 +29,16 @@ namespace WGestures.View.Impl.Windows
             get { return _alternativePen.Color; }
             set { _alternativePen.Color = value; }
         }
-
         public Color PathMiddleBtnMainColor
         {
             get { return _middleBtnPen.Color; }
             set { _middleBtnPen.Color = value; }
+        }
+
+        public Color PathXBtnMainColor
+        {
+            get { return _xBtnPen.Color; }
+            set { _xBtnPen.Color = value; }
         }
 
         public float PathWidth
@@ -55,10 +57,13 @@ namespace WGestures.View.Impl.Windows
             get { return _borderPen.Width; }
             set { _borderPen.Width = value; }
         }
+
+        //Pen.Width 内部使用了new float[] !, 反复调用Pen.Width导致alloc大量heap内存
+        private float _shadowPenWidth;
         public float PathShadowWidth
         {
-            get { return _shadowPen.Width; }
-            set { _shadowPen.Width = value; }
+            get { return _shadowPenWidth; }
+            set { /*_shadowPenWidth = _shadowPen.Width = value;*/ } //TODO: ignore for temporarily
         }
         public int PathMaxPointCount
         {
@@ -75,11 +80,18 @@ namespace WGestures.View.Impl.Windows
         #region fields
         Pen _tempMainPen;
         Pen _middleBtnPen;
+        Pen _xBtnPen;
         Pen _mainPen;
         Pen _alternativePen;
         Pen _borderPen;
-        Pen _shadowPen;
-
+        //Pen _shadowPen;
+        Pen _dirtyMarkerPen;
+        Point _prevPoint;
+        private GraphicsPath _gPath = new GraphicsPath();
+        private GraphicsPath _gPathDirty = new GraphicsPath();
+        Pen _pathPen;
+        bool _pathVisible;
+        
         readonly GestureParser _gestureParser;
 
         Rectangle _screenBounds = Native.GetScreenBounds();
@@ -87,26 +99,21 @@ namespace WGestures.View.Impl.Windows
         int _pathMaxPointCount;
 
         CanvasWindow _canvasWindow;
-        DiBitmap _bitmap;
+        DiBitmap _canvasBuf;
 
-        Point _prevPoint;
-        Rectangle _pathDirtyRect;
-        Region _pathDirtyRegion = new Region();
-        GraphicsPath _gPath = new GraphicsPath();
-        Pen _pathPen;
-        bool _pathVisible;
-
-        RectangleF _labelDirtyRect;
-        RectangleF _labelLastDirtyRect;
+        RectangleF _labelRect;
+        RectangleF _lastLabelRect;
         bool _labelVisible;
         string _labelText;
         Color _labelColor;
+        Color _systemColor;
         Color _labelBgColor;
         bool _labelChanged;
         GraphicsPath _labelPath = new GraphicsPath();
         Font _labelFont = new Font("微软雅黑", 32);
 
         bool _isCurrentRecognized;
+        bool _recognizeStateChanged;
         short _pointCount;
 
         Timer _fadeOuTimer = new Timer(55);
@@ -131,19 +138,30 @@ namespace WGestures.View.Impl.Windows
                 };
                 waitCanvasWindow.Set();
                 _canvasWindow.ShowDialog();
-            }) { Name = "CanvasWindow" }.Start();
+            }, maxStackSize: 1) { Name = "CanvasWindow" }.Start();
 
             waitCanvasWindow.WaitOne();
+
+            _canvasBuf = new DiBitmap(_screenBounds.Size);
 
             InitDefaultProperties();
             _fadeOuTimer.Elapsed += OnFadeOutTimerElapsed;
             SystemEvents.DisplaySettingsChanged += SystemDisplaySettingsChanged;
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            _systemColor = Native.GetWindowColorization();
         }
 
         private void SystemDisplaySettingsChanged(object sender, EventArgs e)
         {
             _screenBounds = Native.GetScreenBounds();
+            _canvasBuf = new DiBitmap(_screenBounds.Size);
             _dpiFactor = Native.GetScreenDpi() / 96.0f;
+
+            
         }
 
         private void InitDefaultProperties()
@@ -153,39 +171,56 @@ namespace WGestures.View.Impl.Windows
             ShowPath = true;
             ViewFadeOut = true;
 
-            _pathMaxPointCount = (int)(256 * _dpiFactor);
+            _pathMaxPointCount = (int)(512 * _dpiFactor);
 
-            const float widthBase = 2f;
+            var widthBase = 2 * _dpiFactor;
 
             #region init pens
-            _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _borderPen = new Pen(Color.FromArgb(220, 255, 255, 255), (widthBase + 2.8f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _shadowPen = new Pen(Color.FromArgb(30, 0, 0, 0), (widthBase + 5f) * _dpiFactor) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _xBtnPen = new Pen(Color.FromArgb(255, 20, 100, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), widthBase + 4) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+
+
+            //_shadowPen = new Pen(Color.FromArgb(25, Color.Black), widthBase * 3) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+
+
+            //_shadowPenWidth = _shadowPen.Width;
+            //_dirtyMarkerPen = (Pen)_shadowPen.Clone();
+
+            _dirtyMarkerPen = (Pen) _borderPen.Clone();
+            _dirtyMarkerPen.Width *= 1.5f;
+
+            _systemColor = Native.GetWindowColorization();
 
             #endregion
         }
 
         #region event handlers
-        private void WhenPathStart(PathEventArgs args)
+        private void HandlePathStart(PathEventArgs args)
         {
             if (!ShowPath && !ShowCommandName) return;
-
+            
             Debug.WriteLine("WhenPathStart");
 
-            var activeScreen = Screen.FromPoint(args.Location);
-            _screenBounds = activeScreen.Bounds;
+            _screenBounds = Screen.ScreenBoundsFromPoint(args.Location).Value;//Screen.FromPoint(args.Location);
            
             _prevPoint = args.Location;//ToUpLeftCoord(args.Location);
             _pointCount = 1;
 
-            _tempMainPen = args.Button == GestureButtons.RightButton ? _mainPen : _middleBtnPen;
+            //_tempMainPen = args.Button == GestureTriggerButton.Right ? _mainPen : _middleBtnPen;
+            if ((args.Button & GestureTriggerButton.Right) != 0) _tempMainPen = _mainPen;
+            else if ((args.Button & GestureTriggerButton.X) != 0) _tempMainPen = _xBtnPen;
+            else _tempMainPen = _middleBtnPen;
+            
+            _isCurrentRecognized = false;
+            _recognizeStateChanged = false;
 
             BeginView();
         }
 
-        private void WhenPathGrow(PathEventArgs args)
+        private void HandlePathGrow(PathEventArgs args)
         {
             if (!ShowPath && !ShowCommandName) return;
             if (_pointCount > _pathMaxPointCount) return;
@@ -194,32 +229,43 @@ namespace WGestures.View.Impl.Windows
 
             if (_pointCount == _pathMaxPointCount)
             {
-                ShowLabel(Color.White, "您是有多无聊啊 :)", Color.FromArgb(128, 255, 0, 0));
+                ShowLabel(Color.White, "您是有多无聊啊 :)", Color.FromArgb(150, 255, 0, 0));
 
                 DrawAndUpdate();
                 _labelChanged = false;
+                _recognizeStateChanged = false;
+
                 return;
             }
 
+            var curPos = args.Location;//ToUpLeftCoord(args.Location);
+
             if (ShowPath)
             {
-                var curPos = args.Location;//ToUpLeftCoord(args.Location);
-                
                 //需要将点换算为基于窗口的坐标
-                _gPath.AddLine(new Point(_prevPoint.X - _screenBounds.X, _prevPoint.Y - _screenBounds.Y), new Point(curPos.X - _screenBounds.X, curPos.Y - _screenBounds.Y));
+                var pA = new Point(_prevPoint.X - _screenBounds.X, _prevPoint.Y - _screenBounds.Y);
+                var pB = new Point(curPos.X - _screenBounds.X, curPos.Y - _screenBounds.Y);
 
-                //_gPath.PathPoints.
+                if (pA != pB)
+                {
+                    _gPath.AddLine(pA, pB);
 
-                _pathDirtyRect = GetDirtyRect(_prevPoint, curPos);
-                _pathDirtyRegion.Union(_pathDirtyRect);
+                    _gPathDirty.Reset();
+                    _gPathDirty.AddLine(pA, pB);
+                    _gPathDirty.Widen(_dirtyMarkerPen);
+                }
+
+                curPos = new Point(pB.X + _screenBounds.X, pB.Y + _screenBounds.Y);
             }
 
             DrawAndUpdate();
 
-            _prevPoint = args.Location;//ToUpLeftCoord(args.Location);
+            _recognizeStateChanged = false;
+
+            _prevPoint = curPos;//args.Location;//ToUpLeftCoord(args.Location);
         }
 
-        private void WhenIntentRecognized(GestureIntent intent)
+        private void HandleIntentRecognized(GestureIntent intent)
         {
             if (!ShowPath && !ShowCommandName) return;
 
@@ -228,23 +274,27 @@ namespace WGestures.View.Impl.Windows
             if (ShowCommandName)
             {
                 var modifierText = intent.Gesture.Modifier.ToMnemonic();
-                var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(70, 0, 0, 0));
+                var newLabelText = intent.Name + (modifierText == String.Empty ? String.Empty : (" " + modifierText));
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(120, 0, 0, 0));
             }
-
+            
             if (!_isCurrentRecognized && ShowPath)
             {
                 _isCurrentRecognized = true;
+                _recognizeStateChanged = true;
                 _pathPen = _tempMainPen;
-                ResetPathDirtyRect();
+                //ResetPathDirtyRect();
             }
 
-            DrawAndUpdate(true);
+            DrawAndUpdate();
 
             if (ShowCommandName) _labelChanged = false;
+            _recognizeStateChanged = false;
+
         }
 
-        private void WhenIntentInvalid()
+        //todo: 合并为IntentRecogChanged?
+        private void HandleIntentInvalid(Gesture gesture)
         {
             if (!ShowPath && !ShowCommandName) return;
 
@@ -259,43 +309,40 @@ namespace WGestures.View.Impl.Windows
             {
                 _pathPen = _alternativePen;
                 _isCurrentRecognized = false;
-                ResetPathDirtyRect();
+                _recognizeStateChanged = true;
+
+                //ResetPathDirtyRect();
             }
 
             //draw
-            DrawAndUpdate(true);
+            DrawAndUpdate();
 
             //clear
             if (ShowCommandName)
             {
-                _labelDirtyRect = default(Rectangle);
+                _labelRect = default(Rectangle);
                 _labelChanged = false;
             }
         }
 
-        private void WhenPathTimeout(PathEventArgs args)
+        private void HandlePathTimeout(PathEventArgs args)
         {
             if (!ShowPath && !ShowCommandName) return;
 
             Debug.WriteLine("PathTimeout");
 
-            if (ShowPath) ResetPathDirtyRect();
+            //if (ShowPath) ResetPathDirtyRect();
             EndView();
         }
 
-        private void WhenIntentReadyToExecute(GestureIntent intent)
+        private void HandleIntentReadyToExecute(GestureIntent intent)
         {
             if (!ShowPath && !ShowCommandName) return;
 
             Debug.WriteLine("WhenIntentReadyToExecute");
-
-            //update
-            if (ShowPath) ResetPathDirtyRect();
-            if (ShowCommandName)// && !_gestureParser.PathTracker.IsSuspended
+            if (ShowCommandName)
             {
-                var modifierText = intent.Gesture.Modifier.ToMnemonic();
-                var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name;
-                ShowLabel(Color.White, newLabelText, Color.FromArgb(120, 0, 0, 0));
+                ShowLabel(Color.White, _labelText, _systemColor);////Color.FromArgb(120, 0, 80, 0));
             }
 
             //draw
@@ -309,182 +356,223 @@ namespace WGestures.View.Impl.Windows
             else EndView();
         }
 
-        private void WhenIntentReadyToExecuteOnModifier(GestureModifier modifier)
+        private void HandleIntentReadyToExecuteOnModifier(GestureModifier modifier)
         {
-//            if (ViewFadeOut)
-//            {
-//                _canvasOpacity = 255;
-//                FadeOutTo(120);
-//
-//                DrawAndUpdate();
-//            }
-
         }
 
-        private void WhenIntentOrPathCanceled()
+        private void HandleIntentOrPathCanceled()
         {
             if (!ShowPath && !ShowCommandName) return;
 
             Debug.WriteLine("IntentOrPathCancled");
-
             EndView();
         }
 
-        private void WhenGestureCaptured(Gesture g)
+        private void HandleGestureRecorded(Gesture g)
         {
             if (!ShowPath && !ShowCommandName) return;
 
             Debug.WriteLine("WhenGestureCaptured");
-
             EndView();
         }
 
-        #endregion
-
-        private void DrawAndUpdate(bool altPath = false)
+        private void HandleCommandReportStatus(string status, GestureIntent intent)
         {
-            #region
-            var labelDirtyRect = _labelDirtyRect.Width > _labelLastDirtyRect.Width ? _labelDirtyRect : _labelLastDirtyRect;
-            labelDirtyRect.Height = _labelDirtyRect.Height > _labelLastDirtyRect.Height ? _labelDirtyRect.Height : _labelLastDirtyRect.Height;
-            #endregion
-
-            _bitmap.DrawWith(g =>
-            {
-                //如果是识别与未识别之间转换，则使用region而非dirtyRect来重绘
-                if (altPath) g.Clip = _pathDirtyRegion;
-                else g.SetClip(_pathDirtyRect);
-
-
-                if (_labelChanged) g.SetClip(labelDirtyRect, CombineMode.Union);
-
-                g.Clear(Color.Transparent);
-
-                #region 1) 绘制路径
-                if (ShowPath && _pathVisible)
-                {
-                    g.DrawPath(_shadowPen, _gPath);
-                    g.DrawPath(_borderPen, _gPath);
-                    g.DrawPath(_pathPen, _gPath);
-                }
-                #endregion
-
-                #region 2) 绘制标签
-                if (ShowCommandName && _labelVisible)
-                {
-                    var labelDirty = Rectangle.Ceiling(_labelDirtyRect);
-                    var intercected = _pathDirtyRect.IntersectsWith(labelDirty);
-
-                    //如果Label的内容改变，则整个重绘
-                    //不然，就判断哪些区域收到了path的影响，然只更新受影响的一小部分。
-                    if (_labelChanged) g.SetClip(labelDirty);
-                    else if (!intercected) return;
-                    else if (!_pathDirtyRect.Contains(labelDirty))
-                    {
-                        labelDirty.Intersect(_pathDirtyRect);
-                        g.SetClip(labelDirty);
-                    }
-
-                    using (var pen = new Pen(Color.White, 1.5f * _dpiFactor))
-                    using (var shadow = new Pen(Color.FromArgb(40, 0, 0, 0), 3f * _dpiFactor))
-                    {
-                        DrawRoundedRectangle(g, RectangleF.Inflate(_labelDirtyRect,
-                            -1f * _dpiFactor, -1f * _dpiFactor),
-                            (int)(12 * _dpiFactor), shadow, Color.Transparent);
-                        DrawRoundedRectangle(g, RectangleF.Inflate(_labelDirtyRect,
-                            -2.6f * _dpiFactor, -2.6f * _dpiFactor),
-                            (int)(12 * _dpiFactor), pen, _labelBgColor);
-
-                        if (_labelColor != Color.White)
-                            using (var stroke = new Pen(Color.White, 1.5f * _dpiFactor))
-                                g.DrawPath(stroke, _labelPath);
-
-                        using (Brush brush = new SolidBrush(_labelColor)) g.FillPath(brush, _labelPath);
-                    }
-                }
-                #endregion
-
-            });
-
-            #region 3) 更新到窗口上
-            if (ShowPath) _canvasWindow.SetDiBitmap(_bitmap, _pathDirtyRect);
-
             if (ShowCommandName)
             {
-                var labelDirty = Rectangle.Ceiling(labelDirtyRect);
-                var intercected = _pathDirtyRect.IntersectsWith(labelDirty);
+                var modifierText = intent.Gesture.Modifier.ToMnemonic();
+                var newLabelText = (modifierText == String.Empty ? String.Empty : (modifierText + " ")) + intent.Name + status;
+                if (newLabelText.Equals(_labelText)) return;
 
-                if (_labelChanged)
-                {
-                    _canvasWindow.SetDiBitmap(_bitmap, labelDirty);
-                }
-                else if (intercected && !_pathDirtyRect.Contains(labelDirty))
-                {
-                    labelDirty.Intersect(_pathDirtyRect);
-                    _canvasWindow.SetDiBitmap(_bitmap, labelDirty);
-                }
+                _labelText = newLabelText;
 
+                ShowLabel(Color.White, newLabelText, Color.FromArgb(120, 0, 0, 0));
+                
+                DrawAndUpdate();
+
+                if (ShowCommandName) _labelChanged = false;
             }
-            #endregion
         }
+        #endregion
 
         private void BeginView()
         {
             Debug.WriteLine("BeginView");
             StopFadeout();
 
-            _bitmap = new DiBitmap(_screenBounds.Size);
-            _isCurrentRecognized = false;
+            if (_canvasBuf.Size != _screenBounds.Size)
+            {
+                _canvasBuf = new DiBitmap(_screenBounds.Size);
+            }
             _canvasOpacity = 255;
             _canvasWindow.Bounds = _screenBounds;
 
             _canvasWindow.TopMost = true;
             _canvasWindow.Visible = true;
 
+            if (ShowPath)
+            {            
+                _pathVisible = true;
+                _pathPen = _alternativePen;
+            }
 
-            _labelVisible = false;
-            _pathVisible = true;
-            _pathPen = _alternativePen;
+            if (ShowCommandName)
+            {
+                _labelVisible = false;
+            }
         }
 
+        private void DrawAndUpdate()
+        {
+            Draw();
+
+            #region 更新到窗口上
+            var pathDirty = Rectangle.Ceiling(_gPathDirty.GetBounds());
+            pathDirty.Offset(_screenBounds.X, _screenBounds.Y);
+            pathDirty.Intersect(_screenBounds);
+            pathDirty.Offset(-_screenBounds.X, -_screenBounds.Y); //挪回来变为基于窗口的坐标
+
+            if (ShowPath) _canvasWindow.SetDiBitmap(_canvasBuf, /*_pathDirtyRect*/pathDirty);
+
+            if (_labelChanged) //ShowCommandName)
+            {
+                var labelDirtyRect = _labelRect.Width > _lastLabelRect.Width ? _labelRect : _lastLabelRect;
+                labelDirtyRect.Height = _labelRect.Height > _lastLabelRect.Height ? _labelRect.Height : _lastLabelRect.Height;
+                _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(labelDirtyRect));
+            }
+            else if(_labelVisible)
+            {
+                var labelDirty = Rectangle.Ceiling(_labelRect);
+                var intercected = pathDirty.IntersectsWith(labelDirty);
+
+                if (intercected && !pathDirty.Contains(labelDirty))
+                {
+                    labelDirty.Intersect(pathDirty);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, labelDirty);
+                }
+            }
+            #endregion
+        }
+
+        private void Draw()
+        {
+            var g = _canvasBuf.BeginDraw();
+
+            //如果是识别与未识别之间转换，则使用region而非dirtyRect来重绘
+            if (_recognizeStateChanged)
+            {
+                if (_gPath.PointCount > 0)
+                {
+                    _gPathDirty.Reset();
+                    _gPathDirty.AddPath(_gPath, false);
+                    _gPathDirty.Widen(_dirtyMarkerPen);
+                }
+
+            }
+            g.SetClip(_gPathDirty);
+
+            var labelAffected = false;
+            //如果Label的内容改变，则整个重绘
+            //不然，就判断哪些区域收到了path的影响，然只更新受影响的一小部分。
+            if (_labelChanged)
+            {
+                var labelDirtyRect = _labelRect.Width > _lastLabelRect.Width ? _labelRect : _lastLabelRect;
+                labelDirtyRect.Height = _labelRect.Height > _lastLabelRect.Height ? _labelRect.Height : _lastLabelRect.Height;
+                
+                g.SetClip(labelDirtyRect, CombineMode.Union);
+                labelAffected = _labelVisible;
+            }
+            else if(_labelVisible)
+            {
+                var labelDirty = Rectangle.Ceiling(_labelRect);
+                var pathDirty = Rectangle.Ceiling(_gPathDirty.GetBounds());
+                labelAffected = pathDirty.IntersectsWith(labelDirty);
+
+                if (labelAffected && !pathDirty.Contains(labelDirty))
+                {
+                    labelDirty.Intersect(pathDirty);
+                    g.SetClip(labelDirty, CombineMode.Union);
+
+                    Debug.WriteLine("LabelDirty="+labelDirty);
+                }
+            }
+                     
+            g.Clear(Color.Transparent);
+
+            #region 1) 绘制路径
+            if (ShowPath && _pathVisible)
+            {
+                //g.DrawPath(_shadowPen, _gPath);
+                g.DrawPath(_borderPen, _gPath);
+                g.DrawPath(_pathPen, _gPath);
+            }
+            #endregion
+
+            #region 2) 绘制标签
+            if (labelAffected) //ShowCommandName && _labelVisible)
+            {
+                Debug.WriteLine("Label Redraw");
+                using (var pen = new Pen(Color.White, 1.5f * _dpiFactor))
+                //using (var shadow = new Pen(Color.FromArgb(40, 0, 0, 0), 3f * _dpiFactor))
+                {
+                    
+                    /*DrawRoundedRectangle(g, RectangleF.Inflate(_labelRect,
+                        -1f * _dpiFactor, -1f * _dpiFactor),
+                        (int)(12 * _dpiFactor), shadow, Color.Transparent);*/
+                    DrawRoundedRectangle(g, RectangleF.Inflate(_labelRect,
+                        -2.6f * _dpiFactor, -2.6f * _dpiFactor),
+                        0, pen, _labelBgColor);
+
+                    //if (_labelColor != Color.White)
+                        //using (var stroke = new Pen(Color.Black, 1.5f * _dpiFactor))
+                        //    g.DrawPath(stroke, _labelPath);
+
+                    using (Brush brush = new SolidBrush(_labelColor)) g.FillPath(brush, _labelPath);
+                }
+            }
+            #endregion
+
+            _canvasBuf.EndDraw();
+        }
+        
         private void EndView()
         {
             Debug.WriteLine("EndView");
-            using (_bitmap)
+            if (ShowPath)
             {
-                if (ShowPath)
-                {
-                    ResetPathDirtyRect();
-                    _bitmap.DrawWith(g =>
-                    {
-                        //这里暂时仍用dirtyRect，因为Region存在转角残留的问题。
-                        g.SetClip(_pathDirtyRect);
-                        g.Clear(Color.Transparent);
-                    });
+                var g = _canvasBuf.BeginDraw();
 
-                    _canvasWindow.SetDiBitmap(_bitmap, _pathDirtyRect);
-                }
+                _gPath.Widen(_dirtyMarkerPen);
+                g.SetClip(_gPath);
+                g.Clear(Color.Transparent);
+                _canvasBuf.EndDraw();
 
-                if (ShowCommandName)
-                {
-                    _bitmap.DrawWith(g =>
-                    {
-                        g.SetClip(_labelDirtyRect);
-                        g.Clear(Color.Transparent);
-                    });
+                var pathDirty = Rectangle.Ceiling(_gPath.GetBounds());
+                pathDirty.Offset(_screenBounds.X, _screenBounds.Y);
+                pathDirty.Intersect(_screenBounds);
+                pathDirty.Offset(-_screenBounds.X, -_screenBounds.Y); //挪回来变为基于窗口的坐标
 
-                    _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(_labelDirtyRect));
-                }
+                _canvasWindow.SetDiBitmap(_canvasBuf, pathDirty);
+                    
+                _gPath.Reset();
+                _gPathDirty.Reset();
             }
-            _bitmap = null;
+
+            if (_labelVisible)
+            {
+                var g = _canvasBuf.BeginDraw();
+                g.SetClip(_labelRect);
+                g.Clear(Color.Transparent);
+                _canvasBuf.EndDraw();
+                _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(_labelRect));
+                _labelPath.Reset();
+                    
+                HideLabel();
+                _labelChanged = false;
+            }                   
 
             _canvasWindow.Visible = false;
-            _gPath.Reset();
-            _pathDirtyRegion.MakeEmpty();
-            _labelPath.Reset();
-            _labelText = null;
-
-            _pathDirtyRect = default(Rectangle);
-            _labelDirtyRect = default(Rectangle);
+            _labelRect = default(Rectangle);//todo: dirtyRect也是多余
         }
 
         #region timer handlers
@@ -528,21 +616,13 @@ namespace WGestures.View.Impl.Windows
                 }
                 else
                 {
-                    _canvasWindow.SetDiBitmap(_bitmap, Rectangle.Ceiling(_labelDirtyRect), _canvasOpacity);
-                    _canvasWindow.SetDiBitmap(_bitmap, _pathDirtyRect, _canvasOpacity);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(_labelRect), _canvasOpacity);
+                    _canvasWindow.SetDiBitmap(_canvasBuf, Rectangle.Ceiling(_gPathDirty.GetBounds()), _canvasOpacity);
                 }
             }
         }
         #endregion
-
-        private void ResetPathDirtyRect()
-        {
-            var inflate = _shadowPen.Width * _dpiFactor;
-            _pathDirtyRect = Rectangle.Ceiling(RectangleF.Inflate(_gPath.GetBounds(), inflate, inflate));
-            //inflate操作可能使其坐标为负，从而导致updateLayeredWindow失败，结果路径无法擦出。
-            _pathDirtyRect.Intersect(new Rectangle(0,0,_screenBounds.Width, _screenBounds.Height));
-        }
-
+        
         private void HideLabel()
         {
             _labelText = null;
@@ -558,66 +638,65 @@ namespace WGestures.View.Impl.Windows
             _labelBgColor = bgColor;
             _labelChanged = true;
 
-            _labelLastDirtyRect = _labelDirtyRect;
+            _lastLabelRect = _labelRect;
 
             _labelPath.Reset();
             var msgPos = new PointF(_screenBounds.Width / 2, (_screenBounds.Height / 2) + _screenBounds.Width / 8);
-
+            
             _labelPath.AddString(_labelText, _labelFont.FontFamily, 0, _labelFont.Size * _dpiFactor, msgPos, StringFormat.GenericDefault);
-            _labelDirtyRect = _labelPath.GetBounds();
-            msgPos.X -= _labelDirtyRect.Width / 2;
+            _labelRect = _labelPath.GetBounds();
+            msgPos.X -= _labelRect.Width / 2;
 
             _labelPath.Reset();
             _labelPath.AddString(_labelText, _labelFont.FontFamily, 0, _labelFont.Size * _dpiFactor, msgPos, StringFormat.GenericDefault);
 
-            _labelDirtyRect = RectangleF.Inflate(_labelPath.GetBounds(), 25 * _dpiFactor, 15 * _dpiFactor);
-
+            _labelRect = RectangleF.Inflate(_labelPath.GetBounds(), 25 * _dpiFactor, 15 * _dpiFactor);
         }
 
         private void RegisterEventHandlers()
         {
-            _gestureParser.IntentRecognized += WhenIntentRecognized;
-            _gestureParser.IntentInvalid += WhenIntentInvalid;
-            _gestureParser.IntentOrPathCanceled += WhenIntentOrPathCanceled;
-            _gestureParser.IntentReadyToExecute += WhenIntentReadyToExecute;
-            _gestureParser.IntentReadyToExecuteOnModifier += WhenIntentReadyToExecuteOnModifier;
+            _gestureParser.IntentRecognized += HandleIntentRecognized;
+            _gestureParser.IntentInvalid += HandleIntentInvalid;
+            _gestureParser.IntentOrPathCanceled += HandleIntentOrPathCanceled;
+            _gestureParser.IntentReadyToExecute += HandleIntentReadyToExecute;
+            _gestureParser.IntentReadyToExecuteOnModifier += HandleIntentReadyToExecuteOnModifier;
 
-            _gestureParser.PathTracker.PathStart += WhenPathStart;
-            _gestureParser.PathTracker.PathGrow += WhenPathGrow;
-            _gestureParser.PathTracker.PathTimeout += WhenPathTimeout;
+            _gestureParser.PathTracker.PathStart += HandlePathStart;
+            _gestureParser.PathTracker.PathGrow += HandlePathGrow;
+            _gestureParser.PathTracker.PathTimeout += HandlePathTimeout;
 
-            _gestureParser.GestureCaptured += WhenGestureCaptured;
+            _gestureParser.GestureCaptured += HandleGestureRecorded;
+            _gestureParser.CommandReportStatus += HandleCommandReportStatus;
         }
 
 
         #region Util
-        //获得以基于窗口坐标的dirtyRect
-        private Rectangle GetDirtyRect(Point a, Point b)
+       /* private static void AddRoundedRectangle(GraphicsPath path, RectangleF bounds, int cornerRadius)
         {
-            var origin = a;
-            if (origin.X > b.X) origin.X = b.X;
-            if (origin.Y > b.Y) origin.Y = b.Y;
-
-            var thickness = _shadowPen.Width;
-            var halfThickness = thickness/2;
-
-            var ret = new Rectangle(
-                (int)(origin.X - halfThickness) - _screenBounds.X,
-                (int)(origin.Y - halfThickness) - _screenBounds.Y,
-                (int)(Math.Abs(b.X - a.X) + thickness),
-                (int)(Math.Abs(b.Y - a.Y) + thickness));
-
-            ret.Intersect(new Rectangle(0, 0, _screenBounds.Width, _screenBounds.Height));
-
-            return ret;
-        }
+            path.AddArc(bounds.X, bounds.Y, cornerRadius, cornerRadius, 180, 90);
+            path.AddArc(bounds.X + bounds.Width - cornerRadius, bounds.Y, cornerRadius, cornerRadius, 270, 90);
+            path.AddArc(bounds.X + bounds.Width - cornerRadius, bounds.Y + bounds.Height - cornerRadius, cornerRadius, cornerRadius, 0, 90);
+            path.AddArc(bounds.X, bounds.Y + bounds.Height - cornerRadius, cornerRadius, cornerRadius, 90, 90);
+        }*/
 
         private void DrawRoundedRectangle(Graphics gfx, RectangleF Bounds, int CornerRadius, Pen DrawPen, Color FillColor)
         {
             int strokeOffset = Convert.ToInt32(Math.Ceiling(DrawPen.Width));
-            Bounds = RectangleF.Inflate(Bounds, -strokeOffset, -strokeOffset);
+            
+            var rect = Rectangle.Truncate(Bounds);
 
-            using (var gfxPath = new GraphicsPath())
+            rect.Inflate(-strokeOffset, -strokeOffset);
+
+            using (var brush = new SolidBrush(FillColor))
+            {
+                //gfx.DrawRectangle(_shadowPen, Rectangle.Truncate(Bounds));
+
+                gfx.FillRectangle(brush, rect);
+                gfx.DrawRectangle(DrawPen, rect);
+            }
+                
+
+            /*using (var gfxPath = new GraphicsPath())
             {
                 gfxPath.AddArc(Bounds.X, Bounds.Y, CornerRadius, CornerRadius, 180, 90);
                 gfxPath.AddArc(Bounds.X + Bounds.Width - CornerRadius, Bounds.Y, CornerRadius, CornerRadius, 270, 90);
@@ -627,7 +706,7 @@ namespace WGestures.View.Impl.Windows
 
                 using (var sb = new SolidBrush(FillColor)) gfx.FillPath(sb, gfxPath);
                 gfx.DrawPath(DrawPen, gfxPath);
-            }
+            }*/
         }
         #endregion
 
@@ -637,17 +716,19 @@ namespace WGestures.View.Impl.Windows
             if (IsDisposed) return;
 
             #region unregistor events
-            _gestureParser.IntentRecognized -= WhenIntentRecognized;
-            _gestureParser.IntentInvalid -= WhenIntentInvalid;
-            _gestureParser.IntentOrPathCanceled -= WhenIntentOrPathCanceled;
+            _gestureParser.IntentRecognized -= HandleIntentRecognized;
+            _gestureParser.IntentInvalid -= HandleIntentInvalid;
+            _gestureParser.IntentOrPathCanceled -= HandleIntentOrPathCanceled;
 
-            _gestureParser.PathTracker.PathStart -= WhenPathStart;
-            _gestureParser.PathTracker.PathGrow -= WhenPathGrow;
-            _gestureParser.PathTracker.PathTimeout -= WhenPathTimeout;
-            _gestureParser.IntentReadyToExecute -= WhenIntentReadyToExecute;
-            _gestureParser.IntentReadyToExecuteOnModifier -= WhenIntentReadyToExecuteOnModifier;
+            _gestureParser.PathTracker.PathStart -= HandlePathStart;
+            _gestureParser.PathTracker.PathGrow -= HandlePathGrow;
+            _gestureParser.PathTracker.PathTimeout -= HandlePathTimeout;
+            _gestureParser.IntentReadyToExecute -= HandleIntentReadyToExecute;
+            _gestureParser.IntentReadyToExecuteOnModifier -= HandleIntentReadyToExecuteOnModifier;
 
-            _gestureParser.GestureCaptured -= WhenGestureCaptured;
+            _gestureParser.GestureCaptured -= HandleGestureRecorded;
+            _gestureParser.CommandReportStatus -= HandleCommandReportStatus;
+
             #endregion
 
             #region dispose pens
@@ -655,13 +736,19 @@ namespace WGestures.View.Impl.Windows
             _middleBtnPen.Dispose();
             _borderPen.Dispose();
             _alternativePen.Dispose();
-            _shadowPen.Dispose();
+
+            //_shadowPen.Dispose();
+            
+            //_shadowPen = null;
+           
+
+            _dirtyMarkerPen.Dispose();
             #endregion
 
-            if (_bitmap != null)
+            if (_canvasBuf != null)
             {
-                _bitmap.Dispose();
-                _bitmap = null;
+                _canvasBuf.Dispose();
+                _canvasBuf = null;
             }
             if (_canvasWindow != null)
             {
@@ -673,10 +760,10 @@ namespace WGestures.View.Impl.Windows
                 _gPath.Dispose();
                 _gPath = null;
             }
-            if (_pathDirtyRegion != null)
+            if (_gPathDirty != null)
             {
-                _pathDirtyRegion.Dispose();
-                _pathDirtyRegion = null;
+                _gPathDirty.Dispose();
+                _gPathDirty = null;
             }
 
             if (_labelPath != null)
@@ -704,5 +791,7 @@ namespace WGestures.View.Impl.Windows
             IsDisposed = true;
 
         }
+
+
     }
 }

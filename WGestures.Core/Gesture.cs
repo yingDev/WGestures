@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace WGestures.Core
 {
+
     /// <summary>
     /// 表示一个手势实例
     /// </summary>
+    [Serializable]
     public class Gesture
     {
-        private static readonly char[] dirs = { '上', '↗', '右', '↘', '下', '↙', '左', '↖' };
+        private static readonly char[] dirs = { '↑', '↗', '→', '↘', '↓', '↙', '←', '↖' };
 
-        public GestureButtons GestureButton { get; set; }
+        public GestureTriggerButton GestureButton { get; set; }
         
         public List<GestureDir> Dirs { get; set; }
         public GestureModifier Modifier { get; set; }
 
-        public Gesture(GestureButtons gestureBtn=GestureButtons.RightButton, int defaultCapacity=32)
+
+        public Gesture(GestureTriggerButton gestureBtn = GestureTriggerButton.Right, int defaultCapacity=16)
         {
             GestureButton = gestureBtn;
             Dirs = new List<GestureDir>(defaultCapacity);
@@ -65,9 +69,9 @@ namespace WGestures.Core
             hash += hash*31 + GestureButton.GetHashCode();
             foreach (var d in Dirs)
             {
-                hash = hash * 31 + d.GetHashCode();
+                hash = hash * 31 + (int)d;
             }
-            hash = hash * 31 + Modifier.GetHashCode();
+            hash = hash * 31 + (int)Modifier;
            
 
             return hash;
@@ -81,6 +85,8 @@ namespace WGestures.Core
                 o.GestureButton == GestureButton &&
                 Dirs.SequenceEqual(o.Dirs) && Modifier == o.Modifier;
         }
+
+ 
 
         public enum GestureDir
         {

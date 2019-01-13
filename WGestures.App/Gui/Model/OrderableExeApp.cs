@@ -7,6 +7,7 @@ using WGestures.Core;
 
 namespace WGestures.App.Gui.Model
 {
+    [Serializable]
     internal class OrderableExeApp : ExeApp,IComparable<OrderableExeApp>
     {
         //显示顺序

@@ -36,8 +36,9 @@
             this.tb_url = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.combo_browsers = new System.Windows.Forms.ComboBox();
             this.panel_customSearchEngine.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -54,9 +55,9 @@
             // 
             this.combo_searchEngines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.combo_searchEngines.FormattingEnabled = true;
-            this.combo_searchEngines.Location = new System.Drawing.Point(62, 2);
+            this.combo_searchEngines.Location = new System.Drawing.Point(76, 2);
             this.combo_searchEngines.Name = "combo_searchEngines";
-            this.combo_searchEngines.Size = new System.Drawing.Size(185, 20);
+            this.combo_searchEngines.Size = new System.Drawing.Size(178, 20);
             this.combo_searchEngines.TabIndex = 1;
             this.combo_searchEngines.SelectedIndexChanged += new System.EventHandler(this.combo_searchEngines_SelectedIndexChanged);
             // 
@@ -67,10 +68,10 @@
             this.panel_customSearchEngine.Controls.Add(this.label3);
             this.panel_customSearchEngine.Controls.Add(this.label2);
             this.panel_customSearchEngine.Controls.Add(this.tb_url);
-            this.panel_customSearchEngine.Location = new System.Drawing.Point(0, 0);
+            this.panel_customSearchEngine.Location = new System.Drawing.Point(5, 76);
             this.panel_customSearchEngine.Margin = new System.Windows.Forms.Padding(0);
             this.panel_customSearchEngine.Name = "panel_customSearchEngine";
-            this.panel_customSearchEngine.Size = new System.Drawing.Size(300, 44);
+            this.panel_customSearchEngine.Size = new System.Drawing.Size(254, 44);
             this.panel_customSearchEngine.TabIndex = 4;
             this.panel_customSearchEngine.Visible = false;
             // 
@@ -99,7 +100,7 @@
             // 
             this.tb_url.Location = new System.Drawing.Point(59, 3);
             this.tb_url.Name = "tb_url";
-            this.tb_url.Size = new System.Drawing.Size(238, 21);
+            this.tb_url.Size = new System.Drawing.Size(192, 21);
             this.tb_url.TabIndex = 2;
             this.tb_url.TextChanged += new System.EventHandler(this.tb_url_TextChanged);
             // 
@@ -108,8 +109,8 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("SimSun", 8F);
             this.label4.ForeColor = System.Drawing.Color.Gray;
-            this.label4.Location = new System.Drawing.Point(0, 44);
-            this.label4.Margin = new System.Windows.Forms.Padding(0);
+            this.label4.Location = new System.Drawing.Point(3, 56);
+            this.label4.Margin = new System.Windows.Forms.Padding(2);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(201, 11);
             this.label4.TabIndex = 5;
@@ -119,28 +120,49 @@
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this.panel_customSearchEngine);
-            this.flowLayoutPanel1.Controls.Add(this.label4);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 28);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(300, 55);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
             this.flowLayoutPanel1.TabIndex = 6;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 31);
+            this.label5.Margin = new System.Windows.Forms.Padding(3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "使用浏览器";
+            // 
+            // combo_browsers
+            // 
+            this.combo_browsers.DisplayMember = "Name";
+            this.combo_browsers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_browsers.FormattingEnabled = true;
+            this.combo_browsers.Location = new System.Drawing.Point(76, 28);
+            this.combo_browsers.Name = "combo_browsers";
+            this.combo_browsers.Size = new System.Drawing.Size(178, 20);
+            this.combo_browsers.TabIndex = 8;
+            this.combo_browsers.SelectedIndexChanged += new System.EventHandler(this.combo_browsers_SelectedIndexChanged);
             // 
             // WebSearchCommandView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.panel_customSearchEngine);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.combo_browsers);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.combo_searchEngines);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "WebSearchCommandView";
-            this.Size = new System.Drawing.Size(306, 81);
+            this.Size = new System.Drawing.Size(259, 120);
             this.panel_customSearchEngine.ResumeLayout(false);
             this.panel_customSearchEngine.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,5 +178,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox combo_browsers;
     }
 }

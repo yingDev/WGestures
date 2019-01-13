@@ -8,41 +8,39 @@ using WindowsInput;
 using WGestures.Common.Annotation;
 using WGestures.Common.OsSpecific.Windows;
 using Win32;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("输出文本")]
+    [Named("按键序列"), Serializable]
     public class SendTextCommand : AbstractCommand
     {
-        private InputSimulator _sim = new InputSimulator();
-
         public string Text { get; set; }
 
         public override void Execute()
         {
             if (!string.IsNullOrEmpty(Text))
             {
-                //var fgWin = User32.GetForegroundWindow();
-                //uint procId;
-                //var fgThread = Native.GetWindowThreadProcessId(fgWin, out procId);
+                var lines = new Regex(@"({(?i)sleep(?-i) *[0-9]*})").Split(Text);
+                var timeExtract = new Regex("{(?i)sleep(?-i) *([0-9]*)}");
 
-                var txt = Text.Replace("\r\n", "\r");
-
-
-                foreach (var c in txt)
+                foreach(var l in lines)
                 {
-                    Thread.Sleep(20);
-                    try
+                    var match = timeExtract.Match(l);
+                    if (match.Success)
                     {
-                        _sim.Keyboard.TextEntry(c);
+                        int delayMs;
+                        if(int.TryParse(match.Groups[1].Value, out delayMs))
+                        {
+                            Thread.Sleep(delayMs);
+                            continue;
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine("发送按键失败: " +ex);
-                    }
+
+                    SendKeys.SendWait(l);
                 }
-
-
+                
             }
 
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);

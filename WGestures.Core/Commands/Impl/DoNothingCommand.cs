@@ -6,7 +6,7 @@ using WGestures.Common.Annotation;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("(什么也不做)")]
+    [Named("(什么也不做)"), Serializable]
     public class DoNothingCommand : AbstractCommand
     {
         public override void Execute()

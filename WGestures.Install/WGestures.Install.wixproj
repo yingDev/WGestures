@@ -27,6 +27,7 @@
     <LinkerAdditionalOptions>
     </LinkerAdditionalOptions>
     <SuppressValidation>False</SuppressValidation>
+    <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
@@ -46,10 +47,15 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\banner left.psd" />
     <Content Include="banner-left.jpg" />
     <Content Include="banner.png" />
     <Content Include="lic.rtf" />
     <Content Include="logo.ico" />
+    <Content Include="msvcr\x64\msvcp120.dll" />
+    <Content Include="msvcr\x64\msvcr120.dll" />
+    <Content Include="msvcr\x86\msvcp120.dll" />
+    <Content Include="msvcr\x86\msvcr120.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WGestures.App\WGestures.App.csproj">
@@ -63,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.wxl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="msvcr" />
+    <Folder Include="msvcr\x64" />
+    <Folder Include="msvcr\x86" />
+    <Folder Include="Assets" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>

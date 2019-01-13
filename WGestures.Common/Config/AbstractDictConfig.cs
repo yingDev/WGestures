@@ -1,5 +1,5 @@
-﻿ using System;
- using System.Collections;
+﻿using System;
+using System.Collections;
  using System.Collections.Generic;
  using System.Linq;
 
@@ -15,9 +15,26 @@ namespace WGestures.Common.Config
             set { _dict = value; }
         }
 
+        public bool IsSet(string key)
+        {
+            return _dict.ContainsKey(key);
+        }
+
         public T Get<T>(string key)
         {
-           return (T)_dict[key];
+            object val;
+            if (_dict.TryGetValue(key, out val))
+            {                    
+                return (T) val;
+            }
+                
+            var t = Nullable.GetUnderlyingType(typeof(T));
+            if (t != null)
+            {
+                return default(T);
+            }
+
+            throw new KeyNotFoundException(key);
         }
 
         public T Get<T>(string key, T defaultValue)

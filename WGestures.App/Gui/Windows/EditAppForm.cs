@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Shell32;
 using WGestures.Common.OsSpecific.Windows;
-using WGestures.Common.OsSpecific.Windows.Access;
 using WGestures.Core;
 using WGestures.Core.Persistence;
 using Win32;
@@ -96,7 +95,7 @@ namespace WGestures.App.Gui.Windows
             var win = Native.GetHoveringWindow();
             var rootWin = Native.GetAncestor(win, Native.GetAncestorFlags.GetRoot);
 
-            var procId = Native.GetProcessIdByWindowHandle(rootWin);
+            var procId = Native.GetProcessIdByWindowHandle(win);
             Debug.WriteLine("Selected Proc: " + procId);
             
             //var parentPid = Native.GetParentProcess(procId);
@@ -335,7 +334,7 @@ namespace WGestures.App.Gui.Windows
 
             try
             {
-                wsh = new IWshRuntimeLibrary.WshShellClass();
+                wsh = new IWshRuntimeLibrary.WshShell();
                 sc = (IWshRuntimeLibrary.IWshShortcut)wsh.CreateShortcut(lnkPath);
                 return sc.TargetPath;
             }

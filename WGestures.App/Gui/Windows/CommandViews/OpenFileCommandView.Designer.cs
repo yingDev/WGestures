@@ -52,16 +52,16 @@
             this.tb_path.Name = "tb_path";
             this.tb_path.ReadOnly = true;
             this.tb_path.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tb_path.Size = new System.Drawing.Size(184, 21);
+            this.tb_path.Size = new System.Drawing.Size(150, 21);
             this.tb_path.TabIndex = 1;
             this.tb_path.WordWrap = false;
             // 
             // btn_selectFile
             // 
-            this.btn_selectFile.Location = new System.Drawing.Point(225, 0);
+            this.btn_selectFile.Location = new System.Drawing.Point(194, 0);
             this.btn_selectFile.Margin = new System.Windows.Forms.Padding(2);
             this.btn_selectFile.Name = "btn_selectFile";
-            this.btn_selectFile.Size = new System.Drawing.Size(75, 23);
+            this.btn_selectFile.Size = new System.Drawing.Size(64, 23);
             this.btn_selectFile.TabIndex = 2;
             this.btn_selectFile.Text = "选择...";
             this.btn_selectFile.UseVisualStyleBackColor = true;
@@ -71,13 +71,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = false;
             this.Controls.Add(this.tb_path);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_selectFile);
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "OpenFileCommandView";
-            this.Size = new System.Drawing.Size(300, 32);
+            this.Size = new System.Drawing.Size(260, 25);
             this.ResumeLayout(false);
             this.PerformLayout();
 

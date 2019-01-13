@@ -11,7 +11,7 @@ namespace WGestures.App
 #if DEBUG
         public const int AutoCheckForUpdateInterval = 1000 * 3;
 #else 
-        public const int AutoCheckForUpdateInterval = 1000*60*10;
+        public const int AutoCheckForUpdateInterval = 1000*30;
 #endif
     }
 }

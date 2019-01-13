@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using WGestures.App.Properties;
+using WGestures.Common.OsSpecific.Windows;
 
 namespace WGestures.App.Gui.Windows
 {
@@ -10,8 +12,20 @@ namespace WGestures.App.Gui.Windows
     {
         public QuickStartGuideForm()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }catch(Exception e)
+            {
+                //IGNORE
+                Debug.WriteLine(e);
+            }
+            
+            var dpiScale = Native.GetScreenDpi() / 96;
+            ClientSize = new System.Drawing.Size(936 * dpiScale, 525 * dpiScale);
             Icon = Resources.icon;
+
+            //TopMost = true;
 
         }
 
@@ -55,7 +69,7 @@ namespace WGestures.App.Gui.Windows
                 Thread.Sleep(100);
                 //Console.WriteLine("buuuusy");
             }
-            
+
             base.OnClosed(e);
         }
 

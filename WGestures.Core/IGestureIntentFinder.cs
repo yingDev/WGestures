@@ -8,10 +8,11 @@ namespace WGestures.Core
         /*bool IntentExists(Gesture gesture, GestureContext context);
         GestureIntent GetIntent();*/
 
-        bool IsGesturingEnabledForContext(GestureContext context);
+        bool IsGesturingEnabledForContext(GestureContext context, out ExeApp app);
 
         GestureIntent Find(Gesture gesture, GestureContext context);
-
-        //IGestureIntentStore IntentStore { get; }
+        GestureIntent Find(Gesture gesture, ExeApp inApp);
+        
+        IGestureIntentStore IntentStore { get; }
     }
 }

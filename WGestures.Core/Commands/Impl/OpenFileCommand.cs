@@ -5,7 +5,7 @@ using WGestures.Common.Annotation;
 
 namespace WGestures.Core.Commands.Impl
 {
-    [Named("打开文件或应用程序")]
+    [Named("打开文件或应用程序"), Serializable]
     public class OpenFileCommand : Commands.AbstractCommand
     {
         private string _filePath;

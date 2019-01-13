@@ -44,6 +44,7 @@ namespace WGestures.App.Gui.Windows
             // 
             this.web_container.AllowNavigation = false;
             this.web_container.AllowWebBrowserDrop = false;
+            this.web_container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.web_container.IsWebBrowserContextMenuEnabled = false;
             this.web_container.Location = new System.Drawing.Point(0, 0);
             this.web_container.Margin = new System.Windows.Forms.Padding(0);
@@ -51,18 +52,18 @@ namespace WGestures.App.Gui.Windows
             this.web_container.Name = "web_container";
             this.web_container.ScriptErrorsSuppressed = true;
             this.web_container.ScrollBarsEnabled = false;
-            this.web_container.Size = new System.Drawing.Size(936, 560);
+            this.web_container.Size = new System.Drawing.Size(920, 496);
             this.web_container.TabIndex = 0;
             this.web_container.WebBrowserShortcutsEnabled = false;
             this.web_container.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.web_container_PreviewKeyDown);
             // 
             // QuickStartGuideForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(944, 534);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(920, 496);
             this.Controls.Add(this.web_container);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;

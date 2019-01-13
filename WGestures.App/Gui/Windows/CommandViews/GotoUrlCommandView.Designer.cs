@@ -36,7 +36,7 @@
             // 
             this.tb_url.Location = new System.Drawing.Point(38, 2);
             this.tb_url.Name = "tb_url";
-            this.tb_url.Size = new System.Drawing.Size(248, 21);
+            this.tb_url.Size = new System.Drawing.Size(219, 21);
             this.tb_url.TabIndex = 1;
             this.tb_url.TextChanged += new System.EventHandler(this.tb_url_TextChanged);
             // 
@@ -54,12 +54,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = false;
             this.Controls.Add(this.tb_url);
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "GotoUrlCommandView";
-            this.Size = new System.Drawing.Size(300, 30);
+            this.Size = new System.Drawing.Size(260, 26);
             this.ResumeLayout(false);
             this.PerformLayout();
 
