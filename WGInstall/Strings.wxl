@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="zh-CN" xmlns="http://schemas.microsoft.com/wix/2006/localization"  Codepage="936">
+	<String Id="OSNotSupported">WGestures只支持Windows 7以及更新版本的系统。</String>
+  <String Id="NewerVersionAlreadyInstalled">您已经安装过较新的版本的WGestures，如果确实需要安装此版本，请先卸载已安装的版本。</String>
+  <String Id="RunNow">立即运行WGestures</String>
+  <String Id="ShortcutDescription">WGestures鼠标手势</String>
+  <String Id="ProductHomePageLinkName">项目主页</String>
+  <String Id="UninstallProduct">卸载WGestures</String>
+  <String Id="UninstallProductDescription">从您的电脑中删除WGestures</String>
+</WixLocalization>

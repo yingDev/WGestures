@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("WGestures")]
-[assembly: AssemblyDescription("WGestures鼠标手势")]
+[assembly: AssemblyDescription("WGestures 鼠标手势")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("YingDev.com")]
 [assembly: AssemblyProduct("WGestures")]
-[assembly: AssemblyCopyright("Copyright ©  2014-2016")]
+[assembly: AssemblyCopyright("Copyright ©  2014-2021")]
 [assembly: AssemblyTrademark("WGestures")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.8.4.0")]
-[assembly: AssemblyFileVersion("1.8.4.0")]
+[assembly: AssemblyVersion("1.8.5.0")]
+[assembly: AssemblyFileVersion("1.8.5.0")]

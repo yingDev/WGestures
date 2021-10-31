@@ -78,7 +78,10 @@
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
-    <PostBuildEvent>signtool sign /v /f "$(SolutionDir)\YingDevSPC.pfx" "zh-CN\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>call "$(SolutionDir)SIGNPASS.bat"
+
+      signtool sign /v  /t http://timestamp.digicert.com /fd sha256  /f "$(SolutionDir)YingDevSPC.pfx" /p "%25SIGNPASS%25" "zh-CN\$(TargetFileName)"
+    </PostBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
