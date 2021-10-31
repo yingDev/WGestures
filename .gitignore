@@ -188,3 +188,5 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 WGInstall/wix
+.msi
+
