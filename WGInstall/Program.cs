@@ -34,18 +34,13 @@ namespace YingDev.WGWinInstall
 
             var project = new Project("WGestures " + wgVer.ProductVersion, new WixObject[]
             {
-                //new CloseApplication("WGestures.exe", false, false){ ElevatedCloseMessage = false, ElevatedEndSessionMessage = true },
+                new CloseApplication("WGestures.exe", false, false){ ElevatedCloseMessage = false, ElevatedEndSessionMessage = true },
 
                 new MediaTemplate { CompressionLevel = CompressionLevel.high, EmbedCab = true },
 
                 new Dir(new Id("INSTALL_DIR"), @"%ProgramFiles%\WGestures", new Files(wgDir + @"\*.*")),
 
                 new Dir(@"%ProgramMenu%", new ExeFileShortcut(wgVer.ProductName, $"[INSTALL_DIR]WGestures.exe", "")),
-
-                new Property("WINBUILD",
-                    new RegistrySearch(RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentBuildNumber",
-                        RegistrySearchType.raw)
-                )
             })
             {
                 GUID = Id, //每次新生成的安装包必须不同
@@ -53,11 +48,13 @@ namespace YingDev.WGWinInstall
                 InstallScope = InstallScope.perMachine,
                 InstallPrivileges = InstallPrivileges.elevated,
                 UpgradeCode = new Guid(UPGRADE_CODE), //所有版本必须相同
+                LicenceFile = "lic.rtf",
+                ReinstallMode = "ams", //版本检查导致更新时丢失文件...
 
                 MajorUpgrade = MajorUpgrade.Default,
                 Version = Version.Parse(wgVer.ProductVersion),
                 Language = "zh-CN",
-                OutFileName = "Install WGestures " + wgVer.ProductMajorPart + "." + wgVer.ProductMinorPart + "." + wgVer.ProductBuildPart,
+                OutFileName = "Install WGestures " +wgVer.ProductVersion,
                 ControlPanelInfo =
                 {
                     HelpLink = "https://yingdev.com/projects/wgestures",
@@ -89,7 +86,7 @@ namespace YingDev.WGWinInstall
             project.MajorUpgrade.DowngradeErrorMessage = "!(loc.NewerVersionAlreadyInstalled)";
             project.MajorUpgrade.Schedule = UpgradeSchedule.afterInstallValidate;
 
-            project.LaunchConditions.Add(new LaunchCondition("Installed OR (VersionNT >= 601)", "!(loc.OSNotSupported)"));
+            // project.LaunchConditions.Add(new LaunchCondition("Installed OR (VersionNT >= 601)", "!(loc.OSNotSupported)"));
 
             project.BuildMsi();
         }

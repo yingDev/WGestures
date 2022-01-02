@@ -176,11 +176,11 @@ namespace WGestures.View.Impl.Windows
             var widthBase = 2 * _dpiFactor;
 
             #region init pens
-            _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _xBtnPen = new Pen(Color.FromArgb(255, 20, 100, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), widthBase + 4) { EndCap = LineCap.Round, StartCap = LineCap.Round };
-            _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round };
+            _mainPen = new Pen(Color.FromArgb(255, 50, 200, 100), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round, LineJoin = LineJoin.Round};
+            _middleBtnPen = new Pen(Color.FromArgb(255, 20, 150, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round, LineJoin = LineJoin.Round};
+            _xBtnPen = new Pen(Color.FromArgb(255, 20, 100, 200), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round, LineJoin = LineJoin.Round};
+            _borderPen = new Pen(Color.FromArgb(255, 255, 255, 255), widthBase + 4) { EndCap = LineCap.Round, StartCap = LineCap.Round, LineJoin = LineJoin.Round};
+            _alternativePen = new Pen(Color.FromArgb(255, 255, 120, 20), widthBase) { EndCap = LineCap.Round, StartCap = LineCap.Round, LineJoin = LineJoin.Round};
 
 
             //_shadowPen = new Pen(Color.FromArgb(25, Color.Black), widthBase * 3) { EndCap = LineCap.Round, StartCap = LineCap.Round };
