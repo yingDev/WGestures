@@ -136,7 +136,7 @@ namespace WGestures.Core.Commands.Impl
 
         private string PopulateSearchEngingUrl(string param)
         {
-            return HttpUtility.UrlPathEncode(string.Format(SearchEngineUrl, param));
+            return string.Format(SearchEngineUrl, HttpUtility.UrlEncode(param));
         }
 
         public override string Description()
