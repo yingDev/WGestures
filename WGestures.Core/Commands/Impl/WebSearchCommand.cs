@@ -93,7 +93,7 @@ namespace WGestures.Core.Commands.Impl
 
                         string urlToOpen;
                         //如果是URL则打开，否则搜索
-                        if (Uri.IsWellFormedUriString(text, UriKind.Absolute))
+                        if (Uri.IsURL(text))
                         {
                             urlToOpen = text;
                         }
@@ -174,8 +174,6 @@ namespace WGestures.Core.Commands.Impl
                                 // Assume the registry value is set incorrectly, or some funky browser is used which currently is unknown.
                             }
                         }
-
-                       
                     }
                 }
             }
@@ -183,6 +181,8 @@ namespace WGestures.Core.Commands.Impl
             return "explorer.exe";
         }
 
-
+        private static bool IsURL(string text) {
+            return Uri.TryCreate(text, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
     }
 }
