@@ -32,10 +32,8 @@ namespace WGestures.App
 
         public static string UserDataDirectory
         {
-            get { return Application.LocalUserAppDataPath; }
+            get { return Application.ExecutablePath + @"\user_data"; }
         }
-
-
 
         public static string ConfigFilePath
         {
