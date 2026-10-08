@@ -1,0 +1,106 @@
+name: Build WGestures (Windows x64)
+
+# 触发方式：
+#   1) 推送到默认分支 master 时自动构建
+#   2) 在 Actions 页面手动 Run workflow
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+# upload-artifact@v4 上传产物需要 actions: write
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  build-windows:
+    name: Build WGestures.exe (net48 / Release)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 老式 .NET 项目依赖 NuGet 还原：Newtonsoft.Json 7.0.1 / NLua 1.3.2.1
+      # （csproj 里用 <HintPath>..\packages\...</HintPath> 引用，缺失则编译失败）
+      - name: Restore NuGet packages
+        run: nuget restore WGestures.sln
+
+      # 说明环境，便于排查 .NET Framework 4.8 开发者包是否存在
+      - name: Show MSBuild info
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild `
+            -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+          Write-Host "MSBuild: $msbuild"
+          & $msbuild -version
+
+      # 关键点：
+      #   /p:PostBuildEvent=       —— 清空 WGestures.App 的 PostBuildEvent。
+      #                               原事件会调用 SIGNPASS.bat 并用 YingDevSPC.pfx
+      #                               签名，这两个文件都不在仓库中（含私钥，绝不应提交），
+      #                               不清空会直接导致构建失败。
+      #   /p:SignAssembly=false    —— 关闭程序集强名称签名
+      #   /p:TargetFrameworkVersion=v4.8 —— 显式锁定 .NET Framework 4.8
+      # 只构建主程序 WGestures.App，避免 WGInstall（WiX 安装包）。
+      # 注意：WGInstall/wix 被 .gitignore 排除，仓库内不存在 .wxs 源文件，
+      #       因此本仓库无法构建 MSI 安装包 —— 这是上游仓库的既有状态，非本 workflow 缺陷。
+      - name: Build WGestures.App (Release)
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild `
+            -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+          & $msbuild WGestures.App\WGestures.App.csproj `
+            /p:Configuration=Release `
+            /p:Platform=AnyCPU `
+            /p:TargetFrameworkVersion=v4.8 `
+            /p:SignAssembly=false `
+            "/p:PostBuildEvent=" `
+            /verbosity:minimal `
+            /nologo
+
+      # NLua 的原生 lua DLL 不在 bin\Release 里（原 csproj 靠 PostBuildEvent 拷贝，
+      # 而我们把该事件清空了），这里显式补齐，保证 exe 可脱离开发机运行。
+      - name: Copy NLua native libraries
+        shell: pwsh
+        run: |
+          $src = "packages\NLua.1.3.2.1\lib\native"
+          $dst = "WGestures.App\bin\Release"
+          if (Test-Path $src) {
+            Copy-Item "$src\*" $dst -Recurse -Force
+            Write-Host "已拷贝 NLua 原生库:"
+            Get-ChildItem $src | ForEach-Object { Write-Host "  $($_.Name)" }
+          } else {
+            Write-Host "警告: 未找到 $src"
+          }
+
+      - name: Verify build output
+        shell: pwsh
+        run: |
+          $exe = "WGestures.App\bin\Release\WGestures.exe"
+          if (-not (Test-Path $exe)) {
+            Write-Error "未找到构建产物 $exe"
+            Get-ChildItem "WGestures.App\bin" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+            exit 1
+          }
+          Get-ChildItem "WGestures.App\bin\Release" | Select-Object Name, Length | Format-Table -AutoSize
+
+      - name: Upload WGestures (绿色版, 含依赖)
+        uses: actions/upload-artifact@v4
+        with:
+          name: WGestures-win-x64
+          path: WGestures.App/bin/Release/**
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload WGestures.exe only
+        uses: actions/upload-artifact@v4
+        with:
+          name: WGestures-exe-only
+          path: WGestures.App/bin/Release/WGestures.exe
+          if-no-files-found: error
+          retention-days: 30
