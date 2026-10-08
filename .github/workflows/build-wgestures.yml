@@ -72,21 +72,36 @@ jobs:
             Write-Host "警告: 未找到 $src"
           }
 
-      # 断言：确认项目文件里已无证书/签名依赖，防止日后回退
+      # 断言：确认 PostBuildEvent 里没有证书/签名「命令」。
+      # 只检查事件体内是否出现裸命令（处理了 BOM），不用整文件关键词匹配——
+      # 否则项目文件里说明性的 rem 注释会被误判成依赖。
       - name: Assert no signing dependency
         shell: pwsh
         run: |
-          $csproj = Get-Content "WGestures.App\WGestures.App.csproj" -Raw
-          $bad = @()
-          if ($csproj -match 'signtool') { $bad += 'signtool' }
-          if ($csproj -match 'SIGNPASS')  { $bad += 'SIGNPASS' }
-          if ($csproj -match 'YingDevSPC') { $bad += 'YingDevSPC' }
-          if ($csproj -match '<SignAssembly>true</SignAssembly>') { $bad += 'SignAssembly=true' }
-          if ($bad.Count -gt 0) {
-            Write-Error "仍存在证书/签名依赖: $($bad -join ', ')"
+          function Get-PostBuildEvent([string]$path) {
+            $raw = Get-Content $path -Raw -Encoding UTF8
+            $m = [regex]::Match($raw, '(?s)<PostBuildEvent>(.*?)</PostBuildEvent>')
+            if (-not $m.Success) { return "" }
+            # 去掉 rem 注释行，只留下真正会被执行的命令
+            ($m.Groups[1].Value -split "`r?`n" |
+              Where-Object { $_ -notmatch '^\s*rem\b' }) -join "`n"
+          }
+
+          $problems = @()
+          foreach ($p in @("WGestures.App\WGestures.App.csproj", "WGestures.Core\WGestures.Core.csproj")) {
+            if (-not (Test-Path $p)) { continue }
+            $evt = Get-PostBuildEvent $p
+            Write-Host "--- $p 的可执行 PostBuildEvent ---"
+            Write-Host ($evt.Trim() -replace '(?m)^', '    ')
+            foreach ($needle in @('signtool', 'SIGNPASS', '.pfx', 'timestamp.digicert.com')) {
+              if ($evt -match [regex]::Escape($needle)) { $problems += "$p 含 '$needle'" }
+            }
+          }
+          if ($problems.Count -gt 0) {
+            Write-Error ("PostBuildEvent 仍引用证书/签名: " + ($problems -join '; '))
             exit 1
           }
-          Write-Host "OK: csproj 无证书/签名依赖，无需证书即可打包"
+          Write-Host "OK: 无证书/签名依赖，无需证书即可打包"
 
       - name: Verify build output
         shell: pwsh
