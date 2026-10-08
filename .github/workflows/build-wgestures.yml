@@ -1,12 +1,12 @@
 name: Build WGestures (Windows x64)
 
 # 触发方式：
-#   1) 推送到默认分支 master 时自动构建
+#   1) 推送到 build-no-cert 分支时自动构建
 #   2) 在 Actions 页面手动 Run workflow
+# 本分支已移除证书/签名依赖（见 WGestures.App.csproj），任何环境无需证书即可打包。
 on:
   push:
-    branches: [master]
-  pull_request:
+    branches: [build-no-cert]
   workflow_dispatch:
 
 # upload-artifact@v4 上传产物需要 actions: write
@@ -38,17 +38,13 @@ jobs:
           Write-Host "MSBuild: $msbuild"
           & $msbuild -version
 
-      # 关键点：
-      #   /p:PostBuildEvent=       —— 清空 WGestures.App 的 PostBuildEvent。
-      #                               原事件会调用 SIGNPASS.bat 并用 YingDevSPC.pfx
-      #                               签名，这两个文件都不在仓库中（含私钥，绝不应提交），
-      #                               不清空会直接导致构建失败。
-      #   /p:SignAssembly=false    —— 关闭程序集强名称签名
+      # 本分支的 WGestures.App.csproj 已移除证书/签名步骤，
+      # 这里不再需要 /p:PostBuildEvent= 这类绕过手法，直接构建即可。
       #   /p:TargetFrameworkVersion=v4.8 —— 显式锁定 .NET Framework 4.8
       # 只构建主程序 WGestures.App，避免 WGInstall（WiX 安装包）。
       # 注意：WGInstall/wix 被 .gitignore 排除，仓库内不存在 .wxs 源文件，
       #       因此本仓库无法构建 MSI 安装包 —— 这是上游仓库的既有状态，非本 workflow 缺陷。
-      - name: Build WGestures.App (Release)
+      - name: Build WGestures.App (Release, 无需证书)
         shell: pwsh
         run: |
           $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -58,8 +54,6 @@ jobs:
             /p:Configuration=Release `
             /p:Platform=AnyCPU `
             /p:TargetFrameworkVersion=v4.8 `
-            /p:SignAssembly=false `
-            "/p:PostBuildEvent=" `
             /verbosity:minimal `
             /nologo
 
@@ -77,6 +71,22 @@ jobs:
           } else {
             Write-Host "警告: 未找到 $src"
           }
+
+      # 断言：确认项目文件里已无证书/签名依赖，防止日后回退
+      - name: Assert no signing dependency
+        shell: pwsh
+        run: |
+          $csproj = Get-Content "WGestures.App\WGestures.App.csproj" -Raw
+          $bad = @()
+          if ($csproj -match 'signtool') { $bad += 'signtool' }
+          if ($csproj -match 'SIGNPASS')  { $bad += 'SIGNPASS' }
+          if ($csproj -match 'YingDevSPC') { $bad += 'YingDevSPC' }
+          if ($csproj -match '<SignAssembly>true</SignAssembly>') { $bad += 'SignAssembly=true' }
+          if ($bad.Count -gt 0) {
+            Write-Error "仍存在证书/签名依赖: $($bad -join ', ')"
+            exit 1
+          }
+          Write-Host "OK: csproj 无证书/签名依赖，无需证书即可打包"
 
       - name: Verify build output
         shell: pwsh
