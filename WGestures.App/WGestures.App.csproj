@@ -509,9 +509,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem 证书/签名步骤已移除：本项目不依赖 YingDevSPC.pfx 与 SIGNPASS.bat，任何没有证书的环境都能直接构建。
-rem 保留 NLua 原生库拷贝（exe 运行必需）。
-xcopy /s /y "$(SolutionDir)\packages\NLua.1.3.2.1\lib\native\*.*" "$(TargetDir)"
+    <PostBuildEvent>rem 证书/签名步骤已移除：本项目不依赖 YingDevSPC.pfx 与 SIGNPASS.bat，没有证书也能构建。
+rem 用 $(MSBuildThisFileDirectory).. 取代 $(SolutionDir)，这样直接构建单个 csproj（不走 .sln）时路径也能解析。
+xcopy /s /y "$(MSBuildThisFileDirectory)..\packages\NLua.1.3.2.1\lib\native\*.*" "$(TargetDir)"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
